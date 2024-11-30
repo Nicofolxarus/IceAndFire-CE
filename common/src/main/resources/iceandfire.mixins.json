@@ -1,0 +1,26 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.iafenvoy.iceandfire.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ChunkRegionMixin",
+    "EntityMixin",
+    "LakeFeatureMixin",
+    "LivingEntityMixin",
+    "MinecraftServerMixin",
+    "MobEntityMixin",
+    "PointOfInterestTypesAccessor"
+  ],
+  "client": [
+    "GameRendererMixin",
+    "InGameHudMixin",
+    "LivingEntityRendererMixin",
+    "MinecraftClientMixin",
+    "PlayerEntityRendererMixin",
+    "TitleScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

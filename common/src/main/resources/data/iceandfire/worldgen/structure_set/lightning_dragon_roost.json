@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 9031232,
+    "separation": 8,
+    "spacing": 14
+  },
+  "structures": [
+    {
+      "structure": "iceandfire:lightning_dragon_roost",
+      "weight": 1
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "id": "iceandfire",
+  "version": "${version}",
+  "name": "Ice And Fire Community Edition",
+  "description": "The unofficial fork of Ice And Fire.\nDragons and other mythological creatures in minecraft.",
+  "authors": [
+    "Alexthe666 (Origin Author)",
+    "IAFEnvoy"
+  ],
+  "contact": {
+    "sources": "https://github.com/IAFEnvoy/IceAndFire-Fabric"
+  },
+  "license": "LGPL-3.0",
+  "icon": "logo.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.iafenvoy.iceandfire.fabric.IceAndFireFabric"
+    ],
+    "client": [
+      "com.iafenvoy.iceandfire.fabric.client.IceAndFireFabricClient"
+    ],
+    "emi": [
+      "com.iafenvoy.iceandfire.compat.emi.IceAndFireEmiPlugin"
+    ],
+    "jade": [
+      "com.iafenvoy.iceandfire.compat.jade.IceAndFireJadePlugin"
+    ],
+    "cardinal-components-entity": [
+      "com.iafenvoy.iceandfire.fabric.component.ModComponentEntry"
+    ],
+    "modmenu": [
+      "com.iafenvoy.iceandfire.fabric.ModMenu"
+    ]
+  },
+  "custom": {
+    "cardinal-components": [
+      "iceandfire:entity_data",
+      "iceandfire:portal_data"
+    ]
+  },
+  "mixins": [
+    "iceandfire.mixins.json"
+  ],
+  "accessWidener": "iceandfire.accesswidener",
+  "depends": {
+    "fabricloader": "*",
+    "fabric": "*",
+    "minecraft": "1.20.1",
+    "jupiter": ">=2.0-alpha3",
+    "uranus": ">=1.8"
+  }
+}
