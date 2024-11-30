@@ -16,7 +16,6 @@
     "GameRendererMixin",
     "InGameHudMixin",
     "LivingEntityRendererMixin",
-    "MinecraftClientMixin",
     "PlayerEntityRendererMixin",
     "TitleScreenMixin"
   ],

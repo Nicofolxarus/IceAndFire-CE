@@ -1,7 +1,10 @@
 package com.iafenvoy.iceandfire.registry;
 
+import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.entity.*;
 import com.iafenvoy.iceandfire.recipe.DragonForgeRecipe;
+import dev.architectury.registry.registries.DeferredRegister;
+import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ProjectileDispenserBehavior;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
@@ -10,11 +13,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potions;
 import net.minecraft.recipe.BrewingRecipeRegistry;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.math.Position;
 import net.minecraft.world.World;
 
 public final class IafRecipes {
-    public static final RecipeType<DragonForgeRecipe> DRAGON_FORGE_TYPE = RecipeType.register("dragonforge");
+    public static final DeferredRegister<RecipeType<?>> REGISTRY = DeferredRegister.create(IceAndFire.MOD_ID, RegistryKeys.RECIPE_TYPE);
+    public static final RegistrySupplier<RecipeType<DragonForgeRecipe>> DRAGON_FORGE_TYPE = REGISTRY.register("dragonforge", () -> new RecipeType<>() {
+        @Override
+        public String toString() {
+            return "dragonforge";
+        }
+    });
 
     public static void registerDispenser() {
         DispenserBlock.registerBehavior(IafItems.STYMPHALIAN_ARROW.get(), new ProjectileDispenserBehavior() {

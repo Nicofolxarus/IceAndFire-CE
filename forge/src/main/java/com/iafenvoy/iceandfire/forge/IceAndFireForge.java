@@ -3,6 +3,7 @@ package com.iafenvoy.iceandfire.forge;
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.IceAndFireClient;
 import com.iafenvoy.iceandfire.forge.component.EntityDataProvider;
+import com.iafenvoy.iceandfire.forge.component.PortalDataProvider;
 import com.iafenvoy.uranus.forge.component.CapabilitySyncHelper;
 import dev.architectury.platform.Platform;
 import dev.architectury.platform.forge.EventBuses;
@@ -18,7 +19,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public final class IceAndFireForge {
     public IceAndFireForge() {
         EventBuses.registerModEventBus(IceAndFire.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
-        CapabilitySyncHelper.register(new Identifier(IceAndFire.MOD_ID, "entity_data"), EntityDataProvider.CAPABILITY, EntityDataProvider::new, CapabilitySyncHelper.CopyPolicy.KEEP_INVENTORY);
+        CapabilitySyncHelper.registerForLiving(new Identifier(IceAndFire.MOD_ID, "entity_data"), EntityDataProvider.CAPABILITY, EntityDataProvider::new);
+        CapabilitySyncHelper.registerForPlayer(new Identifier(IceAndFire.MOD_ID, "portal_data"), PortalDataProvider.CAPABILITY, PortalDataProvider::new, CapabilitySyncHelper.CopyPolicy.NEVER);
 
         IceAndFire.init();
         if (Platform.getEnv() == Dist.CLIENT)

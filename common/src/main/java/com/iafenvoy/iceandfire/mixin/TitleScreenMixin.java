@@ -55,7 +55,7 @@ public abstract class TitleScreenMixin extends Screen {
         return !IafClientConfig.INSTANCE.customMainMenu.getValue();
     }
 
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/RotatingCubeMapRenderer;render(FF)V"))
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/RotatingCubeMapRenderer;render(FF)V",shift = At.Shift.AFTER))
     private void onRenderBackground(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (!IafClientConfig.INSTANCE.customMainMenu.getValue()) return;
         TitleScreenRenderManager.renderBackground(context, this.width, this.height);

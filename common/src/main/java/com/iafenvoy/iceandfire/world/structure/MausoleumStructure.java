@@ -2,6 +2,7 @@ package com.iafenvoy.iceandfire.world.structure;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.registry.IafStructureTypes;
+import com.iafenvoy.iceandfire.world.GenerationConstant;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -37,6 +38,7 @@ public class MausoleumStructure extends IafJigsawStructure {
             return Optional.empty();
         ChunkPos pos = pContext.chunkPos();
         BlockPos blockpos = pos.getCenterAtY(1);
+        if (!GenerationConstant.isFarEnoughFromSpawn(blockpos)) return Optional.empty();
         return StructurePoolBasedGenerator.generate(
                 pContext, // Used for JigsawPlacement to get all the proper behaviors done.
                 this.startPool, // The starting pool to use to create the structure layout from

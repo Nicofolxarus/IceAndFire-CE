@@ -30,7 +30,7 @@ public class ForgeRecipeHolder {
     public void register(EmiRegistry registry) {
         registry.addCategory(this.category);
         registry.addWorkstation(this.category, this.workstation);
-        List<DragonForgeRecipe> forgeRecipeList = registry.getRecipeManager().listAllOfType(IafRecipes.DRAGON_FORGE_TYPE);
+        List<DragonForgeRecipe> forgeRecipeList = registry.getRecipeManager().listAllOfType(IafRecipes.DRAGON_FORGE_TYPE.get());
         for (DragonForgeRecipe recipe : forgeRecipeList.stream().filter(item -> item.getDragonType().equals(this.dragonType)).toList())
             registry.addRecipe(new DragonForgeEmiRecipe(recipe, this.category));
     }

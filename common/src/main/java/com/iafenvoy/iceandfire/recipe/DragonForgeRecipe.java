@@ -100,7 +100,7 @@ public class DragonForgeRecipe implements Recipe<BlockEntityDragonForge> {
 
     @Override
     public RecipeType<?> getType() {
-        return IafRecipes.DRAGON_FORGE_TYPE;
+        return IafRecipes.DRAGON_FORGE_TYPE.get();
     }
 
     public static class Serializer implements RecipeSerializer<DragonForgeRecipe> {

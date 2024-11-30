@@ -226,12 +226,12 @@ public class BlockEntityDragonForge extends LockableContainerBlockEntity impleme
 
     public Optional<DragonForgeRecipe> getCurrentRecipe() {
         assert this.world != null;
-        return this.world.getRecipeManager().getFirstMatch(IafRecipes.DRAGON_FORGE_TYPE, this, this.world);
+        return this.world.getRecipeManager().getFirstMatch(IafRecipes.DRAGON_FORGE_TYPE.get(), this, this.world);
     }
 
     public List<DragonForgeRecipe> getRecipes() {
         assert this.world != null;
-        return this.world.getRecipeManager().listAllOfType(IafRecipes.DRAGON_FORGE_TYPE);
+        return this.world.getRecipeManager().listAllOfType(IafRecipes.DRAGON_FORGE_TYPE.get());
     }
 
     public boolean canSmelt() {

@@ -1,4 +1,4 @@
-package com.iafenvoy.iceandfire.util.trade.offer.factory;
+package com.iafenvoy.iceandfire.util.trade.factory;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;

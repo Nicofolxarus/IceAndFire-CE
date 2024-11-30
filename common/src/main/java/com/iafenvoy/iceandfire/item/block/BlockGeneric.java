@@ -2,7 +2,6 @@ package com.iafenvoy.iceandfire.item.block;
 
 import com.iafenvoy.iceandfire.entity.EntityDreadMob;
 import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
-import com.iafenvoy.iceandfire.registry.IafBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;

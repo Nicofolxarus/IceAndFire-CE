@@ -1,32 +1,32 @@
 package com.iafenvoy.iceandfire.forge.component;
 
-import com.iafenvoy.iceandfire.data.component.IafEntityData;
+import com.iafenvoy.iceandfire.data.component.PortalData;
 import com.iafenvoy.uranus.forge.component.ITickableCapability;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 
 @AutoRegisterCapability
-public class EntityDataStorage implements ITickableCapability {
-    private final IafEntityData data;
+public class PortalDataStorage implements ITickableCapability {
+    private final PortalData data;
 
-    public EntityDataStorage(LivingEntity living) {
-        this.data = new IafEntityData(living);
+    public PortalDataStorage(PlayerEntity player) {
+        this.data = new PortalData(player);
     }
 
     @Override
     public NbtCompound serializeNBT() {
         NbtCompound compound = new NbtCompound();
-        this.data.serialize(compound);
+        this.data.writeToNbt(compound);
         return compound;
     }
 
     @Override
     public void deserializeNBT(NbtCompound compound) {
-        this.data.deserialize(compound);
+        this.data.readFromNbt(compound);
     }
 
-    public IafEntityData getData() {
+    public PortalData getData() {
         return this.data;
     }
 
@@ -37,6 +37,6 @@ public class EntityDataStorage implements ITickableCapability {
 
     @Override
     public boolean isDirty() {
-        return this.data.isDirty();
+        return true;
     }
 }

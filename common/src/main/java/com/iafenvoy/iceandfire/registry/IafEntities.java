@@ -97,7 +97,6 @@ public final class IafEntities {
     }
 
     public static void init() {
-        bakeAttributes();
         addSpawners();
         commonSetup();
     }

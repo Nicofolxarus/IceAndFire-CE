@@ -1,4 +1,4 @@
-package com.iafenvoy.iceandfire.util.trade.offer;
+package com.iafenvoy.iceandfire.util.trade;
 
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.VillagerProfession;

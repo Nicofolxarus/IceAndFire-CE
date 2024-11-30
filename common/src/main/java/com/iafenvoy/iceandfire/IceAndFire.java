@@ -13,12 +13,9 @@ import dev.architectury.event.events.common.BlockEvent;
 import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.InteractionEvent;
 import dev.architectury.event.events.common.PlayerEvent;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
+import dev.architectury.platform.Platform;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.Optional;
 
 public class IceAndFire {
     public static final Logger LOGGER = LogManager.getLogger();
@@ -27,9 +24,7 @@ public class IceAndFire {
     public static final String VERSION;
 
     static {
-        Optional<ModContainer> container = FabricLoader.getInstance().getModContainer(IceAndFire.MOD_ID);
-        if (container.isPresent()) VERSION = container.get().getMetadata().getVersion().getFriendlyString();
-        else VERSION = "Unknown";
+        VERSION = Platform.getMod(IceAndFire.MOD_ID).getVersion();
     }
 
     public static void init() {
@@ -44,6 +39,7 @@ public class IceAndFire {
         IafItemGroups.REGISTRY.register();
         IafItems.REGISTRY.register();
         IafLoots.REGISTRY.register();
+        IafRecipes.REGISTRY.register();
         IafRecipeSerializers.REGISTRY.register();
         IafParticles.REGISTRY.register();
         IafPlacementFilters.REGISTRY.register();
@@ -52,6 +48,10 @@ public class IceAndFire {
         IafStructurePieces.REGISTRY.register();
         IafStructureTypes.REGISTRY.register();
         IafScreenHandlers.REGISTRY.register();
+        //Trade
+        IafTrades.POI_REGISTRY.register();
+        IafTrades.PROFESSION_REGISTRY.register();
+        IafEntities.bakeAttributes();
     }
 
     public static void process() {

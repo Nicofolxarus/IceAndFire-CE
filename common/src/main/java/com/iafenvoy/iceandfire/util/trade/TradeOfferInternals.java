@@ -1,4 +1,4 @@
-package com.iafenvoy.iceandfire.util.trade.offer;
+package com.iafenvoy.iceandfire.util.trade;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;

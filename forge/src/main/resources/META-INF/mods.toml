@@ -6,8 +6,8 @@ license = "LGPL-3.0"
 [[mods]]
 modId = "iceandfire"
 version = "${version}"
-displayName = "Ice And Fire Community Edition"
-authors = "Me!"
+displayName = "Ice And Fire CE"
+authors = "Alexthe666 (Origin Author), IAFEnvoy"
 description = '''
 An unofficial fork of Ice And Fire.
 Dragons and other mythological creatures in minecraft.
@@ -30,6 +30,13 @@ side = "BOTH"
 
 [[dependencies.iceandfire]]
 modId = "uranus"
+mandatory = true
+versionRange = "[2,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.iceandfire]]
+modId = "jupiter"
 mandatory = true
 versionRange = "[2,)"
 ordering = "NONE"

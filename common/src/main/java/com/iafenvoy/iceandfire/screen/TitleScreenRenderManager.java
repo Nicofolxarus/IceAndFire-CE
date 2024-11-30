@@ -3,6 +3,7 @@ package com.iafenvoy.iceandfire.screen;
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.uranus.util.RandomHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
+import dev.architectury.platform.Platform;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -117,8 +118,9 @@ public class TitleScreenRenderManager {
         int textColor = 0x00FFFFFF | alphaFormatted;
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.enableBlend();
-        ms.drawText(textRenderer, "Ice and Fire Fabric-" + Formatting.YELLOW + IceAndFire.VERSION, 2, height - 30, textColor, false);
-        ms.drawText(textRenderer, Formatting.GOLD + "Report if you meet any crash.", 2, height - 20, textColor, false);
+        boolean b = Platform.isFabric();
+        ms.drawText(textRenderer, Formatting.GOLD + "Report if you meet any crash.", 2, height - (b ? 30 : 60), textColor, false);
+        ms.drawText(textRenderer, "Ice and Fire Fabric-" + Formatting.YELLOW + IceAndFire.VERSION, 2, height - (b ? 20 : 50), textColor, false);
     }
 
     private static class Picture {

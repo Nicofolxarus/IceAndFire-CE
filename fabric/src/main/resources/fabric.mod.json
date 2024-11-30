@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "iceandfire",
   "version": "${version}",
-  "name": "Ice And Fire Community Edition",
+  "name": "Ice And Fire CE",
   "description": "An unofficial fork of Ice And Fire.\nDragons and other mythological creatures in minecraft.",
   "authors": [
     "Alexthe666 (Origin Author)",
@@ -46,7 +46,7 @@
   "accessWidener": "iceandfire.accesswidener",
   "depends": {
     "minecraft": "1.20.1",
-    "jupiter": ">=2.0-alpha3",
+    "jupiter": ">=2",
     "uranus": ">=2"
   }
 }
