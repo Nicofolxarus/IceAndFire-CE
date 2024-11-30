@@ -3,13 +3,13 @@
   "id": "iceandfire",
   "version": "${version}",
   "name": "Ice And Fire Community Edition",
-  "description": "The unofficial fork of Ice And Fire.\nDragons and other mythological creatures in minecraft.",
+  "description": "An unofficial fork of Ice And Fire.\nDragons and other mythological creatures in minecraft.",
   "authors": [
     "Alexthe666 (Origin Author)",
     "IAFEnvoy"
   ],
   "contact": {
-    "sources": "https://github.com/IAFEnvoy/IceAndFire-Fabric"
+    "sources": "https://github.com/IAFEnvoy/IceAndFire-CE"
   },
   "license": "LGPL-3.0",
   "icon": "logo.png",
@@ -45,10 +45,8 @@
   ],
   "accessWidener": "iceandfire.accesswidener",
   "depends": {
-    "fabricloader": "*",
-    "fabric": "*",
     "minecraft": "1.20.1",
     "jupiter": ">=2.0-alpha3",
-    "uranus": ">=1.8"
+    "uranus": ">=2"
   }
 }

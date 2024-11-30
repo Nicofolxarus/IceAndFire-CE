@@ -1,7 +1,7 @@
 modLoader = "javafml"
 loaderVersion = "[47,)"
-#issueTrackerURL = ""
-license = "Insert License Here"
+issueTrackerURL = "https://github.com/IAFEnvoy/IceAndFire-CE/issues"
+license = "LGPL-3.0"
 
 [[mods]]
 modId = "iceandfire"
@@ -9,7 +9,8 @@ version = "${version}"
 displayName = "Ice And Fire Community Edition"
 authors = "Me!"
 description = '''
-This is an example description! Tell everyone what your mod is about!
+An unofficial fork of Ice And Fire.
+Dragons and other mythological creatures in minecraft.
 '''
 #logoFile = ""
 
@@ -28,8 +29,8 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.iceandfire]]
-modId = "architectury"
+modId = "uranus"
 mandatory = true
-versionRange = "[9.2.14,)"
-ordering = "AFTER"
+versionRange = "[2,)"
+ordering = "NONE"
 side = "BOTH"
