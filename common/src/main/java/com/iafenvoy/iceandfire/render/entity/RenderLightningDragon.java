@@ -4,7 +4,7 @@ import com.iafenvoy.iceandfire.entity.EntityDragonBase;
 import com.iafenvoy.iceandfire.entity.EntityLightningDragon;
 import com.iafenvoy.iceandfire.particle.LightningBoltData;
 import com.iafenvoy.iceandfire.particle.LightningRender;
-import com.iafenvoy.uranus.client.model.AdvancedEntityModel;
+import com.iafenvoy.uranus.client.model.TabulaModel;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -16,8 +16,8 @@ import net.minecraft.util.math.Vec3d;
 public class RenderLightningDragon extends RenderDragonBase {
     private final LightningRender lightningRender = new LightningRender();
 
-    public RenderLightningDragon(EntityRendererFactory.Context context, AdvancedEntityModel model, int dragonType) {
-        super(context, model, dragonType);
+    public RenderLightningDragon(EntityRendererFactory.Context context, TabulaModel modelSupplier, int dragonType) {
+        super(context, modelSupplier, dragonType);
     }
 
     private static float getBoundedScale(float scale) {

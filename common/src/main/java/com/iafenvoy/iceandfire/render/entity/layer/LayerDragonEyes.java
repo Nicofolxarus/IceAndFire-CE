@@ -5,17 +5,16 @@ import com.iafenvoy.iceandfire.data.DragonColor;
 import com.iafenvoy.iceandfire.entity.EntityDragonBase;
 import com.iafenvoy.iceandfire.entity.EntityIceDragon;
 import com.iafenvoy.iceandfire.entity.EntityLightningDragon;
-import com.iafenvoy.uranus.client.model.AdvancedEntityModel;
 import com.iafenvoy.uranus.client.model.AdvancedModelBox;
 import com.iafenvoy.uranus.client.model.TabulaModel;
 import com.iafenvoy.uranus.client.model.util.TabulaModelHandlerHelper;
-import com.iafenvoy.uranus.client.render.TabulaModelAccessor;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
+import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
@@ -23,17 +22,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class LayerDragonEyes extends FeatureRenderer<EntityDragonBase, AdvancedEntityModel<EntityDragonBase>> {
+public class LayerDragonEyes extends FeatureRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> {
     private TabulaModel fireHead;
     private TabulaModel iceHead;
     private TabulaModel lightningHead;
 
-    public LayerDragonEyes(MobEntityRenderer<EntityDragonBase, AdvancedEntityModel<EntityDragonBase>> renderIn) {
+    public LayerDragonEyes(MobEntityRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> renderIn) {
         super(renderIn);
         try {
-            this.fireHead = this.onlyKeepCubes(new TabulaModelAccessor(TabulaModelHandlerHelper.loadTabulaModel("assets/iceandfire/models/tabula/firedragon/firedragon_ground"), null), Collections.singletonList("HeadFront"));
-            this.iceHead = this.onlyKeepCubes(new TabulaModelAccessor(TabulaModelHandlerHelper.loadTabulaModel("assets/iceandfire/models/tabula/icedragon/icedragon_ground"), null), Collections.singletonList("HeadFront"));
-            this.lightningHead = this.onlyKeepCubes(new TabulaModelAccessor(TabulaModelHandlerHelper.loadTabulaModel("assets/iceandfire/models/tabula/lightningdragon/lightningdragon_ground"), null), Collections.singletonList("HeadFront"));
+            this.fireHead = this.onlyKeepCubes(TabulaModelHandlerHelper.getModel(new Identifier(IceAndFire.MOD_ID, "firedragon/firedragon_ground"), null), Collections.singletonList("HeadFront"));
+            this.iceHead = this.onlyKeepCubes(TabulaModelHandlerHelper.getModel(new Identifier(IceAndFire.MOD_ID, "icedragon/icedragon_ground"), null), Collections.singletonList("HeadFront"));
+            this.lightningHead = this.onlyKeepCubes(TabulaModelHandlerHelper.getModel(new Identifier(IceAndFire.MOD_ID, "lightningdragon/lightningdragon_ground"), null), Collections.singletonList("HeadFront"));
         } catch (Exception e) {
             IceAndFire.LOGGER.error(e);
         }
@@ -68,7 +67,7 @@ public class LayerDragonEyes extends FeatureRenderer<EntityDragonBase, AdvancedE
     //TODO: do this with hideable/visble/showModel stuff instead
     //Removes all cubes except the cube names specified by the string list and their parents
     //We need to keep the parents to correctly render the head position
-    private TabulaModel onlyKeepCubes(TabulaModelAccessor model, List<String> strings) {
+    private TabulaModel onlyKeepCubes(TabulaModel model, List<String> strings) {
         List<AdvancedModelBox> keepCubes = new ArrayList<>();
         for (String str : strings) {
             AdvancedModelBox cube = model.getCube(str);
@@ -83,7 +82,7 @@ public class LayerDragonEyes extends FeatureRenderer<EntityDragonBase, AdvancedE
         return model;
     }
 
-    private void removeChildren(TabulaModelAccessor model, List<AdvancedModelBox> keepCubes) {
+    private void removeChildren(TabulaModel model, List<AdvancedModelBox> keepCubes) {
         model.getRootBox().forEach(modelRenderer -> {
             modelRenderer.childModels.removeIf(child -> !keepCubes.contains(child));
             modelRenderer.childModels.forEach(childModel -> this.removeChildren((AdvancedModelBox) childModel, keepCubes));

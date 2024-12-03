@@ -1,8 +1,7 @@
 package com.iafenvoy.iceandfire.render.model.util;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.uranus.client.model.TabulaModel;
-import com.iafenvoy.uranus.client.model.util.TabulaModelHandlerHelper;
+import net.minecraft.util.Identifier;
 
 public enum EnumSeaSerpentAnimations {
     T_POSE("base"),
@@ -23,18 +22,12 @@ public enum EnumSeaSerpentAnimations {
     JUMPING2("jumping2");
 
     private final String fileSuffix;
-    public TabulaModel seaserpent_model;
 
     EnumSeaSerpentAnimations(String fileSuffix) {
         this.fileSuffix = fileSuffix;
     }
 
-    public static void initializeSerpentModels() {
-        for (EnumSeaSerpentAnimations animation : values())
-            try {
-                animation.seaserpent_model = new TabulaModel(TabulaModelHandlerHelper.loadTabulaModel("/assets/iceandfire/models/tabula/seaserpent/seaserpent_" + animation.fileSuffix));
-            } catch (Exception e) {
-                IceAndFire.LOGGER.warn("sea serpent model at: seaserpent{}.tbl doesn't exist!", animation.fileSuffix, e);
-            }
+    public Identifier getModelId() {
+        return new Identifier(IceAndFire.MOD_ID, "seaserpent/seaserpent_" + this.fileSuffix);
     }
 }

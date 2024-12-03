@@ -20,8 +20,6 @@ import com.iafenvoy.iceandfire.render.model.animator.FireDragonTabulaModelAnimat
 import com.iafenvoy.iceandfire.render.model.animator.IceDragonTabulaModelAnimator;
 import com.iafenvoy.iceandfire.render.model.animator.LightningTabulaDragonAnimator;
 import com.iafenvoy.iceandfire.render.model.animator.SeaSerpentTabulaModelAnimator;
-import com.iafenvoy.uranus.client.model.ITabulaModelAnimator;
-import com.iafenvoy.uranus.client.model.TabulaModel;
 import com.iafenvoy.uranus.client.model.util.TabulaModelHandlerHelper;
 import com.iafenvoy.uranus.client.render.DynamicItemRenderer;
 import com.iafenvoy.uranus.client.render.armor.IArmorRendererBase;
@@ -38,24 +36,15 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public final class IafRenderers {
-    public static final TabulaModel SEA_SERPENT_BASE_MODEL = getOrNull("/assets/iceandfire/models/tabula/seaserpent/seaserpent_base", new SeaSerpentTabulaModelAnimator());
-    public static final TabulaModel FIRE_DRAGON_BASE_MODEL = getOrNull("/assets/iceandfire/models/tabula/firedragon/firedragon_ground", new FireDragonTabulaModelAnimator());
-    public static final TabulaModel ICE_DRAGON_BASE_MODEL = getOrNull("/assets/iceandfire/models/tabula/icedragon/icedragon_ground", new IceDragonTabulaModelAnimator());
-    public static final TabulaModel LIGHTNING_DRAGON_BASE_MODEL = getOrNull("/assets/iceandfire/models/tabula/lightningdragon/lightningdragon_ground", new LightningTabulaDragonAnimator());
-
-    public static TabulaModel getOrNull(String modelPath, ITabulaModelAnimator<?> tabulaAnimator) {
-        try {
-            return new TabulaModel(TabulaModelHandlerHelper.loadTabulaModel(modelPath), tabulaAnimator);
-        } catch (Exception e) {
-            IceAndFire.LOGGER.error(e);
-        }
-        return null;
-    }
+    public static final Identifier FIRE_DRAGON = new Identifier(IceAndFire.MOD_ID, "firedragon/firedragon_ground");
+    public static final Identifier ICE_DRAGON = new Identifier(IceAndFire.MOD_ID, "icedragon/icedragon_ground");
+    public static final Identifier LIGHTNING_DRAGON = new Identifier(IceAndFire.MOD_ID, "lightningdragon/lightningdragon_ground");
+    public static final Identifier SEA_SERPENT = new Identifier(IceAndFire.MOD_ID, "seaserpent/seaserpent_base");
 
     public static void registerEntityRenderers() {
-        EntityRendererRegistry.register(IafEntities.FIRE_DRAGON, x -> new RenderDragonBase(x, FIRE_DRAGON_BASE_MODEL, 0));
-        EntityRendererRegistry.register(IafEntities.ICE_DRAGON, manager -> new RenderDragonBase(manager, ICE_DRAGON_BASE_MODEL, 1));
-        EntityRendererRegistry.register(IafEntities.LIGHTNING_DRAGON, manager -> new RenderLightningDragon(manager, LIGHTNING_DRAGON_BASE_MODEL, 2));
+        EntityRendererRegistry.register(IafEntities.FIRE_DRAGON, x -> new RenderDragonBase(x, TabulaModelHandlerHelper.getModel(FIRE_DRAGON, FireDragonTabulaModelAnimator::new), 0));
+        EntityRendererRegistry.register(IafEntities.ICE_DRAGON, manager -> new RenderDragonBase(manager, TabulaModelHandlerHelper.getModel(ICE_DRAGON, IceDragonTabulaModelAnimator::new), 1));
+        EntityRendererRegistry.register(IafEntities.LIGHTNING_DRAGON, manager -> new RenderLightningDragon(manager, TabulaModelHandlerHelper.getModel(LIGHTNING_DRAGON, LightningTabulaDragonAnimator::new), 2));
         EntityRendererRegistry.register(IafEntities.DRAGON_EGG, RenderDragonEgg::new);
         EntityRendererRegistry.register(IafEntities.DRAGON_ARROW, RenderDragonArrow::new);
         EntityRendererRegistry.register(IafEntities.DRAGON_SKULL, RenderDragonSkull::new);
@@ -87,13 +76,13 @@ public final class IafRenderers {
         EntityRendererRegistry.register(IafEntities.MYRMEX_SWARMER, manager -> new RenderMyrmexBase(manager, new ModelMyrmexRoyal(), 0.25F));
         EntityRendererRegistry.register(IafEntities.AMPHITHERE, RenderAmphithere::new);
         EntityRendererRegistry.register(IafEntities.AMPHITHERE_ARROW, RenderAmphithereArrow::new);
-        EntityRendererRegistry.register(IafEntities.SEA_SERPENT, manager -> new RenderSeaSerpent(manager, SEA_SERPENT_BASE_MODEL));
+        EntityRendererRegistry.register(IafEntities.SEA_SERPENT, manager -> new RenderSeaSerpent(manager, TabulaModelHandlerHelper.getModel(SEA_SERPENT, SeaSerpentTabulaModelAnimator::new)));
         EntityRendererRegistry.register(IafEntities.SEA_SERPENT_BUBBLES, RenderNothing::new);
         EntityRendererRegistry.register(IafEntities.SEA_SERPENT_ARROW, RenderSeaSerpentArrow::new);
         EntityRendererRegistry.register(IafEntities.CHAIN_TIE, RenderChainTie::new);
         EntityRendererRegistry.register(IafEntities.PIXIE_CHARGE, RenderNothing::new);
         EntityRendererRegistry.register(IafEntities.TIDE_TRIDENT, RenderTideTrident::new);
-        EntityRendererRegistry.register(IafEntities.MOB_SKULL, manager -> new RenderMobSkull(manager, SEA_SERPENT_BASE_MODEL));
+        EntityRendererRegistry.register(IafEntities.MOB_SKULL, manager -> new RenderMobSkull(manager, TabulaModelHandlerHelper.getModel(SEA_SERPENT, SeaSerpentTabulaModelAnimator::new)));
         EntityRendererRegistry.register(IafEntities.DREAD_SCUTTLER, RenderDreadScuttler::new);
         EntityRendererRegistry.register(IafEntities.DREAD_GHOUL, RenderDreadGhoul::new);
         EntityRendererRegistry.register(IafEntities.DREAD_BEAST, RenderDreadBeast::new);

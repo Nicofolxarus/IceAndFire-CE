@@ -27,12 +27,12 @@ import net.minecraft.util.math.RotationAxis;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LayerDragonRider extends FeatureRenderer<EntityDragonBase, AdvancedEntityModel<EntityDragonBase>> {
+public class LayerDragonRider extends FeatureRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> {
     public static final List<Entity> renderingRiders = new ArrayList<>();
-    private final MobEntityRenderer<EntityDragonBase, AdvancedEntityModel<EntityDragonBase>> render;
+    private final MobEntityRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> render;
     private final boolean excludeDreadQueenMob;
 
-    public LayerDragonRider(MobEntityRenderer<EntityDragonBase, AdvancedEntityModel<EntityDragonBase>> renderIn, boolean excludeDreadQueenMob) {
+    public LayerDragonRider(MobEntityRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> renderIn, boolean excludeDreadQueenMob) {
         super(renderIn);
         this.render = renderIn;
         this.excludeDreadQueenMob = excludeDreadQueenMob;

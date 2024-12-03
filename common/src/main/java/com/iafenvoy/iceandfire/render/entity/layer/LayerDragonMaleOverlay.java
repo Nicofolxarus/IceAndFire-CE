@@ -8,11 +8,13 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
+import net.minecraft.client.render.entity.model.BipedEntityModel;
+import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-public class LayerDragonMaleOverlay extends FeatureRenderer<EntityDragonBase, AdvancedEntityModel<EntityDragonBase>> {
-    public LayerDragonMaleOverlay(MobEntityRenderer<EntityDragonBase, AdvancedEntityModel<EntityDragonBase>> renderIn) {
+public class LayerDragonMaleOverlay extends FeatureRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> {
+    public LayerDragonMaleOverlay(MobEntityRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> renderIn) {
         super(renderIn);
     }
 

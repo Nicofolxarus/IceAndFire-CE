@@ -8,6 +8,7 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
+import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.BannerItem;
@@ -17,10 +18,10 @@ import net.minecraft.util.math.RotationAxis;
 
 import java.util.stream.StreamSupport;
 
-public class LayerDragonBanner extends FeatureRenderer<EntityDragonBase, AdvancedEntityModel<EntityDragonBase>> {
-    private final FeatureRendererContext<EntityDragonBase, AdvancedEntityModel<EntityDragonBase>> renderer;
+public class LayerDragonBanner extends FeatureRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> {
+    private final FeatureRendererContext<EntityDragonBase, EntityModel<EntityDragonBase>> renderer;
 
-    public LayerDragonBanner(FeatureRendererContext<EntityDragonBase, AdvancedEntityModel<EntityDragonBase>> renderIn) {
+    public LayerDragonBanner(FeatureRendererContext<EntityDragonBase, EntityModel<EntityDragonBase>> renderIn) {
         super(renderIn);
         this.renderer = renderIn;
     }
@@ -33,7 +34,7 @@ public class LayerDragonBanner extends FeatureRenderer<EntityDragonBase, Advance
             float f = (entity.getRenderSize() / 3F);
             float f2 = 1F / f;
             matrixStackIn.push();
-            this.postRender(StreamSupport.stream(this.renderer.getModel().getAllParts().spliterator(), false).filter(cube -> cube.boxName.equals("BodyUpper")).findFirst().get(), matrixStackIn);
+            this.postRender(StreamSupport.stream(((AdvancedEntityModel<EntityDragonBase>) this.renderer.getModel()).getAllParts().spliterator(), false).filter(cube -> cube.boxName.equals("BodyUpper")).findFirst().get(), matrixStackIn);
             matrixStackIn.translate(0, -0.2F, 0.4F);
             matrixStackIn.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180.0F));
             matrixStackIn.push();

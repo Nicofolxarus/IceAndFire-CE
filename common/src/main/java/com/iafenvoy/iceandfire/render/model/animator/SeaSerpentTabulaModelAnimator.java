@@ -5,13 +5,15 @@ import com.iafenvoy.iceandfire.render.model.util.EnumSeaSerpentAnimations;
 import com.iafenvoy.uranus.client.model.AdvancedModelBox;
 import com.iafenvoy.uranus.client.model.ITabulaModelAnimator;
 import com.iafenvoy.uranus.client.model.TabulaModel;
+import com.iafenvoy.uranus.client.model.util.TabulaModelHandlerHelper;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.util.Identifier;
 
 public class SeaSerpentTabulaModelAnimator extends IceAndFireTabulaModelAnimator implements ITabulaModelAnimator<EntitySeaSerpent> {
-    public final TabulaModel[] swimPose = {EnumSeaSerpentAnimations.SWIM1.seaserpent_model, EnumSeaSerpentAnimations.SWIM3.seaserpent_model, EnumSeaSerpentAnimations.SWIM4.seaserpent_model, EnumSeaSerpentAnimations.SWIM6.seaserpent_model};
+    public final EnumSeaSerpentAnimations[] swimPose = {EnumSeaSerpentAnimations.SWIM1, EnumSeaSerpentAnimations.SWIM3, EnumSeaSerpentAnimations.SWIM4, EnumSeaSerpentAnimations.SWIM6};
 
     public SeaSerpentTabulaModelAnimator() {
-        super(EnumSeaSerpentAnimations.T_POSE.seaserpent_model);
+        super(resolve(EnumSeaSerpentAnimations.T_POSE.getModelId()));
     }
 
     @Override
@@ -23,8 +25,8 @@ public class SeaSerpentTabulaModelAnimator extends IceAndFireTabulaModelAnimator
         int currentIndex = entity.swimCycle / 10;
         int prevIndex = currentIndex - 1;
         if (prevIndex < 0) prevIndex = 3;
-        TabulaModel prevPosition = this.swimPose[prevIndex];
-        TabulaModel currentPosition = this.swimPose[currentIndex];
+        TabulaModel prevPosition = resolve(this.swimPose[prevIndex].getModelId());
+        TabulaModel currentPosition = resolve(this.swimPose[currentIndex].getModelId());
         float partialTicks = MinecraftClient.getInstance().getTickDelta();
         float delta = ((entity.swimCycle) / 10.0F) % 1.0F + (partialTicks / 10.0F);
         // AdvancedModelBox[] tailParts = {model.getCube("Tail1"), model.getCube("Tail2"), model.getCube("Tail3"), model.getCube("Tail4"), model.getCube("Tail5"), model.getCube("Tail6")};
@@ -32,11 +34,11 @@ public class SeaSerpentTabulaModelAnimator extends IceAndFireTabulaModelAnimator
 
         for (AdvancedModelBox cube : model.getCubes().values()) {
             if (entity.jumpProgress > 0.0F)
-                if (!this.isRotationEqual(cube, EnumSeaSerpentAnimations.JUMPING2.seaserpent_model.getCube(cube.boxName)))
-                    this.transitionTo(cube, EnumSeaSerpentAnimations.JUMPING2.seaserpent_model.getCube(cube.boxName), entity.jumpProgress, 5, false);
+                if (!this.isRotationEqual(cube, resolve(EnumSeaSerpentAnimations.JUMPING2.getModelId()).getCube(cube.boxName)))
+                    this.transitionTo(cube, resolve(EnumSeaSerpentAnimations.JUMPING2.getModelId()).getCube(cube.boxName), entity.jumpProgress, 5, false);
             if (entity.wantJumpProgress > 0.0F)
-                if (!this.isRotationEqual(cube, EnumSeaSerpentAnimations.JUMPING1.seaserpent_model.getCube(cube.boxName)))
-                    this.transitionTo(cube, EnumSeaSerpentAnimations.JUMPING1.seaserpent_model.getCube(cube.boxName), entity.wantJumpProgress, 10, false);
+                if (!this.isRotationEqual(cube, resolve(EnumSeaSerpentAnimations.JUMPING1.getModelId()).getCube(cube.boxName)))
+                    this.transitionTo(cube, resolve(EnumSeaSerpentAnimations.JUMPING1.getModelId()).getCube(cube.boxName), entity.wantJumpProgress, 10, false);
             AdvancedModelBox prevPositionCube = prevPosition.getCube(cube.boxName);
             AdvancedModelBox currPositionCube = currentPosition.getCube(cube.boxName);
             float prevX = prevPositionCube.rotateAngleX;
@@ -93,25 +95,29 @@ public class SeaSerpentTabulaModelAnimator extends IceAndFireTabulaModelAnimator
         }
         if (model.animator.setAnimation(EntitySeaSerpent.ANIMATION_BITE)) {
             model.animator.startKeyframe(5);
-            this.moveToPose(model, EnumSeaSerpentAnimations.BITE1.seaserpent_model);
+            this.moveToPose(model, resolve(EnumSeaSerpentAnimations.BITE1.getModelId()));
             model.animator.endKeyframe();
             model.animator.startKeyframe(5);
-            this.moveToPose(model, EnumSeaSerpentAnimations.BITE2.seaserpent_model);
+            this.moveToPose(model, resolve(EnumSeaSerpentAnimations.BITE2.getModelId()));
             model.animator.endKeyframe();
             model.animator.setStaticKeyframe(2);
             model.animator.resetKeyframe(3);
         }
         if (model.animator.setAnimation(EntitySeaSerpent.ANIMATION_ROAR)) {
             model.animator.startKeyframe(10);
-            this.moveToPose(model, EnumSeaSerpentAnimations.ROAR1.seaserpent_model);
+            this.moveToPose(model, resolve(EnumSeaSerpentAnimations.ROAR1.getModelId()));
             model.animator.endKeyframe();
             model.animator.startKeyframe(10);
-            this.moveToPose(model, EnumSeaSerpentAnimations.ROAR2.seaserpent_model);
+            this.moveToPose(model, resolve(EnumSeaSerpentAnimations.ROAR2.getModelId()));
             model.animator.endKeyframe();
             model.animator.startKeyframe(10);
-            this.moveToPose(model, EnumSeaSerpentAnimations.ROAR3.seaserpent_model);
+            this.moveToPose(model, resolve(EnumSeaSerpentAnimations.ROAR3.getModelId()));
             model.animator.endKeyframe();
             model.animator.resetKeyframe(10);
         }
+    }
+
+    private static TabulaModel resolve(Identifier id) {
+        return TabulaModelHandlerHelper.getModel(id);
     }
 }

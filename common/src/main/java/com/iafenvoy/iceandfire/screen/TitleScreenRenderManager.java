@@ -120,7 +120,7 @@ public class TitleScreenRenderManager {
         RenderSystem.enableBlend();
         boolean b = Platform.isFabric();
         ms.drawText(textRenderer, Formatting.GOLD + "Report if you meet any crash.", 2, height - (b ? 30 : 60), textColor, false);
-        ms.drawText(textRenderer, "Ice and Fire Fabric-" + Formatting.YELLOW + IceAndFire.VERSION, 2, height - (b ? 20 : 50), textColor, false);
+        ms.drawText(textRenderer, "Ice and Fire CE-" + Formatting.YELLOW + IceAndFire.VERSION, 2, height - (b ? 20 : 50), textColor, false);
     }
 
     private static class Picture {
