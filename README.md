@@ -1,8 +1,8 @@
 # Ice And Fire Community Edition
 
-### Welcome to the mysterious world.
-
 This is an unofficial fork of [Ice And Fire](https://github.com/AlexModGuy/Ice_And_Fire), contains optimizations, new contents and rewrites.
+
+**Note: DO NOT directly replace mod, or your saves will be corrupted!**
 
 Related Links: [Origin CurseForge](https://www.curseforge.com/minecraft/mc-mods/ice-and-fire-dragons) | [Origin Modrinth](https://modrinth.com/mod/ice-and-fire-dragons)
 

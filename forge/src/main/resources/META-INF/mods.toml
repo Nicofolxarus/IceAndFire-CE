@@ -6,13 +6,13 @@ license = "LGPL-3.0"
 [[mods]]
 modId = "iceandfire"
 version = "${version}"
-displayName = "Ice And Fire CE"
+displayName = "Ice And Fire Community Edition"
 authors = "Alexthe666 (Origin Author), IAFEnvoy"
 description = '''
 An unofficial fork of Ice And Fire.
 Dragons and other mythological creatures in minecraft.
 '''
-#logoFile = ""
+logoFile = "logo.jpg"
 
 [[dependencies.iceandfire]]
 modId = "forge"

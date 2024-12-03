@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "iceandfire",
   "version": "${version}",
-  "name": "Ice And Fire CE",
+  "name": "Ice And Fire Community Edition",
   "description": "An unofficial fork of Ice And Fire.\nDragons and other mythological creatures in minecraft.",
   "authors": [
     "Alexthe666 (Origin Author)",
@@ -12,7 +12,7 @@
     "sources": "https://github.com/IAFEnvoy/IceAndFire-CE"
   },
   "license": "LGPL-3.0",
-  "icon": "logo.png",
+  "icon": "logo.jpg",
   "environment": "*",
   "entrypoints": {
     "main": [
