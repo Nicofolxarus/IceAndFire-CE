@@ -36,8 +36,6 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.util.Identifier;
 
-import java.io.IOException;
-
 @Environment(EnvType.CLIENT)
 public final class IafRenderers {
     public static final TabulaModel SEA_SERPENT_BASE_MODEL = getOrNull("/assets/iceandfire/models/tabula/seaserpent/seaserpent_base", new SeaSerpentTabulaModelAnimator());
@@ -48,7 +46,7 @@ public final class IafRenderers {
     public static TabulaModel getOrNull(String modelPath, ITabulaModelAnimator<?> tabulaAnimator) {
         try {
             return new TabulaModel(TabulaModelHandlerHelper.loadTabulaModel(modelPath), tabulaAnimator);
-        } catch (IOException e) {
+        } catch (Exception e) {
             IceAndFire.LOGGER.error(e);
         }
         return null;
