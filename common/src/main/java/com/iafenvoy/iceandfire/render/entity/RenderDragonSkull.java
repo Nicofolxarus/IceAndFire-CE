@@ -10,6 +10,7 @@ import com.iafenvoy.uranus.client.model.ITabulaModelAnimator;
 import com.iafenvoy.uranus.client.model.TabulaModel;
 import com.iafenvoy.uranus.client.model.basic.BasicModelPart;
 import com.iafenvoy.uranus.client.model.util.TabulaModelHandlerHelper;
+import com.iafenvoy.uranus.util.function.MemorizeSupplier;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
@@ -26,7 +27,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class RenderDragonSkull extends EntityRenderer<EntityDragonSkull> {
-    public static final Map<DragonType, Pair<Identifier, Supplier<ITabulaModelAnimator<?>>>> MODELS = new HashMap<>();
+    public static final Map<DragonType, Pair<Identifier, MemorizeSupplier<ITabulaModelAnimator<?>>>> MODELS = new HashMap<>();
     public static final float[] growth_stage_1 = new float[]{1F, 3F};
     public static final float[] growth_stage_2 = new float[]{3F, 7F};
     public static final float[] growth_stage_3 = new float[]{7F, 12.5F};
@@ -34,9 +35,9 @@ public class RenderDragonSkull extends EntityRenderer<EntityDragonSkull> {
     public static final float[] growth_stage_5 = new float[]{20F, 30F};
 
     static {
-        MODELS.put(DragonType.FIRE, Pair.of(IafRenderers.FIRE_DRAGON, FireDragonTabulaModelAnimator::new));
-        MODELS.put(DragonType.ICE, Pair.of(IafRenderers.ICE_DRAGON, IceDragonTabulaModelAnimator::new));
-        MODELS.put(DragonType.LIGHTNING, Pair.of(IafRenderers.LIGHTNING_DRAGON, LightningTabulaDragonAnimator::new));
+        MODELS.put(DragonType.FIRE, Pair.of(IafRenderers.FIRE_DRAGON, new MemorizeSupplier<>(FireDragonTabulaModelAnimator::new)));
+        MODELS.put(DragonType.ICE, Pair.of(IafRenderers.ICE_DRAGON, new MemorizeSupplier<>(IceDragonTabulaModelAnimator::new)));
+        MODELS.put(DragonType.LIGHTNING, Pair.of(IafRenderers.LIGHTNING_DRAGON, new MemorizeSupplier<>(LightningTabulaDragonAnimator::new)));
     }
 
     public final float[][] growth_stages;
@@ -54,7 +55,7 @@ public class RenderDragonSkull extends EntityRenderer<EntityDragonSkull> {
 
     @Override
     public void render(EntityDragonSkull entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn) {
-        Pair<Identifier, Supplier<ITabulaModelAnimator<?>>> p = MODELS.get(DragonType.getTypeById(entity.getDragonType()));
+        Pair<Identifier, MemorizeSupplier<ITabulaModelAnimator<?>>> p = MODELS.get(DragonType.getTypeById(entity.getDragonType()));
         TabulaModel model = TabulaModelHandlerHelper.getModel(p.getFirst(), p.getSecond()::get);
         if (model == null) return;
         VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderLayer.getEntityTranslucent(this.getTexture(entity)));

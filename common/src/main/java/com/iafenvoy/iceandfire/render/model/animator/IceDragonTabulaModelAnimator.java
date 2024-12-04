@@ -15,7 +15,7 @@ public class IceDragonTabulaModelAnimator extends DragonTabulaModelAnimator<Enti
     }
 
     @Override
-    protected TabulaModel getModel(EnumDragonPoses pose) {
+    protected TabulaModel getModelInternal(EnumDragonPoses pose) {
         return DragonAnimationsLibrary.getModel(pose, EnumDragonModelTypes.ICE_DRAGON_MODEL);
     }
 }

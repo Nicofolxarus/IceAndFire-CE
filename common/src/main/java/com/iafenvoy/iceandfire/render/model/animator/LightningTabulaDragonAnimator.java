@@ -15,7 +15,7 @@ public class LightningTabulaDragonAnimator extends DragonTabulaModelAnimator<Ent
     }
 
     @Override
-    protected TabulaModel getModel(EnumDragonPoses pose) {
+    protected TabulaModel getModelInternal(EnumDragonPoses pose) {
         return DragonAnimationsLibrary.getModel(pose, EnumDragonModelTypes.LIGHTNING_DRAGON_MODEL);
     }
 }

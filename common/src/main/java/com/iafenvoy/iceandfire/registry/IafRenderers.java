@@ -23,6 +23,7 @@ import com.iafenvoy.iceandfire.render.model.animator.SeaSerpentTabulaModelAnimat
 import com.iafenvoy.uranus.client.model.util.TabulaModelHandlerHelper;
 import com.iafenvoy.uranus.client.render.DynamicItemRenderer;
 import com.iafenvoy.uranus.client.render.armor.IArmorRendererBase;
+import com.iafenvoy.uranus.util.function.MemorizeSupplier;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.client.particle.ParticleProviderRegistry;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
@@ -42,9 +43,9 @@ public final class IafRenderers {
     public static final Identifier SEA_SERPENT = new Identifier(IceAndFire.MOD_ID, "seaserpent/seaserpent_base");
 
     public static void registerEntityRenderers() {
-        EntityRendererRegistry.register(IafEntities.FIRE_DRAGON, x -> new RenderDragonBase(x, TabulaModelHandlerHelper.getModel(FIRE_DRAGON, FireDragonTabulaModelAnimator::new), 0));
-        EntityRendererRegistry.register(IafEntities.ICE_DRAGON, manager -> new RenderDragonBase(manager, TabulaModelHandlerHelper.getModel(ICE_DRAGON, IceDragonTabulaModelAnimator::new), 1));
-        EntityRendererRegistry.register(IafEntities.LIGHTNING_DRAGON, manager -> new RenderLightningDragon(manager, TabulaModelHandlerHelper.getModel(LIGHTNING_DRAGON, LightningTabulaDragonAnimator::new), 2));
+        EntityRendererRegistry.register(IafEntities.FIRE_DRAGON, x -> new RenderDragonBase(x, TabulaModelHandlerHelper.getModel(FIRE_DRAGON, new MemorizeSupplier<>(FireDragonTabulaModelAnimator::new)), 0));
+        EntityRendererRegistry.register(IafEntities.ICE_DRAGON, manager -> new RenderDragonBase(manager, TabulaModelHandlerHelper.getModel(ICE_DRAGON, new MemorizeSupplier<>(IceDragonTabulaModelAnimator::new)), 1));
+        EntityRendererRegistry.register(IafEntities.LIGHTNING_DRAGON, manager -> new RenderLightningDragon(manager, TabulaModelHandlerHelper.getModel(LIGHTNING_DRAGON, new MemorizeSupplier<>(LightningTabulaDragonAnimator::new)), 2));
         EntityRendererRegistry.register(IafEntities.DRAGON_EGG, RenderDragonEgg::new);
         EntityRendererRegistry.register(IafEntities.DRAGON_ARROW, RenderDragonArrow::new);
         EntityRendererRegistry.register(IafEntities.DRAGON_SKULL, RenderDragonSkull::new);

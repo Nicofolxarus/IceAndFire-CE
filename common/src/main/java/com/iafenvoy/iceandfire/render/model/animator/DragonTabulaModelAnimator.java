@@ -9,7 +9,12 @@ import com.iafenvoy.uranus.client.model.TabulaModel;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.MathHelper;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public abstract class DragonTabulaModelAnimator<T extends EntityDragonBase> extends IceAndFireTabulaModelAnimator implements ITabulaModelAnimator<T> {
+    //FIXME::Will not reload
+    private final Map<EnumDragonPoses, TabulaModel> CACHES = new LinkedHashMap<>();
     protected TabulaModel[] walkPoses;
     protected TabulaModel[] flyPoses;
     protected TabulaModel[] swimPoses;
@@ -240,7 +245,14 @@ public abstract class DragonTabulaModelAnimator<T extends EntityDragonBase> exte
         }
     }
 
-    protected abstract TabulaModel getModel(EnumDragonPoses pose);
+    protected TabulaModel getModel(EnumDragonPoses pose) {
+        if (CACHES.containsKey(pose)) return CACHES.get(pose);
+        TabulaModel model = this.getModelInternal(pose);
+        CACHES.put(pose, model);
+        return model;
+    }
+
+    protected abstract TabulaModel getModelInternal(EnumDragonPoses pose);
 
     protected void animate(TabulaModel model, T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float rotationYaw, float rotationPitch, float scale) {
         AdvancedModelBox modelCubeJaw = model.getCube("Jaw");
