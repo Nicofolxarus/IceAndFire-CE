@@ -46,8 +46,7 @@ public class TrollType {
 
     public static TrollType getBiomeType(RegistryEntry<Biome> biome) {
         List<TrollType> types = TYPES.stream().filter(x -> x.allowSpawn(biome)).toList();
-        if (types.isEmpty()) RandomHelper.randomOne(TYPES);
-        return RandomHelper.randomOne(types);
+        return RandomHelper.randomOne(types.isEmpty() ? TYPES : types);
     }
 
     public static BuiltinWeapon getWeaponForType(TrollType troll) {
