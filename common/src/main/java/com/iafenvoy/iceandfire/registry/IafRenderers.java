@@ -134,7 +134,7 @@ public final class IafRenderers {
         BlockEntityRendererRegistry.register(IafBlockEntities.IAF_LECTERN.get(), RenderLectern::new);
         BlockEntityRendererRegistry.register(IafBlockEntities.EGG_IN_ICE.get(), RenderEggInIce::new);
         BlockEntityRendererRegistry.register(IafBlockEntities.PIXIE_HOUSE.get(), RenderPixieHouse::new);
-        BlockEntityRendererRegistry.register(IafBlockEntities.PIXIE_JAR.get(), RenderJar::new);
+        BlockEntityRendererRegistry.register(IafBlockEntities.PIXIE_JAR.get(), ctx -> new RenderJar<>());
         BlockEntityRendererRegistry.register(IafBlockEntities.DREAD_PORTAL.get(), RenderDreadPortal::new);
         BlockEntityRendererRegistry.register(IafBlockEntities.DREAD_SPAWNER.get(), RenderDreadSpawner::new);
         BlockEntityRendererRegistry.register(IafBlockEntities.GHOST_CHEST.get(), RenderGhostChest::new);

@@ -102,4 +102,12 @@ public class BlockJar extends BlockWithEntity {
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new BlockEntityJar(pos, state, this.empty);
     }
+
+    public int getPixieType() {
+        return pixieType;
+    }
+
+    public boolean isEmpty() {
+        return empty;
+    }
 }

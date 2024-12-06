@@ -1,15 +1,17 @@
 package com.iafenvoy.iceandfire.render.block;
 
 import com.iafenvoy.iceandfire.entity.block.BlockEntityJar;
+import com.iafenvoy.iceandfire.item.block.BlockJar;
 import com.iafenvoy.iceandfire.render.entity.RenderPixie;
 import com.iafenvoy.iceandfire.render.model.ModelPixie;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.RotationAxis;
+
+import java.util.function.Supplier;
 
 public class RenderJar<T extends BlockEntityJar> implements BlockEntityRenderer<T> {
     public static final RenderLayer TEXTURE_0 = RenderLayer.getEntityCutoutNoCull(RenderPixie.TEXTURE_0, false);
@@ -24,19 +26,20 @@ public class RenderJar<T extends BlockEntityJar> implements BlockEntityRenderer<
     public static final RenderLayer TEXTURE_3_GLO = RenderLayer.getEyes(RenderPixie.TEXTURE_3);
     public static final RenderLayer TEXTURE_4_GLO = RenderLayer.getEyes(RenderPixie.TEXTURE_4);
     public static final RenderLayer TEXTURE_5_GLO = RenderLayer.getEyes(RenderPixie.TEXTURE_5);
-    private static ModelPixie MODEL_PIXIE;
-
-    public RenderJar(BlockEntityRendererFactory.Context context) {
-    }
+    private static final Supplier<ModelPixie> MODEL_PIXIE = ModelPixie::new;
 
     @Override
     public void render(T entity, float partialTicks, MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int combinedLightIn, int combinedOverlayIn) {
         int meta = 0;
         boolean hasPixie = false;
-        if (MODEL_PIXIE == null) MODEL_PIXIE = new ModelPixie();
-        if (entity != null && entity.getWorld() != null) {
-            meta = entity.pixieType;
-            hasPixie = entity.hasPixie;
+        if (entity.getWorld() != null) {
+            if (entity.getCachedState().getBlock() instanceof BlockJar jar) {
+                meta = jar.getPixieType();
+                hasPixie = !jar.isEmpty();
+            } else {
+                meta = entity.pixieType;
+                hasPixie = entity.hasPixie;
+            }
         }
         if (hasPixie) {
             matrixStackIn.push();
@@ -63,9 +66,10 @@ public class RenderJar<T extends BlockEntityJar> implements BlockEntityRenderer<
                 else matrixStackIn.translate(0F, 0.60F, 0F);
                 matrixStackIn.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(this.interpolateRotation(entity.prevRotationYaw, entity.rotationYaw, partialTicks)));
                 matrixStackIn.scale(0.50F, 0.50F, 0.50F);
-                MODEL_PIXIE.animateInJar(entity.hasProduced, entity, 0);
-                MODEL_PIXIE.render(matrixStackIn, buffer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-                MODEL_PIXIE.render(matrixStackIn, bufferIn.getBuffer(typeGlow), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                ModelPixie model = MODEL_PIXIE.get();
+                model.animateInJar(entity.hasProduced, entity, 0);
+                model.render(matrixStackIn, buffer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                model.render(matrixStackIn, bufferIn.getBuffer(typeGlow), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
             }
             matrixStackIn.pop();
             matrixStackIn.pop();
