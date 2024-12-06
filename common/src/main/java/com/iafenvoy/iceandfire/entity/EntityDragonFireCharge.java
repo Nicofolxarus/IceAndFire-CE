@@ -2,8 +2,8 @@ package com.iafenvoy.iceandfire.entity;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.util.dragon.IafDragonDestructionManager;
+import com.iafenvoy.iceandfire.particle.DragonFlameParticleType;
 import com.iafenvoy.iceandfire.registry.IafDamageTypes;
-import com.iafenvoy.iceandfire.registry.IafParticles;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
@@ -32,15 +32,12 @@ public class EntityDragonFireCharge extends EntityDragonCharge {
 
     @Override
     public void tick() {
-        for (int i = 0; i < 4; ++i) {
-            this.getWorld().addParticle(IafParticles.DRAGON_FLAME_3.get(), this.getX() + ((this.random.nextDouble() - 0.5D) * this.getWidth()), this.getY() + ((this.random.nextDouble() - 0.5D) * this.getWidth()), this.getZ() + ((this.random.nextDouble() - 0.5D) * this.getWidth()), 0.0D, 0.0D, 0.0D);
-        }
-        if (this.isTouchingWater()) {
+        for (int i = 0; i < 4; ++i)
+            this.getWorld().addParticle(new DragonFlameParticleType(3), this.getX() + ((this.random.nextDouble() - 0.5D) * this.getWidth()), this.getY() + ((this.random.nextDouble() - 0.5D) * this.getWidth()), this.getZ() + ((this.random.nextDouble() - 0.5D) * this.getWidth()), 0.0D, 0.0D, 0.0D);
+        if (this.isTouchingWater())
             this.remove(RemovalReason.DISCARDED);
-        }
-        if (this.isBurning()) {
+        if (this.isBurning())
             this.setOnFireFor(1);
-        }
         super.tick();
     }
 

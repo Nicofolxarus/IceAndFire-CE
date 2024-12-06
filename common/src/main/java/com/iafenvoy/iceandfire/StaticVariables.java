@@ -14,6 +14,5 @@ public class StaticVariables {
     public static final Identifier UPDATE_PIXIE_HOUSE = new Identifier(IceAndFire.MOD_ID, "update_pixie_house");
     public static final Identifier UPDATE_PIXIE_JAR = new Identifier(IceAndFire.MOD_ID, "update_pixie_jar");
     public static final Identifier UPDATE_PODIUM = new Identifier(IceAndFire.MOD_ID, "update_podium");
-    public static final Identifier PARTICLE_SPAWN = new Identifier(IceAndFire.MOD_ID, "particle_spawn");
     public static MinecraftServer server = null;
 }

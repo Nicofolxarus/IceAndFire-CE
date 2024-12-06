@@ -7,9 +7,9 @@ import com.iafenvoy.iceandfire.data.TrollType;
 import com.iafenvoy.iceandfire.item.ItemDragonHorn;
 import com.iafenvoy.iceandfire.item.ItemSummoningCrystal;
 import com.iafenvoy.iceandfire.particle.*;
-import com.iafenvoy.iceandfire.render.TEISRItemRenderer;
-import com.iafenvoy.iceandfire.render.TideTridentRenderer;
-import com.iafenvoy.iceandfire.render.TrollWeaponRenderer;
+import com.iafenvoy.iceandfire.render.item.TEISRItemRenderer;
+import com.iafenvoy.iceandfire.render.item.TideTridentRenderer;
+import com.iafenvoy.iceandfire.render.item.TrollWeaponRenderer;
 import com.iafenvoy.iceandfire.render.armor.*;
 import com.iafenvoy.iceandfire.render.block.*;
 import com.iafenvoy.iceandfire.render.entity.*;
@@ -105,22 +105,11 @@ public final class IafRenderers {
     }
 
     public static void registerParticleRenderers() {
-        //Fire
-        ParticleProviderRegistry.register(IafParticles.DRAGON_FLAME_1, spirit -> ParticleDragonFlame.provider(spirit, 1));
-        ParticleProviderRegistry.register(IafParticles.DRAGON_FLAME_2, spirit -> ParticleDragonFlame.provider(spirit, 2));
-        ParticleProviderRegistry.register(IafParticles.DRAGON_FLAME_3, spirit -> ParticleDragonFlame.provider(spirit, 3));
-        ParticleProviderRegistry.register(IafParticles.DRAGON_FLAME_4, spirit -> ParticleDragonFlame.provider(spirit, 4));
-        ParticleProviderRegistry.register(IafParticles.DRAGON_FLAME_5, spirit -> ParticleDragonFlame.provider(spirit, 5));
-        //Ice
-        ParticleProviderRegistry.register(IafParticles.DRAGON_FROST_1, spirit -> ParticleDragonFrost.provider(spirit, 1));
-        ParticleProviderRegistry.register(IafParticles.DRAGON_FROST_2, spirit -> ParticleDragonFrost.provider(spirit, 2));
-        ParticleProviderRegistry.register(IafParticles.DRAGON_FROST_3, spirit -> ParticleDragonFrost.provider(spirit, 3));
-        ParticleProviderRegistry.register(IafParticles.DRAGON_FROST_4, spirit -> ParticleDragonFrost.provider(spirit, 4));
-        ParticleProviderRegistry.register(IafParticles.DRAGON_FROST_5, spirit -> ParticleDragonFrost.provider(spirit, 5));
-        //Others
+        ParticleProviderRegistry.register(IafParticles.DRAGON_FLAME, ParticleDragonFlame::provider);
+        ParticleProviderRegistry.register(IafParticles.DRAGON_FROST, ParticleDragonFrost::provider);
         ParticleProviderRegistry.register(IafParticles.BLOOD, (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleBlood(world, x, y, z));
-        ParticleProviderRegistry.register(IafParticles.DREAD_PORTAL, (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleDreadPortal(world, x, y, z, velocityX, velocityY, velocityZ, 1));
-        ParticleProviderRegistry.register(IafParticles.DREAD_TORCH, (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleDreadTorch(world, x, y, z, velocityX, velocityY, velocityZ, 1));
+        ParticleProviderRegistry.register(IafParticles.DREAD_PORTAL, (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleDreadPortal(world, x, y, z, velocityX, velocityY, velocityZ));
+        ParticleProviderRegistry.register(IafParticles.DREAD_TORCH, (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleDreadTorch(world, x, y, z, velocityX, velocityY, velocityZ));
         ParticleProviderRegistry.register(IafParticles.GHOST_APPEARANCE, (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleGhostAppearance(world, x, y, z, 1));
         ParticleProviderRegistry.register(IafParticles.HYDRA_BREATH, (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleHydraBreath(world, x, y, z, 1, 1, 1));
         ParticleProviderRegistry.register(IafParticles.PIXIE_DUST, (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticlePixieDust(world, x, y, z, 1, 1, 1, 1));

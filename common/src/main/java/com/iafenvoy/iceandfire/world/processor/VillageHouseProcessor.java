@@ -19,9 +19,6 @@ public class VillageHouseProcessor extends StructureProcessor {
     public static final VillageHouseProcessor INSTANCE = new VillageHouseProcessor();
     public static final Codec<VillageHouseProcessor> CODEC = Codec.unit(() -> INSTANCE);
 
-    public VillageHouseProcessor() {
-    }
-
     @Override
     public StructureTemplate.StructureBlockInfo process(WorldView worldReader, BlockPos pos, BlockPos pos2, StructureTemplate.StructureBlockInfo infoIn1, StructureTemplate.StructureBlockInfo infoIn2, StructurePlacementData settings) {
         Random random = settings.getRandom(infoIn2.pos());
@@ -38,5 +35,4 @@ public class VillageHouseProcessor extends StructureProcessor {
     protected StructureProcessorType<?> getType() {
         return IafProcessors.VILLAGE_HOUSE_PROCESSOR.get();
     }
-
 }

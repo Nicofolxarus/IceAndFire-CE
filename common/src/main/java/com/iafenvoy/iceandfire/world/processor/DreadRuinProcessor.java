@@ -22,12 +22,10 @@ public class DreadRuinProcessor extends StructureProcessor {
     public static final DreadRuinProcessor INSTANCE = new DreadRuinProcessor();
     public static final Codec<DreadRuinProcessor> CODEC = Codec.unit(() -> INSTANCE);
 
-    public DreadRuinProcessor() {
-    }
-
     public static BlockState getRandomCrackedBlock(BlockState prev, Random random) {
         float rand = random.nextFloat();
-        if (rand < 0.5) return IafBlocks.DREAD_STONE_BRICKS.get().getDefaultState().with(IDreadBlock.UNBREAKABLE, true);
+        if (rand < 0.5)
+            return IafBlocks.DREAD_STONE_BRICKS.get().getDefaultState().with(IDreadBlock.UNBREAKABLE, true);
         else if (rand < 0.9)
             return IafBlocks.DREAD_STONE_BRICKS_CRACKED.get().getDefaultState().with(IDreadBlock.UNBREAKABLE, true);
         else
@@ -37,7 +35,6 @@ public class DreadRuinProcessor extends StructureProcessor {
     @Override
     public StructureTemplate.StructureBlockInfo process(WorldView worldReader, BlockPos pos, BlockPos pos2, StructureTemplate.StructureBlockInfo infoIn1, StructureTemplate.StructureBlockInfo infoIn2, StructurePlacementData settings) {
         Random random = settings.getRandom(infoIn2.pos());
-
         if (infoIn2.state().getBlock() == IafBlocks.DREAD_STONE_BRICKS.get()) {
             BlockState state = getRandomCrackedBlock(null, random);
             return new StructureTemplate.StructureBlockInfo(infoIn2.pos(), state, null);

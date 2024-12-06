@@ -13,34 +13,21 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.WorldView;
 
 public class GraveyardProcessor extends StructureProcessor {
-
     public static final GraveyardProcessor INSTANCE = new GraveyardProcessor();
     public static final Codec<GraveyardProcessor> CODEC = Codec.unit(() -> INSTANCE);
-    private final float integrity = 1.0F;
-
-    public GraveyardProcessor() {
-    }
 
     public static BlockState getRandomCobblestone(BlockState prev, Random random) {
         float rand = random.nextFloat();
-        if (rand < 0.5) {
-            return Blocks.COBBLESTONE.getDefaultState();
-        } else if (rand < 0.9) {
-            return Blocks.MOSSY_COBBLESTONE.getDefaultState();
-        } else {
-            return Blocks.INFESTED_COBBLESTONE.getDefaultState();
-        }
+        if (rand < 0.5) return Blocks.COBBLESTONE.getDefaultState();
+        else if (rand < 0.9) return Blocks.MOSSY_COBBLESTONE.getDefaultState();
+        else return Blocks.INFESTED_COBBLESTONE.getDefaultState();
     }
 
     public static BlockState getRandomCrackedBlock(BlockState prev, Random random) {
         float rand = random.nextFloat();
-        if (rand < 0.5) {
-            return Blocks.STONE_BRICKS.getDefaultState();
-        } else if (rand < 0.9) {
-            return Blocks.CRACKED_STONE_BRICKS.getDefaultState();
-        } else {
-            return Blocks.MOSSY_STONE_BRICKS.getDefaultState();
-        }
+        if (rand < 0.5) return Blocks.STONE_BRICKS.getDefaultState();
+        else if (rand < 0.9) return Blocks.CRACKED_STONE_BRICKS.getDefaultState();
+        else return Blocks.MOSSY_STONE_BRICKS.getDefaultState();
     }
 
     @Override
@@ -57,10 +44,8 @@ public class GraveyardProcessor extends StructureProcessor {
         return infoIn2;
     }
 
-
     @Override
     protected StructureProcessorType<?> getType() {
         return IafProcessors.GRAVEYARD_PROCESSOR.get();
     }
-
 }

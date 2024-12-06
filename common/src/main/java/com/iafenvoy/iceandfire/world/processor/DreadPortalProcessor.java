@@ -1,6 +1,8 @@
 package com.iafenvoy.iceandfire.world.processor;
 
 import com.iafenvoy.iceandfire.registry.IafBlocks;
+import com.iafenvoy.iceandfire.registry.IafProcessors;
+import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.structure.StructurePlacementData;
@@ -10,11 +12,10 @@ import net.minecraft.structure.processor.StructureProcessorType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.WorldView;
-import net.minecraft.world.biome.Biome;
 
 public class DreadPortalProcessor extends StructureProcessor {
-    public DreadPortalProcessor(BlockPos position, StructurePlacementData settings, Biome biome) {
-    }
+    public static final DreadPortalProcessor INSTANCE = new DreadPortalProcessor();
+    public static final Codec<DreadPortalProcessor> CODEC = Codec.unit(() -> INSTANCE);
 
     public static BlockState getRandomCrackedBlock(BlockState prev, Random random) {
         float rand = random.nextFloat();
@@ -28,9 +29,7 @@ public class DreadPortalProcessor extends StructureProcessor {
         Random random = data.getRandom(pos);
         float integrity = 1.0F;
         if (random.nextFloat() <= integrity) {
-            if (currentBlockInfo.state().getBlock() == Blocks.DIAMOND_BLOCK)
-                return new StructureTemplate.StructureBlockInfo(pos, IafBlocks.DREAD_PORTAL.get().getDefaultState(), null);
-            if (currentBlockInfo.state().getBlock() == IafBlocks.DREAD_STONE_BRICKS.get()) {
+            if (currentBlockInfo.state().isOf(IafBlocks.DREAD_STONE_BRICKS.get())) {
                 BlockState state = getRandomCrackedBlock(null, random);
                 return new StructureTemplate.StructureBlockInfo(pos, state, null);
             }
@@ -41,7 +40,6 @@ public class DreadPortalProcessor extends StructureProcessor {
 
     @Override
     protected StructureProcessorType<?> getType() {
-        return StructureProcessorType.BLOCK_ROT;
+        return IafProcessors.DREAD_PORTAL_PROCESSOR.get();
     }
-
 }

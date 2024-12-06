@@ -16,10 +16,9 @@ import org.joml.Vector3f;
 public class ParticleDreadTorch extends SpriteBillboardParticle {
     private static final Identifier SNOWFLAKE = new Identifier(IceAndFire.MOD_ID, "textures/particle/snowflake_0.png");
     private static final Identifier SNOWFLAKE_BIG = new Identifier(IceAndFire.MOD_ID, "textures/particle/snowflake_1.png");
-
     private final boolean big;
 
-    public ParticleDreadTorch(ClientWorld world, double x, double y, double z, double motX, double motY, double motZ, float size) {
+    public ParticleDreadTorch(ClientWorld world, double x, double y, double z, double motX, double motY, double motZ) {
         super(world, x, y, z, motX, motY, motZ);
         this.setPos(x, y, z);
         this.velocityY += 0.01D;
@@ -79,10 +78,6 @@ public class ParticleDreadTorch extends SpriteBillboardParticle {
     @Override
     public int getBrightness(float partialTick) {
         return 240;
-    }
-
-    public int getFXLayer() {
-        return 3;
     }
 
     @Override

@@ -37,14 +37,6 @@ public class ClientNetworkHelper {
                 }
             }
         });
-        NetworkManager.registerReceiver(NetworkManager.Side.S2C, StaticVariables.PARTICLE_SPAWN, (buf, ctx) -> {
-            World world = MinecraftClient.getInstance().world;
-            assert world != null;
-            Identifier particleId = new Identifier(buf.readString());
-            final double x = buf.readDouble(), y = buf.readDouble(), z = buf.readDouble();
-            final double velocityX = buf.readDouble(), velocityY = buf.readDouble(), velocityZ = buf.readDouble();
-            ctx.queue(() -> world.addParticle((DefaultParticleType) Registries.PARTICLE_TYPE.get(particleId), x, y, z, velocityX, velocityY, velocityZ));
-        });
         NetworkManager.registerReceiver(NetworkManager.Side.S2C, StaticVariables.START_RIDING_MOB_S2C, (buf, ctx) -> {
             GameOptions options = MinecraftClient.getInstance().options;
             int dragonId = buf.readInt();

@@ -2,8 +2,8 @@ package com.iafenvoy.iceandfire.entity;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.util.dragon.IafDragonDestructionManager;
+import com.iafenvoy.iceandfire.particle.DragonFrostParticleType;
 import com.iafenvoy.iceandfire.registry.IafDamageTypes;
-import com.iafenvoy.iceandfire.registry.IafParticles;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
@@ -27,7 +27,7 @@ public class EntityDragonIceCharge extends EntityDragonCharge {
     @Override
     public void tick() {
         for (int i = 0; i < 10; ++i)
-            this.getWorld().addParticle(IafParticles.DRAGON_FROST_3.get(), this.getX() + this.random.nextDouble() * 1 * (this.random.nextBoolean() ? -1 : 1), this.getY() + this.random.nextDouble() * 1 * (this.random.nextBoolean() ? -1 : 1), this.getZ() + this.random.nextDouble() * 1 * (this.random.nextBoolean() ? -1 : 1), 0.0D, 0.0D, 0.0D);
+            this.getWorld().addParticle(new DragonFrostParticleType(3), this.getX() + this.random.nextDouble() * 1 * (this.random.nextBoolean() ? -1 : 1), this.getY() + this.random.nextDouble() * 1 * (this.random.nextBoolean() ? -1 : 1), this.getZ() + this.random.nextDouble() * 1 * (this.random.nextBoolean() ? -1 : 1), 0.0D, 0.0D, 0.0D);
         super.tick();
     }
 

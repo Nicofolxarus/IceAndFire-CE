@@ -1,22 +1,19 @@
 package com.iafenvoy.iceandfire.entity;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.StaticVariables;
 import com.iafenvoy.iceandfire.api.IafEvents;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
 import com.iafenvoy.iceandfire.entity.util.dragon.IafDragonAttacks;
 import com.iafenvoy.iceandfire.entity.util.dragon.IafDragonDestructionManager;
+import com.iafenvoy.iceandfire.particle.DragonFrostParticleType;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafItems;
-import com.iafenvoy.iceandfire.registry.IafParticles;
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import com.iafenvoy.iceandfire.registry.tag.IafEntityTags;
-import com.iafenvoy.uranus.ServerHelper;
 import com.iafenvoy.uranus.animation.Animation;
 import com.iafenvoy.uranus.animation.IAnimatedEntity;
-import com.iafenvoy.uranus.network.PacketBufferUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -29,8 +26,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
@@ -488,10 +485,8 @@ public class EntityIceDragon extends EntityDragonBase {
             if (this.canPositionBeSeen(progressX, progressY, progressZ)) {
                 if (this.random.nextInt(particleCount) == 0) {
                     Vec3d velocity = new Vec3d(progressX, progressY, progressZ).subtract(headPos);
-                    PacketByteBuf buf = PacketBufferUtils.create().writeString(IafParticles.ALL_DRAGON_FROST.get(this.getDragonStage()).get().asString());
-                    buf.writeDouble(headPos.x).writeDouble(headPos.y).writeDouble(headPos.z);
-                    buf.writeDouble(velocity.x).writeDouble(velocity.y).writeDouble(velocity.z);
-                    ServerHelper.sendToAll(StaticVariables.PARTICLE_SPAWN, buf);
+                    if (this.getWorld() instanceof ServerWorld serverWorld)
+                        serverWorld.spawnParticles(new DragonFrostParticleType(this.getScaleFactor()), headPos.x, headPos.y, headPos.z, 0, velocity.x, velocity.y, velocity.z, 1);
                 }
             } else if (!this.getWorld().isClient) {
                 HitResult result = this.getWorld().raycast(new RaycastContext(new Vec3d(this.getX(), this.getY() + this.getStandingEyeHeight(), this.getZ()), new Vec3d(progressX, progressY, progressZ), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this));
@@ -584,15 +579,14 @@ public class EntityIceDragon extends EntityDragonBase {
 
     @Override
     public void spawnBabyParticles() {
-        if (this.getWorld().isClient) {
+        if (this.getWorld().isClient)
             for (int i = 0; i < 5; i++) {
                 float radiusAdd = i * 0.15F;
                 float headPosX = (float) (this.getX() + 1.8F * this.getRenderSize() * (0.3F + radiusAdd) * MathHelper.cos((float) ((this.getYaw() + 90) * Math.PI / 180)));
                 float headPosZ = (float) (this.getZ() + 1.8F * this.getRenderSize() * (0.3F + radiusAdd) * MathHelper.sin((float) ((this.getYaw() + 90) * Math.PI / 180)));
                 float headPosY = (float) (this.getY() + 0.5 * this.getRenderSize() * 0.3F);
-                this.getWorld().addParticle(IafParticles.ALL_DRAGON_FROST.get(this.getDragonStage()).get(), headPosX, headPosY, headPosZ, 0, 0, 0);
+                this.getWorld().addParticle(new DragonFrostParticleType(this.getScaleFactor()), headPosX, headPosY, headPosZ, 0, 0, 0);
             }
-        }
     }
 
     //Required for proper egg drop

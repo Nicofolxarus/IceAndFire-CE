@@ -16,10 +16,9 @@ import org.joml.Vector3f;
 public class ParticleDreadPortal extends SpriteBillboardParticle {
     private static final Identifier SNOWFLAKE = new Identifier(IceAndFire.MOD_ID, "textures/particle/snowflake_0.png");
     private static final Identifier SNOWFLAKE_BIG = new Identifier(IceAndFire.MOD_ID, "textures/particle/snowflake_1.png");
-
     private final boolean big;
 
-    public ParticleDreadPortal(ClientWorld world, double x, double y, double z, double motX, double motY, double motZ, float size) {
+    public ParticleDreadPortal(ClientWorld world, double x, double y, double z, double motX, double motY, double motZ) {
         super(world, x, y, z, motX, motY, motZ);
         this.setPos(x, y, z);
         this.big = this.random.nextBoolean();
@@ -77,13 +76,8 @@ public class ParticleDreadPortal extends SpriteBillboardParticle {
         return ParticleTextureSheet.CUSTOM;
     }
 
-
     @Override
     public int getBrightness(float partialTick) {
         return 240;
-    }
-
-    public int getFXLayer() {
-        return 3;
     }
 }

@@ -4,6 +4,7 @@ import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.impl.ComponentManager;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafWorld;
+import com.iafenvoy.iceandfire.world.processor.DreadPortalProcessor;
 import com.iafenvoy.iceandfire.world.util.DimensionUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -20,7 +21,6 @@ public class PortalData {
     private final PlayerEntity player;
     private boolean teleported = false;
     private int teleportTick = -1;
-    private int renderTick = 0;
 
     public PortalData(PlayerEntity player) {
         this.player = player;
@@ -38,15 +38,13 @@ public class PortalData {
                 if (dreadLand == null) return;
                 DimensionUtil.changeDimension(this.player, dreadLand, new TeleportTarget(this.player.getPos(), Vec3d.ZERO, this.player.headYaw, this.player.getPitch()));
                 if (!dreadLand.getBlockState(this.player.getBlockPos()).isOf(IafBlocks.DREAD_PORTAL.get()))
-                    server.getStructureTemplateManager().getTemplate(new Identifier(IceAndFire.MOD_ID, "dread_exit_portal")).ifPresent(structureTemplate -> structureTemplate.place(dreadLand, this.player.getBlockPos().subtract(new BlockPos(2, 1, 2)), BlockPos.ORIGIN, new StructurePlacementData(), dreadLand.random, 2));
+                    server.getStructureTemplateManager().getTemplate(new Identifier(IceAndFire.MOD_ID, "dread_exit_portal")).ifPresent(structureTemplate -> structureTemplate.place(dreadLand, this.player.getBlockPos().subtract(new BlockPos(2, 1, 2)), BlockPos.ORIGIN, new StructurePlacementData().addProcessor(new DreadPortalProcessor()), dreadLand.random, 2));
             }
         }
         if (world.getBlockState(this.player.getBlockPos()).isOf(IafBlocks.DREAD_PORTAL.get())) {
-            if (this.renderTick < this.player.getMinFreezeDamageTicks()) this.renderTick++;
             if (this.teleportTick > 0) this.teleportTick--;
             else if (this.teleportTick == -1) this.teleportTick = 100;
         } else {
-            if (this.renderTick > 0) this.renderTick--;
             this.teleported = false;
             this.teleportTick = -1;
         }
@@ -55,13 +53,11 @@ public class PortalData {
     public void readFromNbt(NbtCompound tag) {
         this.setTeleported(tag.getBoolean("teleported"));
         this.setTeleportTick(tag.getInt("teleport_tick"));
-        this.setRenderTick(tag.getInt("render_tick"));
     }
 
     public void writeToNbt(NbtCompound tag) {
         tag.putBoolean("teleported", this.isTeleported());
         tag.putInt("teleport_tick", this.getTeleportTick());
-        tag.putInt("render_tick", this.getRenderTick());
     }
 
     public boolean isTeleported() {
@@ -72,20 +68,12 @@ public class PortalData {
         return this.teleportTick;
     }
 
-    public int getRenderTick() {
-        return this.renderTick;
-    }
-
     public void setTeleported(boolean teleported) {
         this.teleported = teleported;
     }
 
     public void setTeleportTick(int teleportTick) {
         this.teleportTick = teleportTick;
-    }
-
-    public void setRenderTick(int renderTick) {
-        this.renderTick = renderTick;
     }
 
     public static PortalData get(PlayerEntity player) {
