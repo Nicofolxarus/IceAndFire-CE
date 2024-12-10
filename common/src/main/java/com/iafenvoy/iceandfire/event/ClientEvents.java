@@ -115,24 +115,4 @@ public class ClientEvents {
             RenderFrozenState.render(entity, matrixStack, buffers, light, data.frozenData.frozenTicks);
         RenderChain.render(entity, matrixStack, buffers, light, data.chainData.getChainedTo());
     }
-
-//    @SubscribeEvent
-//    public void onEntityMount(EntityMountEvent event) {
-//        if (event.getEntityBeingMounted() instanceof EntityDragonBase dragon && event.getLevel().isClientSide && event.getEntityMounting() == MinecraftClient.getInstance().player) {
-//            if (dragon.isTamed() && dragon.isOwner(MinecraftClient.getInstance().player)) {
-//                if (this.AUTO_ADAPT_3RD_PERSON) {
-//                    // Auto adjust 3rd person camera's according to dragon's size
-//                    IceAndFire.PROXY.setDragon3rdPersonView(2);
-//                }
-//                if (IafConfig.dragonAuto3rdPerson) {
-//                    if (event.isDismounting()) {
-//                        MinecraftClient.getInstance().options.setPerspective(Perspective.values()[IceAndFire.PROXY.getPreviousViewType()]);
-//                    } else {
-//                        IceAndFire.PROXY.setPreviousViewType(MinecraftClient.getInstance().options.getPerspective().ordinal());
-//                        MinecraftClient.getInstance().options.setPerspective(Perspective.values()[1]);
-//                    }
-//                }
-//            }
-//        }
-//    }
 }

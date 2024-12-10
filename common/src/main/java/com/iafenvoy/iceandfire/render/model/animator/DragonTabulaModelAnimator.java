@@ -246,9 +246,9 @@ public abstract class DragonTabulaModelAnimator<T extends EntityDragonBase> exte
     }
 
     protected TabulaModel getModel(EnumDragonPoses pose) {
-        if (CACHES.containsKey(pose)) return CACHES.get(pose);
+        if (this.CACHES.containsKey(pose)) return this.CACHES.get(pose);
         TabulaModel model = this.getModelInternal(pose);
-        CACHES.put(pose, model);
+        this.CACHES.put(pose, model);
         return model;
     }
 

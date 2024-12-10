@@ -24,7 +24,6 @@ import net.minecraft.util.math.RotationAxis;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class RenderDragonSkull extends EntityRenderer<EntityDragonSkull> {
     public static final Map<DragonType, Pair<Identifier, MemorizeSupplier<ITabulaModelAnimator<?>>>> MODELS = new HashMap<>();

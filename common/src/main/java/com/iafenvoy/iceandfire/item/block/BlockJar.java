@@ -104,10 +104,10 @@ public class BlockJar extends BlockWithEntity {
     }
 
     public int getPixieType() {
-        return pixieType;
+        return this.pixieType;
     }
 
     public boolean isEmpty() {
-        return empty;
+        return this.empty;
     }
 }

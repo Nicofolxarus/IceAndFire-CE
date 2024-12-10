@@ -547,20 +547,11 @@ public class EntityDeathWorm extends TameableEntity implements ISyncMount, ICust
             this.clearSegments();
             this.heal(15);
             this.setDeathWormScale(this.getDeathwormScale());
-            if (this.getWorld().isClient) {
-                for (int i = 0; i < 10 * this.getScaleFactor(); i++) {
+            if (this.getWorld().isClient)
+                for (int i = 0; i < 10 * this.getScaleFactor(); i++)
                     this.getWorld().addParticle(ParticleTypes.HAPPY_VILLAGER, this.getX() + (double) (this.random.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), this.getSurface((int) Math.floor(this.getX()), (int) Math.floor(this.getY()), (int) Math.floor(this.getZ())) + 0.5F, this.getZ() + (double) (this.random.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), this.random.nextGaussian() * 0.02D, this.random.nextGaussian() * 0.02D, this.random.nextGaussian() * 0.02D);
-                    /*
-                    for (int j = 0; j < segments.length; j++) {
-                        this.world.addParticle(ParticleTypes.HAPPY_VILLAGER, segments[j].getPosX() + (double) (this.rand.nextFloat() * segments[j].getWidth() * 2.0F) - (double) segments[j].getWidth(), this.getSurface((int) Math.floor(segments[j].getPosX()), (int) Math.floor(segments[j].getPosY()), (int) Math.floor(segments[j].getPosZ())) + 0.5F, segments[j].getPosZ() + (double) (this.rand.nextFloat() * segments[j].getWidth() * 2.0F) - (double) segments[j].getWidth(), this.rand.nextGaussian() * 0.02D, this.rand.nextGaussian() * 0.02D, this.rand.nextGaussian() * 0.02D);
-                    }
-                     */
-                }
-            }
         }
-        if (this.getWormAge() < 5) {
-            this.growthCounter++;
-        }
+        if (this.getWormAge() < 5) this.growthCounter++;
         if (this.getControllingPassenger() != null && this.getTarget() != null) {
             this.getNavigation().stop();
             this.setTarget(null);

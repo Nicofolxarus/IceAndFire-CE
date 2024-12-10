@@ -8,7 +8,6 @@ import com.iafenvoy.iceandfire.registry.IafRenderers;
 import com.iafenvoy.iceandfire.registry.IafScreenHandlers;
 import com.iafenvoy.iceandfire.render.PortalRenderTick;
 import com.iafenvoy.jupiter.ConfigManager;
-import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.event.events.common.InteractionEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
