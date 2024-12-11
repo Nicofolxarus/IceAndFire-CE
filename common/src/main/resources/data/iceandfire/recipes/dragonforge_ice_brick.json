@@ -6,7 +6,7 @@
       "item": "minecraft:stone_bricks"
     },
     "S": {
-      "tag": "c:storage_blocks/scales/dragon/ice"
+      "tag": "iceandfire:storage_blocks/scales/dragon/ice"
     }
   },
   "pattern": [

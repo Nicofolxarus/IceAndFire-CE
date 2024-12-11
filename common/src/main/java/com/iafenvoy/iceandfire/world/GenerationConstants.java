@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 
 import java.util.Optional;
 
-public class GenerationConstant {
+public class GenerationConstants {
     public static final Direction[] HORIZONTALS = new Direction[]{Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 
     public static boolean isFarEnoughFromSpawn(final BlockPos position) {

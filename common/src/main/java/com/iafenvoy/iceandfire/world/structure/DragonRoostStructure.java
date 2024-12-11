@@ -5,7 +5,7 @@ import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.EntityDragonBase;
 import com.iafenvoy.iceandfire.entity.util.HomePosition;
 import com.iafenvoy.iceandfire.item.block.BlockGoldPile;
-import com.iafenvoy.iceandfire.world.GenerationConstant;
+import com.iafenvoy.iceandfire.world.GenerationConstants;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ChestBlockEntity;
@@ -39,7 +39,7 @@ public abstract class DragonRoostStructure extends Structure {
     protected Optional<StructurePosition> getStructurePosition(Context context) {
         BlockRotation blockRotation = BlockRotation.random(context.random());
         BlockPos blockPos = this.getShiftedPos(context, blockRotation);
-        if (!GenerationConstant.isFarEnoughFromSpawn(blockPos)) return Optional.empty();
+        if (!GenerationConstants.isFarEnoughFromSpawn(blockPos)) return Optional.empty();
         return Optional.of(new StructurePosition(blockPos, collector -> collector.addPiece(this.createPiece(new BlockBox(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX(), blockPos.getY(), blockPos.getZ()), context.random().nextBoolean()))));
     }
 
@@ -142,7 +142,7 @@ public abstract class DragonRoostStructure extends Structure {
 
                     if (distance < 0.3D && random.nextInt(isMale ? 500 : 700) == 0) {
                         BlockPos surfacePosition = world.getTopPosition(Heightmap.Type.WORLD_SURFACE, position);
-                        boolean wasPlaced = world.setBlockState(surfacePosition, Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, GenerationConstant.HORIZONTALS[random.nextInt(3)]), Block.NOTIFY_LISTENERS);
+                        boolean wasPlaced = world.setBlockState(surfacePosition, Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, GenerationConstants.HORIZONTALS[random.nextInt(3)]), Block.NOTIFY_LISTENERS);
 
                         if (wasPlaced) {
                             BlockEntity blockEntity = world.getBlockEntity(surfacePosition);
@@ -189,7 +189,7 @@ public abstract class DragonRoostStructure extends Structure {
         private void generateArch(WorldAccess worldIn, Random rand, BlockPos position, Block block) {
             int height = 3 + rand.nextInt(3);
             int width = Math.min(3, height - 2);
-            Direction direction = GenerationConstant.HORIZONTALS[rand.nextInt(GenerationConstant.HORIZONTALS.length - 1)];
+            Direction direction = GenerationConstants.HORIZONTALS[rand.nextInt(GenerationConstants.HORIZONTALS.length - 1)];
             boolean diagonal = rand.nextBoolean();
             for (int i = 0; i < height; i++)
                 worldIn.setBlockState(position.up(i), block.getDefaultState(), 2);

@@ -4,7 +4,8 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "location": "iceandfire:gorgon_temple/gorgon",
-        "projection": "rigid"
+        "projection": "rigid",
+        "processors": []
       },
       "weight": 1
     }

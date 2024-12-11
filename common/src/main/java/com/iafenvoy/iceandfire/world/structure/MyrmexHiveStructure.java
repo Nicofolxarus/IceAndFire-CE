@@ -12,7 +12,7 @@ import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafStructurePieces;
 import com.iafenvoy.iceandfire.registry.IafStructureTypes;
 import com.iafenvoy.iceandfire.util.RestrictWorldAccess;
-import com.iafenvoy.iceandfire.world.GenerationConstant;
+import com.iafenvoy.iceandfire.world.GenerationConstants;
 import com.iafenvoy.iceandfire.world.MyrmexWorldData;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -61,7 +61,7 @@ public class MyrmexHiveStructure extends Structure {
     protected Optional<StructurePosition> getStructurePosition(Context context) {
         BlockRotation blockRotation = BlockRotation.random(context.random());
         BlockPos blockPos = this.getShiftedPos(context, blockRotation);
-        if (!GenerationConstant.isFarEnoughFromSpawn(blockPos)) return Optional.empty();
+        if (!GenerationConstants.isFarEnoughFromSpawn(blockPos)) return Optional.empty();
         return Optional.of(new StructurePosition(blockPos, collector -> this.addPieces(collector, blockPos, context)));
     }
 
@@ -549,7 +549,7 @@ public class MyrmexHiveStructure extends Structure {
                 worldIn.setBlockState(MyrmexHive.getGroundedPos(worldIn, blockpos.west()), gold.with(BlockGoldPile.LAYERS, 1 + Random.create().nextInt(7)), 3);
                 worldIn.setBlockState(MyrmexHive.getGroundedPos(worldIn, blockpos.east()), gold.with(BlockGoldPile.LAYERS, 1 + Random.create().nextInt(7)), 3);
                 if (rand.nextInt(3) == 0) {
-                    worldIn.setBlockState(blockpos.up(), Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, GenerationConstant.HORIZONTALS[Random.create().nextInt(3)]), 2);
+                    worldIn.setBlockState(blockpos.up(), Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, GenerationConstants.HORIZONTALS[Random.create().nextInt(3)]), 2);
                     if (worldIn.getBlockState(blockpos.up()).getBlock() instanceof ChestBlock) {
                         BlockEntity tileentity1 = worldIn.getBlockEntity(blockpos.up());
                         if (tileentity1 instanceof ChestBlockEntity chest)

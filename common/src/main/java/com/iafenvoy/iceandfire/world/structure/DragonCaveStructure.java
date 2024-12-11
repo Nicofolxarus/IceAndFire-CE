@@ -7,7 +7,7 @@ import com.iafenvoy.iceandfire.entity.EntityDragonBase;
 import com.iafenvoy.iceandfire.entity.util.HomePosition;
 import com.iafenvoy.iceandfire.item.block.BlockGoldPile;
 import com.iafenvoy.iceandfire.registry.tag.IafBlockTags;
-import com.iafenvoy.iceandfire.world.GenerationConstant;
+import com.iafenvoy.iceandfire.world.GenerationConstants;
 import com.iafenvoy.uranus.util.ShapeBuilder;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -49,7 +49,7 @@ public abstract class DragonCaveStructure extends Structure {
     protected Optional<StructurePosition> getStructurePosition(Context context) {
         BlockRotation blockRotation = BlockRotation.random(context.random());
         BlockPos blockPos = this.getShiftedPos(context, blockRotation);
-        if (!GenerationConstant.isFarEnoughFromSpawn(blockPos)) return Optional.empty();
+        if (!GenerationConstants.isFarEnoughFromSpawn(blockPos)) return Optional.empty();
         return Optional.of(new StructurePosition(blockPos, collector -> this.addPieces(collector, blockPos, context, context.random().nextBoolean())));
     }
 
@@ -120,7 +120,7 @@ public abstract class DragonCaveStructure extends Structure {
             //Get shells
             //Get hollows
             for (int i = 0; i < amount + rand.nextInt(2); i++) {
-                Direction direction = GenerationConstant.HORIZONTALS[rand.nextInt(GenerationConstant.HORIZONTALS.length - 1)];
+                Direction direction = GenerationConstants.HORIZONTALS[rand.nextInt(GenerationConstants.HORIZONTALS.length - 1)];
                 int r = 2 * (int) (radius / 3F) + rand.nextInt(8);
                 BlockPos centerOffset = center.offset(direction, radius - 2);
                 sphereBlocks = Stream.concat(sphereBlocks, ShapeBuilder.start().getAllInCutOffSphereMutable(r, r, centerOffset).toStream(false));
@@ -211,7 +211,7 @@ public abstract class DragonCaveStructure extends Structure {
                     boolean generateGold = rand.nextDouble() < IafCommonConfig.INSTANCE.dragon.generateDenGoldChance.getValue() * (this.male ? 1 : 2);
                     world.setBlockState(pos, generateGold ? this.getTreasurePile().with(BlockGoldPile.LAYERS, 1 + rand.nextInt(7)) : Blocks.AIR.getDefaultState(), 3);
                 } else if (chance == 61) {
-                    world.setBlockState(pos, Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, GenerationConstant.HORIZONTALS[rand.nextInt(3)]), Block.NOTIFY_LISTENERS);
+                    world.setBlockState(pos, Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, GenerationConstants.HORIZONTALS[rand.nextInt(3)]), Block.NOTIFY_LISTENERS);
                     if (world.getBlockState(pos).getBlock() instanceof ChestBlock) {
                         BlockEntity blockEntity = world.getBlockEntity(pos);
                         if (blockEntity instanceof ChestBlockEntity chestBlockEntity)
