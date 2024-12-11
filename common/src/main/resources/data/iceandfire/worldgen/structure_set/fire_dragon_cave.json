@@ -2,8 +2,15 @@
   "placement": {
     "type": "minecraft:random_spread",
     "salt": 7824162,
-    "separation": 12,
-    "spacing": 16
+    "separation": 14,
+    "spacing": 20,
+    "exclusion_zone": {
+      "chunk_count": 6,
+      "other_set": [
+        "iceandfire:ice_dragon_cave",
+        "iceandfire:lightning_dragon_cave"
+      ]
+    }
   },
   "structures": [
     {

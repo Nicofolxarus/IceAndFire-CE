@@ -13,7 +13,6 @@
     "PointOfInterestTypesAccessor"
   ],
   "client": [
-    "EntityRenderersMixin",
     "GameRendererMixin",
     "InGameHudMixin",
     "LivingEntityRendererMixin",
