@@ -16,10 +16,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.RotationAxis;
 
-public class LayerMyrmexItem extends FeatureRenderer<EntityMyrmexBase, AdvancedEntityModel<EntityMyrmexBase>> {
-    protected final RenderMyrmexBase livingEntityRenderer;
+public class LayerMyrmexItem<T extends EntityMyrmexBase> extends FeatureRenderer<T, AdvancedEntityModel<T>> {
+    protected final RenderMyrmexBase<T> livingEntityRenderer;
 
-    public LayerMyrmexItem(RenderMyrmexBase livingEntityRendererIn) {
+    public LayerMyrmexItem(RenderMyrmexBase<T> livingEntityRendererIn) {
         super(livingEntityRendererIn);
         this.livingEntityRenderer = livingEntityRendererIn;
     }

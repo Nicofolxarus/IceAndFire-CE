@@ -28,6 +28,7 @@ public enum MultipartComponentProvider implements IEntityComponentProvider {
     @Override
     public void appendTooltip(ITooltip iTooltip, EntityAccessor entityAccessor, IPluginConfig iPluginConfig) {
         if (entityAccessor.getEntity() instanceof EntityMultipartPart multipart) {
+            assert MinecraftClient.getInstance().world != null;
             Entity parent = MinecraftClient.getInstance().world.getEntityLookup().get(multipart.getParentId());
             if (parent instanceof MobEntity mob) {
                 iTooltip.clear();

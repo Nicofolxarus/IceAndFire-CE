@@ -31,7 +31,7 @@ public class EntityMyrmexSwarmer extends EntityMyrmexRoyal {
     private static final TrackedData<Optional<UUID>> SUMMONER_ID = DataTracker.registerData(EntityMyrmexSwarmer.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
     private static final TrackedData<Integer> TICKS_ALIVE = DataTracker.registerData(EntityMyrmexSwarmer.class, TrackedDataHandlerRegistry.INTEGER);
 
-    public EntityMyrmexSwarmer(EntityType type, World worldIn) {
+    public EntityMyrmexSwarmer(EntityType<? extends EntityMyrmexSwarmer> type, World worldIn) {
         super(type, worldIn);
         this.moveControl = new FlyMoveHelper(this);
         this.navigation = this.createNavigator(this.getWorld(), AdvancedPathNavigate.MovementType.FLYING);

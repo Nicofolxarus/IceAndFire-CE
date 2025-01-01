@@ -3,12 +3,12 @@ package com.iafenvoy.iceandfire.render.entity.layer;
 import com.iafenvoy.iceandfire.entity.EntityDragonBase;
 import com.iafenvoy.uranus.client.model.AdvancedEntityModel;
 import com.iafenvoy.uranus.client.model.AdvancedModelBox;
+import com.iafenvoy.uranus.client.model.TabulaModel;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
-import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.BannerItem;
@@ -18,10 +18,10 @@ import net.minecraft.util.math.RotationAxis;
 
 import java.util.stream.StreamSupport;
 
-public class LayerDragonBanner extends FeatureRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> {
-    private final FeatureRendererContext<EntityDragonBase, EntityModel<EntityDragonBase>> renderer;
+public class LayerDragonBanner extends FeatureRenderer<EntityDragonBase, TabulaModel<EntityDragonBase>> {
+    private final FeatureRendererContext<EntityDragonBase, TabulaModel<EntityDragonBase>> renderer;
 
-    public LayerDragonBanner(FeatureRendererContext<EntityDragonBase, EntityModel<EntityDragonBase>> renderIn) {
+    public LayerDragonBanner(FeatureRendererContext<EntityDragonBase, TabulaModel<EntityDragonBase>> renderIn) {
         super(renderIn);
         this.renderer = renderIn;
     }

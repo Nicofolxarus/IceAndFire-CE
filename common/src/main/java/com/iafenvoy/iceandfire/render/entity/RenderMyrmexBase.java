@@ -12,23 +12,22 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 
 
-public class RenderMyrmexBase extends MobEntityRenderer<EntityMyrmexBase, AdvancedEntityModel<EntityMyrmexBase>> {
+public class RenderMyrmexBase<T extends EntityMyrmexBase> extends MobEntityRenderer<T, AdvancedEntityModel<T>> {
+    private final AdvancedEntityModel<T> larvaModel = new ModelMyrmexPupa<>();
+    private final AdvancedEntityModel<T> pupaModel = new ModelMyrmexPupa<>();
+    private final AdvancedEntityModel<T> adultModel;
 
-    private static final AdvancedEntityModel<EntityMyrmexBase> LARVA_MODEL = new ModelMyrmexPupa();
-    private static final AdvancedEntityModel<EntityMyrmexBase> PUPA_MODEL = new ModelMyrmexPupa();
-    private final AdvancedEntityModel<EntityMyrmexBase> adultModel;
-
-    public RenderMyrmexBase(EntityRendererFactory.Context context, AdvancedEntityModel<EntityMyrmexBase> model, float shadowSize) {
+    public RenderMyrmexBase(EntityRendererFactory.Context context, AdvancedEntityModel<T> model, float shadowSize) {
         super(context, model, shadowSize);
-        this.addFeature(new LayerMyrmexItem(this));
+        this.addFeature(new LayerMyrmexItem<>(this));
         this.adultModel = model;
     }
 
     @Override
-    public void render(EntityMyrmexBase entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn) {
+    public void render(T entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn) {
         switch (entityIn.getGrowthStage()) {
-            case 0 -> this.model = LARVA_MODEL;
-            case 1 -> this.model = PUPA_MODEL;
+            case 0 -> this.model = this.larvaModel;
+            case 1 -> this.model = this.pupaModel;
             default -> this.model = this.adultModel;
         }
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

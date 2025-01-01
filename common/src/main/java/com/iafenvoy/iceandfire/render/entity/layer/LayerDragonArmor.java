@@ -2,6 +2,7 @@ package com.iafenvoy.iceandfire.render.entity.layer;
 
 import com.iafenvoy.iceandfire.data.DragonArmorMaterial;
 import com.iafenvoy.iceandfire.entity.EntityDragonBase;
+import com.iafenvoy.uranus.client.model.TabulaModel;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -16,10 +17,10 @@ import net.minecraft.util.Identifier;
 
 import java.util.List;
 
-public class LayerDragonArmor extends FeatureRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> {
+public class LayerDragonArmor extends FeatureRenderer<EntityDragonBase, TabulaModel<EntityDragonBase>> {
     private static final List<EquipmentSlot> ARMOR_SLOTS = List.of(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET);
 
-    public LayerDragonArmor(MobEntityRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> renderIn, int type) {
+    public LayerDragonArmor(MobEntityRenderer<EntityDragonBase, TabulaModel<EntityDragonBase>> renderIn, int type) {
         super(renderIn);
     }
 

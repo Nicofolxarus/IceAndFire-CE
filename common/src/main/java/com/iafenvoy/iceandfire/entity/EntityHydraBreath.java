@@ -102,11 +102,6 @@ public class EntityHydraBreath extends AbstractFireballEntity implements IDragon
         }
     }
 
-
-    public boolean handleWaterMovement() {
-        return true;
-    }
-
     @Override
     protected void onCollision(HitResult movingObject) {
         this.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING);

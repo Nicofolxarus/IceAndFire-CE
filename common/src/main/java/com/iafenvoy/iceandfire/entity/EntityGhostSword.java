@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class EntityGhostSword extends PersistentProjectileEntity {
     private IntOpenHashSet piercedEntities;
     private List<Entity> hitEntities;

@@ -65,13 +65,13 @@ public class RenderStoneStatue extends EntityRenderer<EntityStoneStatue> {
 
     @Override
     public void render(EntityStoneStatue entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn) {
-        EntityModel model = new PigEntityModel(this.context.getPart(EntityModelLayers.PIG));
+        EntityModel model = new PigEntityModel<>(this.context.getPart(EntityModelLayers.PIG));
 
         // Get the correct model
         if (this.modelMap.get(entityIn.getTrappedEntityTypeString()) != null)
             model = this.modelMap.get(entityIn.getTrappedEntityTypeString());
         else {
-            EntityRenderer renderer = MinecraftClient.getInstance().getEntityRenderDispatcher().renderers.get(entityIn.getTrappedEntityType());
+            EntityRenderer<?> renderer = MinecraftClient.getInstance().getEntityRenderDispatcher().renderers.get(entityIn.getTrappedEntityType());
 
             if (renderer instanceof FeatureRendererContext)
                 model = ((FeatureRendererContext<?, ?>) renderer).getModel();
@@ -102,9 +102,6 @@ public class RenderStoneStatue extends EntityRenderer<EntityStoneStatue> {
 
         matrixStackIn.push();
         float yaw = entityIn.prevYaw + (entityIn.getYaw() - entityIn.prevYaw) * partialTicks;
-        if (entityIn.hasVehicle()) {
-            entityIn.getVehicle();
-        }
         model.child = entityIn.isBaby();
         model.riding = false;
         model.handSwingProgress = entityIn.getHandSwingProgress(partialTicks);

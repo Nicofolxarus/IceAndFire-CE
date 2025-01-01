@@ -10,7 +10,6 @@ import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import com.iafenvoy.iceandfire.screen.handler.BestiaryScreenHandler;
-import com.iafenvoy.uranus.object.IdUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
@@ -747,6 +746,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                             line = line.substring(8, line.length() - 1);
                             String[] split = line.split(" ");
                             Identifier id = Identifier.of(IceAndFire.MOD_ID, "textures/gui/bestiary/" + split[0]);
+                            assert id != null;
                             Identifier resourcelocation = PICTURE_LOCATION_CACHE.computeIfAbsent(id.toString(), k -> id);
                             ms.getMatrices().push();
                             this.drawImage(ms, resourcelocation, Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3]), Integer.parseInt(split[4]), Integer.parseInt(split[5]), Integer.parseInt(split[6]), Float.parseFloat(split[7]) * 512F);
@@ -831,6 +831,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
         if (resource.isEmpty())
             resource = MinecraftClient.getInstance().getResourceManager().getResource(backupLoc);
         try {
+            assert resource.isPresent();
             final List<String> lines = IOUtils.readLines(resource.get().getInputStream(), "UTF-8");
             int linenumber = 0;
             for (String line : lines) {

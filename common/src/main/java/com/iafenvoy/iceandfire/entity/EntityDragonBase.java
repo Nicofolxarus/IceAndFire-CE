@@ -235,7 +235,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
     private EntityDragonPart tail4Part;
     private boolean isOverAir;
 
-    public EntityDragonBase(EntityType t, World world, DragonType type, double minimumDamage, double maximumDamage, double minimumHealth, double maximumHealth, double minimumSpeed, double maximumSpeed) {
+    public EntityDragonBase(EntityType<? extends EntityDragonBase> t, World world, DragonType type, double minimumDamage, double maximumDamage, double minimumHealth, double maximumHealth, double minimumSpeed, double maximumSpeed) {
         super(t, world);
         this.dragonType = type;
         this.minimumDamage = minimumDamage;

@@ -1,13 +1,13 @@
 package com.iafenvoy.iceandfire.render.model;
 
 import com.google.common.collect.ImmutableList;
+import com.iafenvoy.iceandfire.entity.EntityDreadLichSkull;
 import com.iafenvoy.uranus.client.model.AdvancedEntityModel;
 import com.iafenvoy.uranus.client.model.AdvancedModelBox;
 import com.iafenvoy.uranus.client.model.basic.BasicModelPart;
 import com.iafenvoy.uranus.client.model.util.HideableModelRenderer;
-import net.minecraft.entity.Entity;
 
-public class ModelDreadLichSkull extends AdvancedEntityModel {
+public class ModelDreadLichSkull extends AdvancedEntityModel<EntityDreadLichSkull> {
     public final HideableModelRenderer bipedHead;
     public final HideableModelRenderer bipedHeadwear;
 
@@ -28,7 +28,7 @@ public class ModelDreadLichSkull extends AdvancedEntityModel {
     }
 
     @Override
-    public void setAngles(Entity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+    public void setAngles(EntityDreadLichSkull entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
         this.resetToDefaultPose();
     }
 

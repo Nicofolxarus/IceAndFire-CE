@@ -121,11 +121,10 @@ public class BlockEntityLectern extends LockableContainerBlockEntity implements 
             this.selectedPages[0] = null;
             this.selectedPages[1] = null;
             this.selectedPages[2] = null;
-        } else
-            this.randomizePages(this.getStack(0), this.getStack(1));
+        } else this.randomizePages(this.getStack(0), this.getStack(1));
     }
 
-    public BestiaryPages[] randomizePages(ItemStack bestiary, ItemStack manuscript) {
+    public void randomizePages(ItemStack bestiary, ItemStack manuscript) {
         assert this.world != null;
         if (!this.world.isClient && bestiary.getItem() == IafItems.BESTIARY.get()) {
             List<BestiaryPages> possibleList = this.getPossiblePages();
@@ -135,7 +134,6 @@ public class BlockEntityLectern extends LockableContainerBlockEntity implements 
             this.selectedPages[1] = possibleList.size() > 1 ? possibleList.get(1) : null;
             this.selectedPages[2] = possibleList.size() > 2 ? possibleList.get(2) : null;
         }
-        return this.selectedPages;
     }
 
     @Override

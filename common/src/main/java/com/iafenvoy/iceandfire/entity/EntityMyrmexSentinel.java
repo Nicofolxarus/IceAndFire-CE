@@ -44,7 +44,7 @@ public class EntityMyrmexSentinel extends EntityMyrmexBase {
     public int visibleTicks = 0;
     public int daylightTicks = 0;
 
-    public EntityMyrmexSentinel(EntityType t, World worldIn) {
+    public EntityMyrmexSentinel(EntityType<? extends EntityMyrmexSentinel> t, World worldIn) {
         super(t, worldIn);
     }
 

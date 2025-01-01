@@ -5,10 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public class BlockMyrmexResin extends Block {
@@ -21,11 +19,6 @@ public class BlockMyrmexResin extends Block {
 
     public static String name(boolean sticky, String suffix) {
         return sticky ? "myrmex_resin_sticky_%s".formatted(suffix) : "myrmex_resin_%s".formatted(suffix);
-    }
-
-    @Deprecated
-    public boolean canEntitySpawn(BlockState state, BlockView worldIn, BlockPos pos, EntityType<?> type) {
-        return false;
     }
 
     @Override

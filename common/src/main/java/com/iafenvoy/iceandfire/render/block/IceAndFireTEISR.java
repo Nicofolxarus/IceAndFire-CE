@@ -4,7 +4,6 @@ import com.iafenvoy.iceandfire.entity.block.BlockEntityDreadPortal;
 import com.iafenvoy.iceandfire.entity.block.BlockEntityGhostChest;
 import com.iafenvoy.iceandfire.item.block.BlockPixieHouse;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.entity.model.EntityModelLoader;

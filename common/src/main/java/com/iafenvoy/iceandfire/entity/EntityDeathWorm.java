@@ -53,6 +53,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.*;
 
+@SuppressWarnings("ALL")
 public class EntityDeathWorm extends TameableEntity implements ISyncMount, ICustomCollisions, IBlacklistedFromStatues, IAnimatedEntity, IVillagerFear, IAnimalFear, IGroundMount, IHasCustomizableAttributes, ICustomMoveController {
     public static final Identifier TAN_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/deathworm_tan");
     public static final Identifier WHITE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/deathworm_white");

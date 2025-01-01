@@ -4,12 +4,13 @@ import com.iafenvoy.iceandfire.util.IafMath;
 import com.iafenvoy.uranus.client.model.AdvancedModelBox;
 import com.iafenvoy.uranus.client.model.ModelAnimator;
 import com.iafenvoy.uranus.client.model.TabulaModel;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
-public class IceAndFireTabulaModelAnimator {
-    protected final TabulaModel baseModel;
+public class IceAndFireTabulaModelAnimator<T extends Entity> {
+    protected final TabulaModel<T> baseModel;
 
-    public IceAndFireTabulaModelAnimator(TabulaModel baseModel) {
+    public IceAndFireTabulaModelAnimator(TabulaModel<T> baseModel) {
         this.baseModel = baseModel;
     }
 
@@ -58,7 +59,7 @@ public class IceAndFireTabulaModelAnimator {
         animator.rotate(model, (float) Math.toRadians(x), (float) Math.toRadians(y), (float) Math.toRadians(z));
     }
 
-    public void moveToPose(TabulaModel model, TabulaModel modelTo) {
+    public void moveToPose(TabulaModel<T> model, TabulaModel<T> modelTo) {
         for (AdvancedModelBox cube : model.getCubes().values()) {
             AdvancedModelBox cubeTo = modelTo.getCube(cube.boxName);
             if (!this.isRotationEqual(this.baseModel.getCube(cube.boxName), cubeTo)) {

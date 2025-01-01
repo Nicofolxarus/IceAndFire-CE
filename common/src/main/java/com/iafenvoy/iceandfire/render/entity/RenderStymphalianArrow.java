@@ -1,12 +1,12 @@
 package com.iafenvoy.iceandfire.render.entity;
 
 import com.iafenvoy.iceandfire.IceAndFire;
+import com.iafenvoy.iceandfire.entity.EntityStymphalianArrow;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.ProjectileEntityRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 
-public class RenderStymphalianArrow extends ProjectileEntityRenderer {
+public class RenderStymphalianArrow extends ProjectileEntityRenderer<EntityStymphalianArrow> {
     private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/models/misc/stymphalian_arrow.png");
 
     public RenderStymphalianArrow(EntityRendererFactory.Context context) {
@@ -14,7 +14,7 @@ public class RenderStymphalianArrow extends ProjectileEntityRenderer {
     }
 
     @Override
-    public Identifier getTexture(Entity entity) {
+    public Identifier getTexture(EntityStymphalianArrow entity) {
         return TEXTURE;
     }
 }

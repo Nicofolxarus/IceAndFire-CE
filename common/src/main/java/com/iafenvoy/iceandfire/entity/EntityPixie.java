@@ -44,6 +44,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.*;
 
+@SuppressWarnings("ALL")
 public class EntityPixie extends TameableEntity {
     public static final float[][] PARTICLE_RGB = new float[][]{new float[]{1F, 0.752F, 0.792F}, new float[]{0.831F, 0.662F, 1F}, new float[]{0.513F, 0.843F, 1F}, new float[]{0.654F, 0.909F, 0.615F}, new float[]{0.996F, 0.788F, 0.407F}};
     public static final int STEAL_COOLDOWN = 3000;
@@ -58,7 +59,7 @@ public class EntityPixie extends TameableEntity {
     private BlockPos housePos;
     private boolean isSitting;
 
-    public EntityPixie(EntityType type, World worldIn) {
+    public EntityPixie(EntityType<? extends EntityPixie> type, World worldIn) {
         super(type, worldIn);
         this.moveControl = new AIMoveControl(this);
         this.experiencePoints = 3;

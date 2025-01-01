@@ -77,10 +77,10 @@ public class ClientEvents {
                 Entity vehicle = player.getVehicle();
                 byte previousState = controller.getControlState();
                 controller.up(mc.options.jumpKey.isPressed());
-                controller.down(IafKeybindings.dragonDown.isPressed());
-                controller.attack(IafKeybindings.dragonStrike.isPressed());
+                controller.down(IafKeybindings.DRAGON_DOWN.isPressed());
+                controller.attack(IafKeybindings.DRAGON_STRIKE.isPressed());
                 controller.dismount(mc.options.sneakKey.isPressed());
-                controller.strike(IafKeybindings.dragonBreath.isPressed());
+                controller.strike(IafKeybindings.DRAGON_BREATH.isPressed());
                 byte controlState = controller.getControlState();
                 if (controlState != previousState) {
                     PacketByteBuf buf = PacketBufferUtils.create();

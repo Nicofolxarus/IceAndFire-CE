@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class EntityDreadLichSkull extends PersistentProjectileEntity {
     public EntityDreadLichSkull(EntityType<? extends PersistentProjectileEntity> type, World worldIn) {
         super(type, worldIn);
@@ -165,15 +166,6 @@ public class EntityDreadLichSkull extends PersistentProjectileEntity {
             }
         }
     }
-
-    public int getBrightnessForRender() {
-        return 15728880;
-    }
-
-/*    @Override
-    public float getBrightness() {
-        return 1.0F;
-    }*/
 
     @Override
     public boolean hasNoGravity() {

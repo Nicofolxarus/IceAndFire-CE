@@ -2,7 +2,6 @@ package com.iafenvoy.iceandfire.item.block;
 
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import net.minecraft.block.*;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -60,11 +59,6 @@ public class BlockGoldPile extends Block {
                 return Block.isFaceFullSquare(blockstate.getCollisionShape(worldIn, pos.down()), Direction.UP) || block instanceof BlockGoldPile && blockstate.get(LAYERS) == 8;
             else return true;
         } else return false;
-    }
-
-    @Deprecated
-    public boolean canEntitySpawn(BlockState state, Entity entityIn) {
-        return false;
     }
 
     @Override

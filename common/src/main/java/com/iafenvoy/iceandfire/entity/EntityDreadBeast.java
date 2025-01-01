@@ -42,7 +42,7 @@ public class EntityDreadBeast extends EntityDreadMob implements IAnimatedEntity,
     private float firstWidth = 1.0F;
     private float firstHeight = 1.0F;
 
-    public EntityDreadBeast(EntityType type, World worldIn) {
+    public EntityDreadBeast(EntityType<? extends EntityDreadBeast> type, World worldIn) {
         super(type, worldIn);
     }
 

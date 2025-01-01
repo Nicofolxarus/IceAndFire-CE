@@ -46,7 +46,7 @@ public class EntityDreadScuttler extends EntityDreadMob implements IAnimatedEnti
     private float firstWidth = -1.0F;
     private float firstHeight = -1.0F;
 
-    public EntityDreadScuttler(EntityType type, World worldIn) {
+    public EntityDreadScuttler(EntityType<? extends EntityDreadScuttler> type, World worldIn) {
         super(type, worldIn);
     }
 

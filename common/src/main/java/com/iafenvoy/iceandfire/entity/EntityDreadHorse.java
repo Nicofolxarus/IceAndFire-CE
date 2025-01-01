@@ -21,7 +21,7 @@ import java.util.UUID;
 public class EntityDreadHorse extends SkeletonHorseEntity implements IDreadMob {
     protected static final TrackedData<Optional<UUID>> COMMANDER_UNIQUE_ID = DataTracker.registerData(EntityDreadHorse.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
 
-    public EntityDreadHorse(EntityType type, World worldIn) {
+    public EntityDreadHorse(EntityType<? extends EntityDreadHorse> type, World worldIn) {
         super(type, worldIn);
     }
 

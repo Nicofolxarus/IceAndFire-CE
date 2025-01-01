@@ -1,12 +1,12 @@
 package com.iafenvoy.iceandfire.render.model.animator;
 
-import com.iafenvoy.iceandfire.entity.EntityFireDragon;
+import com.iafenvoy.iceandfire.entity.EntityDragonBase;
 import com.iafenvoy.iceandfire.render.model.util.DragonAnimationsLibrary;
 import com.iafenvoy.iceandfire.render.model.util.EnumDragonModelTypes;
 import com.iafenvoy.iceandfire.render.model.util.EnumDragonPoses;
 import com.iafenvoy.uranus.client.model.TabulaModel;
 
-public class FireDragonTabulaModelAnimator extends DragonTabulaModelAnimator<EntityFireDragon> {
+public class FireDragonTabulaModelAnimator extends DragonTabulaModelAnimator {
     public FireDragonTabulaModelAnimator() {
         super(DragonAnimationsLibrary.getModel(EnumDragonPoses.GROUND_POSE, EnumDragonModelTypes.FIRE_DRAGON_MODEL));
         this.walkPoses = new TabulaModel[]{this.getModel(EnumDragonPoses.WALK1), this.getModel(EnumDragonPoses.WALK2), this.getModel(EnumDragonPoses.WALK3), this.getModel(EnumDragonPoses.WALK4)};
@@ -15,7 +15,7 @@ public class FireDragonTabulaModelAnimator extends DragonTabulaModelAnimator<Ent
     }
 
     @Override
-    protected TabulaModel getModelInternal(EnumDragonPoses pose) {
+    protected TabulaModel<EntityDragonBase> getModelInternal(EnumDragonPoses pose) {
         return DragonAnimationsLibrary.getModel(pose, EnumDragonModelTypes.FIRE_DRAGON_MODEL);
     }
 }

@@ -15,8 +15,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-import java.util.Random;
-
 public class BlockPixieHouse extends BlockWithEntity {
     public static final DirectionProperty FACING = DirectionProperty.of("facing", Direction.Type.HORIZONTAL);
 
@@ -46,24 +44,9 @@ public class BlockPixieHouse extends BlockWithEntity {
         super.onStateReplaced(state, worldIn, pos, newState, isMoving);
     }
 
-    public void updateTick(World worldIn, BlockPos pos, BlockState state, Random rand) {
-        this.checkFall(worldIn, pos);
-    }
-
-    private void checkFall(World worldIn, BlockPos pos) {
-        if (!this.canPlaceBlockAt(worldIn, pos)) {
-            worldIn.breakBlock(pos, true);
-            this.dropPixie(worldIn, pos);
-        }
-    }
-
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
-    }
-
-    private boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-        return true;
     }
 
     public void dropPixie(World world, BlockPos pos) {

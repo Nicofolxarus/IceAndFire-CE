@@ -26,12 +26,12 @@ import net.minecraft.util.math.RotationAxis;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LayerDragonRider extends FeatureRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> {
+public class LayerDragonRider extends FeatureRenderer<EntityDragonBase, TabulaModel<EntityDragonBase>> {
     public static final List<Entity> renderingRiders = new ArrayList<>();
-    private final MobEntityRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> render;
+    private final MobEntityRenderer<EntityDragonBase, TabulaModel<EntityDragonBase>> render;
     private final boolean excludeDreadQueenMob;
 
-    public LayerDragonRider(MobEntityRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> renderIn, boolean excludeDreadQueenMob) {
+    public LayerDragonRider(MobEntityRenderer<EntityDragonBase, TabulaModel<EntityDragonBase>> renderIn, boolean excludeDreadQueenMob) {
         super(renderIn);
         this.render = renderIn;
         this.excludeDreadQueenMob = excludeDreadQueenMob;
@@ -84,14 +84,14 @@ public class LayerDragonRider extends FeatureRenderer<EntityDragonBase, EntityMo
     }
 
     protected void translateToBody(MatrixStack stack) {
-        this.postRender(((TabulaModel) this.render.getModel()).getCube("BodyUpper"), stack);
-        this.postRender(((TabulaModel) this.render.getModel()).getCube("Neck1"), stack);
+        this.postRender(this.render.getModel().getCube("BodyUpper"), stack);
+        this.postRender(this.render.getModel().getCube("Neck1"), stack);
     }
 
     protected void translateToHead(MatrixStack stack) {
-        this.postRender(((TabulaModel) this.render.getModel()).getCube("Neck2"), stack);
-        this.postRender(((TabulaModel) this.render.getModel()).getCube("Neck3"), stack);
-        this.postRender(((TabulaModel) this.render.getModel()).getCube("Head"), stack);
+        this.postRender(this.render.getModel().getCube("Neck2"), stack);
+        this.postRender(this.render.getModel().getCube("Neck3"), stack);
+        this.postRender(this.render.getModel().getCube("Head"), stack);
     }
 
     protected void postRender(AdvancedModelBox renderer, MatrixStack matrixStackIn) {

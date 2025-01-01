@@ -11,7 +11,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 
-public class ModelMyrmexWorker extends ModelMyrmexBase {
+public class ModelMyrmexWorker extends ModelMyrmexBase<EntityMyrmexWorker> {
     public final AdvancedModelBox Body2;
     public final AdvancedModelBox Body3;
     public final AdvancedModelBox Body1;
@@ -276,9 +276,9 @@ public class ModelMyrmexWorker extends ModelMyrmexBase {
 
 
     @Override
-    public void setAngles(Entity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+    public void setAngles(EntityMyrmexWorker entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
         this.resetToDefaultPose();
-        this.animate((IAnimatedEntity) entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch, 1);
+        this.animate(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch, 1);
         AdvancedModelBox[] GASTER = new AdvancedModelBox[]{this.Body4, this.Body5, this.Tail1, this.Tail2, this.Stinger};
         AdvancedModelBox[] NECK = new AdvancedModelBox[]{this.Neck1, this.HeadBase};
         AdvancedModelBox[] LEGR1 = new AdvancedModelBox[]{this.legTopR1, this.legMidR1, this.legBottomR1};

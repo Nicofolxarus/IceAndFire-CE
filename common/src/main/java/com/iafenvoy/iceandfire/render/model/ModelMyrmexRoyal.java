@@ -11,7 +11,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 
-public class ModelMyrmexRoyal extends ModelMyrmexBase {
+public class ModelMyrmexRoyal extends ModelMyrmexBase<EntityMyrmexRoyal> {
     public final AdvancedModelBox Body2;
     public final AdvancedModelBox Body3;
     public final AdvancedModelBox Body1;
@@ -310,8 +310,8 @@ public class ModelMyrmexRoyal extends ModelMyrmexBase {
     }
 
     @Override
-    public void setAngles(Entity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-        this.animate((IAnimatedEntity) entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch, 1);
+    public void setAngles(EntityMyrmexRoyal entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+        this.animate(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch, 1);
         AdvancedModelBox[] GASTER = new AdvancedModelBox[]{this.Body4, this.Body5, this.Tail1, this.Tail2, this.Stinger};
         AdvancedModelBox[] NECK = new AdvancedModelBox[]{this.Neck1, this.HeadBase};
         AdvancedModelBox[] LEGR1 = new AdvancedModelBox[]{this.legTopR1, this.legMidR1, this.legBottomR1};
@@ -335,8 +335,7 @@ public class ModelMyrmexRoyal extends ModelMyrmexBase {
         this.swing(this.MandibleR, speed_idle * 2F, degree_idle * -0.75F, false, 1, 0.2F, animationProgress, 1);
         this.swing(this.MandibleL, speed_idle * 2F, degree_idle * -0.75F, true, 1, 0.2F, animationProgress, 1);
 
-        EntityMyrmexRoyal myrmex = (EntityMyrmexRoyal) entity;
-        if (myrmex.isFlying() && !myrmex.isOnGround()) {
+        if (entity.isFlying() && !entity.isOnGround()) {
             this.chainWave(LEFT_WINGS, speed_fly, degree_fly * 0.75F, 2, animationProgress, 1);
             this.chainWave(RIGHT_WINGS, speed_fly, degree_fly * 0.75F, 2, animationProgress, 1);
             this.bob(this.Body2, speed_fly, degree_fly * 10, false, 0, 0);
@@ -348,36 +347,36 @@ public class ModelMyrmexRoyal extends ModelMyrmexBase {
             this.animateLeg(LEGL3, speed_walk, degree_walk, false, 1, -1, limbAngle, limbDistance);
             this.animateLeg(LEGL2, speed_walk, degree_walk, true, 1, -1, limbAngle, limbDistance);
         }
-        this.progressRotation(this.HeadBase, myrmex.flyProgress, (float) Math.toRadians(52F), 0, 0);
-        this.progressPosition(this.Body2, myrmex.flyProgress, 0, -8, 0);
-        this.progressRotation(this.Body4, myrmex.flyProgress, (float) Math.toRadians(-18F), 0, 0);
-        this.progressRotation(this.Body5, myrmex.flyProgress, (float) Math.toRadians(-2F), 0, 0);
-        this.progressRotation(this.Tail1, myrmex.flyProgress, (float) Math.toRadians(-5F), 0, 0);
-        this.progressRotation(this.Tail2, myrmex.flyProgress, (float) Math.toRadians(-13F), 0, 0);
-        this.progressRotation(this.Stinger, myrmex.flyProgress, (float) Math.toRadians(36F), 0, 0);
-        this.progressRotation(this.legTopR1, myrmex.flyProgress, (float) Math.toRadians(-28F), (float) Math.toRadians(-13F), (float) Math.toRadians(40F));
-        this.progressRotation(this.legTopR1_1, myrmex.flyProgress, (float) Math.toRadians(-28F), (float) Math.toRadians(13F), (float) Math.toRadians(-40F));
-        this.progressRotation(this.legTopR2, myrmex.flyProgress, 0, 0, (float) Math.toRadians(-40F));
-        this.progressRotation(this.legTopR2_1, myrmex.flyProgress, 0, 0, (float) Math.toRadians(40F));
-        this.progressRotation(this.legTopR3, myrmex.flyProgress, (float) Math.toRadians(28F), (float) Math.toRadians(13F), (float) Math.toRadians(44F));
-        this.progressRotation(this.legTopR3_1, myrmex.flyProgress, (float) Math.toRadians(28F), (float) Math.toRadians(-13F), (float) Math.toRadians(-44F));
-        this.progressRotation(this.legMidR1, myrmex.flyProgress, 0, 0, (float) Math.toRadians(-30F));
-        this.progressRotation(this.legMidR2, myrmex.flyProgress, 0, 0, (float) Math.toRadians(30F));
-        this.progressRotation(this.legMidR3, myrmex.flyProgress, 0, 0, (float) Math.toRadians(-30F));
-        this.progressRotation(this.legMidR1_1, myrmex.flyProgress, 0, 0, (float) Math.toRadians(30F));
-        this.progressRotation(this.legMidR2_1, myrmex.flyProgress, 0, 0, (float) Math.toRadians(-30F));
-        this.progressRotation(this.legMidR3_1, myrmex.flyProgress, 0, 0, (float) Math.toRadians(30F));
+        this.progressRotation(this.HeadBase, entity.flyProgress, (float) Math.toRadians(52F), 0, 0);
+        this.progressPosition(this.Body2, entity.flyProgress, 0, -8, 0);
+        this.progressRotation(this.Body4, entity.flyProgress, (float) Math.toRadians(-18F), 0, 0);
+        this.progressRotation(this.Body5, entity.flyProgress, (float) Math.toRadians(-2F), 0, 0);
+        this.progressRotation(this.Tail1, entity.flyProgress, (float) Math.toRadians(-5F), 0, 0);
+        this.progressRotation(this.Tail2, entity.flyProgress, (float) Math.toRadians(-13F), 0, 0);
+        this.progressRotation(this.Stinger, entity.flyProgress, (float) Math.toRadians(36F), 0, 0);
+        this.progressRotation(this.legTopR1, entity.flyProgress, (float) Math.toRadians(-28F), (float) Math.toRadians(-13F), (float) Math.toRadians(40F));
+        this.progressRotation(this.legTopR1_1, entity.flyProgress, (float) Math.toRadians(-28F), (float) Math.toRadians(13F), (float) Math.toRadians(-40F));
+        this.progressRotation(this.legTopR2, entity.flyProgress, 0, 0, (float) Math.toRadians(-40F));
+        this.progressRotation(this.legTopR2_1, entity.flyProgress, 0, 0, (float) Math.toRadians(40F));
+        this.progressRotation(this.legTopR3, entity.flyProgress, (float) Math.toRadians(28F), (float) Math.toRadians(13F), (float) Math.toRadians(44F));
+        this.progressRotation(this.legTopR3_1, entity.flyProgress, (float) Math.toRadians(28F), (float) Math.toRadians(-13F), (float) Math.toRadians(-44F));
+        this.progressRotation(this.legMidR1, entity.flyProgress, 0, 0, (float) Math.toRadians(-30F));
+        this.progressRotation(this.legMidR2, entity.flyProgress, 0, 0, (float) Math.toRadians(30F));
+        this.progressRotation(this.legMidR3, entity.flyProgress, 0, 0, (float) Math.toRadians(-30F));
+        this.progressRotation(this.legMidR1_1, entity.flyProgress, 0, 0, (float) Math.toRadians(30F));
+        this.progressRotation(this.legMidR2_1, entity.flyProgress, 0, 0, (float) Math.toRadians(-30F));
+        this.progressRotation(this.legMidR3_1, entity.flyProgress, 0, 0, (float) Math.toRadians(30F));
 
-        this.progressRotation(this.legBottomR1, myrmex.flyProgress, 0, 0, (float) Math.toRadians(-15F));
-        this.progressRotation(this.legBottomR2, myrmex.flyProgress, 0, 0, (float) Math.toRadians(15F));
-        this.progressRotation(this.legBottomR3, myrmex.flyProgress, 0, 0, (float) Math.toRadians(-15F));
-        this.progressRotation(this.legBottomR1_1, myrmex.flyProgress, 0, 0, (float) Math.toRadians(15F));
-        this.progressRotation(this.legBottomR2_1, myrmex.flyProgress, 0, 0, (float) Math.toRadians(-15F));
-        this.progressRotation(this.legBottomR3_1, myrmex.flyProgress, 0, 0, (float) Math.toRadians(15F));
-        this.progressRotation(this.wingL, myrmex.flyProgress, (float) Math.toRadians(6F), (float) Math.toRadians(60F), (float) Math.toRadians(-12F));
-        this.progressRotation(this.wingR, myrmex.flyProgress, (float) Math.toRadians(6F), (float) Math.toRadians(-60F), (float) Math.toRadians(12F));
-        this.progressRotation(this.wingR2, myrmex.flyProgress, 0, (float) Math.toRadians(40F), (float) Math.toRadians(12F));
-        this.progressRotation(this.wingL2, myrmex.flyProgress, 0, (float) Math.toRadians(-40F), (float) Math.toRadians(-12F));
+        this.progressRotation(this.legBottomR1, entity.flyProgress, 0, 0, (float) Math.toRadians(-15F));
+        this.progressRotation(this.legBottomR2, entity.flyProgress, 0, 0, (float) Math.toRadians(15F));
+        this.progressRotation(this.legBottomR3, entity.flyProgress, 0, 0, (float) Math.toRadians(-15F));
+        this.progressRotation(this.legBottomR1_1, entity.flyProgress, 0, 0, (float) Math.toRadians(15F));
+        this.progressRotation(this.legBottomR2_1, entity.flyProgress, 0, 0, (float) Math.toRadians(-15F));
+        this.progressRotation(this.legBottomR3_1, entity.flyProgress, 0, 0, (float) Math.toRadians(15F));
+        this.progressRotation(this.wingL, entity.flyProgress, (float) Math.toRadians(6F), (float) Math.toRadians(60F), (float) Math.toRadians(-12F));
+        this.progressRotation(this.wingR, entity.flyProgress, (float) Math.toRadians(6F), (float) Math.toRadians(-60F), (float) Math.toRadians(12F));
+        this.progressRotation(this.wingR2, entity.flyProgress, 0, (float) Math.toRadians(40F), (float) Math.toRadians(12F));
+        this.progressRotation(this.wingL2, entity.flyProgress, 0, (float) Math.toRadians(-40F), (float) Math.toRadians(-12F));
 
     }
 

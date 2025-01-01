@@ -14,14 +14,13 @@ public class EntitySeaSerpentArrow extends PersistentProjectileEntity {
         this.setDamage(3F);
     }
 
-    public EntitySeaSerpentArrow(EntityType<? extends PersistentProjectileEntity> t, World worldIn, double x, double y,
-                                 double z) {
+    public EntitySeaSerpentArrow(EntityType<? extends PersistentProjectileEntity> t, World worldIn, double x, double y, double z) {
         this(t, worldIn);
         this.setPosition(x, y, z);
         this.setDamage(3F);
     }
 
-    public EntitySeaSerpentArrow(EntityType t, World worldIn, LivingEntity shooter) {
+    public EntitySeaSerpentArrow(EntityType<? extends PersistentProjectileEntity> t, World worldIn, LivingEntity shooter) {
         super(t, shooter, worldIn);
         this.setDamage(3F);
     }

@@ -75,8 +75,4 @@ public class BlockMyrmexConnectedResin extends TransparentBlock {
     public boolean canFenceConnectTo(BlockState state, boolean isSideSolid, Direction direction) {
         return state.getBlock() == this;
     }
-
-    public boolean isOpaqueCube(BlockState state) {
-        return false;
-    }
 }

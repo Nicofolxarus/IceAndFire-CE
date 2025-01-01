@@ -17,7 +17,7 @@ public class DragonForgeScreenHandler extends ScreenHandler {
     protected final World world;
     private final Inventory tileFurnace;
     private final DragonForgePropertyDelegate propertyDelegate;
-    public int fireType;
+    public final int fireType;
 
     public DragonForgeScreenHandler(int i, PlayerInventory playerInventory) {
         this(i, new SimpleInventory(3), playerInventory, new DragonForgePropertyDelegate());

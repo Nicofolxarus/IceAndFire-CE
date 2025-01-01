@@ -16,12 +16,11 @@ public class EntityDragonFireCharge extends EntityDragonCharge {
         super(type, worldIn);
     }
 
-    public EntityDragonFireCharge(EntityType<? extends AbstractFireballEntity> type, World worldIn, double posX,
-                                  double posY, double posZ, double accelX, double accelY, double accelZ) {
+    public EntityDragonFireCharge(EntityType<? extends AbstractFireballEntity> type, World worldIn, double posX, double posY, double posZ, double accelX, double accelY, double accelZ) {
         super(type, worldIn, posX, posY, posZ, accelX, accelY, accelZ);
     }
 
-    public EntityDragonFireCharge(EntityType type, World worldIn, EntityDragonBase shooter, double accelX, double accelY, double accelZ) {
+    public EntityDragonFireCharge(EntityType<? extends AbstractFireballEntity> type, World worldIn, EntityDragonBase shooter, double accelX, double accelY, double accelZ) {
         super(type, worldIn, shooter, accelX, accelY, accelZ);
     }
 

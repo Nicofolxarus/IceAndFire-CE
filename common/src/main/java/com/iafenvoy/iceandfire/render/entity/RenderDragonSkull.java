@@ -1,6 +1,7 @@
 package com.iafenvoy.iceandfire.render.entity;
 
 import com.iafenvoy.iceandfire.data.DragonType;
+import com.iafenvoy.iceandfire.entity.EntityDragonBase;
 import com.iafenvoy.iceandfire.entity.EntityDragonSkull;
 import com.iafenvoy.iceandfire.registry.IafRenderers;
 import com.iafenvoy.iceandfire.render.model.animator.FireDragonTabulaModelAnimator;
@@ -26,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RenderDragonSkull extends EntityRenderer<EntityDragonSkull> {
-    public static final Map<DragonType, Pair<Identifier, MemorizeSupplier<ITabulaModelAnimator<?>>>> MODELS = new HashMap<>();
+    public static final Map<DragonType, Pair<Identifier, MemorizeSupplier<ITabulaModelAnimator<EntityDragonBase>>>> MODELS = new HashMap<>();
     public static final float[] growth_stage_1 = new float[]{1F, 3F};
     public static final float[] growth_stage_2 = new float[]{3F, 7F};
     public static final float[] growth_stage_3 = new float[]{7F, 12.5F};
@@ -54,8 +55,8 @@ public class RenderDragonSkull extends EntityRenderer<EntityDragonSkull> {
 
     @Override
     public void render(EntityDragonSkull entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn) {
-        Pair<Identifier, MemorizeSupplier<ITabulaModelAnimator<?>>> p = MODELS.get(DragonType.getTypeById(entity.getDragonType()));
-        TabulaModel model = TabulaModelHandlerHelper.getModel(p.getFirst(), p.getSecond()::get);
+        Pair<Identifier, MemorizeSupplier<ITabulaModelAnimator<EntityDragonBase>>> p = MODELS.get(DragonType.getTypeById(entity.getDragonType()));
+        TabulaModel<EntityDragonBase> model = TabulaModelHandlerHelper.getModel(p.getFirst(), p.getSecond());
         if (model == null) return;
         VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderLayer.getEntityTranslucent(this.getTexture(entity)));
         matrixStackIn.push();

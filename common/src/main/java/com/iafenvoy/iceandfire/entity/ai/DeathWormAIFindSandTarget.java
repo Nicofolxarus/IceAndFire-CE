@@ -1,12 +1,10 @@
 package com.iafenvoy.iceandfire.entity.ai;
 
 import com.iafenvoy.iceandfire.entity.EntityDeathWorm;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,15 +54,21 @@ public class DeathWormAIFindSandTarget extends Goal {
                 this.range = 25;
                 for (int x = this.mob.getWormHome().getX() - this.range; x < this.mob.getWormHome().getX() + this.range; x++)
                     for (int y = this.mob.getWormHome().getY() - this.range; y < this.mob.getWormHome().getY() + this.range; y++)
-                        for (int z = this.mob.getWormHome().getZ() - this.range; z < this.mob.getWormHome().getZ() + this.range; z++)
-                            if (this.mob.getWorld().getBlockState(new BlockPos(x, y, z)).isIn(BlockTags.SAND) && this.isDirectPathBetweenPoints(this.mob, this.mob.getPos(), new Vec3d(x, y, z)))
-                                sand.add(new BlockPos(x, y, z));
+                        for (int z = this.mob.getWormHome().getZ() - this.range; z < this.mob.getWormHome().getZ() + this.range; z++) {
+                            if (this.mob.getWorld().getBlockState(new BlockPos(x, y, z)).isIn(BlockTags.SAND)) {
+                                this.mob.getPos();
+                                if (true) sand.add(new BlockPos(x, y, z));
+                            }
+                        }
             } else
                 for (int x = (int) this.mob.getX() - this.range; x < (int) this.mob.getX() + this.range; x++)
                     for (int y = (int) this.mob.getY() - this.range; y < (int) this.mob.getY() + this.range; y++)
-                        for (int z = (int) this.mob.getZ() - this.range; z < (int) this.mob.getZ() + this.range; z++)
-                            if (this.mob.getWorld().getBlockState(new BlockPos(x, y, z)).isIn(BlockTags.SAND) && this.isDirectPathBetweenPoints(this.mob, this.mob.getPos(), new Vec3d(x, y, z)))
-                                sand.add(new BlockPos(x, y, z));
+                        for (int z = (int) this.mob.getZ() - this.range; z < (int) this.mob.getZ() + this.range; z++) {
+                            if (this.mob.getWorld().getBlockState(new BlockPos(x, y, z)).isIn(BlockTags.SAND)) {
+                                this.mob.getPos();
+                                if (true) sand.add(new BlockPos(x, y, z));
+                            }
+                        }
 
             if (!sand.isEmpty()) return sand.get(this.mob.getRandom().nextInt(sand.size()));
         } else {
@@ -72,9 +76,5 @@ public class DeathWormAIFindSandTarget extends Goal {
             return new BlockPos(blockpos1.getX(), blockpos1.getY() - 1, blockpos1.getZ());
         }
         return null;
-    }
-
-    public boolean isDirectPathBetweenPoints(Entity entity, Vec3d vec1, Vec3d vec2) {
-        return true;
     }
 }

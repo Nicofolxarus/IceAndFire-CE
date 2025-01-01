@@ -30,7 +30,7 @@ public class EntityHydraArrow extends PersistentProjectileEntity {
     }
 
 
-    public EntityHydraArrow(EntityType t, World worldIn, LivingEntity shooter) {
+    public EntityHydraArrow(EntityType<? extends EntityHydraArrow> t, World worldIn, LivingEntity shooter) {
         super(t, shooter, worldIn);
         this.setDamage(5F);
     }

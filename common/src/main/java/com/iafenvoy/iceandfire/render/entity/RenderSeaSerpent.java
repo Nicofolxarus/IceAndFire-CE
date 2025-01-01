@@ -10,7 +10,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class RenderSeaSerpent extends MobEntityRenderer<EntitySeaSerpent, AdvancedEntityModel<EntitySeaSerpent>> {
-    public RenderSeaSerpent(EntityRendererFactory.Context context, AdvancedEntityModel model) {
+    public RenderSeaSerpent(EntityRendererFactory.Context context, AdvancedEntityModel<EntitySeaSerpent> model) {
         super(context, model, 1.6F);
         this.features.add(new LayerSeaSerpentAncient(this));
     }

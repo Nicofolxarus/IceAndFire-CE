@@ -31,7 +31,7 @@ public class EntityDreadQueen extends EntityDreadMob implements IAnimatedEntity,
     private int animationTick;
     private Animation currentAnimation;
 
-    public EntityDreadQueen(EntityType t, World worldIn) {
+    public EntityDreadQueen(EntityType<? extends EntityDreadQueen> t, World worldIn) {
         super(t, worldIn);
     }
 

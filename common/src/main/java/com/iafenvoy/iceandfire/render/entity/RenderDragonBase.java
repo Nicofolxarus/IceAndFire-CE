@@ -6,13 +6,12 @@ import com.iafenvoy.iceandfire.render.entity.layer.*;
 import com.iafenvoy.uranus.client.model.TabulaModel;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 
-public class RenderDragonBase extends MobEntityRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> {
-    public RenderDragonBase(EntityRendererFactory.Context context, TabulaModel model, int dragonType) {
+public class RenderDragonBase extends MobEntityRenderer<EntityDragonBase, TabulaModel<EntityDragonBase>> {
+    public RenderDragonBase(EntityRendererFactory.Context context, TabulaModel<EntityDragonBase> model, int dragonType) {
         super(context, model, 0.15F);
         this.addFeature(new LayerDragonMaleOverlay(this));
         this.addFeature(new LayerDragonEyes(this));

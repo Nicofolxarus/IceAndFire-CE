@@ -40,6 +40,7 @@ import net.minecraft.world.World;
 
 import java.util.EnumSet;
 
+@SuppressWarnings("ALL")
 public class EntityMyrmexRoyal extends EntityMyrmexBase {
     public static final Animation ANIMATION_BITE = Animation.create(15);
     public static final Animation ANIMATION_STING = Animation.create(15);
@@ -58,7 +59,7 @@ public class EntityMyrmexRoyal extends EntityMyrmexBase {
     private boolean isLandNavigator;
     private boolean isMating = false;
 
-    public EntityMyrmexRoyal(EntityType<EntityMyrmexRoyal> t, World worldIn) {
+    public EntityMyrmexRoyal(EntityType<? extends EntityMyrmexRoyal> t, World worldIn) {
         super(t, worldIn);
         this.switchNavigator(true);
     }

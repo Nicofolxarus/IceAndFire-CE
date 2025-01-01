@@ -49,7 +49,7 @@ public class EntityDreadKnight extends EntityDreadMob implements IAnimatedEntity
     private int animationTick;
     private Animation currentAnimation;
 
-    public EntityDreadKnight(EntityType type, World worldIn) {
+    public EntityDreadKnight(EntityType<? extends EntityDreadKnight> type, World worldIn) {
         super(type, worldIn);
     }
 

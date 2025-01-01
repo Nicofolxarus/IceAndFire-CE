@@ -4,15 +4,11 @@ import com.iafenvoy.iceandfire.entity.EntityMyrmexBase;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.player.PlayerEntity;
 
-import java.util.function.Predicate;
-
-public class MyrmexAIAttackPlayers extends ActiveTargetGoal {
+public class MyrmexAIAttackPlayers extends ActiveTargetGoal<PlayerEntity> {
     private final EntityMyrmexBase myrmex;
 
-    @SuppressWarnings("unchecked")
     public MyrmexAIAttackPlayers(EntityMyrmexBase myrmex) {
-        super(myrmex, PlayerEntity.class, 10, true, true, (Predicate<PlayerEntity>) entity -> entity != null && (myrmex.getHive() == null
-                || myrmex.getHive().isPlayerReputationLowEnoughToFight(entity.getUuid())));
+        super(myrmex, PlayerEntity.class, 10, true, true, entity -> entity != null && (myrmex.getHive() == null || myrmex.getHive().isPlayerReputationLowEnoughToFight(entity.getUuid())));
         this.myrmex = myrmex;
     }
 

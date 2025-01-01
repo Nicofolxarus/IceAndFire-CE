@@ -24,7 +24,7 @@ public class LakeFeatureMixin {
         if (!(context.getWorld() instanceof ChunkRegion))
             return;
         Registry<Structure> configuredStructureFeatureRegistry = context.getWorld().getRegistryManager().get(RegistryKeys.STRUCTURE);
-        StructureAccessor structureManager = (context.getWorld()).toServerWorld().getStructureAccessor();
+        StructureAccessor structureManager = context.getWorld().toServerWorld().getStructureAccessor();
         var availableStructures = List.of(configuredStructureFeatureRegistry.getOrEmpty(IafStructures.MAUSOLEUM), configuredStructureFeatureRegistry.getOrEmpty(IafStructures.GRAVEYARD), configuredStructureFeatureRegistry.getOrEmpty(IafStructures.GORGON_TEMPLE));
         for (var structure : availableStructures)
             if (structure.isPresent() && structureManager.getStructureAt(context.getOrigin(), structure.get()).hasChildren()) {

@@ -100,6 +100,7 @@ public class RenderHippocampus extends MobEntityRenderer<EntityHippocampus, Mode
 
         @Override
         public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn, EntityHippocampus hippo, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+            assert hippo.getCustomName() != null;
             if (hippo.hasCustomName() && hippo.getCustomName().toString().toLowerCase(Locale.ROOT).contains("rainbow")) {
                 VertexConsumer ivertexbuilder = bufferIn.getBuffer(hippo.isBlinking() ? this.TEXTURE_BLINK : this.TEXTURE);
                 int i = hippo.age / 25 + hippo.getId();

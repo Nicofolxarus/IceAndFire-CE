@@ -9,7 +9,7 @@ import com.iafenvoy.uranus.client.model.util.TabulaModelHandlerHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 
-public class SeaSerpentTabulaModelAnimator extends IceAndFireTabulaModelAnimator implements ITabulaModelAnimator<EntitySeaSerpent> {
+public class SeaSerpentTabulaModelAnimator extends IceAndFireTabulaModelAnimator<EntitySeaSerpent> implements ITabulaModelAnimator<EntitySeaSerpent> {
     public final EnumSeaSerpentAnimations[] swimPose = {EnumSeaSerpentAnimations.SWIM1, EnumSeaSerpentAnimations.SWIM3, EnumSeaSerpentAnimations.SWIM4, EnumSeaSerpentAnimations.SWIM6};
 
     public SeaSerpentTabulaModelAnimator() {
@@ -17,7 +17,7 @@ public class SeaSerpentTabulaModelAnimator extends IceAndFireTabulaModelAnimator
     }
 
     @Override
-    public void setRotationAngles(TabulaModel model, EntitySeaSerpent entity, float limbSwing, float limbSwingAmount, float ageInTicks, float rotationYaw, float rotationPitch, float scale) {
+    public void setRotationAngles(TabulaModel<EntitySeaSerpent> model, EntitySeaSerpent entity, float limbSwing, float limbSwingAmount, float ageInTicks, float rotationYaw, float rotationPitch, float scale) {
         model.resetToDefaultPose();
         model.getCube("BodyUpper").rotationPointY += 9;//model was made too high
         model.animator.update(entity);
@@ -25,8 +25,8 @@ public class SeaSerpentTabulaModelAnimator extends IceAndFireTabulaModelAnimator
         int currentIndex = entity.swimCycle / 10;
         int prevIndex = currentIndex - 1;
         if (prevIndex < 0) prevIndex = 3;
-        TabulaModel prevPosition = resolve(this.swimPose[prevIndex].getModelId());
-        TabulaModel currentPosition = resolve(this.swimPose[currentIndex].getModelId());
+        TabulaModel<EntitySeaSerpent> prevPosition = resolve(this.swimPose[prevIndex].getModelId());
+        TabulaModel<EntitySeaSerpent> currentPosition = resolve(this.swimPose[currentIndex].getModelId());
         float partialTicks = MinecraftClient.getInstance().getTickDelta();
         float delta = ((entity.swimCycle) / 10.0F) % 1.0F + (partialTicks / 10.0F);
         // AdvancedModelBox[] tailParts = {model.getCube("Tail1"), model.getCube("Tail2"), model.getCube("Tail3"), model.getCube("Tail4"), model.getCube("Tail5"), model.getCube("Tail6")};
@@ -85,7 +85,7 @@ public class SeaSerpentTabulaModelAnimator extends IceAndFireTabulaModelAnimator
         model.rotateAngleZ += progress * (rotZ - model.defaultRotationZ) / 20.0F;
     }
 
-    private void animate(TabulaModel model, EntitySeaSerpent entity, float limbSwing, float limbSwingAmount, float ageInTicks, float rotationYaw, float rotationPitch, float scale) {
+    private void animate(TabulaModel<EntitySeaSerpent> model, EntitySeaSerpent entity, float limbSwing, float limbSwingAmount, float ageInTicks, float rotationYaw, float rotationPitch, float scale) {
         if (model.animator.setAnimation(EntitySeaSerpent.ANIMATION_SPEAK)) {
             model.animator.startKeyframe(5);
             this.rotate(model.animator, model.getCube("Jaw"), 25, 0, 0);
@@ -117,7 +117,7 @@ public class SeaSerpentTabulaModelAnimator extends IceAndFireTabulaModelAnimator
         }
     }
 
-    private static TabulaModel resolve(Identifier id) {
+    private static TabulaModel<EntitySeaSerpent> resolve(Identifier id) {
         return TabulaModelHandlerHelper.getModel(id);
     }
 }

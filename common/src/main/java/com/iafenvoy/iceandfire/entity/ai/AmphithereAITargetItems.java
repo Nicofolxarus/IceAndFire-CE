@@ -27,10 +27,10 @@ public class AmphithereAITargetItems<T extends ItemEntity> extends TrackTargetGo
     }
 
     public AmphithereAITargetItems(MobEntity creature, boolean checkSight, boolean onlyNearby) {
-        this(creature, 20, checkSight, onlyNearby, null);
+        this(creature, 20, checkSight, onlyNearby);
     }
 
-    public AmphithereAITargetItems(MobEntity creature, int chance, boolean checkSight, boolean onlyNearby, final Predicate<? super T> targetSelector) {
+    public AmphithereAITargetItems(MobEntity creature, int chance, boolean checkSight, boolean onlyNearby) {
         super(creature, checkSight, onlyNearby);
         this.theNearestAttackableTargetSorter = new DragonAITargetItems.Sorter(creature);
         this.targetChance = chance;

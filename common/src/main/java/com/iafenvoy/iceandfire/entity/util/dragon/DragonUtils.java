@@ -16,6 +16,7 @@ import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.registry.tag.TagKey;
@@ -261,7 +262,7 @@ public class DragonUtils {
     }
 
     public static boolean isVillager(Entity entity) {
-        return false;
+        return entity instanceof VillagerEntity;
     }
 
     public static boolean isAnimaniaMob(Entity entity) {

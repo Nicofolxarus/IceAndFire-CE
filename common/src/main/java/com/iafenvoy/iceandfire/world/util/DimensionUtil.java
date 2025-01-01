@@ -7,8 +7,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.TeleportTarget;
 
 public class DimensionUtil {
-    @SuppressWarnings("unchecked")
-    public static <E extends Entity> E changeDimension(E teleported, ServerWorld dimension, TeleportTarget target) {
+    public static <E extends Entity> void changeDimension(E teleported, ServerWorld dimension, TeleportTarget target) {
         Preconditions.checkArgument(!teleported.getWorld().isClient, "Entities can only be teleported on the server side");
         Preconditions.checkArgument(Thread.currentThread() == ((ServerWorld) teleported.getWorld()).getServer().getThread(), "Entities must be teleported from the main server thread");
 
@@ -23,9 +22,9 @@ public class DimensionUtil {
                     teleported.refreshPositionAndAngles(target.position.x, target.position.y, target.position.z, target.yaw, teleported.getPitch());
                 teleported.setVelocity(target.velocity);
                 teleported.setHeadYaw(target.yaw);
-                return teleported;
+                return;
             }
-            return (E) teleported.moveToWorld(dimension);
+            teleported.moveToWorld(dimension);
         } finally {
             ((Teleportable) teleported).iceandfire$setCustomTeleportTarget(null);
         }

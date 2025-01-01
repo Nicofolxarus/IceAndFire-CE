@@ -14,7 +14,6 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
-import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
@@ -22,12 +21,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class LayerDragonEyes extends FeatureRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> {
-    private TabulaModel fireHead;
-    private TabulaModel iceHead;
-    private TabulaModel lightningHead;
+public class LayerDragonEyes extends FeatureRenderer<EntityDragonBase, TabulaModel<EntityDragonBase>> {
+    private TabulaModel<EntityDragonBase> fireHead;
+    private TabulaModel<EntityDragonBase> iceHead;
+    private TabulaModel<EntityDragonBase> lightningHead;
 
-    public LayerDragonEyes(MobEntityRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> renderIn) {
+    public LayerDragonEyes(MobEntityRenderer<EntityDragonBase, TabulaModel<EntityDragonBase>> renderIn) {
         super(renderIn);
         try {
             this.fireHead = this.onlyKeepCubes(TabulaModelHandlerHelper.getModel(Identifier.of(IceAndFire.MOD_ID, "firedragon/firedragon_ground"), null), Collections.singletonList("HeadFront"));
@@ -44,13 +43,13 @@ public class LayerDragonEyes extends FeatureRenderer<EntityDragonBase, EntityMod
             RenderLayer eyes = RenderLayer.getEyes(DragonColor.getById(dragon.getVariant()).getEyesTexture(dragon.getDragonStage()));
             VertexConsumer ivertexbuilder = bufferIn.getBuffer(eyes);
             if (dragon instanceof EntityLightningDragon && this.lightningHead != null) {
-                this.copyPositions(this.lightningHead, (TabulaModel) this.getContextModel());
+                this.copyPositions(this.lightningHead, this.getContextModel());
                 this.lightningHead.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
             } else if (dragon instanceof EntityIceDragon && this.iceHead != null) {
-                this.copyPositions(this.iceHead, (TabulaModel) this.getContextModel());
+                this.copyPositions(this.iceHead, this.getContextModel());
                 this.iceHead.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
             } else if (this.fireHead != null) {
-                this.copyPositions(this.fireHead, (TabulaModel) this.getContextModel());
+                this.copyPositions(this.fireHead, this.getContextModel());
                 this.fireHead.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
             }
             //Fallback method
@@ -67,7 +66,7 @@ public class LayerDragonEyes extends FeatureRenderer<EntityDragonBase, EntityMod
     //TODO: do this with hideable/visble/showModel stuff instead
     //Removes all cubes except the cube names specified by the string list and their parents
     //We need to keep the parents to correctly render the head position
-    private TabulaModel onlyKeepCubes(TabulaModel model, List<String> strings) {
+    private TabulaModel<EntityDragonBase> onlyKeepCubes(TabulaModel<EntityDragonBase> model, List<String> strings) {
         List<AdvancedModelBox> keepCubes = new ArrayList<>();
         for (String str : strings) {
             AdvancedModelBox cube = model.getCube(str);
@@ -82,7 +81,7 @@ public class LayerDragonEyes extends FeatureRenderer<EntityDragonBase, EntityMod
         return model;
     }
 
-    private void removeChildren(TabulaModel model, List<AdvancedModelBox> keepCubes) {
+    private void removeChildren(TabulaModel<EntityDragonBase> model, List<AdvancedModelBox> keepCubes) {
         model.getRootBox().forEach(modelRenderer -> {
             modelRenderer.childModels.removeIf(child -> !keepCubes.contains(child));
             modelRenderer.childModels.forEach(childModel -> this.removeChildren((AdvancedModelBox) childModel, keepCubes));
@@ -102,7 +101,7 @@ public class LayerDragonEyes extends FeatureRenderer<EntityDragonBase, EntityMod
         return pose.rotationPointX == original.rotationPointX && pose.rotationPointY == original.rotationPointY && pose.rotationPointZ == original.rotationPointZ;
     }
 
-    public void copyPositions(TabulaModel model, TabulaModel modelTo) {
+    public void copyPositions(TabulaModel<EntityDragonBase> model, TabulaModel<EntityDragonBase> modelTo) {
         for (AdvancedModelBox cube : model.getCubes().values()) {
             AdvancedModelBox modelToCube = modelTo.getCube(cube.boxName);
             if (!this.isAngleEqual(cube, modelToCube)) {

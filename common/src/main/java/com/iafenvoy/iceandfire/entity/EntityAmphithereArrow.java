@@ -22,7 +22,7 @@ public class EntityAmphithereArrow extends PersistentProjectileEntity {
         this.setDamage(2.5F);
     }
 
-    public EntityAmphithereArrow(EntityType type, LivingEntity shooter, World worldIn) {
+    public EntityAmphithereArrow(EntityType<? extends PersistentProjectileEntity> type, LivingEntity shooter, World worldIn) {
         super(type, shooter, worldIn);
         this.setDamage(2.5F);
     }

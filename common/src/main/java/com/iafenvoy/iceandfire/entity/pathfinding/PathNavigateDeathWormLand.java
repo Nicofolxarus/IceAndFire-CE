@@ -115,6 +115,7 @@ public class PathNavigateDeathWormLand extends EntityNavigation {
                 return;
             }
 
+            assert this.currentPath != null;
             for (int i = 0; i < this.currentPath.getLength(); ++i) {
                 PathNode pathpoint = this.currentPath.getNode(i);
 

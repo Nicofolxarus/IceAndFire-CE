@@ -12,7 +12,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
-public class ModelMyrmexQueen extends ModelMyrmexBase {
+public class ModelMyrmexQueen extends ModelMyrmexBase<EntityMyrmexQueen> {
     public final AdvancedModelBox Body2;
     public final AdvancedModelBox Body3;
     public final AdvancedModelBox Body1;
@@ -353,8 +353,8 @@ public class ModelMyrmexQueen extends ModelMyrmexBase {
     }
 
     @Override
-    public void setAngles(Entity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-        this.animate((IAnimatedEntity) entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch, 1);
+    public void setAngles(EntityMyrmexQueen entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+        this.animate(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch, 1);
         this.Body5.setScale(1.0F, 1.0F, 1.0F);
         this.Tail1.setScale(1.0F, 1.0F, 1.0F);
         this.Tail2.setScale(1.0F, 1.0F, 1.0F);
@@ -374,14 +374,13 @@ public class ModelMyrmexQueen extends ModelMyrmexBase {
         float gasterSwell1 = -0.05F + (0.2F * Math.abs(MathHelper.sin(entity.age * 0.15F + 1.0F)));
         float gasterSwell2 = -0.05F + (0.2F * Math.abs(MathHelper.sin(entity.age * 0.15F + 0.5F)));
         float gasterSwell3 = -0.05F + (0.2F * Math.abs(MathHelper.sin(entity.age * 0.15F)));
-        EntityMyrmexQueen myrmexQueen = (EntityMyrmexQueen) entity;
-        if (myrmexQueen.getAnimation() != EntityMyrmexQueen.ANIMATION_EGG) {
+        if (entity.getAnimation() != EntityMyrmexQueen.ANIMATION_EGG) {
             this.increaseScale(this.Tail1, gasterSwell1);
             this.increaseScale(this.Tail2, gasterSwell2);
             this.increaseScale(this.Tail3, gasterSwell3);
             this.Stinger.rotationPointZ += 20 * gasterSwell3;
         }
-        if (myrmexQueen.getAnimation() == EntityMyrmexQueen.ANIMATION_DIGNEST) {
+        if (entity.getAnimation() == EntityMyrmexQueen.ANIMATION_DIGNEST) {
             this.animateLeg(LEGR1, speed_walk * 0.5F, degree_walk * 0.5F, false, 0, 1, animationProgress, 1);
             this.animateLeg(LEGR3, speed_walk * 0.5F, degree_walk * 0.5F, false, 0, 1, animationProgress, 1);
             this.animateLeg(LEGR2, speed_walk * 0.5F, degree_walk * 0.5F, true, 0, 1, animationProgress, 1);

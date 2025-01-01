@@ -101,10 +101,6 @@ public class EntitySeaSerpentBubbles extends AbstractFireballEntity implements I
         }
     }
 
-    public boolean handleWaterMovement() {
-        return true;
-    }
-
     @Override
     protected ParticleEffect getParticleType() {
         return ParticleTypes.BUBBLE;

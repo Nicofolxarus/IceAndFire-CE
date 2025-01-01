@@ -44,6 +44,7 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
+@SuppressWarnings("ALL")
 public class EntityGhost extends HostileEntity implements IAnimatedEntity, IVillagerFear, IAnimalFear, IHumanoid, IBlacklistedFromStatues, IHasCustomizableAttributes {
     private static final TrackedData<Integer> COLOR = DataTracker.registerData(EntityGhost.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Boolean> CHARGING = DataTracker.registerData(EntityGhost.class, TrackedDataHandlerRegistry.BOOLEAN);

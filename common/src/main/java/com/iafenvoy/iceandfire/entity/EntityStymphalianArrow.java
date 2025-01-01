@@ -21,7 +21,7 @@ public class EntityStymphalianArrow extends PersistentProjectileEntity {
         this.setDamage(3.5F);
     }
 
-    public EntityStymphalianArrow(EntityType t, World worldIn, LivingEntity shooter) {
+    public EntityStymphalianArrow(EntityType<? extends PersistentProjectileEntity> t, World worldIn, LivingEntity shooter) {
         super(t, shooter, worldIn);
         this.setDamage(3.5F);
     }

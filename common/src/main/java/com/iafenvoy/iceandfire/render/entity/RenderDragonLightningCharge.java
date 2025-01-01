@@ -27,6 +27,7 @@ public class RenderDragonLightningCharge extends EntityRenderer<EntityDragonLigh
         float f = (float) entity.age + partialTicks;
         float yaw = entity.prevYaw + (entity.getYaw() - entity.prevYaw) * partialTicks;
         VertexConsumer ivertexbuilder2 = bufferIn.getBuffer(RenderLayer.getEyes(TEXTURE_CORE));
+        assert TEXTURE != null;
         VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderLayer.getEnergySwirl(TEXTURE, f * 0.01F, f * 0.01F));
 
         matrixStackIn.push();

@@ -77,10 +77,6 @@ public class ParticleBlood extends SpriteBillboardParticle {
         return 240;
     }
 
-    public int getFXLayer() {
-        return 3;
-    }
-
     @Override
     public ParticleTextureSheet getType() {
         return ParticleTextureSheet.CUSTOM;

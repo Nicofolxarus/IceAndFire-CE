@@ -47,7 +47,7 @@ public class EntityDreadThrall extends EntityDreadMob implements IAnimatedEntity
     private int animationTick;
     private Animation currentAnimation;
 
-    public EntityDreadThrall(EntityType type, World worldIn) {
+    public EntityDreadThrall(EntityType<? extends EntityDreadThrall> type, World worldIn) {
         super(type, worldIn);
     }
 

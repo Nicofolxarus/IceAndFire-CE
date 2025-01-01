@@ -7,7 +7,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShieldItem;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 
@@ -47,12 +46,8 @@ public class EntityStymphalianFeather extends PersistentProjectileEntity {
         Entity shootingEntity = this.getOwner();
         if (!(shootingEntity instanceof EntityStymphalianBird) || entityHit.getEntity() == null || !(entityHit.getEntity() instanceof EntityStymphalianBird)) {
             super.onEntityHit(entityHit);
-            if (entityHit.getEntity() != null && entityHit.getEntity() instanceof EntityStymphalianBird LivingEntity) {
-                LivingEntity.setStuckArrowCount(LivingEntity.getStuckArrowCount() - 1);
-                ItemStack itemstack1 = LivingEntity.isUsingItem() ? LivingEntity.getActiveItem() : ItemStack.EMPTY;
-                if (itemstack1.getItem() instanceof ShieldItem) {
-                }
-            }
+            if (entityHit.getEntity() != null && entityHit.getEntity() instanceof EntityStymphalianBird bird)
+                bird.setStuckArrowCount(bird.getStuckArrowCount() - 1);
         }
     }
 

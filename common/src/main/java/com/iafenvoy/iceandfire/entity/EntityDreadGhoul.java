@@ -46,7 +46,7 @@ public class EntityDreadGhoul extends EntityDreadMob implements IAnimatedEntity,
     private float firstWidth = 1.0F;
     private float firstHeight = 1.0F;
 
-    public EntityDreadGhoul(EntityType type, World worldIn) {
+    public EntityDreadGhoul(EntityType<? extends EntityDreadGhoul> type, World worldIn) {
         super(type, worldIn);
     }
 

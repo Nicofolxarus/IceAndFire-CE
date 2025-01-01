@@ -6,24 +6,19 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.heightprovider.HeightProvider;
 import net.minecraft.world.gen.structure.Structure;
-
-import java.util.Optional;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class IafJigsawStructure extends Structure {
     protected final RegistryEntry<StructurePool> startPool;
-    protected final Optional<Identifier> startJigsawName;
+    @Nullable
+    protected final Identifier startJigsawName;
     protected final int size;
     protected final HeightProvider startHeight;
-    protected final Optional<Heightmap.Type> projectStartToHeightmap;
+    @Nullable
+    protected final Heightmap.Type projectStartToHeightmap;
     protected final int maxDistanceFromCenter;
 
-    public IafJigsawStructure(Config config,
-                              RegistryEntry<StructurePool> startPool,
-                              Optional<Identifier> startJigsawName,
-                              int size,
-                              HeightProvider startHeight,
-                              Optional<Heightmap.Type> projectStartToHeightmap,
-                              int maxDistanceFromCenter) {
+    public IafJigsawStructure(Config config, RegistryEntry<StructurePool> startPool, @Nullable Identifier startJigsawName, int size, HeightProvider startHeight, Heightmap.@Nullable Type projectStartToHeightmap, int maxDistanceFromCenter) {
         super(config);
         this.startPool = startPool;
         this.startJigsawName = startJigsawName;
