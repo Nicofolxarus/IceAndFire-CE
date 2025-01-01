@@ -17,12 +17,12 @@ import net.minecraft.util.math.RotationAxis;
 
 public class RenderPixieHouse<T extends BlockEntityPixieHouse> implements BlockEntityRenderer<T> {
     private static final ModelPixieHouse MODEL = new ModelPixieHouse();
-    private static final RenderLayer TEXTURE_0 = RenderLayer.getEntityCutoutNoCull(new Identifier(IceAndFire.MOD_ID, "textures/models/pixie/house/pixie_house_0.png"), false);
-    private static final RenderLayer TEXTURE_1 = RenderLayer.getEntityCutoutNoCull(new Identifier(IceAndFire.MOD_ID, "textures/models/pixie/house/pixie_house_1.png"), false);
-    private static final RenderLayer TEXTURE_2 = RenderLayer.getEntityCutoutNoCull(new Identifier(IceAndFire.MOD_ID, "textures/models/pixie/house/pixie_house_2.png"), false);
-    private static final RenderLayer TEXTURE_3 = RenderLayer.getEntityCutoutNoCull(new Identifier(IceAndFire.MOD_ID, "textures/models/pixie/house/pixie_house_3.png"), false);
-    private static final RenderLayer TEXTURE_4 = RenderLayer.getEntityCutoutNoCull(new Identifier(IceAndFire.MOD_ID, "textures/models/pixie/house/pixie_house_4.png"), false);
-    private static final RenderLayer TEXTURE_5 = RenderLayer.getEntityCutoutNoCull(new Identifier(IceAndFire.MOD_ID, "textures/models/pixie/house/pixie_house_5.png"), false);
+    private static final RenderLayer TEXTURE_0 = RenderLayer.getEntityCutoutNoCull(Identifier.of(IceAndFire.MOD_ID, "textures/models/pixie/house/pixie_house_0.png"), false);
+    private static final RenderLayer TEXTURE_1 = RenderLayer.getEntityCutoutNoCull(Identifier.of(IceAndFire.MOD_ID, "textures/models/pixie/house/pixie_house_1.png"), false);
+    private static final RenderLayer TEXTURE_2 = RenderLayer.getEntityCutoutNoCull(Identifier.of(IceAndFire.MOD_ID, "textures/models/pixie/house/pixie_house_2.png"), false);
+    private static final RenderLayer TEXTURE_3 = RenderLayer.getEntityCutoutNoCull(Identifier.of(IceAndFire.MOD_ID, "textures/models/pixie/house/pixie_house_3.png"), false);
+    private static final RenderLayer TEXTURE_4 = RenderLayer.getEntityCutoutNoCull(Identifier.of(IceAndFire.MOD_ID, "textures/models/pixie/house/pixie_house_4.png"), false);
+    private static final RenderLayer TEXTURE_5 = RenderLayer.getEntityCutoutNoCull(Identifier.of(IceAndFire.MOD_ID, "textures/models/pixie/house/pixie_house_5.png"), false);
     private static ModelPixie MODEL_PIXIE;
     public BlockItem metaOverride;
 

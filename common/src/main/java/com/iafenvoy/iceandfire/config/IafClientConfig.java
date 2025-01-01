@@ -21,7 +21,7 @@ public class IafClientConfig extends FileConfigContainer {
     public IConfigEntry<Boolean> sirenShader = new BooleanEntry("iceandfire.siren.shader", true);
 
     public IafClientConfig() {
-        super(new Identifier("config.iceandfire.client"), "screen.iceandfire.client.title", "./config/iceandfire/iaf-client.json");
+        super(Identifier.of(IceAndFire.MOD_ID, "config.iceandfire.client"), "screen.iceandfire.client.title", "./config/iceandfire/iaf-client.json");
     }
 
     @Override

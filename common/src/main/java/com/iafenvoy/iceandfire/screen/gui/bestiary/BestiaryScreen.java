@@ -41,9 +41,9 @@ import static com.iafenvoy.iceandfire.data.BestiaryPages.*;
 public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
     protected static final int X = 390;
     protected static final int Y = 245;
-    private static final Identifier TEXTURE = new Identifier(IceAndFire.MOD_ID, "textures/gui/bestiary/bestiary.png");
-    private static final Identifier DRAWINGS_0 = new Identifier(IceAndFire.MOD_ID, "textures/gui/bestiary/drawings_0.png");
-    private static final Identifier DRAWINGS_1 = new Identifier(IceAndFire.MOD_ID, "textures/gui/bestiary/drawings_1.png");
+    private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/gui/bestiary/bestiary.png");
+    private static final Identifier DRAWINGS_0 = Identifier.of(IceAndFire.MOD_ID, "textures/gui/bestiary/drawings_0.png");
+    private static final Identifier DRAWINGS_1 = Identifier.of(IceAndFire.MOD_ID, "textures/gui/bestiary/drawings_1.png");
     private static final Map<String, Identifier> PICTURE_LOCATION_CACHE = Maps.newHashMap();
     public final List<BestiaryPages> allPageTypes = new ArrayList<>();
     public final List<IndexPageButton> indexButtons = new ArrayList<>();
@@ -71,7 +71,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
     }
 
     private static Item getItemByRegistryName(String registryName) {
-        return Registries.ITEM.get(new Identifier(registryName));
+        return Registries.ITEM.get(Identifier.tryParse(registryName));
     }
 
     @Override
@@ -729,8 +729,8 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
     public void imageFromTxt(DrawContext ms) {
         String fileName = this.pageType.getName() + "_" + this.bookPages + ".txt";
         String languageName = MinecraftClient.getInstance().options.language.toLowerCase(Locale.ROOT);
-        Identifier fileLoc = new Identifier(IceAndFire.MOD_ID, "lang/bestiary/" + languageName + "_0/" + fileName);
-        Identifier backupLoc = new Identifier(IceAndFire.MOD_ID, "lang/bestiary/en_us_0/" + fileName);
+        Identifier fileLoc = Identifier.of(IceAndFire.MOD_ID, "lang/bestiary/" + languageName + "_0/" + fileName);
+        Identifier backupLoc = Identifier.of(IceAndFire.MOD_ID, "lang/bestiary/en_us_0/" + fileName);
         Optional<Resource> resource;
 
         resource = MinecraftClient.getInstance().getResourceManager().getResource(fileLoc);
@@ -746,12 +746,8 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                         if (line.contains("<image>")) {
                             line = line.substring(8, line.length() - 1);
                             String[] split = line.split(" ");
-                            String texture = IdUtil.build(IceAndFire.MOD_ID, "textures/gui/bestiary/" + split[0]);
-                            Identifier resourcelocation = PICTURE_LOCATION_CACHE.get(texture);
-                            if (resourcelocation == null) {
-                                resourcelocation = new Identifier(texture);
-                                PICTURE_LOCATION_CACHE.put(texture, resourcelocation);
-                            }
+                            Identifier id = Identifier.of(IceAndFire.MOD_ID, "textures/gui/bestiary/" + split[0]);
+                            Identifier resourcelocation = PICTURE_LOCATION_CACHE.computeIfAbsent(id.toString(), k -> id);
                             ms.getMatrices().push();
                             this.drawImage(ms, resourcelocation, Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3]), Integer.parseInt(split[4]), Integer.parseInt(split[5]), Integer.parseInt(split[6]), Float.parseFloat(split[7]) * 512F);
                             ms.getMatrices().pop();
@@ -827,8 +823,8 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
     public void writeFromTxt(DrawContext ms) {
         String fileName = this.pageType.getName() + "_" + this.bookPages + ".txt";
         String languageName = MinecraftClient.getInstance().options.language.toLowerCase(Locale.ROOT);
-        Identifier fileLoc = new Identifier(IceAndFire.MOD_ID, "lang/bestiary/" + languageName + "_0/" + fileName);
-        Identifier backupLoc = new Identifier(IceAndFire.MOD_ID, "lang/bestiary/en_us_0/" + fileName);
+        Identifier fileLoc = Identifier.of(IceAndFire.MOD_ID, "lang/bestiary/" + languageName + "_0/" + fileName);
+        Identifier backupLoc = Identifier.of(IceAndFire.MOD_ID, "lang/bestiary/en_us_0/" + fileName);
         Optional<Resource> resource;
 
         resource = MinecraftClient.getInstance().getResourceManager().getResource(fileLoc);

@@ -54,12 +54,12 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.*;
 
 public class EntityDeathWorm extends TameableEntity implements ISyncMount, ICustomCollisions, IBlacklistedFromStatues, IAnimatedEntity, IVillagerFear, IAnimalFear, IGroundMount, IHasCustomizableAttributes, ICustomMoveController {
-    public static final Identifier TAN_LOOT = new Identifier(IceAndFire.MOD_ID, "entities/deathworm_tan");
-    public static final Identifier WHITE_LOOT = new Identifier(IceAndFire.MOD_ID, "entities/deathworm_white");
-    public static final Identifier RED_LOOT = new Identifier(IceAndFire.MOD_ID, "entities/deathworm_red");
-    public static final Identifier TAN_GIANT_LOOT = new Identifier(IceAndFire.MOD_ID, "entities/deathworm_tan_giant");
-    public static final Identifier WHITE_GIANT_LOOT = new Identifier(IceAndFire.MOD_ID, "entities/deathworm_white_giant");
-    public static final Identifier RED_GIANT_LOOT = new Identifier(IceAndFire.MOD_ID, "entities/deathworm_red_giant");
+    public static final Identifier TAN_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/deathworm_tan");
+    public static final Identifier WHITE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/deathworm_white");
+    public static final Identifier RED_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/deathworm_red");
+    public static final Identifier TAN_GIANT_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/deathworm_tan_giant");
+    public static final Identifier WHITE_GIANT_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/deathworm_white_giant");
+    public static final Identifier RED_GIANT_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/deathworm_red_giant");
     public static final Animation ANIMATION_BITE = Animation.create(10);
     private static final TrackedData<Integer> VARIANT = DataTracker.registerData(EntityDeathWorm.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Float> SCALE = DataTracker.registerData(EntityDeathWorm.class, TrackedDataHandlerRegistry.FLOAT);

@@ -19,8 +19,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public final class IceAndFireForge {
     public IceAndFireForge() {
         EventBuses.registerModEventBus(IceAndFire.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
-        CapabilitySyncHelper.registerForLiving(new Identifier(IceAndFire.MOD_ID, "entity_data"), EntityDataProvider.CAPABILITY, EntityDataProvider::new);
-        CapabilitySyncHelper.registerForPlayer(new Identifier(IceAndFire.MOD_ID, "portal_data"), PortalDataProvider.CAPABILITY, PortalDataProvider::new, CapabilitySyncHelper.CopyPolicy.NEVER);
+        CapabilitySyncHelper.registerForLiving(Identifier.of(IceAndFire.MOD_ID, "entity_data"), EntityDataProvider.CAPABILITY, EntityDataProvider::new);
+        CapabilitySyncHelper.registerForPlayer(Identifier.of(IceAndFire.MOD_ID, "portal_data"), PortalDataProvider.CAPABILITY, PortalDataProvider::new, CapabilitySyncHelper.CopyPolicy.NEVER);
 
         IceAndFire.init();
         if (Platform.getEnv() == Dist.CLIENT)

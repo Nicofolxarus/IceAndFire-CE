@@ -19,7 +19,7 @@ import net.minecraft.util.math.MathHelper;
 import org.joml.Quaternionf;
 
 public class DragonScreen extends HandledScreen<DragonScreenHandler> {
-    private static final Identifier texture = new Identifier(IceAndFire.MOD_ID, "textures/gui/dragon.png");
+    private static final Identifier texture = Identifier.of(IceAndFire.MOD_ID, "textures/gui/dragon.png");
 
     public DragonScreen(DragonScreenHandler dragonInv, PlayerInventory playerInv, Text name) {
         super(dragonInv, playerInv, name);

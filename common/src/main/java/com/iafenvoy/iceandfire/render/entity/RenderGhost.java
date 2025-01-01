@@ -22,10 +22,10 @@ import org.joml.Matrix4f;
 
 public class RenderGhost extends MobEntityRenderer<EntityGhost, ModelGhost> {
 
-    public static final Identifier TEXTURE_0 = new Identifier(IceAndFire.MOD_ID, "textures/models/ghost/ghost_white.png");
-    public static final Identifier TEXTURE_1 = new Identifier(IceAndFire.MOD_ID, "textures/models/ghost/ghost_blue.png");
-    public static final Identifier TEXTURE_2 = new Identifier(IceAndFire.MOD_ID, "textures/models/ghost/ghost_green.png");
-    public static final Identifier TEXTURE_SHOPPING_LIST = new Identifier(IceAndFire.MOD_ID, "textures/models/ghost/haunted_shopping_list.png");
+    public static final Identifier TEXTURE_0 = Identifier.of(IceAndFire.MOD_ID, "textures/models/ghost/ghost_white.png");
+    public static final Identifier TEXTURE_1 = Identifier.of(IceAndFire.MOD_ID, "textures/models/ghost/ghost_blue.png");
+    public static final Identifier TEXTURE_2 = Identifier.of(IceAndFire.MOD_ID, "textures/models/ghost/ghost_green.png");
+    public static final Identifier TEXTURE_SHOPPING_LIST = Identifier.of(IceAndFire.MOD_ID, "textures/models/ghost/haunted_shopping_list.png");
 
     public RenderGhost(EntityRendererFactory.Context renderManager) {
         super(renderManager, new ModelGhost(0.0F), 0.55F);

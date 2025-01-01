@@ -70,7 +70,7 @@ public record DragonColor(String name, Formatting color, DragonType dragonType, 
     }
 
     public Identifier getEggTexture() {
-        return new Identifier(IceAndFire.MOD_ID, String.format("textures/models/%sdragon/egg_%s.png", this.dragonType.getName(), this.name));
+        return Identifier.of(IceAndFire.MOD_ID, String.format("textures/models/%sdragon/egg_%s.png", this.dragonType.getName(), this.name));
     }
 
     @Override
@@ -91,22 +91,22 @@ public record DragonColor(String name, Formatting color, DragonType dragonType, 
     }
 
     public Identifier getBodyTexture(int stage) {
-        return new Identifier(IceAndFire.MOD_ID, String.format("textures/models/%sdragon/%s_%d.png", this.dragonType.getName(), this.name, stage));
+        return Identifier.of(IceAndFire.MOD_ID, String.format("textures/models/%sdragon/%s_%d.png", this.dragonType.getName(), this.name, stage));
     }
 
     public Identifier getSleepTexture(int stage) {
-        return new Identifier(IceAndFire.MOD_ID, String.format("textures/models/%sdragon/%s_%d_sleeping.png", this.dragonType.getName(), this.name, stage));
+        return Identifier.of(IceAndFire.MOD_ID, String.format("textures/models/%sdragon/%s_%d_sleeping.png", this.dragonType.getName(), this.name, stage));
     }
 
     public Identifier getEyesTexture(int stage) {
-        return new Identifier(IceAndFire.MOD_ID, String.format("textures/models/%sdragon/%s_%d_eyes.png", this.dragonType.getName(), this.name, stage));
+        return Identifier.of(IceAndFire.MOD_ID, String.format("textures/models/%sdragon/%s_%d_eyes.png", this.dragonType.getName(), this.name, stage));
     }
 
     public Identifier getSkeletonTexture(int stage) {
-        return new Identifier(IceAndFire.MOD_ID, String.format("textures/models/%sdragon/%s_skeleton_%d.png", this.dragonType.getName(), this.dragonType.getName(), stage));
+        return Identifier.of(IceAndFire.MOD_ID, String.format("textures/models/%sdragon/%s_skeleton_%d.png", this.dragonType.getName(), this.dragonType.getName(), stage));
     }
 
     public Identifier getMaleOverlay() {
-        return new Identifier(IceAndFire.MOD_ID, String.format("textures/models/%sdragon/male_%s.png", this.dragonType.getName(), this.name));
+        return Identifier.of(IceAndFire.MOD_ID, String.format("textures/models/%sdragon/male_%s.png", this.dragonType.getName(), this.name));
     }
 }

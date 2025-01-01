@@ -26,10 +26,10 @@ import net.minecraft.world.World;
 public class EntityMyrmexSoldier extends EntityMyrmexBase {
     public static final Animation ANIMATION_BITE = Animation.create(15);
     public static final Animation ANIMATION_STING = Animation.create(15);
-    public static final Identifier DESERT_LOOT = new Identifier(IceAndFire.MOD_ID, "entities/myrmex_soldier_desert");
-    public static final Identifier JUNGLE_LOOT = new Identifier(IceAndFire.MOD_ID, "entities/myrmex_soldier_jungle");
-    private static final Identifier TEXTURE_DESERT = new Identifier(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_desert_soldier.png");
-    private static final Identifier TEXTURE_JUNGLE = new Identifier(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_jungle_soldier.png");
+    public static final Identifier DESERT_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/myrmex_soldier_desert");
+    public static final Identifier JUNGLE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/myrmex_soldier_jungle");
+    private static final Identifier TEXTURE_DESERT = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_desert_soldier.png");
+    private static final Identifier TEXTURE_JUNGLE = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_jungle_soldier.png");
     public EntityMyrmexBase guardingEntity = null;
 
     public EntityMyrmexSoldier(EntityType<EntityMyrmexSoldier> t, World worldIn) {

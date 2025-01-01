@@ -31,7 +31,7 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class ClientEvents {
-    private static final Identifier SIREN_SHADER = new Identifier("iceandfire", "shaders/post/siren.json");
+    private static final Identifier SIREN_SHADER = Identifier.of("iceandfire", "shaders/post/siren.json");
     public static int currentView = 0;
 
     public static void onCameraSetup(Camera camera) {

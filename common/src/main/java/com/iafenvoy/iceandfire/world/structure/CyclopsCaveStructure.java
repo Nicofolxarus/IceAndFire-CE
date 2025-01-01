@@ -59,7 +59,7 @@ public class CyclopsCaveStructure extends Structure {
     }
 
     public static class CyclopsCavePiece extends StructurePiece {
-        public static final Identifier CYCLOPS_CHEST = new Identifier(IceAndFire.MOD_ID, "chest/cyclops_cave");
+        public static final Identifier CYCLOPS_CHEST = Identifier.of(IceAndFire.MOD_ID, "chest/cyclops_cave");
 
         protected CyclopsCavePiece(int length, BlockBox boundingBox) {
             super(IafStructurePieces.CYCLOPS_CAVE.get(), length, boundingBox);

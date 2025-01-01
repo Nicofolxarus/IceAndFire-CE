@@ -13,8 +13,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class LayerSeaSerpentAncient extends FeatureRenderer<EntitySeaSerpent, AdvancedEntityModel<EntitySeaSerpent>> {
-    private static final Identifier TEXTURE = new Identifier(IceAndFire.MOD_ID, "textures/models/seaserpent/ancient_overlay.png");
-    private static final Identifier TEXTURE_BLINK = new Identifier(IceAndFire.MOD_ID, "textures/models/seaserpent/ancient_overlay_blink.png");
+    private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/models/seaserpent/ancient_overlay.png");
+    private static final Identifier TEXTURE_BLINK = Identifier.of(IceAndFire.MOD_ID, "textures/models/seaserpent/ancient_overlay_blink.png");
 
     public LayerSeaSerpentAncient(MobEntityRenderer<EntitySeaSerpent, AdvancedEntityModel<EntitySeaSerpent>> renderer) {
         super(renderer);

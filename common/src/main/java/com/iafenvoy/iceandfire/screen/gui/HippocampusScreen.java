@@ -14,7 +14,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class HippocampusScreen extends HandledScreen<HippocampusScreenHandler> {
-    private static final Identifier TEXTURE = new Identifier(IceAndFire.MOD_ID, "textures/gui/hippogryph.png");
+    private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/gui/hippogryph.png");
     private float mousePosX;
     private float mousePosY;
 

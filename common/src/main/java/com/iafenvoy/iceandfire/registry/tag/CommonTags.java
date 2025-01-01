@@ -14,7 +14,7 @@ public final class CommonTags {
         public static final TagKey<Block> STONE = tag("stone");
 
         private static TagKey<Block> tag(String name) {
-            return TagKey.of(RegistryKeys.BLOCK, new Identifier("c", name));
+            return TagKey.of(RegistryKeys.BLOCK, Identifier.of("c", name));
         }
     }
 
@@ -26,7 +26,7 @@ public final class CommonTags {
         public static final TagKey<Item> STRING = tag("string");
 
         private static TagKey<Item> tag(String name) {
-            return TagKey.of(RegistryKeys.ITEM, new Identifier("c", name));
+            return TagKey.of(RegistryKeys.ITEM, Identifier.of("c", name));
         }
     }
 

@@ -44,6 +44,6 @@ public final class IafBiomeTags {
     public static final TagKey<Biome> SNOWY_TROLL = createKey("entity_gen/troll_snowy");
 
     private static TagKey<Biome> createKey(final String name) {
-        return TagKey.of(RegistryKeys.BIOME, new Identifier(IceAndFire.MOD_ID, name));
+        return TagKey.of(RegistryKeys.BIOME, Identifier.of(IceAndFire.MOD_ID, name));
     }
 }

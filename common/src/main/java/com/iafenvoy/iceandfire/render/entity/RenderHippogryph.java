@@ -30,13 +30,13 @@ public class RenderHippogryph extends MobEntityRenderer<EntityHippogryph, ModelH
     }
 
     private static class LayerHippogriffSaddle extends FeatureRenderer<EntityHippogryph, ModelHippogryph> {
-        private final RenderLayer SADDLE_TEXTURE = RenderLayer.getEntityNoOutline(new Identifier(IceAndFire.MOD_ID, "textures/models/hippogryph/saddle.png"));
-        private final RenderLayer BRIDLE = RenderLayer.getEntityNoOutline(new Identifier(IceAndFire.MOD_ID, "textures/models/hippogryph/bridle.png"));
-        private final RenderLayer CHEST = RenderLayer.getEntityTranslucent(new Identifier(IceAndFire.MOD_ID, "textures/models/hippogryph/chest.png"));
-        private final RenderLayer TEXTURE_IRON = RenderLayer.getEntityNoOutline(new Identifier(IceAndFire.MOD_ID, "textures/models/hippogryph/armor_iron.png"));
-        private final RenderLayer TEXTURE_GOLD = RenderLayer.getEntityNoOutline(new Identifier(IceAndFire.MOD_ID, "textures/models/hippogryph/armor_gold.png"));
-        private final RenderLayer TEXTURE_DIAMOND = RenderLayer.getEntityNoOutline(new Identifier(IceAndFire.MOD_ID, "textures/models/hippogryph/armor_diamond.png"));
-        private final RenderLayer TEXTURE_NETHERITE = RenderLayer.getEntityNoOutline(new Identifier(IceAndFire.MOD_ID, "textures/models/hippogryph/armor_netherite.png"));
+        private final RenderLayer SADDLE_TEXTURE = RenderLayer.getEntityNoOutline(Identifier.of(IceAndFire.MOD_ID, "textures/models/hippogryph/saddle.png"));
+        private final RenderLayer BRIDLE = RenderLayer.getEntityNoOutline(Identifier.of(IceAndFire.MOD_ID, "textures/models/hippogryph/bridle.png"));
+        private final RenderLayer CHEST = RenderLayer.getEntityTranslucent(Identifier.of(IceAndFire.MOD_ID, "textures/models/hippogryph/chest.png"));
+        private final RenderLayer TEXTURE_IRON = RenderLayer.getEntityNoOutline(Identifier.of(IceAndFire.MOD_ID, "textures/models/hippogryph/armor_iron.png"));
+        private final RenderLayer TEXTURE_GOLD = RenderLayer.getEntityNoOutline(Identifier.of(IceAndFire.MOD_ID, "textures/models/hippogryph/armor_gold.png"));
+        private final RenderLayer TEXTURE_DIAMOND = RenderLayer.getEntityNoOutline(Identifier.of(IceAndFire.MOD_ID, "textures/models/hippogryph/armor_diamond.png"));
+        private final RenderLayer TEXTURE_NETHERITE = RenderLayer.getEntityNoOutline(Identifier.of(IceAndFire.MOD_ID, "textures/models/hippogryph/armor_netherite.png"));
 
         public LayerHippogriffSaddle(RenderHippogryph renderer) {
             super(renderer);

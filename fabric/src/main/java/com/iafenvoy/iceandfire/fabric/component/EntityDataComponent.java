@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 public class EntityDataComponent implements ComponentV3, AutoSyncedComponent, CommonTickingComponent {
-    protected static final ComponentKey<EntityDataComponent> COMPONENT = ComponentRegistryV3.INSTANCE.getOrCreate(new Identifier(IceAndFire.MOD_ID, "entity_data"), EntityDataComponent.class);
+    protected static final ComponentKey<EntityDataComponent> COMPONENT = ComponentRegistryV3.INSTANCE.getOrCreate(Identifier.of(IceAndFire.MOD_ID, "entity_data"), EntityDataComponent.class);
 
     private final LivingEntity entity;
     private final IafEntityData data;

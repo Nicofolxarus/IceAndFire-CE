@@ -139,6 +139,6 @@ public final class IafSounds {
     public static final RegistrySupplier<SoundEvent> GHOST_JUMPSCARE = of("ghost_jumpscare");
 
     private static RegistrySupplier<SoundEvent> of(String soundName) {
-        return REGISTRY.register(soundName, () -> SoundEvent.of(new Identifier(IceAndFire.MOD_ID, soundName)));
+        return REGISTRY.register(soundName, () -> SoundEvent.of(Identifier.of(IceAndFire.MOD_ID, soundName)));
     }
 }

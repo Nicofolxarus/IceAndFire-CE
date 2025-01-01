@@ -12,10 +12,10 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public final class IafDamageTypes {
-    public static final RegistryKey<DamageType> GORGON_DMG_TYPE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(IceAndFire.MOD_ID, "gorgon"));
-    public static final RegistryKey<DamageType> DRAGON_FIRE_TYPE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(IceAndFire.MOD_ID, "dragon_fire"));
-    public static final RegistryKey<DamageType> DRAGON_ICE_TYPE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(IceAndFire.MOD_ID, "dragon_ice"));
-    public static final RegistryKey<DamageType> DRAGON_LIGHTNING_TYPE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(IceAndFire.MOD_ID, "dragon_lightning"));
+    public static final RegistryKey<DamageType> GORGON_DMG_TYPE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(IceAndFire.MOD_ID, "gorgon"));
+    public static final RegistryKey<DamageType> DRAGON_FIRE_TYPE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(IceAndFire.MOD_ID, "dragon_fire"));
+    public static final RegistryKey<DamageType> DRAGON_ICE_TYPE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(IceAndFire.MOD_ID, "dragon_ice"));
+    public static final RegistryKey<DamageType> DRAGON_LIGHTNING_TYPE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(IceAndFire.MOD_ID, "dragon_lightning"));
 
     public static CustomEntityDamageSource causeGorgonDamage(Entity entity) {
         RegistryEntry<DamageType> holder = entity.getWorld().getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).getEntry(GORGON_DMG_TYPE).get();

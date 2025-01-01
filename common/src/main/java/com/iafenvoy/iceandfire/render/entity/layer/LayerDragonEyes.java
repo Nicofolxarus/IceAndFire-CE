@@ -30,9 +30,9 @@ public class LayerDragonEyes extends FeatureRenderer<EntityDragonBase, EntityMod
     public LayerDragonEyes(MobEntityRenderer<EntityDragonBase, EntityModel<EntityDragonBase>> renderIn) {
         super(renderIn);
         try {
-            this.fireHead = this.onlyKeepCubes(TabulaModelHandlerHelper.getModel(new Identifier(IceAndFire.MOD_ID, "firedragon/firedragon_ground"), null), Collections.singletonList("HeadFront"));
-            this.iceHead = this.onlyKeepCubes(TabulaModelHandlerHelper.getModel(new Identifier(IceAndFire.MOD_ID, "icedragon/icedragon_ground"), null), Collections.singletonList("HeadFront"));
-            this.lightningHead = this.onlyKeepCubes(TabulaModelHandlerHelper.getModel(new Identifier(IceAndFire.MOD_ID, "lightningdragon/lightningdragon_ground"), null), Collections.singletonList("HeadFront"));
+            this.fireHead = this.onlyKeepCubes(TabulaModelHandlerHelper.getModel(Identifier.of(IceAndFire.MOD_ID, "firedragon/firedragon_ground"), null), Collections.singletonList("HeadFront"));
+            this.iceHead = this.onlyKeepCubes(TabulaModelHandlerHelper.getModel(Identifier.of(IceAndFire.MOD_ID, "icedragon/icedragon_ground"), null), Collections.singletonList("HeadFront"));
+            this.lightningHead = this.onlyKeepCubes(TabulaModelHandlerHelper.getModel(Identifier.of(IceAndFire.MOD_ID, "lightningdragon/lightningdragon_ground"), null), Collections.singletonList("HeadFront"));
         } catch (Exception e) {
             IceAndFire.LOGGER.error(e);
         }

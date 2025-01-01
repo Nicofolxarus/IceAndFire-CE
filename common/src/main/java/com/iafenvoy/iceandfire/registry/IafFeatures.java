@@ -51,11 +51,11 @@ public final class IafFeatures {
     public static final RegistryKey<PlacedFeature> PLACED_FROST_LILY = placeFeature("frost_lily");
 
     public static RegistryKey<ConfiguredFeature<?, ?>> configuredFeature(String name) {
-        return RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, new Identifier(IceAndFire.MOD_ID, name));
+        return RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, Identifier.of(IceAndFire.MOD_ID, name));
     }
 
     public static RegistryKey<PlacedFeature> placeFeature(String name) {
-        return RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier(IceAndFire.MOD_ID, name));
+        return RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(IceAndFire.MOD_ID, name));
     }
 
     public static void init() {

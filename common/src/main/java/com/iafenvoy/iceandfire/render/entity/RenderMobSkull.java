@@ -130,13 +130,9 @@ public class RenderMobSkull extends EntityRenderer<EntityMobSkull> {
     }
 
     public Identifier getSkullTexture(IafSkullType skull) {
-        String s = IceAndFire.MOD_ID + ":textures/models/skulls/skull_" + skull.name().toLowerCase(Locale.ROOT) + ".png";
-        Identifier resourcelocation = SKULL_TEXTURE_CACHE.get(s);
-        if (resourcelocation == null) {
-            resourcelocation = new Identifier(s);
-            SKULL_TEXTURE_CACHE.put(s, resourcelocation);
-        }
-        return resourcelocation;
+        Identifier id = Identifier.of(IceAndFire.MOD_ID, "textures/models/skulls/skull_" + skull.name().toLowerCase(Locale.ROOT) + ".png");
+        assert id != null;
+        return SKULL_TEXTURE_CACHE.computeIfAbsent(id.toString(), k -> id);
     }
 
 }

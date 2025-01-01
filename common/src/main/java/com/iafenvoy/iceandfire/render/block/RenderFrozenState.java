@@ -12,10 +12,10 @@ import net.minecraft.util.math.Box;
 import org.joml.Matrix4f;
 
 public class RenderFrozenState {
-    private static final Identifier TEXTURE_0 = new Identifier("textures/block/frosted_ice_0.png");
-    private static final Identifier TEXTURE_1 = new Identifier("textures/block/frosted_ice_1.png");
-    private static final Identifier TEXTURE_2 = new Identifier("textures/block/frosted_ice_2.png");
-    private static final Identifier TEXTURE_3 = new Identifier("textures/block/frosted_ice_3.png");
+    private static final Identifier TEXTURE_0 = Identifier.of(Identifier.DEFAULT_NAMESPACE,"textures/block/frosted_ice_0.png");
+    private static final Identifier TEXTURE_1 = Identifier.of(Identifier.DEFAULT_NAMESPACE,"textures/block/frosted_ice_1.png");
+    private static final Identifier TEXTURE_2 = Identifier.of(Identifier.DEFAULT_NAMESPACE,"textures/block/frosted_ice_2.png");
+    private static final Identifier TEXTURE_3 = Identifier.of(Identifier.DEFAULT_NAMESPACE,"textures/block/frosted_ice_3.png");
 
     public static void render(LivingEntity entity, MatrixStack matrixStack, VertexConsumerProvider bufferIn, int light, int frozenTicks) {
         float sideExpand = -0.125F;

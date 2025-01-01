@@ -25,10 +25,10 @@ public final class IafItemTags {
     public static final TagKey<Item> INGOTS_SILVER = createForgeKey("ingots/silver");
 
     private static TagKey<Item> createKey(final String name) {
-        return TagKey.of(RegistryKeys.ITEM, new Identifier(IceAndFire.MOD_ID, name));
+        return TagKey.of(RegistryKeys.ITEM, Identifier.of(IceAndFire.MOD_ID, name));
     }
 
     private static TagKey<Item> createForgeKey(final String name) {
-        return TagKey.of(RegistryKeys.ITEM, new Identifier("c", name));
+        return TagKey.of(RegistryKeys.ITEM, Identifier.of("c", name));
     }
 }

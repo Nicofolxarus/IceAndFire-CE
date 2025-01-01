@@ -19,11 +19,11 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TitleScreenRenderManager {
-    public static final Identifier splash = new Identifier(IceAndFire.MOD_ID, "splashes.txt");
+    public static final Identifier splash = Identifier.of(IceAndFire.MOD_ID, "splashes.txt");
     public static final Identifier[] pageFlipTextures;
     public static final Identifier[] drawingTextures = new Identifier[23];
-    private static final Identifier BESTIARY_TEXTURE = new Identifier(IceAndFire.MOD_ID, "textures/gui/main_menu/bestiary_menu.png");
-    private static final Identifier TABLE_TEXTURE = new Identifier(IceAndFire.MOD_ID, "textures/gui/main_menu/table.png");
+    private static final Identifier BESTIARY_TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/gui/main_menu/bestiary_menu.png");
+    private static final Identifier TABLE_TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/gui/main_menu/table.png");
     private static final TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
     private static int layerTick;
     private static List<String> splashText;
@@ -33,14 +33,14 @@ public class TitleScreenRenderManager {
     private static float globalAlpha = 1F;
 
     static {
-        pageFlipTextures = new Identifier[]{new Identifier(IceAndFire.MOD_ID, "textures/gui/main_menu/page_1.png"),
-                new Identifier(IceAndFire.MOD_ID, "textures/gui/main_menu/page_2.png"),
-                new Identifier(IceAndFire.MOD_ID, "textures/gui/main_menu/page_3.png"),
-                new Identifier(IceAndFire.MOD_ID, "textures/gui/main_menu/page_4.png"),
-                new Identifier(IceAndFire.MOD_ID, "textures/gui/main_menu/page_5.png"),
-                new Identifier(IceAndFire.MOD_ID, "textures/gui/main_menu/page_6.png")};
+        pageFlipTextures = new Identifier[]{Identifier.of(IceAndFire.MOD_ID, "textures/gui/main_menu/page_1.png"),
+                Identifier.of(IceAndFire.MOD_ID, "textures/gui/main_menu/page_2.png"),
+                Identifier.of(IceAndFire.MOD_ID, "textures/gui/main_menu/page_3.png"),
+                Identifier.of(IceAndFire.MOD_ID, "textures/gui/main_menu/page_4.png"),
+                Identifier.of(IceAndFire.MOD_ID, "textures/gui/main_menu/page_5.png"),
+                Identifier.of(IceAndFire.MOD_ID, "textures/gui/main_menu/page_6.png")};
         for (int i = 0; i < drawingTextures.length; i++)
-            drawingTextures[i] = new Identifier(IceAndFire.MOD_ID, "textures/gui/main_menu/drawing_" + i + ".png");
+            drawingTextures[i] = Identifier.of(IceAndFire.MOD_ID, "textures/gui/main_menu/drawing_" + i + ".png");
         resetDrawnImages();
     }
 

@@ -38,7 +38,7 @@ public class PortalData {
                 if (dreadLand == null) return;
                 DimensionUtil.changeDimension(this.player, dreadLand, new TeleportTarget(this.player.getPos(), Vec3d.ZERO, this.player.headYaw, this.player.getPitch()));
                 if (!dreadLand.getBlockState(this.player.getBlockPos()).isOf(IafBlocks.DREAD_PORTAL.get()))
-                    server.getStructureTemplateManager().getTemplate(new Identifier(IceAndFire.MOD_ID, "dread_exit_portal")).ifPresent(structureTemplate -> structureTemplate.place(dreadLand, this.player.getBlockPos().subtract(new BlockPos(2, 1, 2)), BlockPos.ORIGIN, new StructurePlacementData().addProcessor(new DreadPortalProcessor()), dreadLand.random, 2));
+                    server.getStructureTemplateManager().getTemplate(Identifier.of(IceAndFire.MOD_ID, "dread_exit_portal")).ifPresent(structureTemplate -> structureTemplate.place(dreadLand, this.player.getBlockPos().subtract(new BlockPos(2, 1, 2)), BlockPos.ORIGIN, new StructurePlacementData().addProcessor(new DreadPortalProcessor()), dreadLand.random, 2));
             }
         }
         if (world.getBlockState(this.player.getBlockPos()).isOf(IafBlocks.DREAD_PORTAL.get())) {

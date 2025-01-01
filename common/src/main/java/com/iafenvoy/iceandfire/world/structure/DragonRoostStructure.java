@@ -57,7 +57,7 @@ public abstract class DragonRoostStructure extends Structure {
 
         public DragonRoostPiece(StructurePieceType type, NbtCompound nbt) {
             super(type, nbt);
-            this.treasureBlock = Registries.BLOCK.get(new Identifier(nbt.getString("treasureBlock")));
+            this.treasureBlock = Registries.BLOCK.get(Identifier.tryParse(nbt.getString("treasureBlock")));
             this.isMale = nbt.getBoolean("isMale");
         }
 

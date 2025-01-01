@@ -7,7 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 
 public class RenderHydraArrow extends ProjectileEntityRenderer {
-    private static final Identifier TEXTURES = new Identifier(IceAndFire.MOD_ID, "textures/models/misc/hydra_arrow.png");
+    private static final Identifier TEXTURES = Identifier.of(IceAndFire.MOD_ID, "textures/models/misc/hydra_arrow.png");
 
     public RenderHydraArrow(EntityRendererFactory.Context context) {
         super(context);

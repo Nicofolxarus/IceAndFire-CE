@@ -17,7 +17,7 @@ public final class IafRenderLayers extends RenderLayer {
         RenderSystem.disableBlend();
         RenderSystem.defaultBlendFunc();
     });
-    private static final Identifier STONE_TEXTURE = new Identifier("textures/block/stone.png");
+    private static final Identifier STONE_TEXTURE = Identifier.of(Identifier.DEFAULT_NAMESPACE,"textures/block/stone.png");
     private static final ShaderProgram DREAD_PORTAL_PROGRAM = new ShaderProgram(() -> RenderVariables.DREAD_PORTAL_PROGRAM);
 
     public IafRenderLayers(String nameIn, VertexFormat formatIn, VertexFormat.DrawMode drawModeIn, int bufferSizeIn, boolean useDelegateIn, boolean needsSortingIn, Runnable setupTaskIn, Runnable clearTaskIn) {

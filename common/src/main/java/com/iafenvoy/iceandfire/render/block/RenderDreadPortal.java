@@ -14,8 +14,8 @@ import net.minecraft.util.math.Direction;
 import org.joml.Matrix4f;
 
 public class RenderDreadPortal<T extends BlockEntityDreadPortal> implements BlockEntityRenderer<T> {
-    public static final Identifier DREAD_PORTAL_BACKGROUND = new Identifier(IceAndFire.MOD_ID, "textures/environment/dread_portal_background.png");
-    public static final Identifier DREAD_PORTAL = new Identifier(IceAndFire.MOD_ID, "textures/environment/dread_portal.png");
+    public static final Identifier DREAD_PORTAL_BACKGROUND = Identifier.of(IceAndFire.MOD_ID, "textures/environment/dread_portal_background.png");
+    public static final Identifier DREAD_PORTAL = Identifier.of(IceAndFire.MOD_ID, "textures/environment/dread_portal.png");
 
     public RenderDreadPortal(BlockEntityRendererFactory.Context context) {
     }

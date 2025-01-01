@@ -12,7 +12,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 
 public class PortalDataComponent implements ComponentV3, AutoSyncedComponent, CommonTickingComponent {
-    protected static final ComponentKey<PortalDataComponent> COMPONENT = ComponentRegistryV3.INSTANCE.getOrCreate(new Identifier(IceAndFire.MOD_ID, "portal_data"), PortalDataComponent.class);
+    protected static final ComponentKey<PortalDataComponent> COMPONENT = ComponentRegistryV3.INSTANCE.getOrCreate(Identifier.of(IceAndFire.MOD_ID, "portal_data"), PortalDataComponent.class);
     private final PlayerEntity player;
     private final PortalData data;
 

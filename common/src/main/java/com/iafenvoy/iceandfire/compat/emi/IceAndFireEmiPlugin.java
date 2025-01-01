@@ -11,9 +11,9 @@ import net.minecraft.util.Identifier;
 
 @EmiEntrypoint
 public class IceAndFireEmiPlugin implements EmiPlugin {
-    private static final ForgeRecipeHolder FIRE = new ForgeRecipeHolder(new Identifier(IceAndFire.MOD_ID, "fire_forge"), "fire", new EmiTexture(new Identifier(IceAndFire.MOD_ID, "textures/gui/dragonforge_fire.png"), 3, 4, 170, 79), EmiStack.of(IafBlocks.DRAGONFORGE_FIRE_CORE.get()));
-    private static final ForgeRecipeHolder ICE = new ForgeRecipeHolder(new Identifier(IceAndFire.MOD_ID, "ice_forge"), "ice", new EmiTexture(new Identifier(IceAndFire.MOD_ID, "textures/gui/dragonforge_ice.png"), 3, 4, 170, 79), EmiStack.of(IafBlocks.DRAGONFORGE_ICE_CORE.get()));
-    private static final ForgeRecipeHolder LIGHTNING = new ForgeRecipeHolder(new Identifier(IceAndFire.MOD_ID, "lightning_forge"), "lightning", new EmiTexture(new Identifier(IceAndFire.MOD_ID, "textures/gui/dragonforge_lightning.png"), 3, 4, 170, 79), EmiStack.of(IafBlocks.DRAGONFORGE_LIGHTNING_CORE.get()));
+    private static final ForgeRecipeHolder FIRE = new ForgeRecipeHolder(Identifier.of(IceAndFire.MOD_ID, "fire_forge"), "fire", new EmiTexture(Identifier.of(IceAndFire.MOD_ID, "textures/gui/dragonforge_fire.png"), 3, 4, 170, 79), EmiStack.of(IafBlocks.DRAGONFORGE_FIRE_CORE.get()));
+    private static final ForgeRecipeHolder ICE = new ForgeRecipeHolder(Identifier.of(IceAndFire.MOD_ID, "ice_forge"), "ice", new EmiTexture(Identifier.of(IceAndFire.MOD_ID, "textures/gui/dragonforge_ice.png"), 3, 4, 170, 79), EmiStack.of(IafBlocks.DRAGONFORGE_ICE_CORE.get()));
+    private static final ForgeRecipeHolder LIGHTNING = new ForgeRecipeHolder(Identifier.of(IceAndFire.MOD_ID, "lightning_forge"), "lightning", new EmiTexture(Identifier.of(IceAndFire.MOD_ID, "textures/gui/dragonforge_lightning.png"), 3, 4, 170, 79), EmiStack.of(IafBlocks.DRAGONFORGE_LIGHTNING_CORE.get()));
 
     @Override
     public void register(EmiRegistry registry) {

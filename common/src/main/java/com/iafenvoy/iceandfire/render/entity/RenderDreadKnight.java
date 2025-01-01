@@ -11,10 +11,10 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class RenderDreadKnight extends MobEntityRenderer<EntityDreadKnight, ModelDreadKnight> {
-    public static final Identifier TEXTURE_EYES = new Identifier(IceAndFire.MOD_ID, "textures/models/dread/dread_knight_eyes.png");
-    public static final Identifier TEXTURE_0 = new Identifier(IceAndFire.MOD_ID, "textures/models/dread/dread_knight_1.png");
-    public static final Identifier TEXTURE_1 = new Identifier(IceAndFire.MOD_ID, "textures/models/dread/dread_knight_2.png");
-    public static final Identifier TEXTURE_2 = new Identifier(IceAndFire.MOD_ID, "textures/models/dread/dread_knight_3.png");
+    public static final Identifier TEXTURE_EYES = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_knight_eyes.png");
+    public static final Identifier TEXTURE_0 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_knight_1.png");
+    public static final Identifier TEXTURE_1 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_knight_2.png");
+    public static final Identifier TEXTURE_2 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_knight_3.png");
 
     public RenderDreadKnight(EntityRendererFactory.Context context) {
         super(context, new ModelDreadKnight(0.0F), 0.6F);

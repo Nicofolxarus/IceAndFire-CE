@@ -43,7 +43,7 @@ public class IafCommonConfig extends AutoInitConfigContainer {
     public Misc misc = new Misc();
 
     public IafCommonConfig() {
-        super(new Identifier("config.iceandfire.common"), "screen.iceandfire.common.title", "./config/iceandfire/iaf-common.json");
+        super(Identifier.of(IceAndFire.MOD_ID,"config.iceandfire.common"), "screen.iceandfire.common.title", "./config/iceandfire/iaf-common.json");
     }
 
     @Override

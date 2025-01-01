@@ -31,6 +31,6 @@ public class ScaleArmorRenderer implements IArmorRendererBase<LivingEntity> {
     @Override
     public Identifier getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot) {
         DragonArmor armor_type = ((ItemScaleArmor) stack.getItem()).armorType;
-        return new Identifier(IceAndFire.MOD_ID, "textures/models/armor/armor_" + armor_type.getColor().name() + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
+        return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/armor_" + armor_type.getColor().name() + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
     }
 }

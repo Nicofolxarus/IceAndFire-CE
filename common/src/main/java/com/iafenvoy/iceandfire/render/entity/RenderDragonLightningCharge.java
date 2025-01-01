@@ -14,8 +14,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 
 public class RenderDragonLightningCharge extends EntityRenderer<EntityDragonLightningCharge> {
-    public static final Identifier TEXTURE = new Identifier(IceAndFire.MOD_ID, "textures/models/lightningdragon/charge.png");
-    public static final Identifier TEXTURE_CORE = new Identifier(IceAndFire.MOD_ID, "textures/models/lightningdragon/charge_core.png");
+    public static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/models/lightningdragon/charge.png");
+    public static final Identifier TEXTURE_CORE = Identifier.of(IceAndFire.MOD_ID, "textures/models/lightningdragon/charge_core.png");
     private static final ModelDreadLichSkull MODEL_SPIRIT = new ModelDreadLichSkull();
 
     public RenderDragonLightningCharge(EntityRendererFactory.Context context) {

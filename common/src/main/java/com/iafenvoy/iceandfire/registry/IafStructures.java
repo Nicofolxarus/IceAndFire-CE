@@ -12,6 +12,6 @@ public final class IafStructures {
     public static final RegistryKey<Structure> GORGON_TEMPLE = registerKey("gorgon_temple");
 
     public static RegistryKey<Structure> registerKey(String name) {
-        return RegistryKey.of(RegistryKeys.STRUCTURE, new Identifier(IceAndFire.MOD_ID, name));
+        return RegistryKey.of(RegistryKeys.STRUCTURE, Identifier.of(IceAndFire.MOD_ID, name));
     }
 }

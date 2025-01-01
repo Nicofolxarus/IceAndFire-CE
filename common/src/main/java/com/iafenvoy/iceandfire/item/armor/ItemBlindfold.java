@@ -27,6 +27,6 @@ public class ItemBlindfold extends ArmorItem implements IArmorTextureProvider, I
 
     @Override
     public Identifier getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        return new Identifier(IceAndFire.MOD_ID, "textures/models/armor/blindfold_layer_1.png");
+        return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/blindfold_layer_1.png");
     }
 }

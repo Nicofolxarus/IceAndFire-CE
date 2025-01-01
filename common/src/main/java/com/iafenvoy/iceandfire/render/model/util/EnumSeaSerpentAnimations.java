@@ -28,6 +28,6 @@ public enum EnumSeaSerpentAnimations {
     }
 
     public Identifier getModelId() {
-        return new Identifier(IceAndFire.MOD_ID, "seaserpent/seaserpent_" + this.fileSuffix);
+        return Identifier.of(IceAndFire.MOD_ID, "seaserpent/seaserpent_" + this.fileSuffix);
     }
 }

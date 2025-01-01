@@ -7,14 +7,10 @@ import com.iafenvoy.iceandfire.data.TrollType;
 import com.iafenvoy.iceandfire.item.ItemDragonHorn;
 import com.iafenvoy.iceandfire.item.ItemSummoningCrystal;
 import com.iafenvoy.iceandfire.particle.*;
-import com.iafenvoy.iceandfire.render.item.TEISRItemRenderer;
-import com.iafenvoy.iceandfire.render.item.TideTridentRenderer;
-import com.iafenvoy.iceandfire.render.item.TrollWeaponRenderer;
 import com.iafenvoy.iceandfire.render.armor.*;
 import com.iafenvoy.iceandfire.render.block.*;
 import com.iafenvoy.iceandfire.render.entity.*;
-import com.iafenvoy.iceandfire.render.item.DeathwormGauntletRenderer;
-import com.iafenvoy.iceandfire.render.item.GorgonHeadRenderer;
+import com.iafenvoy.iceandfire.render.item.*;
 import com.iafenvoy.iceandfire.render.model.*;
 import com.iafenvoy.iceandfire.render.model.animator.FireDragonTabulaModelAnimator;
 import com.iafenvoy.iceandfire.render.model.animator.IceDragonTabulaModelAnimator;
@@ -37,10 +33,10 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public final class IafRenderers {
-    public static final Identifier FIRE_DRAGON = new Identifier(IceAndFire.MOD_ID, "firedragon/firedragon_ground");
-    public static final Identifier ICE_DRAGON = new Identifier(IceAndFire.MOD_ID, "icedragon/icedragon_ground");
-    public static final Identifier LIGHTNING_DRAGON = new Identifier(IceAndFire.MOD_ID, "lightningdragon/lightningdragon_ground");
-    public static final Identifier SEA_SERPENT = new Identifier(IceAndFire.MOD_ID, "seaserpent/seaserpent_base");
+    public static final Identifier FIRE_DRAGON = Identifier.of(IceAndFire.MOD_ID, "firedragon/firedragon_ground");
+    public static final Identifier ICE_DRAGON = Identifier.of(IceAndFire.MOD_ID, "icedragon/icedragon_ground");
+    public static final Identifier LIGHTNING_DRAGON = Identifier.of(IceAndFire.MOD_ID, "lightningdragon/lightningdragon_ground");
+    public static final Identifier SEA_SERPENT = Identifier.of(IceAndFire.MOD_ID, "seaserpent/seaserpent_base");
 
     public static void registerEntityRenderers() {
         EntityRendererRegistry.register(IafEntities.FIRE_DRAGON, x -> new RenderDragonBase(x, TabulaModelHandlerHelper.getModel(FIRE_DRAGON, new MemorizeSupplier<>(FireDragonTabulaModelAnimator::new)), 0));
@@ -183,13 +179,13 @@ public final class IafRenderers {
     }
 
     public static void registerModelPredicates() {
-        ItemPropertiesRegistry.register(IafItems.DRAGON_BOW.get(), new Identifier("pulling"), (itemStack, clientWorld, livingEntity, seed) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getActiveItem() == itemStack ? 1 : 0);
-        ItemPropertiesRegistry.register(IafItems.DRAGON_BOW.get(), new Identifier("pull"), (itemStack, clientWorld, livingEntity, seed) -> livingEntity == null ? 0 : livingEntity.getActiveItem() != itemStack ? 0 : (float) (itemStack.getMaxUseTime() - livingEntity.getItemUseTimeLeft()) / 20);
+        ItemPropertiesRegistry.register(IafItems.DRAGON_BOW.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "pulling"), (itemStack, clientWorld, livingEntity, seed) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getActiveItem() == itemStack ? 1 : 0);
+        ItemPropertiesRegistry.register(IafItems.DRAGON_BOW.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "pull"), (itemStack, clientWorld, livingEntity, seed) -> livingEntity == null ? 0 : livingEntity.getActiveItem() != itemStack ? 0 : (float) (itemStack.getMaxUseTime() - livingEntity.getItemUseTimeLeft()) / 20);
 
-        ItemPropertiesRegistry.register(IafItems.DRAGON_HORN.get(), new Identifier("iceorfire"), (stack, level, entity, p) -> ItemDragonHorn.getDragonType(stack) * 0.25F);
-        ItemPropertiesRegistry.register(IafItems.SUMMONING_CRYSTAL_FIRE.get(), new Identifier("has_dragon"), (stack, level, entity, p) -> ItemSummoningCrystal.hasDragon(stack) ? 1.0F : 0.0F);
-        ItemPropertiesRegistry.register(IafItems.SUMMONING_CRYSTAL_ICE.get(), new Identifier("has_dragon"), (stack, level, entity, p) -> ItemSummoningCrystal.hasDragon(stack) ? 1.0F : 0.0F);
-        ItemPropertiesRegistry.register(IafItems.SUMMONING_CRYSTAL_LIGHTNING.get(), new Identifier("has_dragon"), (stack, level, entity, p) -> ItemSummoningCrystal.hasDragon(stack) ? 1.0F : 0.0F);
-        ItemPropertiesRegistry.register(IafItems.TIDE_TRIDENT.get(), new Identifier("throwing"), (stack, level, entity, p) -> entity != null && entity.isUsingItem() && entity.getMainHandStack() == stack ? 1.0F : 0.0F);
+        ItemPropertiesRegistry.register(IafItems.DRAGON_HORN.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "iceorfire"), (stack, level, entity, p) -> ItemDragonHorn.getDragonType(stack) * 0.25F);
+        ItemPropertiesRegistry.register(IafItems.SUMMONING_CRYSTAL_FIRE.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "has_dragon"), (stack, level, entity, p) -> ItemSummoningCrystal.hasDragon(stack) ? 1.0F : 0.0F);
+        ItemPropertiesRegistry.register(IafItems.SUMMONING_CRYSTAL_ICE.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "has_dragon"), (stack, level, entity, p) -> ItemSummoningCrystal.hasDragon(stack) ? 1.0F : 0.0F);
+        ItemPropertiesRegistry.register(IafItems.SUMMONING_CRYSTAL_LIGHTNING.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "has_dragon"), (stack, level, entity, p) -> ItemSummoningCrystal.hasDragon(stack) ? 1.0F : 0.0F);
+        ItemPropertiesRegistry.register(IafItems.TIDE_TRIDENT.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "throwing"), (stack, level, entity, p) -> entity != null && entity.isUsingItem() && entity.getMainHandStack() == stack ? 1.0F : 0.0F);
     }
 }

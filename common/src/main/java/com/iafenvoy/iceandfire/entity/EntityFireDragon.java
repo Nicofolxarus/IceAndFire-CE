@@ -41,9 +41,9 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public class EntityFireDragon extends EntityDragonBase {
-    public static final Identifier FEMALE_LOOT = new Identifier(IceAndFire.MOD_ID, "entities/dragon/fire_dragon_female");
-    public static final Identifier MALE_LOOT = new Identifier(IceAndFire.MOD_ID, "entities/dragon/fire_dragon_male");
-    public static final Identifier SKELETON_LOOT = new Identifier(IceAndFire.MOD_ID, "entities/dragon/fire_dragon_skeleton");
+    public static final Identifier FEMALE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/dragon/fire_dragon_female");
+    public static final Identifier MALE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/dragon/fire_dragon_male");
+    public static final Identifier SKELETON_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/dragon/fire_dragon_skeleton");
 
     public EntityFireDragon(World worldIn) {
         this(IafEntities.FIRE_DRAGON.get(), worldIn);

@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 
 public class RenderDreadLichSkull extends EntityRenderer<EntityDreadLichSkull> {
-    public static final Identifier TEXTURE = new Identifier(IceAndFire.MOD_ID, "textures/models/dread/dread_lich_skull.png");
+    public static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_lich_skull.png");
     private static final ModelDreadLichSkull MODEL_SPIRIT = new ModelDreadLichSkull();
 
     public RenderDreadLichSkull(EntityRendererFactory.Context context) {

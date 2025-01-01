@@ -41,9 +41,9 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public class EntityLightningDragon extends EntityDragonBase {
-    public static final Identifier FEMALE_LOOT = new Identifier(IceAndFire.MOD_ID, "entities/dragon/lightning_dragon_female");
-    public static final Identifier MALE_LOOT = new Identifier(IceAndFire.MOD_ID, "entities/dragon/lightning_dragon_male");
-    public static final Identifier SKELETON_LOOT = new Identifier(IceAndFire.MOD_ID, "entities/dragon/lightning_dragon_skeleton");
+    public static final Identifier FEMALE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/dragon/lightning_dragon_female");
+    public static final Identifier MALE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/dragon/lightning_dragon_male");
+    public static final Identifier SKELETON_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/dragon/lightning_dragon_skeleton");
     private static final TrackedData<Boolean> HAS_LIGHTNING_TARGET = DataTracker.registerData(EntityLightningDragon.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Float> LIGHTNING_TARGET_X = DataTracker.registerData(EntityLightningDragon.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Float> LIGHTNING_TARGET_Y = DataTracker.registerData(EntityLightningDragon.class, TrackedDataHandlerRegistry.FLOAT);

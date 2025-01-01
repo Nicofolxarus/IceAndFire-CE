@@ -15,7 +15,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.WorldView;
 
 public class VillageHouseProcessor extends StructureProcessor {
-    public static final Identifier LOOT = new Identifier(IceAndFire.MOD_ID, "chest/village_scribe");
+    public static final Identifier LOOT = Identifier.of(IceAndFire.MOD_ID, "chest/village_scribe");
     public static final VillageHouseProcessor INSTANCE = new VillageHouseProcessor();
     public static final Codec<VillageHouseProcessor> CODEC = Codec.unit(() -> INSTANCE);
 

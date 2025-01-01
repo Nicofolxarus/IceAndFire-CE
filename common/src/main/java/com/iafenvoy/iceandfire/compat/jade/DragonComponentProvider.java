@@ -15,7 +15,7 @@ public enum DragonComponentProvider implements IEntityComponentProvider {
 
     @Override
     public Identifier getUid() {
-        return new Identifier(IceAndFire.MOD_ID, "dragon");
+        return Identifier.of(IceAndFire.MOD_ID, "dragon");
     }
 
     @Override

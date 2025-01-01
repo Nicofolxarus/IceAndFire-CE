@@ -15,7 +15,7 @@ public class DragonAnimationsLibrary {
     private static final Map<Identifier, TabulaModel> CACHES = new LinkedHashMap<>();
 
     public static TabulaModel getModel(IEnumDragonPoses pose, IEnumDragonModelTypes modelType) {
-        Identifier id = new Identifier(IceAndFire.MOD_ID, modelType.getModelType() + "dragon/" + modelType.getModelType() + "dragon_" + pose.getPose());
+        Identifier id = Identifier.of(IceAndFire.MOD_ID, modelType.getModelType() + "dragon/" + modelType.getModelType() + "dragon_" + pose.getPose());
         if (CACHES.containsKey(id)) return CACHES.get(id);
         TabulaModel result = TabulaModelHandlerHelper.getModel(id);
         if (result == null) IceAndFire.LOGGER.error("No model defined for {} have you registered your animations?", id);

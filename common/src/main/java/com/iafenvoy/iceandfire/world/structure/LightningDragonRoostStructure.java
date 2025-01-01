@@ -47,7 +47,7 @@ public class LightningDragonRoostStructure extends DragonRoostStructure {
     }
 
     public static class LightningDragonRoostPiece extends DragonRoostPiece {
-        private static final Identifier DRAGON_CHEST = new Identifier(IceAndFire.MOD_ID, "chest/lightning_dragon_roost");
+        private static final Identifier DRAGON_CHEST = Identifier.of(IceAndFire.MOD_ID, "chest/lightning_dragon_roost");
 
         protected LightningDragonRoostPiece(int length, BlockBox boundingBox, Block treasureBlock, boolean isMale) {
             super(IafStructurePieces.LIGHTNING_DRAGON_ROOST.get(), length, boundingBox, treasureBlock, isMale);

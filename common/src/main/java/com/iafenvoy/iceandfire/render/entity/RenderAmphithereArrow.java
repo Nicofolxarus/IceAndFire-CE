@@ -7,7 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 
 public class RenderAmphithereArrow extends ProjectileEntityRenderer {
-    private static final Identifier TEXTURE = new Identifier(IceAndFire.MOD_ID, "textures/models/misc/amphithere_arrow.png");
+    private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/models/misc/amphithere_arrow.png");
 
     public RenderAmphithereArrow(EntityRendererFactory.Context context) {
         super(context);

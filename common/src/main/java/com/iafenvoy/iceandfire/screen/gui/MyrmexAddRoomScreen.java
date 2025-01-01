@@ -19,8 +19,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class MyrmexAddRoomScreen extends HandledScreen<MyrmexAddRoomScreenHandler> {
-    private static final Identifier JUNGLE_TEXTURE = new Identifier(IceAndFire.MOD_ID, "textures/gui/myrmex_staff_jungle.png");
-    private static final Identifier DESERT_TEXTURE = new Identifier(IceAndFire.MOD_ID, "textures/gui/myrmex_staff_desert.png");
+    private static final Identifier JUNGLE_TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/gui/myrmex_staff_jungle.png");
+    private static final Identifier DESERT_TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/gui/myrmex_staff_desert.png");
     private final boolean jungle;
 
     public MyrmexAddRoomScreen(MyrmexAddRoomScreenHandler container, PlayerInventory inv, Text name) {

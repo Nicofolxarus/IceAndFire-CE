@@ -24,9 +24,9 @@ import java.util.function.Predicate;
 public class TrollType {
     private static final List<TrollType> TYPES = new ArrayList<>();
     private static final Map<String, TrollType> BY_NAME = new HashMap<>();
-    public static final TrollType FOREST = new TrollType("forest", IafItems.TROLL_FOREST_ARMOR_MATERIAL, biome -> biome.isIn(IafBiomeTags.FOREST_TROLL), new Identifier(IceAndFire.MOD_ID, "entities/troll_forest"), BuiltinWeapon.TRUNK, BuiltinWeapon.COLUMN_FOREST, BuiltinWeapon.AXE, BuiltinWeapon.HAMMER);
-    public static final TrollType FROST = new TrollType("frost", IafItems.TROLL_FROST_ARMOR_MATERIAL, biome -> biome.isIn(IafBiomeTags.SNOWY_TROLL), new Identifier(IceAndFire.MOD_ID, "entities/troll_frost"), BuiltinWeapon.COLUMN_FROST, BuiltinWeapon.TRUNK_FROST, BuiltinWeapon.AXE, BuiltinWeapon.HAMMER);
-    public static final TrollType MOUNTAIN = new TrollType("mountain", IafItems.TROLL_MOUNTAIN_ARMOR_MATERIAL, biome -> biome.isIn(IafBiomeTags.MOUNTAIN_TROLL), new Identifier(IceAndFire.MOD_ID, "entities/troll_mountain"), BuiltinWeapon.COLUMN, BuiltinWeapon.AXE, BuiltinWeapon.HAMMER);
+    public static final TrollType FOREST = new TrollType("forest", IafItems.TROLL_FOREST_ARMOR_MATERIAL, biome -> biome.isIn(IafBiomeTags.FOREST_TROLL), Identifier.of(IceAndFire.MOD_ID, "entities/troll_forest"), BuiltinWeapon.TRUNK, BuiltinWeapon.COLUMN_FOREST, BuiltinWeapon.AXE, BuiltinWeapon.HAMMER);
+    public static final TrollType FROST = new TrollType("frost", IafItems.TROLL_FROST_ARMOR_MATERIAL, biome -> biome.isIn(IafBiomeTags.SNOWY_TROLL), Identifier.of(IceAndFire.MOD_ID, "entities/troll_frost"), BuiltinWeapon.COLUMN_FROST, BuiltinWeapon.TRUNK_FROST, BuiltinWeapon.AXE, BuiltinWeapon.HAMMER);
+    public static final TrollType MOUNTAIN = new TrollType("mountain", IafItems.TROLL_MOUNTAIN_ARMOR_MATERIAL, biome -> biome.isIn(IafBiomeTags.MOUNTAIN_TROLL), Identifier.of(IceAndFire.MOD_ID, "entities/troll_mountain"), BuiltinWeapon.COLUMN, BuiltinWeapon.AXE, BuiltinWeapon.HAMMER);
     public RegistrySupplier<Item> leather, helmet, chestplate, leggings, boots;
     private final String name;
     private final CustomArmorMaterial material;
@@ -84,15 +84,15 @@ public class TrollType {
     }
 
     public Identifier getTexture() {
-        return new Identifier(IceAndFire.MOD_ID, "textures/models/troll/troll_" + this.name + ".png");
+        return Identifier.of(IceAndFire.MOD_ID, "textures/models/troll/troll_" + this.name + ".png");
     }
 
     public Identifier getStatueTexture() {
-        return new Identifier(IceAndFire.MOD_ID, "textures/models/troll/troll_" + this.name + "_stone.png");
+        return Identifier.of(IceAndFire.MOD_ID, "textures/models/troll/troll_" + this.name + "_stone.png");
     }
 
     public Identifier getEyesTexture() {
-        return new Identifier(IceAndFire.MOD_ID, "textures/models/troll/troll_" + this.name + "_eyes.png");
+        return Identifier.of(IceAndFire.MOD_ID, "textures/models/troll/troll_" + this.name + "_eyes.png");
     }
 
     public boolean allowSpawn(RegistryEntry<Biome> biome) {
@@ -115,7 +115,7 @@ public class TrollType {
 
         @Override
         public Identifier getTexture() {
-            return new Identifier(IceAndFire.MOD_ID, "textures/models/troll/weapon/weapon_" + this.name().toLowerCase(Locale.ROOT) + ".png");
+            return Identifier.of(IceAndFire.MOD_ID, "textures/models/troll/weapon/weapon_" + this.name().toLowerCase(Locale.ROOT) + ".png");
         }
 
         @Override

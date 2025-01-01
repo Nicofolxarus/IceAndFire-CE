@@ -40,8 +40,8 @@ public class FireDragonCaveStructure extends DragonCaveStructure {
     }
 
     public static class FireDragonCavePiece extends DragonCavePiece {
-        public static final Identifier FIRE_DRAGON_CHEST = new Identifier(IceAndFire.MOD_ID, "chest/fire_dragon_female_cave");
-        public static final Identifier FIRE_DRAGON_CHEST_MALE = new Identifier(IceAndFire.MOD_ID, "chest/fire_dragon_male_cave");
+        public static final Identifier FIRE_DRAGON_CHEST = Identifier.of(IceAndFire.MOD_ID, "chest/fire_dragon_female_cave");
+        public static final Identifier FIRE_DRAGON_CHEST_MALE = Identifier.of(IceAndFire.MOD_ID, "chest/fire_dragon_male_cave");
 
         protected FireDragonCavePiece(int length, BlockBox boundingBox, boolean male, BlockPos offset, int y, long seed) {
             super(IafStructurePieces.FIRE_DRAGON_CAVE.get(), length, boundingBox, male, offset, y, seed);

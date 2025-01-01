@@ -42,9 +42,9 @@ import net.minecraft.world.WorldView;
 import java.util.Random;
 
 public class EntityIceDragon extends EntityDragonBase {
-    public static final Identifier FEMALE_LOOT = new Identifier(IceAndFire.MOD_ID, "entities/dragon/ice_dragon_female");
-    public static final Identifier MALE_LOOT = new Identifier(IceAndFire.MOD_ID, "entities/dragon/ice_dragon_male");
-    public static final Identifier SKELETON_LOOT = new Identifier(IceAndFire.MOD_ID, "entities/dragon/ice_dragon_skeleton");
+    public static final Identifier FEMALE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/dragon/ice_dragon_female");
+    public static final Identifier MALE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/dragon/ice_dragon_male");
+    public static final Identifier SKELETON_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/dragon/ice_dragon_skeleton");
 
     public EntityIceDragon(World worldIn) {
         this(IafEntities.ICE_DRAGON.get(), worldIn);

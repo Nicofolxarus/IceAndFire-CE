@@ -7,5 +7,5 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public final class IafWorld {
-    public static final RegistryKey<World> DREAD_LAND = RegistryKey.of(RegistryKeys.WORLD, new Identifier(IceAndFire.MOD_ID, "dread_land"));
+    public static final RegistryKey<World> DREAD_LAND = RegistryKey.of(RegistryKeys.WORLD, Identifier.of(IceAndFire.MOD_ID, "dread_land"));
 }

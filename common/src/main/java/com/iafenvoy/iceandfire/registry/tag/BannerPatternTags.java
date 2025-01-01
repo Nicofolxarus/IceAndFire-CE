@@ -28,7 +28,7 @@ public final class BannerPatternTags {
     public static final TagKey<BannerPattern> DREAD_BANNER_PATTERN = create("pattern_item/dread");
 
     private static TagKey<BannerPattern> create(String name) {
-        return TagKey.of(RegistryKeys.BANNER_PATTERN, new Identifier(IceAndFire.MOD_ID, name));
+        return TagKey.of(RegistryKeys.BANNER_PATTERN, Identifier.of(IceAndFire.MOD_ID, name));
     }
 }
 

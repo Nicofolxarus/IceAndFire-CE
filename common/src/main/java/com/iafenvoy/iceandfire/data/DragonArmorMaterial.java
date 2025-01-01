@@ -32,7 +32,7 @@ public class DragonArmorMaterial {
     public static Identifier getArmorTexture(ItemStack stack, EquipmentSlot slot) {
         if (!stack.isEmpty() && stack.getItem() instanceof ItemDragonArmor armorItem)
             return armorItem.type.getTexture(slot);
-        else return new Identifier("missing");
+        else return Identifier.of(Identifier.DEFAULT_NAMESPACE, "missing");
     }
 
     public static List<DragonArmorMaterial> values() {

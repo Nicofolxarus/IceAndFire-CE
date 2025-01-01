@@ -18,8 +18,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
 public class RenderGorgonHead extends BuiltinModelItemRenderer {
-    private static final RenderLayer ACTIVE_TEXTURE = RenderLayer.getEntityCutoutNoCull(new Identifier(IceAndFire.MOD_ID, "textures/models/gorgon/head_active.png"), false);
-    private static final RenderLayer INACTIVE_TEXTURE = RenderLayer.getEntityCutoutNoCull(new Identifier(IceAndFire.MOD_ID, "textures/models/gorgon/head_inactive.png"), false);
+    private static final RenderLayer ACTIVE_TEXTURE = RenderLayer.getEntityCutoutNoCull(Identifier.of(IceAndFire.MOD_ID, "textures/models/gorgon/head_active.png"), false);
+    private static final RenderLayer INACTIVE_TEXTURE = RenderLayer.getEntityCutoutNoCull(Identifier.of(IceAndFire.MOD_ID, "textures/models/gorgon/head_inactive.png"), false);
     private static final AdvancedEntityModel ACTIVE_MODEL = new ModelGorgonHeadActive();
     private static final AdvancedEntityModel<Entity> INACTIVE_MODEL = new ModelGorgonHead();
 

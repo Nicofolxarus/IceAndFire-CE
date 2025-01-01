@@ -17,9 +17,9 @@ import net.minecraft.util.Identifier;
 import java.util.List;
 
 public class DragonForgeScreen extends HandledScreen<DragonForgeScreenHandler> {
-    private static final Identifier TEXTURE_FIRE = new Identifier(IceAndFire.MOD_ID, "textures/gui/dragonforge_fire.png");
-    private static final Identifier TEXTURE_ICE = new Identifier(IceAndFire.MOD_ID, "textures/gui/dragonforge_ice.png");
-    private static final Identifier TEXTURE_LIGHTNING = new Identifier(IceAndFire.MOD_ID, "textures/gui/dragonforge_lightning.png");
+    private static final Identifier TEXTURE_FIRE = Identifier.of(IceAndFire.MOD_ID, "textures/gui/dragonforge_fire.png");
+    private static final Identifier TEXTURE_ICE = Identifier.of(IceAndFire.MOD_ID, "textures/gui/dragonforge_ice.png");
+    private static final Identifier TEXTURE_LIGHTNING = Identifier.of(IceAndFire.MOD_ID, "textures/gui/dragonforge_lightning.png");
     private final DragonForgeScreenHandler tileFurnace;
 
     public DragonForgeScreen(DragonForgeScreenHandler container, PlayerInventory inv, Text name) {

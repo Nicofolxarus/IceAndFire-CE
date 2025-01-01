@@ -22,7 +22,7 @@ public enum MultipartComponentProvider implements IEntityComponentProvider {
 
     @Override
     public Identifier getUid() {
-        return new Identifier(IceAndFire.MOD_ID, "multipart");
+        return Identifier.of(IceAndFire.MOD_ID, "multipart");
     }
 
     @Override

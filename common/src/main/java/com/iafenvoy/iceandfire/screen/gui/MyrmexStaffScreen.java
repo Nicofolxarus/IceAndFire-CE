@@ -27,8 +27,8 @@ import net.minecraft.util.math.BlockPos;
 import java.util.List;
 
 public class MyrmexStaffScreen extends HandledScreen<MyrmexStaffScreenHandler> {
-    private static final Identifier JUNGLE_TEXTURE = new Identifier(IceAndFire.MOD_ID, "textures/gui/myrmex_staff_jungle.png");
-    private static final Identifier DESERT_TEXTURE = new Identifier(IceAndFire.MOD_ID, "textures/gui/myrmex_staff_desert.png");
+    private static final Identifier JUNGLE_TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/gui/myrmex_staff_jungle.png");
+    private static final Identifier DESERT_TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/gui/myrmex_staff_desert.png");
     private static final MyrmexHiveStructure.RoomType[] ROOMS = {MyrmexHiveStructure.RoomType.FOOD, MyrmexHiveStructure.RoomType.NURSERY, MyrmexHiveStructure.RoomType.EMPTY};
     private static final int ROOMS_PER_PAGE = 5;
     private final List<Room> allRoomPos = Lists.newArrayList();

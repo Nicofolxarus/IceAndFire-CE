@@ -68,7 +68,7 @@ public class DragonType {
     }
 
     public Identifier getSkeletonTexture(int stage) {
-        return new Identifier(IceAndFire.MOD_ID, String.format("textures/models/%sdragon/%s_skeleton_%d.png", this.name, this.name, stage));
+        return Identifier.of(IceAndFire.MOD_ID, String.format("textures/models/%sdragon/%s_skeleton_%d.png", this.name, this.name, stage));
     }
 
     public Item getSkullItem() {

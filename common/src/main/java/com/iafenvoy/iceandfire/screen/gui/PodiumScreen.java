@@ -11,7 +11,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class PodiumScreen extends HandledScreen<PodiumScreenHandler> {
-    public static final Identifier PODUIM_TEXTURE = new Identifier(IceAndFire.MOD_ID, "textures/gui/podium.png");
+    public static final Identifier PODUIM_TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/gui/podium.png");
 
     public PodiumScreen(PodiumScreenHandler container, PlayerInventory inv, Text name) {
         super(container, inv, name);

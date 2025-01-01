@@ -57,7 +57,7 @@ public class HydraCaveStructure extends Structure {
     }
 
     public static class HydraCavePiece extends StructurePiece {
-        public static final Identifier HYDRA_CHEST = new Identifier(IceAndFire.MOD_ID, "chest/hydra_cave");
+        public static final Identifier HYDRA_CHEST = Identifier.of(IceAndFire.MOD_ID, "chest/hydra_cave");
 
         protected HydraCavePiece(int length, BlockBox boundingBox) {
             super(IafStructurePieces.HYDRA_CAVE.get(), length, boundingBox);

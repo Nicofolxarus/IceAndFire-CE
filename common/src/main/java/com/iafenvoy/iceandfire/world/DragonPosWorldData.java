@@ -17,15 +17,9 @@ public class DragonPosWorldData extends PersistentState {
 
     private static final String IDENTIFIER = "iceandfire_dragonPositions";
     protected final Map<UUID, BlockPos> lastDragonPositions = new HashMap<>();
-    private World world;
     private int tickCounter;
 
     public DragonPosWorldData() {
-    }
-
-    public DragonPosWorldData(World world) {
-        this.world = world;
-        this.markDirty();
     }
 
     public DragonPosWorldData(NbtCompound compoundTag) {
@@ -33,16 +27,10 @@ public class DragonPosWorldData extends PersistentState {
     }
 
     public static DragonPosWorldData get(World world) {
-        if (world instanceof ServerWorld) {
-            ServerWorld overworld = world.getServer().getWorld(world.getRegistryKey());
-
-            assert overworld != null;
-            PersistentStateManager storage = overworld.getPersistentStateManager();
+        if (world instanceof ServerWorld serverWorld) {
+            PersistentStateManager storage = serverWorld.getPersistentStateManager();
             DragonPosWorldData data = storage.getOrCreate(DragonPosWorldData::new, DragonPosWorldData::new, IDENTIFIER);
-            if (data != null) {
-                data.world = world;
-                data.markDirty();
-            }
+            if (data != null) data.markDirty();
             return data;
         }
         return null;

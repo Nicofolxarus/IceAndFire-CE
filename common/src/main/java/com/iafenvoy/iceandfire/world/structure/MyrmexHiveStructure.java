@@ -90,10 +90,10 @@ public class MyrmexHiveStructure extends Structure {
     }
 
     public static class MyrmexHivePiece extends StructurePiece {
-        public static final Identifier MYRMEX_GOLD_CHEST = new Identifier(IceAndFire.MOD_ID, "chest/myrmex_loot_chest");
-        public static final Identifier DESERT_MYRMEX_FOOD_CHEST = new Identifier(IceAndFire.MOD_ID, "chest/myrmex_desert_food_chest");
-        public static final Identifier JUNGLE_MYRMEX_FOOD_CHEST = new Identifier(IceAndFire.MOD_ID, "chest/myrmex_jungle_food_chest");
-        public static final Identifier MYRMEX_TRASH_CHEST = new Identifier(IceAndFire.MOD_ID, "chest/myrmex_trash_chest");
+        public static final Identifier MYRMEX_GOLD_CHEST = Identifier.of(IceAndFire.MOD_ID, "chest/myrmex_loot_chest");
+        public static final Identifier DESERT_MYRMEX_FOOD_CHEST = Identifier.of(IceAndFire.MOD_ID, "chest/myrmex_desert_food_chest");
+        public static final Identifier JUNGLE_MYRMEX_FOOD_CHEST = Identifier.of(IceAndFire.MOD_ID, "chest/myrmex_jungle_food_chest");
+        public static final Identifier MYRMEX_TRASH_CHEST = Identifier.of(IceAndFire.MOD_ID, "chest/myrmex_trash_chest");
         private static final BlockState DESERT_RESIN = IafBlocks.MYRMEX_DESERT_RESIN.get().getDefaultState();
         private static final BlockState STICKY_DESERT_RESIN = IafBlocks.MYRMEX_DESERT_RESIN_STICKY.get().getDefaultState();
         private static final BlockState JUNGLE_RESIN = IafBlocks.MYRMEX_JUNGLE_RESIN.get().getDefaultState();

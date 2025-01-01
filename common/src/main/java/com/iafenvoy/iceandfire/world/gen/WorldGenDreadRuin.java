@@ -15,19 +15,19 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 
 public class WorldGenDreadRuin extends Feature<DefaultFeatureConfig> {
-    private static final Identifier STRUCTURE_0 = new Identifier(IceAndFire.MOD_ID, "dread_ruin_0");
-    private static final Identifier STRUCTURE_1 = new Identifier(IceAndFire.MOD_ID, "dread_ruin_1");
-    private static final Identifier STRUCTURE_2 = new Identifier(IceAndFire.MOD_ID, "dread_ruin_2");
-    private static final Identifier STRUCTURE_3 = new Identifier(IceAndFire.MOD_ID, "dread_ruin_3");
-    private static final Identifier STRUCTURE_4 = new Identifier(IceAndFire.MOD_ID, "dread_ruin_4");
-    private static final Identifier STRUCTURE_5 = new Identifier(IceAndFire.MOD_ID, "dread_ruin_5");
-    private static final Identifier STRUCTURE_6 = new Identifier(IceAndFire.MOD_ID, "dread_ruin_6");
-    private static final Identifier STRUCTURE_7 = new Identifier(IceAndFire.MOD_ID, "dread_ruin_7");
-    private static final Identifier STRUCTURE_8 = new Identifier(IceAndFire.MOD_ID, "dread_ruin_8");
-    private static final Identifier STRUCTURE_9 = new Identifier(IceAndFire.MOD_ID, "dread_ruin_9");
-    private static final Identifier STRUCTURE_10 = new Identifier(IceAndFire.MOD_ID, "dread_ruin_10");
-    private static final Identifier STRUCTURE_11 = new Identifier(IceAndFire.MOD_ID, "dread_ruin_11");
-    private static final Identifier STRUCTURE_12 = new Identifier(IceAndFire.MOD_ID, "dread_ruin_12");
+    private static final Identifier STRUCTURE_0 = Identifier.of(IceAndFire.MOD_ID, "dread_ruin_0");
+    private static final Identifier STRUCTURE_1 = Identifier.of(IceAndFire.MOD_ID, "dread_ruin_1");
+    private static final Identifier STRUCTURE_2 = Identifier.of(IceAndFire.MOD_ID, "dread_ruin_2");
+    private static final Identifier STRUCTURE_3 = Identifier.of(IceAndFire.MOD_ID, "dread_ruin_3");
+    private static final Identifier STRUCTURE_4 = Identifier.of(IceAndFire.MOD_ID, "dread_ruin_4");
+    private static final Identifier STRUCTURE_5 = Identifier.of(IceAndFire.MOD_ID, "dread_ruin_5");
+    private static final Identifier STRUCTURE_6 = Identifier.of(IceAndFire.MOD_ID, "dread_ruin_6");
+    private static final Identifier STRUCTURE_7 = Identifier.of(IceAndFire.MOD_ID, "dread_ruin_7");
+    private static final Identifier STRUCTURE_8 = Identifier.of(IceAndFire.MOD_ID, "dread_ruin_8");
+    private static final Identifier STRUCTURE_9 = Identifier.of(IceAndFire.MOD_ID, "dread_ruin_9");
+    private static final Identifier STRUCTURE_10 = Identifier.of(IceAndFire.MOD_ID, "dread_ruin_10");
+    private static final Identifier STRUCTURE_11 = Identifier.of(IceAndFire.MOD_ID, "dread_ruin_11");
+    private static final Identifier STRUCTURE_12 = Identifier.of(IceAndFire.MOD_ID, "dread_ruin_12");
     private static final Direction[] HORIZONTALS = new Direction[]{Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 
     public WorldGenDreadRuin(Codec<DefaultFeatureConfig> configFactoryIn) {

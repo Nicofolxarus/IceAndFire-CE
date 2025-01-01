@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 
 public class LayerHydraHead extends FeatureRenderer<EntityHydra, ModelHydraBody> {
-    public static final Identifier TEXTURE_STONE = new Identifier(IceAndFire.MOD_ID, "textures/models/hydra/stone.png");
+    public static final Identifier TEXTURE_STONE = Identifier.of(IceAndFire.MOD_ID, "textures/models/hydra/stone.png");
     private static final float[][] TRANSLATE = new float[][]{
             {0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F},// 1 total heads
             {-0.15F, 0.15F, 0F, 0F, 0F, 0F, 0F, 0F, 0F},// 2 total heads
