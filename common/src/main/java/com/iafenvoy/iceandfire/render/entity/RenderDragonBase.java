@@ -11,13 +11,13 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 
 public class RenderDragonBase extends MobEntityRenderer<EntityDragonBase, TabulaModel<EntityDragonBase>> {
-    public RenderDragonBase(EntityRendererFactory.Context context, TabulaModel<EntityDragonBase> model, int dragonType) {
+    public RenderDragonBase(EntityRendererFactory.Context context, TabulaModel<EntityDragonBase> model) {
         super(context, model, 0.15F);
         this.addFeature(new LayerDragonMaleOverlay(this));
         this.addFeature(new LayerDragonEyes(this));
         this.addFeature(new LayerDragonRider(this, false));
         this.addFeature(new LayerDragonBanner(this));
-        this.addFeature(new LayerDragonArmor(this, dragonType));
+        this.addFeature(new LayerDragonArmor(this));
     }
 
     @Override

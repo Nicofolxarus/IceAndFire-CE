@@ -13,10 +13,10 @@ import net.minecraft.entity.projectile.AbstractFireballEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 
-public class RenderDragonFireCharge extends EntityRenderer<AbstractFireballEntity> {
+public class RenderDragonCharge extends EntityRenderer<AbstractFireballEntity> {
     public final boolean isFire;
 
-    public RenderDragonFireCharge(EntityRendererFactory.Context context, boolean isFire) {
+    public RenderDragonCharge(EntityRendererFactory.Context context, boolean isFire) {
         super(context);
         this.isFire = isFire;
     }

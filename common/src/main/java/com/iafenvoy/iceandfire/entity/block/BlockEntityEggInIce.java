@@ -34,7 +34,8 @@ public class BlockEntityEggInIce extends BlockEntity {
         entityEggInIce.age++;
         if (entityEggInIce.age >= IafCommonConfig.INSTANCE.dragon.eggBornTime.getValue() && entityEggInIce.type != null && !entityEggInIce.spawned)
             if (!level.isClient) {
-                EntityIceDragon dragon = new EntityIceDragon(level);
+                EntityIceDragon dragon = IafEntities.ICE_DRAGON.get().create(level);
+                assert dragon != null;
                 dragon.setPosition(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
                 dragon.setVariant(entityEggInIce.type.name());
                 dragon.setGender(ThreadLocalRandom.current().nextBoolean());

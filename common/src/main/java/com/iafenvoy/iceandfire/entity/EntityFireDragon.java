@@ -45,11 +45,7 @@ public class EntityFireDragon extends EntityDragonBase {
     public static final Identifier MALE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/dragon/fire_dragon_male");
     public static final Identifier SKELETON_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/dragon/fire_dragon_skeleton");
 
-    public EntityFireDragon(World worldIn) {
-        this(IafEntities.FIRE_DRAGON.get(), worldIn);
-    }
-
-    public EntityFireDragon(EntityType<?> t, World worldIn) {
+    public EntityFireDragon(EntityType<? extends EntityFireDragon> t, World worldIn) {
         super(t, worldIn, DragonType.FIRE, 1, 1 + IafCommonConfig.INSTANCE.dragon.attackDamage.getValue(), IafCommonConfig.INSTANCE.dragon.maxHealth.getValue() * 0.04, IafCommonConfig.INSTANCE.dragon.maxHealth.getValue(), 0.15F, 0.4F);
         this.setPathfindingPenalty(PathNodeType.DAMAGE_FIRE, 0.0F);
         this.setPathfindingPenalty(PathNodeType.LAVA, 8.0F);

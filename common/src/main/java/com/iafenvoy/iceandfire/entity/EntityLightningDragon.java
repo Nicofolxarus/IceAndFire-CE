@@ -49,11 +49,7 @@ public class EntityLightningDragon extends EntityDragonBase {
     private static final TrackedData<Float> LIGHTNING_TARGET_Y = DataTracker.registerData(EntityLightningDragon.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Float> LIGHTNING_TARGET_Z = DataTracker.registerData(EntityLightningDragon.class, TrackedDataHandlerRegistry.FLOAT);
 
-    public EntityLightningDragon(World worldIn) {
-        this(IafEntities.LIGHTNING_DRAGON.get(), worldIn);
-    }
-
-    public EntityLightningDragon(EntityType<?> t, World worldIn) {
+    public EntityLightningDragon(EntityType<? extends EntityLightningDragon> t, World worldIn) {
         super(t, worldIn, DragonType.LIGHTNING, 1, 1 + IafCommonConfig.INSTANCE.dragon.attackDamage.getValue(), IafCommonConfig.INSTANCE.dragon.maxHealth.getValue() * 0.04, IafCommonConfig.INSTANCE.dragon.maxHealth.getValue(), 0.15F, 0.4F);
         this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, 0.0F);
         this.setPathfindingPenalty(PathNodeType.LAVA, 8.0F);

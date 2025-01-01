@@ -17,7 +17,7 @@ public class RenderLightningDragon extends RenderDragonBase {
     private final LightningRender lightningRender = new LightningRender();
 
     public RenderLightningDragon(EntityRendererFactory.Context context, TabulaModel modelSupplier, int dragonType) {
-        super(context, modelSupplier, dragonType);
+        super(context, modelSupplier);
     }
 
     private static float getBoundedScale(float scale) {

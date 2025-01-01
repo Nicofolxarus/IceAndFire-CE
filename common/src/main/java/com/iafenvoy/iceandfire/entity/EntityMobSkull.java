@@ -24,7 +24,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityMobSkull extends AnimalEntity implements IBlacklistedFromStatues, IDeadMob {
-
     private static final TrackedData<Float> SKULL_DIRECTION = DataTracker.registerData(EntityMobSkull.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Integer> SKULL_ENUM = DataTracker.registerData(EntityMobSkull.class, TrackedDataHandlerRegistry.INTEGER);
 

@@ -20,7 +20,7 @@ import java.util.List;
 public class LayerDragonArmor extends FeatureRenderer<EntityDragonBase, TabulaModel<EntityDragonBase>> {
     private static final List<EquipmentSlot> ARMOR_SLOTS = List.of(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET);
 
-    public LayerDragonArmor(MobEntityRenderer<EntityDragonBase, TabulaModel<EntityDragonBase>> renderIn, int type) {
+    public LayerDragonArmor(MobEntityRenderer<EntityDragonBase, TabulaModel<EntityDragonBase>> renderIn) {
         super(renderIn);
     }
 

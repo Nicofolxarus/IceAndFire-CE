@@ -4,9 +4,13 @@ import com.google.common.collect.Maps;
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.data.IafSkullType;
 import com.iafenvoy.iceandfire.entity.EntityMobSkull;
+import com.iafenvoy.iceandfire.entity.EntitySeaSerpent;
+import com.iafenvoy.iceandfire.registry.IafRenderers;
 import com.iafenvoy.iceandfire.render.model.*;
+import com.iafenvoy.iceandfire.render.model.animator.SeaSerpentTabulaModelAnimator;
 import com.iafenvoy.uranus.client.model.TabulaModel;
 import com.iafenvoy.uranus.client.model.basic.BasicModelPart;
+import com.iafenvoy.uranus.client.model.util.TabulaModelHandlerHelper;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -29,9 +33,9 @@ public class RenderMobSkull extends EntityRenderer<EntityMobSkull> {
     private final ModelTroll trollModel;
     private final ModelAmphithere amphithereModel;
     private final ModelHydraHead hydraModel;
-    private final TabulaModel<EntityMobSkull> seaSerpentModel;
+    private final TabulaModel<EntitySeaSerpent> seaSerpentModel;
 
-    public RenderMobSkull(EntityRendererFactory.Context context, TabulaModel<EntityMobSkull> seaSerpentModel) {
+    public RenderMobSkull(EntityRendererFactory.Context context) {
         super(context);
         this.hippogryphModel = new ModelHippogryph();
         this.cyclopsModel = new ModelCyclops();
@@ -39,7 +43,7 @@ public class RenderMobSkull extends EntityRenderer<EntityMobSkull> {
         this.stymphalianBirdModel = new ModelStymphalianBird();
         this.trollModel = new ModelTroll();
         this.amphithereModel = new ModelAmphithere();
-        this.seaSerpentModel = seaSerpentModel;
+        this.seaSerpentModel = TabulaModelHandlerHelper.getModel(IafRenderers.SEA_SERPENT, SeaSerpentTabulaModelAnimator::new);
         this.hydraModel = new ModelHydraHead(0);
     }
 

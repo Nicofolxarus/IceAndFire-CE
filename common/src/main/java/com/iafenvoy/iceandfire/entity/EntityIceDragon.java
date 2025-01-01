@@ -46,11 +46,7 @@ public class EntityIceDragon extends EntityDragonBase {
     public static final Identifier MALE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/dragon/ice_dragon_male");
     public static final Identifier SKELETON_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/dragon/ice_dragon_skeleton");
 
-    public EntityIceDragon(World worldIn) {
-        this(IafEntities.ICE_DRAGON.get(), worldIn);
-    }
-
-    public EntityIceDragon(EntityType<?> t, World worldIn) {
+    public EntityIceDragon(EntityType<? extends EntityIceDragon> t, World worldIn) {
         super(t, worldIn, DragonType.ICE, 1, 1 + IafCommonConfig.INSTANCE.dragon.attackDamage.getValue(), IafCommonConfig.INSTANCE.dragon.maxHealth.getValue() * 0.04, IafCommonConfig.INSTANCE.dragon.maxHealth.getValue(), 0.15F, 0.4F);
         ANIMATION_SPEAK = Animation.create(20);
         ANIMATION_BITE = Animation.create(35);
