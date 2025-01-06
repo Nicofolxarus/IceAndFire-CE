@@ -203,10 +203,10 @@ public class IafDragonLogic {
                 this.dragon.growDragon(0);
             }
         }
-        if (this.dragon.age % IafCommonConfig.INSTANCE.dragon.hungerTickRate.getValue() == 0) {
-            if (IafCommonConfig.INSTANCE.dragon.hungerTickRate.getValue() > 0) if (this.dragon.getHunger() > 0)
-                this.dragon.setHunger(this.dragon.getHunger() - 1);
-        }
+        if (IafCommonConfig.INSTANCE.dragon.hungerTickRate.getValue() > 0)
+            if (this.dragon.age % IafCommonConfig.INSTANCE.dragon.hungerTickRate.getValue() == 0)
+                if (this.dragon.getHunger() > 0)
+                    this.dragon.setHunger(this.dragon.getHunger() - 1);
         if ((this.dragon.groundAttack == IafDragonAttacks.Ground.FIRE) && this.dragon.getDragonStage() < 2) {
             this.dragon.usingGroundAttack = true;
             this.dragon.randomizeAttacks();
