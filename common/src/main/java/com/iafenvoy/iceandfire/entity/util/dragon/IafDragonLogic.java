@@ -281,6 +281,10 @@ public class IafDragonLogic {
     logic done on server and client on parallel.
     */
     public void updateDragonCommon() {
+        if (this.dragon.fireBreathTicks > this.dragon.getAgeInDays() * IafCommonConfig.INSTANCE.dragon.maxBreathTimeMul.getValue()) {
+            this.dragon.fireBreathTicks = 0;
+            this.dragon.setBreathingFire(false);
+        }
         if (this.dragon.isBreathingFire()) {
             this.dragon.fireBreathTicks++;
             if (this.dragon.burnProgress < 40)

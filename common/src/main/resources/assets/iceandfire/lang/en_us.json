@@ -1501,6 +1501,7 @@
   "iceandfire.category.hippocampus": "Hippocampus",
   "iceandfire.hippocampus.spawnChance": "Hippocampus Spawn Chance",
   "iceandfire.hippocampus.swimSpeedMod": "Hippocampus Swim Speed Mod",
+  "iceandfire.dragon.maxBreathTimeMul": "Max Breath Time Mul",
   "iceandfire.category.misc": "Misc",
   "iceandfire.misc.allowAttributeOverriding": "Allow Attribute Overriding",
   "modmenu.nameTranslation.iceandfire": "Ice And Fire",

@@ -43,7 +43,7 @@ public class IafCommonConfig extends AutoInitConfigContainer {
     public Misc misc = new Misc();
 
     public IafCommonConfig() {
-        super(Identifier.of(IceAndFire.MOD_ID,"config.iceandfire.common"), "screen.iceandfire.common.title", "./config/iceandfire/iaf-common.json");
+        super(Identifier.of(IceAndFire.MOD_ID, "config.iceandfire.common"), "screen.iceandfire.common.title", "./config/iceandfire/iaf-common.json");
     }
 
     @Override
@@ -104,6 +104,7 @@ public class IafCommonConfig extends AutoInitConfigContainer {
         public final IConfigEntry<Boolean> chunkLoadSummonCrystal = new BooleanEntry("iceandfire.dragon.chunkLoadSummonCrystal", true);
         public final IConfigEntry<Double> dragonFlightSpeedMod = new DoubleEntry("iceandfire.dragon.dragonFlightSpeedMod", 1, 0.0001, 50);
         public final IConfigEntry<Integer> maxTamedDragonAge = new IntegerEntry("iceandfire.dragon.maxTamedDragonAge", 128, 0, 128);
+        public final IConfigEntry<Double> maxBreathTimeMul = new DoubleEntry("iceandfire.dragon.maxBreathTimeMul", 2, 0, Integer.MAX_VALUE);
         public final SeparatorEntry s3 = new SeparatorEntry();
         public final IConfigEntry<Boolean> lootSkull = new BooleanEntry("iceandfire.dragon.loot.skull", true);
         public final IConfigEntry<Boolean> lootHeart = new BooleanEntry("iceandfire.dragon.loot.heart", true);

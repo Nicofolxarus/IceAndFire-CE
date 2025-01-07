@@ -1277,9 +1277,8 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                 }
             }
             return ActionResult.SUCCESS;
-        }
-        return super.interactMob(player, hand);
-
+        } else return super.interactMob(player, hand);
+        return ActionResult.PASS;
     }
 
     public abstract ItemConvertible getHeartItem();
@@ -1587,7 +1586,6 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
         else if (age >= 50) return 3;
         else if (age >= 25) return 2;
         else return 1;
-
     }
 
     public boolean isTeen() {
