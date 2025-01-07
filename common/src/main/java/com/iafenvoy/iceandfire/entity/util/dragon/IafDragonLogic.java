@@ -55,9 +55,8 @@ public class IafDragonLogic {
             this.dragon.setInSittingPose(false);
         if (this.dragon.isSitting() && this.dragon.getControllingPassenger() != null)
             this.dragon.setSitting(false);
-        if (this.dragon.blockBreakCounter <= 0) {
+        if (this.dragon.blockBreakCounter <= 0)
             this.dragon.blockBreakCounter = IafCommonConfig.INSTANCE.dragon.breakBlockCooldown.getValue();
-        }
         this.dragon.updateBurnTarget();
         if (this.dragon.isSitting()) {
             if (this.dragon.getCommand() != 1 || this.dragon.getControllingPassenger() != null)

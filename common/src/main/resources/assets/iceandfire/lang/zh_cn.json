@@ -1541,5 +1541,7 @@
   "block.iceandfire.dreadwood_leaves": "悚木树叶",
   "block.iceandfire.dreadwood_sapling": "悚木树苗",
   "biome.iceandfire.dread_forest": "悚林",
-  "biome.iceandfire.dread_plain": "惊悚平原"
+  "biome.iceandfire.dread_plain": "惊悚平原",
+  "entity.iceandfire.lightning_dragon_charge": "龙霆弹",
+  "warning.iceandfire.dreadland.not_complete": "悚域暂未完成，请不要汇报内容缺失问题！"
 }

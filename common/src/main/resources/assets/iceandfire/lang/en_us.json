@@ -1,6 +1,6 @@
 {
-  "itemGroup.iceandfire.items": "Ice And Fire Items",
-  "itemGroup.iceandfire.blocks": "Ice And Fire Blocks",
+  "itemGroup.iceandfire.items": "Ice And Fire | Items",
+  "itemGroup.iceandfire.blocks": "Ice And Fire | Blocks",
   "iceandfire.empty": "Empty",
 
   "block.iceandfire.lectern": "Bestiary Lectern",
@@ -1544,5 +1544,7 @@
   "block.iceandfire.dreadwood_leaves": "Dreadwood Leaves",
   "block.iceandfire.dreadwood_sapling": "Dreadwood Sapling",
   "biome.iceandfire.dread_forest": "Dread Forest",
-  "biome.iceandfire.dread_plain": "Dread Plain"
+  "biome.iceandfire.dread_plain": "Dread Plain",
+
+  "warning.iceandfire.dreadland.not_complete": "Dreadland not complete yet. Please do not report contents loss bugs!"
 }

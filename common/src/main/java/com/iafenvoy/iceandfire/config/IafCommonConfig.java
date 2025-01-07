@@ -98,7 +98,7 @@ public class IafCommonConfig extends AutoInitConfigContainer {
         public final IConfigEntry<Integer> breakBlockCooldown = new IntegerEntry("iceandfire.dragon.breakBlockCooldown", 5, 0, Integer.MAX_VALUE);
         public final IConfigEntry<Integer> targetSearchLength = new IntegerEntry("iceandfire.dragon.breakBlockCooldown", 128, 0, 1024);
         public final IConfigEntry<Integer> wanderFromHomeDistance = new IntegerEntry("iceandfire.dragon.wanderFromHomeDistance", 40, 0, 1024);
-        public final IConfigEntry<Integer> hungerTickRate = new IntegerEntry("iceandfire.dragon.hungerTickRate", 3000, 0, Integer.MAX_VALUE);
+        public final IConfigEntry<Integer> hungerTickRate = new IntegerEntry("iceandfire.dragon.hungerTickRate", 3000, 1, Integer.MAX_VALUE);
         public final IConfigEntry<Double> blockBreakingDropChance = new DoubleEntry("iceandfire.dragon.blockBreakingDropChance", 0.1, 0, 1);
         public final IConfigEntry<Boolean> explosiveBreath = new BooleanEntry("iceandfire.dragon.explosiveBreath", false);
         public final IConfigEntry<Boolean> chunkLoadSummonCrystal = new BooleanEntry("iceandfire.dragon.chunkLoadSummonCrystal", true);
