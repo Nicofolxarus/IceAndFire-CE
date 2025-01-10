@@ -880,10 +880,8 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
 
     @Override
     public PlayerEntity getRidingPlayer() {
-        if (this.getControllingPassenger() instanceof PlayerEntity player) {
+        if (this.getControllingPassenger() instanceof PlayerEntity player)
             return player;
-        }
-
         return null;
     }
 
