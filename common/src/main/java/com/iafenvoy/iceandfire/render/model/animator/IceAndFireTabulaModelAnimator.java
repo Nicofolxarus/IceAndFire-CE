@@ -60,6 +60,7 @@ public class IceAndFireTabulaModelAnimator<T extends Entity> {
     }
 
     public void moveToPose(TabulaModel<T> model, TabulaModel<T> modelTo) {
+        if (model == null || modelTo == null) return;
         for (AdvancedModelBox cube : model.getCubes().values()) {
             AdvancedModelBox cubeTo = modelTo.getCube(cube.boxName);
             if (!this.isRotationEqual(this.baseModel.getCube(cube.boxName), cubeTo)) {

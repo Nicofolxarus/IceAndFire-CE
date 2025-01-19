@@ -27,6 +27,7 @@ public class SeaSerpentTabulaModelAnimator extends IceAndFireTabulaModelAnimator
         if (prevIndex < 0) prevIndex = 3;
         TabulaModel<EntitySeaSerpent> prevPosition = resolve(this.swimPose[prevIndex].getModelId());
         TabulaModel<EntitySeaSerpent> currentPosition = resolve(this.swimPose[currentIndex].getModelId());
+        if (prevPosition == null || currentPosition == null) return;
         float partialTicks = MinecraftClient.getInstance().getTickDelta();
         float delta = ((entity.swimCycle) / 10.0F) % 1.0F + (partialTicks / 10.0F);
         // AdvancedModelBox[] tailParts = {model.getCube("Tail1"), model.getCube("Tail2"), model.getCube("Tail3"), model.getCube("Tail4"), model.getCube("Tail5"), model.getCube("Tail6")};
