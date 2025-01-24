@@ -18,7 +18,7 @@ public class IafClientConfig extends FileConfigContainer {
     public static final int CURRENT_VERSION = 0;
     public final IConfigEntry<Boolean> customMainMenu = new BooleanEntry("iceandfire.customMainMenu", true);
     public final IConfigEntry<Boolean> dragonAuto3rdPerson = new BooleanEntry("iceandfire.dragonAuto3rdPerson", false);
-    public IConfigEntry<Boolean> sirenShader = new BooleanEntry("iceandfire.siren.shader", true);
+    public final IConfigEntry<Boolean> sirenShader = new BooleanEntry("iceandfire.siren.shader", true);
 
     public IafClientConfig() {
         super(Identifier.of(IceAndFire.MOD_ID, "config.iceandfire.client"), "screen.iceandfire.client.title", "./config/iceandfire/iaf-client.json");
