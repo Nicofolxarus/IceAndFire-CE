@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 
 public class EntityAmphithereArrow extends PersistentProjectileEntity {
     public EntityAmphithereArrow(EntityType<? extends PersistentProjectileEntity> type, World worldIn) {
-        super(type, worldIn);
+        super(type, worldIn, new ItemStack(IafItems.AMPHITHERE_ARROW.get()));
         this.setDamage(2.5F);
     }
 
@@ -23,7 +23,7 @@ public class EntityAmphithereArrow extends PersistentProjectileEntity {
     }
 
     public EntityAmphithereArrow(EntityType<? extends PersistentProjectileEntity> type, LivingEntity shooter, World worldIn) {
-        super(type, shooter, worldIn);
+        super(type, shooter, worldIn, new ItemStack(IafItems.AMPHITHERE_ARROW.get()));
         this.setDamage(2.5F);
     }
 
@@ -74,10 +74,5 @@ public class EntityAmphithereArrow extends PersistentProjectileEntity {
     public void handleStatus(byte id) {
         if (id == 20) this.spawnExplosionParticle();
         else super.handleStatus(id);
-    }
-
-    @Override
-    protected ItemStack asItemStack() {
-        return new ItemStack(IafItems.AMPHITHERE_ARROW.get());
     }
 }

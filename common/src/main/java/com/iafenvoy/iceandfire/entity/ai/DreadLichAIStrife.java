@@ -95,7 +95,7 @@ public class DreadLichAIStrife extends Goal {
                 this.entity.clearActiveItem();
             else if (flag) {
                 this.entity.clearActiveItem();
-                ((RangedAttackMob) this.entity).attack(LivingEntity, 0);
+                this.entity.shootAt(LivingEntity, 0);
             }
         }
     }

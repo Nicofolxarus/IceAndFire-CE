@@ -3,6 +3,7 @@ package com.iafenvoy.iceandfire.item.block;
 import com.iafenvoy.iceandfire.entity.block.BlockEntityDreadPortal;
 import com.iafenvoy.iceandfire.item.block.util.IDreadBlock;
 import com.iafenvoy.iceandfire.registry.IafParticles;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.piston.PistonBehavior;
@@ -14,6 +15,8 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public class BlockDreadPortal extends BlockWithEntity implements IDreadBlock {
+    private static final MapCodec<? extends BlockWithEntity> CODEC = createCodec(s -> new BlockDreadPortal());
+
     public BlockDreadPortal() {
         super(Settings.create().mapColor(MapColor.CLEAR).pistonBehavior(PistonBehavior.BLOCK).nonOpaque().dynamicBounds().strength(-1, 100000).luminance((state) -> 1).ticksRandomly());
     }
@@ -40,6 +43,11 @@ public class BlockDreadPortal extends BlockWithEntity implements IDreadBlock {
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return VoxelShapes.cuboid(0, 0, 0, 0, 0, 0);
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return CODEC;
     }
 
     @Override

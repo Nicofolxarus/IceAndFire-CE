@@ -1,6 +1,7 @@
 package com.iafenvoy.iceandfire.item.block;
 
 import com.iafenvoy.iceandfire.entity.block.BlockEntityPodium;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.Instrument;
@@ -17,6 +18,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public class BlockPodium extends BlockWithEntity {
+    private static final MapCodec<? extends BlockWithEntity> CODEC = createCodec(s -> new BlockPodium());
     protected static final VoxelShape AABB = Block.createCuboidShape(2, 0, 2, 14, 23, 14);
 
     public BlockPodium() {
@@ -56,6 +58,11 @@ public class BlockPodium extends BlockWithEntity {
         return ActionResult.FAIL;
     }
 
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return CODEC;
+    }
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {

@@ -44,7 +44,7 @@ public class ItemStoneStatue extends Item {
     }
 
     @Override
-    public void onCraft(ItemStack itemStack, World world, PlayerEntity player) {
+    public void onCraft(ItemStack itemStack, World world) {
         itemStack.setNbt(new NbtCompound());
         assert itemStack.getNbt() != null;
         itemStack.getNbt().putBoolean("IAFStoneStatuePlayerEntity", true);

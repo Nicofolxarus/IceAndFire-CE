@@ -6,11 +6,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
+import net.minecraft.block.spawner.MobSpawnerEntry;
+import net.minecraft.block.spawner.MobSpawnerLogic;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.MobSpawnerEntry;
-import net.minecraft.world.MobSpawnerLogic;
 import net.minecraft.world.World;
 
 public class BlockEntityDreadSpawner extends MobSpawnerBlockEntity {

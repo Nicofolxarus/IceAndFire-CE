@@ -92,7 +92,7 @@ public class HydraCaveStructure extends Structure {
                             if (world.getBlockState(pivot.down()).getBlock() == Blocks.GRASS_BLOCK)
                                 world.setBlockState(blockpos.down(), Blocks.DIRT.getDefaultState(), 3);
                             if (random.nextInt(4) == 0)
-                                world.setBlockState(blockpos.up(), Blocks.GRASS.getDefaultState(), 2);
+                                world.setBlockState(blockpos.up(), Blocks.SHORT_GRASS.getDefaultState(), 2);
                             if (random.nextInt(9) == 0)
                                 world.getRegistryManager().get(RegistryKeys.CONFIGURED_FEATURE).getEntry(TreeConfiguredFeatures.SWAMP_OAK).ifPresent(holder -> holder.value().generate(world, chunkGenerator, random, blockpos.up()));
                         }

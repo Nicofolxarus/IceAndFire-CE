@@ -1,6 +1,7 @@
 package com.iafenvoy.iceandfire.render.block;
 
 import com.iafenvoy.iceandfire.entity.block.BlockEntityDreadSpawner;
+import net.minecraft.block.spawner.MobSpawnerLogic;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -9,8 +10,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.MobSpawnerLogic;
 
 public class RenderDreadSpawner<T extends BlockEntityDreadSpawner> implements BlockEntityRenderer<T> {
     public RenderDreadSpawner(BlockEntityRendererFactory.Context context) {
@@ -21,7 +20,7 @@ public class RenderDreadSpawner<T extends BlockEntityDreadSpawner> implements Bl
         matrixStackIn.push();
         matrixStackIn.translate(0.5D, 0.0D, 0.5D);
         MobSpawnerLogic spawnerLogic = tileEntityIn.getLogic();
-        Entity entity = spawnerLogic.getRenderedEntity(tileEntityIn.getWorld(), Random.create(), tileEntityIn.getPos());
+        Entity entity = spawnerLogic.getRenderedEntity(tileEntityIn.getWorld(), tileEntityIn.getPos());
         if (entity != null) {
             float f = 0.53125F;
             float f1 = Math.max(entity.getWidth(), entity.getHeight());

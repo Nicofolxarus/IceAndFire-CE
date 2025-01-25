@@ -29,10 +29,10 @@ public class PodiumScreen extends HandledScreen<PodiumScreenHandler> {
     }
 
     @Override
-    public void render(DrawContext pGuiGraphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(pGuiGraphics);
-        super.render(pGuiGraphics, mouseX, mouseY, partialTicks);
-        this.drawMouseoverTooltip(pGuiGraphics, mouseX, mouseY);
+    public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(context, mouseX, mouseY, partialTicks);
+        super.render(context, mouseX, mouseY, partialTicks);
+        this.drawMouseoverTooltip(context, mouseX, mouseY);
     }
 
     @Override

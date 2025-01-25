@@ -1,6 +1,7 @@
 package com.iafenvoy.iceandfire.item.block;
 
 import com.iafenvoy.iceandfire.entity.block.BlockEntityMyrmexCocoon;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -18,8 +19,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockMyrmexCocoon extends BlockWithEntity {
+    private static final MapCodec<? extends BlockWithEntity> CODEC = createCodec(s -> new BlockMyrmexCocoon());
+
     public BlockMyrmexCocoon() {
         super(Settings.create().mapColor(MapColor.DIRT_BROWN).strength(2.5F).nonOpaque().dynamicBounds().sounds(BlockSoundGroup.SLIME));
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return CODEC;
     }
 
     @Override

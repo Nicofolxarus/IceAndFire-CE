@@ -1,6 +1,7 @@
 package com.iafenvoy.iceandfire.world;
 
 import com.iafenvoy.iceandfire.IceAndFire;
+import net.minecraft.datafixer.DataFixTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class DragonPosWorldData extends PersistentState {
-
+    private static final Type<DragonPosWorldData> TYPE = new Type<>(DragonPosWorldData::new, DragonPosWorldData::new, DataFixTypes.CHUNK);
     private static final String IDENTIFIER = "iceandfire_dragonPositions";
     protected final Map<UUID, BlockPos> lastDragonPositions = new HashMap<>();
     private int tickCounter;
@@ -29,7 +30,7 @@ public class DragonPosWorldData extends PersistentState {
     public static DragonPosWorldData get(World world) {
         if (world instanceof ServerWorld serverWorld) {
             PersistentStateManager storage = serverWorld.getPersistentStateManager();
-            DragonPosWorldData data = storage.getOrCreate(DragonPosWorldData::new, DragonPosWorldData::new, IDENTIFIER);
+            DragonPosWorldData data = storage.getOrCreate(TYPE, IDENTIFIER);
             if (data != null) data.markDirty();
             return data;
         }

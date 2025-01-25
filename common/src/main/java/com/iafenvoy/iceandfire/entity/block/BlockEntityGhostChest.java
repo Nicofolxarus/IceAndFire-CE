@@ -51,10 +51,4 @@ public class BlockEntityGhostChest extends ChestBlockEntity {
         super.onViewerCountUpdate(level, pos, state, p_155336_, p_155337_);
         level.updateNeighborsAlways(pos.down(), state.getBlock());
     }
-
-    @Override
-    public void checkLootInteraction(@Nullable PlayerEntity player) {
-        if (player == null) return;
-        super.checkLootInteraction(player);
-    }
 }

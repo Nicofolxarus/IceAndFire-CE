@@ -37,27 +37,27 @@ public class HippogryphScreen extends HandledScreen<HippogryphScreenHandler> {
     }
 
     @Override
-    public void render(DrawContext pGuiGraphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(pGuiGraphics);
+    public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(context, mouseX, mouseY, partialTicks);
         this.mousePosx = mouseX;
         this.mousePosY = mouseY;
-        super.render(pGuiGraphics, mouseX, mouseY, partialTicks);
-        this.drawMouseoverTooltip(pGuiGraphics, mouseX, mouseY);
+        super.render(context, mouseX, mouseY, partialTicks);
+        this.drawMouseoverTooltip(context, mouseX, mouseY);
     }
 
     @Override
-    protected void drawBackground(DrawContext pGuiGraphics, float partialTicks, int mouseX, int mouseY) {
+    protected void drawBackground(DrawContext context, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         int i = (this.width - this.backgroundWidth) / 2;
         int j = (this.height - this.backgroundHeight) / 2;
-        pGuiGraphics.drawTexture(TEXTURE, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
+        context.drawTexture(TEXTURE, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
         assert MinecraftClient.getInstance().world != null;
         Entity entity = MinecraftClient.getInstance().world.getEntityById(this.handler.getHippogryphId());
         if (entity instanceof EntityHippogryph hippo) {
             if (hippo.isChested())
-                pGuiGraphics.drawTexture(TEXTURE, i + 79, j + 17, 0, this.backgroundHeight, 5 * 18, 54);
-            InventoryScreen.drawEntity(pGuiGraphics, i + 51, j + 60, 17, i + 51 - this.mousePosx, j + 75 - 50 - this.mousePosY, hippo);
+                context.drawTexture(TEXTURE, i + 79, j + 17, 0, this.backgroundHeight, 5 * 18, 54);
+            InventoryScreen.drawEntity(context, i + 51, i + 100, j + 60, j + 100, 17, 0, i + 51 - this.mousePosx, j + 75 - 50 - this.mousePosY, hippo);
         }
     }
 }

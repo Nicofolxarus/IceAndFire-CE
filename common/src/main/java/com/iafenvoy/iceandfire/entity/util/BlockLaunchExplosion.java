@@ -38,7 +38,7 @@ public class BlockLaunchExplosion extends Explosion {
     }
 
     public BlockLaunchExplosion(World world, MobEntity entity, DamageSource source, double x, double y, double z, float size, DestructionType mode) {
-        super(world, entity, source, null, x, y, z, size, false, mode);
+        super(world, entity, source, null, x, y, z, size, false, mode, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
         this.world = world;
         this.size = size;
         this.x = x;

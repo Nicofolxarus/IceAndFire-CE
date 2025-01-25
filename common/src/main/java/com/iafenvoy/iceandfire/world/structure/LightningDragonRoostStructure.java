@@ -7,6 +7,7 @@ import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafStructurePieces;
 import com.iafenvoy.iceandfire.registry.IafStructureTypes;
 import com.iafenvoy.iceandfire.registry.tag.CommonTags;
+import com.iafenvoy.iceandfire.registry.tag.IafBlockTags;
 import com.iafenvoy.iceandfire.world.GenerationConstants;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -84,7 +85,7 @@ public class LightningDragonRoostStructure extends DragonRoostStructure {
                 block = IafBlocks.CRACKLED_COBBLESTONE.get();
             else if (state.isIn(BlockTags.LOGS) || state.isIn(BlockTags.PLANKS))
                 block = IafBlocks.ASH.get();
-            else if (state.isOf(Blocks.GRASS) || state.isIn(BlockTags.LEAVES) || state.isIn(BlockTags.FLOWERS) || state.isIn(BlockTags.CROPS))
+            else if (state.isIn(IafBlockTags.GRASSES) || state.isIn(BlockTags.LEAVES) || state.isIn(BlockTags.FLOWERS) || state.isIn(BlockTags.CROPS))
                 block = Blocks.AIR;
             if (block != null) return block.getDefaultState();
             return state;

@@ -773,7 +773,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
         }
         compound.putBoolean("CrystalBound", this.isBoundToCrystal());
         if (this.hasCustomName()) {
-            compound.putString("CustomName", Text.Serializer.toJson(this.getCustomName()));
+            compound.putString("CustomName", Text.Serialization.toJsonString(this.getCustomName()));
         }
         this.removeParts();
         this.lastScale = 0;
@@ -830,7 +830,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
         }
         this.setCrystalBound(compound.getBoolean("CrystalBound"));
         if (compound.contains("CustomName", 8) && !compound.getString("CustomName").startsWith("TextComponent")) {
-            this.setCustomName(Text.Serializer.fromJson(compound.getString("CustomName")));
+            this.setCustomName(Text.Serialization.fromJson(compound.getString("CustomName")));
         }
 
         this.setConfigurableAttributes();

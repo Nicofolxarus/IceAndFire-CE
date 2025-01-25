@@ -602,11 +602,6 @@ public class EntitySeaSerpent extends AnimalEntity implements IAnimatedEntity, I
         return false;
     }
 
-    @Override
-    public boolean canBreatheInWater() {
-        return true;
-    }
-
     public void breakBlock() {
         if (IafCommonConfig.INSTANCE.seaSerpent.griefing.getValue())
             for (int a = (int) Math.round(this.getBoundingBox().minX) - 2; a <= (int) Math.round(this.getBoundingBox().maxX) + 2; a++)

@@ -237,7 +237,7 @@ public class EntityDreadLich extends EntityDreadMob implements IAnimatedEntity, 
     }
 
     @Override
-    public void attack(LivingEntity target, float distanceFactor) {
+    public void shootAt(LivingEntity target, float distanceFactor) {
         boolean flag = false;
         if (this.getMinionCount() < 5 && this.minionCooldown == 0) {
             this.setAnimation(ANIMATION_SUMMON);

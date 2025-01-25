@@ -18,7 +18,7 @@ public class IndexPageButton extends ButtonWidget {
     }
 
     @Override
-    public void renderButton(DrawContext pGuiGraphics, int mouseX, int mouseY, float partial) {
+    public void renderWidget(DrawContext pGuiGraphics, int mouseX, int mouseY, float partial) {
         if (this.active) {
             pGuiGraphics.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
             RenderSystem.enableBlend();

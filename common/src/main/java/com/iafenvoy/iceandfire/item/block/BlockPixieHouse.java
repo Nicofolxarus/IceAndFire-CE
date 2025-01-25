@@ -2,6 +2,7 @@ package com.iafenvoy.iceandfire.item.block;
 
 import com.iafenvoy.iceandfire.entity.block.BlockEntityPixieHouse;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -16,6 +17,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 public class BlockPixieHouse extends BlockWithEntity {
+    private static final MapCodec<? extends BlockWithEntity> CODEC = createCodec(s -> new BlockPixieHouse());
     public static final DirectionProperty FACING = DirectionProperty.of("facing", Direction.Type.HORIZONTAL);
 
     public BlockPixieHouse() {
@@ -45,6 +47,11 @@ public class BlockPixieHouse extends BlockWithEntity {
     }
 
     @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return CODEC;
+    }
+
+    @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
     }
@@ -56,7 +63,7 @@ public class BlockPixieHouse extends BlockWithEntity {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World level, BlockState state, BlockEntityType<T> entityType) {
-        return level.isClient ? checkType(entityType, IafBlockEntities.PIXIE_HOUSE.get(), BlockEntityPixieHouse::tickClient) : checkType(entityType, IafBlockEntities.PIXIE_HOUSE.get(), BlockEntityPixieHouse::tickServer);
+        return level.isClient ? validateTicker(entityType, IafBlockEntities.PIXIE_HOUSE.get(), BlockEntityPixieHouse::tickClient) : validateTicker(entityType, IafBlockEntities.PIXIE_HOUSE.get(), BlockEntityPixieHouse::tickServer);
     }
 
     @Override

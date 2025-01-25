@@ -26,14 +26,14 @@ public class EntityTideTrident extends TridentEntity {
 
     public EntityTideTrident(EntityType<? extends TridentEntity> type, World worldIn) {
         super(type, worldIn);
-        this.tridentStack = new ItemStack(IafItems.TIDE_TRIDENT.get());
+        this.stack = new ItemStack(IafItems.TIDE_TRIDENT.get());
     }
 
     public EntityTideTrident(World worldIn, LivingEntity thrower, ItemStack thrownStackIn) {
         this(IafEntities.TIDE_TRIDENT.get(), worldIn);
         this.setPosition(thrower.getX(), thrower.getEyeY() - 0.1F, thrower.getZ());
         this.setOwner(thrower);
-        this.tridentStack = thrownStackIn;
+        this.stack = thrownStackIn;
         this.dataTracker.set(LOYALTY, (byte) EnchantmentHelper.getLoyalty(thrownStackIn));
         this.dataTracker.set(ENCHANTED, thrownStackIn.hasGlint());
         int piercingLevel = EnchantmentHelper.getLevel(Enchantments.PIERCING, thrownStackIn);
@@ -45,7 +45,7 @@ public class EntityTideTrident extends TridentEntity {
         Entity entity = result.getEntity();
         float f = 12.0F;
         if (entity instanceof LivingEntity livingentity) {
-            f += EnchantmentHelper.getAttackDamage(this.tridentStack, livingentity.getGroup());
+            f += EnchantmentHelper.getAttackDamage(this.getItemStack(), livingentity.getGroup());
         }
 
         Entity entity1 = this.getOwner();
@@ -68,7 +68,7 @@ public class EntityTideTrident extends TridentEntity {
         }
 
         float f1 = 1.0F;
-        if (this.getWorld() instanceof ServerWorld && this.getWorld().isThundering() && EnchantmentHelper.hasChanneling(this.tridentStack)) {
+        if (this.getWorld() instanceof ServerWorld && this.getWorld().isThundering() && EnchantmentHelper.hasChanneling(this.getItemStack())) {
             BlockPos blockpos = entity.getBlockPos();
             if (this.getWorld().isSkyVisible(blockpos)) {
                 LightningEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(this.getWorld());

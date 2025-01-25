@@ -36,12 +36,12 @@ public class HippocampusScreen extends HandledScreen<HippocampusScreenHandler> {
     }
 
     @Override
-    public void render(DrawContext pGuiGraphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(pGuiGraphics);
+    public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(context, mouseX, mouseY, partialTicks);
         this.mousePosX = mouseX;
         this.mousePosY = mouseY;
-        super.render(pGuiGraphics, mouseX, mouseY, partialTicks);
-        this.drawMouseoverTooltip(pGuiGraphics, mouseX, mouseY);
+        super.render(context, mouseX, mouseY, partialTicks);
+        this.drawMouseoverTooltip(context, mouseX, mouseY);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class HippocampusScreen extends HandledScreen<HippocampusScreenHandler> {
         if (entity instanceof EntityHippocampus hippo) {
             if (hippo.isChested())
                 pGuiGraphics.drawTexture(TEXTURE, i + 79, j + 17, 0, this.backgroundHeight, 5 * 18, 54);
-            InventoryScreen.drawEntity(pGuiGraphics, i + 51, j + 60, 17, i + 51 - this.mousePosX, j + 75 - 50 - this.mousePosY, hippo);
+            InventoryScreen.drawEntity(pGuiGraphics, i + 51, i + 100, j + 60, j + 100, 17, 0, i + 51 - this.mousePosX, j + 75 - 50 - this.mousePosY, hippo);
         }
     }
 }

@@ -1,13 +1,12 @@
-package com.iafenvoy.iceandfire.forge.component;
+package com.iafenvoy.iceandfire.neoforge.component;
 
 import com.iafenvoy.iceandfire.data.component.IafEntityData;
-import com.iafenvoy.uranus.forge.component.ITickableCapability;
+import com.iafenvoy.uranus.neoforge.component.ITickableAttachment;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraftforge.common.capabilities.AutoRegisterCapability;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
-@AutoRegisterCapability
-public class EntityDataStorage implements ITickableCapability {
+public class EntityDataStorage implements ITickableAttachment, INBTSerializable<NbtCompound> {
     private final IafEntityData data;
 
     public EntityDataStorage(LivingEntity living) {

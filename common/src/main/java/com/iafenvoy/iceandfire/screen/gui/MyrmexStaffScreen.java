@@ -104,8 +104,8 @@ public class MyrmexStaffScreen extends HandledScreen<MyrmexStaffScreenHandler> {
     }
 
     @Override
-    public void renderBackground(DrawContext ms) {
-        super.renderBackground(ms);
+    public void renderBackground(DrawContext ms, int mouseX, int mouseY, float partialTicks) {
+        super.renderBackground(ms, mouseX, mouseY, partialTicks);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         int i = (this.width - 248) / 2;
         int j = (this.height - 166) / 2;
@@ -114,7 +114,7 @@ public class MyrmexStaffScreen extends HandledScreen<MyrmexStaffScreenHandler> {
 
     @Override
     public void render(DrawContext ms, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(ms);
+        this.renderBackground(ms, mouseX, mouseY, partialTicks);
         this.init();
         int i = (this.width - 248) / 2 + 10;
         int j = (this.height - 166) / 2 + 8;

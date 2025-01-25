@@ -4,6 +4,7 @@ import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.block.BlockEntityDragonForge;
 import com.iafenvoy.iceandfire.entity.block.BlockEntityDragonForgeBrick;
 import com.iafenvoy.iceandfire.item.block.util.IDragonProof;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.Instrument;
@@ -60,6 +61,11 @@ public class BlockDragonForgeBricks extends BlockWithEntity implements IDragonPr
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(GRILL);
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return MapCodec.unit(this);//TODO: Codec
     }
 
     @Override

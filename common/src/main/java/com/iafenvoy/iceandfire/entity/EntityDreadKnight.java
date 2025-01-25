@@ -182,8 +182,8 @@ public class EntityDreadKnight extends EntityDreadMob implements IAnimatedEntity
     }
 
     @Override
-    public double getHeightOffset() {
-        return -0.6D;
+    protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
+        return -0.6F;//TODO: RECHECK
     }
 
     @Override

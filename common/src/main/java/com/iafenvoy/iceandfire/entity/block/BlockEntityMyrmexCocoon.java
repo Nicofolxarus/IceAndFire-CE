@@ -43,13 +43,13 @@ public class BlockEntityMyrmexCocoon extends LootableContainerBlockEntity {
         super.readNbt(compound);
         this.chestContents = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
 
-        if (!this.deserializeLootTable(compound))
+        if (!this.readLootTable(compound))
             Inventories.readNbt(compound, this.chestContents);
     }
 
     @Override
     public void writeNbt(NbtCompound compound) {
-        if (!this.serializeLootTable(compound))
+        if (!this.writeLootTable(compound))
             Inventories.writeNbt(compound, this.chestContents);
     }
 
@@ -75,7 +75,7 @@ public class BlockEntityMyrmexCocoon extends LootableContainerBlockEntity {
 
 
     @Override
-    protected DefaultedList<ItemStack> getInvStackList() {
+    protected DefaultedList<ItemStack> method_11282() {
         return this.chestContents;
     }
 
@@ -85,13 +85,11 @@ public class BlockEntityMyrmexCocoon extends LootableContainerBlockEntity {
 
     @Override
     public void onOpen(PlayerEntity player) {
-        this.checkLootInteraction(null);
         player.getWorld().playSound(this.pos.getX(), this.pos.getY(), this.pos.getZ(), SoundEvents.ENTITY_SLIME_JUMP, SoundCategory.BLOCKS, 1, 1, false);
     }
 
     @Override
     public void onClose(PlayerEntity player) {
-        this.checkLootInteraction(null);
         player.getWorld().playSound(this.pos.getX(), this.pos.getY(), this.pos.getZ(), SoundEvents.ENTITY_SLIME_SQUISH, SoundCategory.BLOCKS, 1, 1, false);
     }
 

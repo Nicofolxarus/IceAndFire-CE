@@ -62,8 +62,8 @@ public class MyrmexAddRoomScreen extends HandledScreen<MyrmexAddRoomScreenHandle
     }
 
     @Override
-    public void renderBackground(DrawContext ms) {
-        super.renderBackground(ms);
+    public void renderBackground(DrawContext ms, int mouseX, int mouseY, float partialTicks) {
+        super.renderBackground(ms, mouseX, mouseY, partialTicks);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         assert this.client != null;
         this.client.getTextureManager().bindTexture(this.jungle ? JUNGLE_TEXTURE : DESERT_TEXTURE);
@@ -74,7 +74,7 @@ public class MyrmexAddRoomScreen extends HandledScreen<MyrmexAddRoomScreenHandle
 
     @Override
     public void render(DrawContext ms, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(ms);
+        this.renderBackground(ms, mouseX, mouseY, partialTicks);
         this.init();
         int i = (this.width - 248) / 2 + 10;
         int j = (this.height - 166) / 2 + 8;

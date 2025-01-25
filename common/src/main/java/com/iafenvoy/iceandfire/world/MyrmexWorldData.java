@@ -3,6 +3,7 @@ package com.iafenvoy.iceandfire.world;
 import com.google.common.collect.Lists;
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.entity.util.MyrmexHive;
+import net.minecraft.datafixer.DataFixTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class MyrmexWorldData extends PersistentState {
+    private static final Type<MyrmexWorldData> TYPE = new Type<>(MyrmexWorldData::new, MyrmexWorldData::new, DataFixTypes.CHUNK);
     private static final String IDENTIFIER = "iceandfire_myrmex";
     private final List<BlockPos> villagerPositionsList = Lists.newArrayList();
     private final List<MyrmexHive> hiveList = Lists.newArrayList();
@@ -40,7 +42,7 @@ public class MyrmexWorldData extends PersistentState {
 
             assert overworld != null;
             PersistentStateManager storage = overworld.getPersistentStateManager();
-            MyrmexWorldData data = storage.getOrCreate(MyrmexWorldData::new, MyrmexWorldData::new, IDENTIFIER);
+            MyrmexWorldData data = storage.getOrCreate(TYPE, IDENTIFIER);
             if (data != null) {
                 data.world = world;
                 data.markDirty();

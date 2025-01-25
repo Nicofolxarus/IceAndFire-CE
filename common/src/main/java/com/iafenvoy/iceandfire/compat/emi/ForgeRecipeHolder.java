@@ -9,6 +9,7 @@ import dev.emi.emi.api.render.EmiTexture;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
+import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,8 +31,8 @@ public class ForgeRecipeHolder {
     public void register(EmiRegistry registry) {
         registry.addCategory(this.category);
         registry.addWorkstation(this.category, this.workstation);
-        List<DragonForgeRecipe> forgeRecipeList = registry.getRecipeManager().listAllOfType(IafRecipes.DRAGON_FORGE_TYPE.get());
-        for (DragonForgeRecipe recipe : forgeRecipeList.stream().filter(item -> item.getDragonType().equals(this.dragonType)).toList())
+        List<RecipeEntry<DragonForgeRecipe>> forgeRecipeList = registry.getRecipeManager().listAllOfType(IafRecipes.DRAGON_FORGE_TYPE.get());
+        for (DragonForgeRecipe recipe : forgeRecipeList.stream().map(RecipeEntry::value).filter(item -> item.getDragonType().equals(this.dragonType)).toList())
             registry.addRecipe(new DragonForgeEmiRecipe(recipe, this.category));
     }
 
@@ -61,7 +62,7 @@ public class ForgeRecipeHolder {
 
         @Override
         public List<EmiStack> getOutputs() {
-            return List.of(EmiStack.of(this.recipe.getOutput(null)));
+            return List.of(EmiStack.of(this.recipe.getResultItem()));
         }
 
         @Override
@@ -79,7 +80,7 @@ public class ForgeRecipeHolder {
             widgets.addTexture(ForgeRecipeHolder.this.texture, 3, 4);
             widgets.addSlot(EmiIngredient.of(this.recipe.getInput()), 67, 33);
             widgets.addSlot(EmiIngredient.of(this.recipe.getBlood()), 85, 33);
-            widgets.addSlot(EmiStack.of(this.recipe.getOutput(null)), 143, 30).large(true).recipeContext(this);
+            widgets.addSlot(EmiStack.of(this.recipe.getResultItem()), 143, 30).large(true).recipeContext(this);
         }
     }
 }

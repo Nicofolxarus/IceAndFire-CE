@@ -10,18 +10,17 @@ import net.minecraft.world.World;
 
 public class EntityDragonArrow extends PersistentProjectileEntity {
     public EntityDragonArrow(EntityType<? extends PersistentProjectileEntity> typeIn, World worldIn) {
-        super(typeIn, worldIn);
+        super(typeIn, worldIn, new ItemStack(IafItems.DRAGONBONE_ARROW.get()));
         this.setDamage(10);
     }
 
-    public EntityDragonArrow(EntityType<? extends PersistentProjectileEntity> typeIn, double x, double y, double z,
-                             World world) {
-        super(typeIn, x, y, z, world);
+    public EntityDragonArrow(EntityType<? extends PersistentProjectileEntity> typeIn, double x, double y, double z, World world) {
+        super(typeIn, x, y, z, world, new ItemStack(IafItems.DRAGONBONE_ARROW.get()));
         this.setDamage(10);
     }
 
     public EntityDragonArrow(EntityType<? extends PersistentProjectileEntity> typeIn, LivingEntity shooter, World worldIn) {
-        super(typeIn, shooter, worldIn);
+        super(typeIn, shooter, worldIn, new ItemStack(IafItems.DRAGONBONE_ARROW.get()));
         this.setDamage(10.0F);
     }
 
@@ -35,10 +34,5 @@ public class EntityDragonArrow extends PersistentProjectileEntity {
     public void readCustomDataFromNbt(NbtCompound tagCompund) {
         super.readCustomDataFromNbt(tagCompund);
         this.setDamage(tagCompund.getDouble("damage"));
-    }
-
-    @Override
-    protected ItemStack asItemStack() {
-        return new ItemStack(IafItems.DRAGONBONE_ARROW.get());
     }
 }

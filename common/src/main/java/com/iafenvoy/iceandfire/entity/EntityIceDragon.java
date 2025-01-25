@@ -83,11 +83,6 @@ public class EntityIceDragon extends EntityDragonBase {
     }
 
     @Override
-    public boolean canBreatheInWater() {
-        return true;
-    }
-
-    @Override
     public boolean isPushedByFluids() {
         return false;
     }

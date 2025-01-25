@@ -30,7 +30,7 @@ public class ItemGorgonHead extends Item {
     }
 
     @Override
-    public void onCraft(ItemStack itemStack, World world, PlayerEntity player) {
+    public void onCraft(ItemStack itemStack, World world) {
         itemStack.setNbt(new NbtCompound());
     }
 

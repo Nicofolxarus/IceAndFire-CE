@@ -2,6 +2,7 @@ package com.iafenvoy.iceandfire.item.block;
 
 import com.iafenvoy.iceandfire.entity.block.BlockEntityLectern;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -22,6 +23,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public class BlockLectern extends BlockWithEntity {
+    private static final MapCodec<? extends BlockWithEntity> CODEC = createCodec(s -> new BlockLectern());
     public static final DirectionProperty FACING = DirectionProperty.of("facing", Direction.Type.HORIZONTAL);
     protected static final VoxelShape AABB = Block.createCuboidShape(4, 0, 4, 12, 19, 12);
 
@@ -64,9 +66,8 @@ public class BlockLectern extends BlockWithEntity {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> entityType) {
-        return world.isClient ? checkType(entityType, IafBlockEntities.IAF_LECTERN.get(), BlockEntityLectern::bookAnimationTick) : null;
+        return world.isClient ? validateTicker(entityType, IafBlockEntities.IAF_LECTERN.get(), BlockEntityLectern::bookAnimationTick) : null;
     }
-
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext context) {
@@ -76,6 +77,11 @@ public class BlockLectern extends BlockWithEntity {
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return CODEC;
     }
 
     @Override

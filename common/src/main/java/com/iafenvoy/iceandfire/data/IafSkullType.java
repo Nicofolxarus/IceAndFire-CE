@@ -33,4 +33,9 @@ public enum IafSkullType implements SkullBlock.SkullType {
     public Item getSkullItem() {
         return this.skullItem.get();
     }
+
+    @Override
+    public String asString() {
+        return this.itemResourceName;
+    }
 }

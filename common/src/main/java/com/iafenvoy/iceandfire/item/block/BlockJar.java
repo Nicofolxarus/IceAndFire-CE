@@ -5,6 +5,7 @@ import com.iafenvoy.iceandfire.registry.IafBlockEntities;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafSounds;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -25,6 +26,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public class BlockJar extends BlockWithEntity {
+    private static final MapCodec<? extends BlockWithEntity> CODEC = createCodec(s -> new BlockJar(-1));
     protected static final VoxelShape AABB = Block.createCuboidShape(3, 0, 3, 13, 16, 13);
     private final boolean empty;
     private final int pixieType;
@@ -50,7 +52,6 @@ public class BlockJar extends BlockWithEntity {
         return AABB;
     }
 
-
     @Override
     public void onStateReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         this.dropPixie(worldIn, pos);
@@ -75,6 +76,10 @@ public class BlockJar extends BlockWithEntity {
         return ActionResult.PASS;
     }
 
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return CODEC;
+    }
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {
@@ -95,7 +100,7 @@ public class BlockJar extends BlockWithEntity {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World level, BlockState state, BlockEntityType<T> entityType) {
-        return checkType(entityType, IafBlockEntities.PIXIE_JAR.get(), BlockEntityJar::tick);
+        return validateTicker(entityType, IafBlockEntities.PIXIE_JAR.get(), BlockEntityJar::tick);
     }
 
     @Override

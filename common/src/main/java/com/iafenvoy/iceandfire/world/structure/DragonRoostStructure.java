@@ -5,6 +5,7 @@ import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.EntityDragonBase;
 import com.iafenvoy.iceandfire.entity.util.HomePosition;
 import com.iafenvoy.iceandfire.item.block.BlockGoldPile;
+import com.iafenvoy.iceandfire.registry.tag.IafBlockTags;
 import com.iafenvoy.iceandfire.world.GenerationConstants;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -163,8 +164,8 @@ public abstract class DragonRoostStructure extends Structure {
                         position = position.down();
                         continue;
                     }
-                    Block b = worldIn.getBlockState(position.down()).getBlock();
-                    if (b != Blocks.GRASS && b != Blocks.DIRT && b != Blocks.STONE) {
+                    BlockState b = worldIn.getBlockState(position.down());
+                    if (!b.isIn(IafBlockTags.GRASSES) && !b.isOf(Blocks.DIRT) && !b.isOf(Blocks.STONE)) {
                         position = position.down();
                         continue;
                     }
@@ -241,7 +242,7 @@ public abstract class DragonRoostStructure extends Structure {
 
                 if (position.getSquaredDistance(origin) <= circularArea && heightDifference < 2 + random.nextInt(height) && !world.isAir(position.down())) {
                     if (world.isAir(position.up()))
-                        world.setBlockState(position, this.transform(Blocks.GRASS), Block.NOTIFY_LISTENERS);
+                        world.setBlockState(position, this.transform(Blocks.SHORT_GRASS), Block.NOTIFY_LISTENERS);
                     else
                         world.setBlockState(position, this.transform(Blocks.DIRT), Block.NOTIFY_LISTENERS);
                 }

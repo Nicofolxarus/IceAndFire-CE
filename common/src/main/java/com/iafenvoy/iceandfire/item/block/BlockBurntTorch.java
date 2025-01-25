@@ -7,7 +7,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.TorchBlock;
+import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.DustParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
@@ -15,7 +17,8 @@ import net.minecraft.world.World;
 
 public class BlockBurntTorch extends TorchBlock implements IDreadBlock, IWallBlock {
     public BlockBurntTorch() {
-        super(Settings.create().mapColor(MapColor.OAK_TAN).burnable().luminance((state) -> 0).sounds(BlockSoundGroup.WOOD).nonOpaque().dynamicBounds().noCollision(), DustParticleEffect.DEFAULT);
+        //TODO: Particle Type
+        super(new DefaultParticleType(false), Settings.create().mapColor(MapColor.OAK_TAN).burnable().luminance((state) -> 0).sounds(BlockSoundGroup.WOOD).nonOpaque().dynamicBounds().noCollision());
     }
 
     @Override

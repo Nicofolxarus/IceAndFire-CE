@@ -43,7 +43,7 @@ public class ItemDragonHorn extends Item {
     }
 
     @Override
-    public void onCraft(ItemStack itemStack, World world, PlayerEntity player) {
+    public void onCraft(ItemStack itemStack, World world) {
         itemStack.setNbt(new NbtCompound());
     }
 
@@ -117,7 +117,7 @@ public class ItemDragonHorn extends Item {
                     tooltip.add((Text.translatable(type.getTranslationKey())).formatted(this.getTextColorForEntityType(type)));
                     String name = (Text.translatable("dragon.unnamed")).getString();
                     if (!entityTag.getString("CustomName").isEmpty()) {
-                        MutableText component = Text.Serializer.fromJson(entityTag.getString("CustomName"));
+                        MutableText component = Text.Serialization.fromJson(entityTag.getString("CustomName"));
                         if (component != null)
                             name = component.getString();
                     }

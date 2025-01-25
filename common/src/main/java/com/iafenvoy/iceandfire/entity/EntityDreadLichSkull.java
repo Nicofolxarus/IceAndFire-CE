@@ -26,26 +26,23 @@ import java.util.List;
 @SuppressWarnings("ALL")
 public class EntityDreadLichSkull extends PersistentProjectileEntity {
     public EntityDreadLichSkull(EntityType<? extends PersistentProjectileEntity> type, World worldIn) {
-        super(type, worldIn);
+        super(type, worldIn, ItemStack.EMPTY);
         this.setDamage(6F);
     }
 
-    public EntityDreadLichSkull(EntityType<? extends PersistentProjectileEntity> type, World worldIn, double x, double y,
-                                double z) {
+    public EntityDreadLichSkull(EntityType<? extends PersistentProjectileEntity> type, World worldIn, double x, double y, double z) {
         this(type, worldIn);
         this.setPosition(x, y, z);
         this.setDamage(6F);
     }
 
-    public EntityDreadLichSkull(EntityType<? extends PersistentProjectileEntity> type, World worldIn, LivingEntity shooter,
-                                double x, double y, double z) {
-        super(type, shooter, worldIn);
+    public EntityDreadLichSkull(EntityType<? extends PersistentProjectileEntity> type, World worldIn, LivingEntity shooter, double x, double y, double z) {
+        super(type, shooter, worldIn, ItemStack.EMPTY);
         this.setDamage(6);
     }
 
-    public EntityDreadLichSkull(EntityType<? extends PersistentProjectileEntity> type, World worldIn, LivingEntity shooter,
-                                double dmg) {
-        super(type, shooter, worldIn);
+    public EntityDreadLichSkull(EntityType<? extends PersistentProjectileEntity> type, World worldIn, LivingEntity shooter, double dmg) {
+        super(type, shooter, worldIn, ItemStack.EMPTY);
         this.setDamage(dmg);
     }
 
@@ -67,8 +64,8 @@ public class EntityDreadLichSkull extends PersistentProjectileEntity {
             double speed = 0.15D;
             this.setVelocity(this.getVelocity().add(minusX * speed * 0.1D, minusY * speed * 0.1D, minusZ * speed * 0.1D));
         }
-        if (shootingEntity instanceof PlayerEntity) {
-            LivingEntity target = ((PlayerEntity) shootingEntity).getPrimeAdversary();
+        if (shootingEntity instanceof PlayerEntity player) {
+            LivingEntity target = player.getPrimeAdversary();
             if (target == null || !target.isAlive()) {
                 double d0 = 10;
                 List<Entity> list = this.getWorld().getOtherEntities(shootingEntity, (new Box(this.getX(), this.getY(), this.getZ(), this.getX() + 1.0D, this.getY() + 1.0D, this.getZ() + 1.0D)).expand(d0, 10.0D, d0), EntityPredicates.VALID_ENTITY);
@@ -170,10 +167,5 @@ public class EntityDreadLichSkull extends PersistentProjectileEntity {
     @Override
     public boolean hasNoGravity() {
         return true;
-    }
-
-    @Override
-    protected ItemStack asItemStack() {
-        return ItemStack.EMPTY;
     }
 }

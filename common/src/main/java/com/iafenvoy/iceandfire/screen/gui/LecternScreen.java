@@ -179,7 +179,7 @@ public class LecternScreen extends HandledScreen<LecternScreenHandler> {
 
     @Override
     public void render(DrawContext ms, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(ms);
+        this.renderBackground(ms, mouseX, mouseY, partialTicks);
         super.render(ms, mouseX, mouseY, partialTicks);
         this.drawMouseoverTooltip(ms, mouseX, mouseY);
     }

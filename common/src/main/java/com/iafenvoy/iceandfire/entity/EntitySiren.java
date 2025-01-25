@@ -171,11 +171,6 @@ public class EntitySiren extends HostileEntity implements IAnimatedEntity, IVill
     }
 
     @Override
-    public boolean canBreatheInWater() {
-        return true;
-    }
-
-    @Override
     public void tickMovement() {
         super.tickMovement();
         this.bodyYaw = this.getYaw();

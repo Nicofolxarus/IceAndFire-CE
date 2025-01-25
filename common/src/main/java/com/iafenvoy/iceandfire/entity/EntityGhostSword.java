@@ -30,7 +30,7 @@ public class EntityGhostSword extends PersistentProjectileEntity {
     private int knockbackStrength;
 
     public EntityGhostSword(EntityType<? extends PersistentProjectileEntity> type, World worldIn) {
-        super(type, worldIn);
+        super(type, worldIn, ItemStack.EMPTY);
         this.setDamage(9F);
     }
 
@@ -43,7 +43,7 @@ public class EntityGhostSword extends PersistentProjectileEntity {
 
     public EntityGhostSword(EntityType<? extends PersistentProjectileEntity> type, World worldIn, LivingEntity shooter,
                             double dmg) {
-        super(type, shooter, worldIn);
+        super(type, shooter, worldIn, ItemStack.EMPTY);
         this.setDamage(dmg);
     }
 
@@ -113,19 +113,13 @@ public class EntityGhostSword extends PersistentProjectileEntity {
 
     @Override
     public void playSound(SoundEvent soundIn, float volume, float pitch) {
-        if (!this.isSilent() && soundIn != SoundEvents.ENTITY_ARROW_HIT && soundIn != SoundEvents.ENTITY_ARROW_HIT_PLAYER) {
+        if (!this.isSilent() && soundIn != SoundEvents.ENTITY_ARROW_HIT && soundIn != SoundEvents.ENTITY_ARROW_HIT_PLAYER)
             this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(), soundIn, this.getSoundCategory(), volume, pitch);
-        }
     }
 
     @Override
     public boolean hasNoGravity() {
         return true;
-    }
-
-    @Override
-    protected ItemStack asItemStack() {
-        return ItemStack.EMPTY;
     }
 
     @Override
@@ -139,13 +133,11 @@ public class EntityGhostSword extends PersistentProjectileEntity {
         float f = (float) this.getVelocity().length();
         int i = MathHelper.ceil(Math.max(f * this.getDamage(), 0.0D));
         if (this.getPierceLevel() > 0) {
-            if (this.piercedEntities == null) {
+            if (this.piercedEntities == null)
                 this.piercedEntities = new IntOpenHashSet(5);
-            }
 
-            if (this.hitEntities == null) {
+            if (this.hitEntities == null)
                 this.hitEntities = Lists.newArrayListWithCapacity(5);
-            }
 
             if (this.piercedEntities.size() >= this.getPierceLevel() + 1) {
                 this.remove(RemovalReason.DISCARDED);
@@ -155,63 +147,49 @@ public class EntityGhostSword extends PersistentProjectileEntity {
             this.piercedEntities.add(entity.getId());
         }
 
-        if (this.isCritical()) {
+        if (this.isCritical())
             i += this.random.nextInt(i / 2 + 2);
-        }
 
         Entity entity1 = this.getOwner();
         DamageSource damagesource = this.getWorld().getDamageSources().magic();
 
-        if (entity1 != null) {
-            if (entity1 instanceof LivingEntity) {
+        if (entity1 != null)
+            if (entity1 instanceof LivingEntity living) {
                 damagesource = this.getWorld().getDamageSources().indirectMagic(this, entity1);
-                ((LivingEntity) entity1).onAttacking(entity);
+                living.onAttacking(entity);
             }
-        }
 
         boolean flag = entity.getType() == EntityType.ENDERMAN;
         int j = entity.getFireTicks();
-        if (this.isOnFire() && !flag) {
+        if (this.isOnFire() && !flag)
             entity.setOnFireFor(5);
-        }
 
         if (entity.damage(damagesource, i)) {
-            if (flag) {
-                return;
-            }
+            if (flag) return;
 
             if (entity instanceof LivingEntity livingentity) {
-
                 if (this.knockbackStrength > 0) {
-                    Vec3d vec3d = this.getVelocity().multiply(1.0D, 0.0D, 1.0D).normalize()
-                            .multiply(this.knockbackStrength * 0.6D);
-                    if (vec3d.lengthSquared() > 0.0D) {
+                    Vec3d vec3d = this.getVelocity().multiply(1.0D, 0.0D, 1.0D).normalize().multiply(this.knockbackStrength * 0.6D);
+                    if (vec3d.lengthSquared() > 0.0D)
                         livingentity.addVelocity(vec3d.x, 0.1D, vec3d.z);
-                    }
                 }
 
                 this.onHit(livingentity);
-                if (livingentity != entity1 && livingentity instanceof PlayerEntity && entity1 instanceof ServerPlayerEntity) {
-                    ((ServerPlayerEntity) entity1).networkHandler.sendPacket(new GameStateChangeS2CPacket(GameStateChangeS2CPacket.PROJECTILE_HIT_PLAYER, 0.0F));
-                }
+                if (livingentity != entity1 && livingentity instanceof PlayerEntity && entity1 instanceof ServerPlayerEntity player)
+                    player.networkHandler.sendPacket(new GameStateChangeS2CPacket(GameStateChangeS2CPacket.PROJECTILE_HIT_PLAYER, 0.0F));
 
-                if (!entity.isAlive() && this.hitEntities != null) {
+                if (!entity.isAlive() && this.hitEntities != null)
                     this.hitEntities.add(livingentity);
-                }
-
             }
 
             this.playSound(this.getSound(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
-            if (this.getPierceLevel() <= 0) {
+            if (this.getPierceLevel() <= 0)
                 this.remove(RemovalReason.DISCARDED);
-            }
         } else {
             this.setVelocity(this.getVelocity().multiply(-0.1D));
             //this.ticksInAir = 0;
-            if (!this.getWorld().isClient && this.getVelocity().lengthSquared() < 1.0E-7D) {
+            if (!this.getWorld().isClient && this.getVelocity().lengthSquared() < 1.0E-7D)
                 this.remove(RemovalReason.DISCARDED);
-            }
         }
-
     }
 }

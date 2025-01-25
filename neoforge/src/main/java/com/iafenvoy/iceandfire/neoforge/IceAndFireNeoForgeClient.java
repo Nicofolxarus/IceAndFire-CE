@@ -1,19 +1,19 @@
-package com.iafenvoy.iceandfire.forge;
+package com.iafenvoy.iceandfire.neoforge;
 
 import com.iafenvoy.iceandfire.IceAndFireClient;
 import com.iafenvoy.iceandfire.config.IafClientConfig;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.jupiter.render.screen.ConfigSelectScreen;
 import net.minecraft.text.Text;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ConfigScreenHandler;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.ConfigScreenHandler;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class IceAndFireForgeClient {
+public class IceAndFireNeoForgeClient {
     @SubscribeEvent
     public static void init(FMLClientSetupEvent event) {
         event.enqueueWork(IceAndFireClient::process);

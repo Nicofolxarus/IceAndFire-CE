@@ -2,6 +2,7 @@ package com.iafenvoy.iceandfire.item.block;
 
 import com.iafenvoy.iceandfire.entity.block.BlockEntityEggInIce;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -17,6 +18,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockEggInIce extends BlockWithEntity {
+    private static final MapCodec<? extends BlockWithEntity> CODEC = createCodec(s -> new BlockEggInIce());
+
     public BlockEggInIce() {
         super(Settings.create().mapColor(MapColor.PALE_PURPLE).nonOpaque().dynamicBounds().strength(0.5F).dynamicBounds().sounds(BlockSoundGroup.GLASS));
     }
@@ -28,7 +31,12 @@ public class BlockEggInIce extends BlockWithEntity {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World level, BlockState state, BlockEntityType<T> entityType) {
-        return checkType(entityType, IafBlockEntities.EGG_IN_ICE.get(), BlockEntityEggInIce::tickEgg);
+        return validateTicker(entityType, IafBlockEntities.EGG_IN_ICE.get(), BlockEntityEggInIce::tickEgg);
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return CODEC;
     }
 
     @Override
@@ -43,9 +51,10 @@ public class BlockEggInIce extends BlockWithEntity {
     }
 
     @Override
-    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         if (world.getBlockEntity(pos) != null)
             if (world.getBlockEntity(pos) instanceof BlockEntityEggInIce tile)
                 tile.spawnEgg();
+        return state;
     }
 }

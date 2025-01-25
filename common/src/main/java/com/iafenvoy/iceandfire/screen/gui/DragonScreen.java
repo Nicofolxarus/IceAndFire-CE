@@ -17,6 +17,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 public class DragonScreen extends HandledScreen<DragonScreenHandler> {
     private static final Identifier texture = Identifier.of(IceAndFire.MOD_ID, "textures/gui/dragon.png");
@@ -32,7 +33,7 @@ public class DragonScreen extends HandledScreen<DragonScreenHandler> {
 
     @Override
     public void render(DrawContext matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(matrixStack);
+        this.renderBackground(matrixStack, mouseX, mouseY, partialTicks);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.drawMouseoverTooltip(matrixStack, mouseX, mouseY);
     }
@@ -49,7 +50,7 @@ public class DragonScreen extends HandledScreen<DragonScreenHandler> {
         if (entity instanceof EntityDragonBase dragon) {
             float dragonScale = 1F / Math.max(0.0001F, dragon.getScaleFactor());
             Quaternionf quaternionf = (new Quaternionf()).rotateY((float) MathHelper.lerp((float) mouseX / this.width, 0, Math.PI)).rotateZ((float) MathHelper.lerp((float) mouseY / this.width, Math.PI, Math.PI + 0.2));
-            InventoryScreen.drawEntity(matrixStack, k + 88, l + (int) (0.5F * (dragon.flyProgress)) + 55, (int) (dragonScale * 23F), quaternionf, null, dragon);
+            InventoryScreen.drawEntity(matrixStack, k + 88, l + (int) (0.5F * (dragon.flyProgress)) + 55, (int) (dragonScale * 23F), new Vector3f(0), quaternionf, null, dragon);
         }
         if (entity instanceof EntityDragonBase dragon) {
             assert this.client != null;

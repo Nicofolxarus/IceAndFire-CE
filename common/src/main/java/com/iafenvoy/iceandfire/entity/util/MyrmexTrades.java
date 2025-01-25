@@ -5,6 +5,7 @@ import com.iafenvoy.iceandfire.registry.IafItems;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.block.Block;
+import net.minecraft.block.SuspiciousStewIngredient;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -306,7 +307,7 @@ public class MyrmexTrades {
         @Override
         public TradeOffer create(Entity trader, Random rand) {
             ItemStack lvt_3_1_ = new ItemStack(Items.SUSPICIOUS_STEW, 1);
-            SuspiciousStewItem.addEffectToStew(lvt_3_1_, this.effect, this.duration);
+            SuspiciousStewItem.addEffectsToStew(lvt_3_1_, List.of(new SuspiciousStewIngredient.StewEffect(this.effect, this.duration)));
             return new TradeOffer(new ItemStack(IafItems.MYRMEX_DESERT_RESIN.get(), 1), lvt_3_1_, 12, this.xpValue, this.priceMultiplier);
         }
     }

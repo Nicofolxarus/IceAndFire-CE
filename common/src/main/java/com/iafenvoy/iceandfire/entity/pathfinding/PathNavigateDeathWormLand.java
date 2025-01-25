@@ -137,9 +137,9 @@ public class PathNavigateDeathWormLand extends EntityNavigation {
         double d0 = posVec32.x - posVec31.x;
         double d1 = posVec32.z - posVec31.z;
         double d2 = d0 * d0 + d1 * d1;
-        int sizeX = (int) this.worm.getBoundingBox().getXLength();
-        int sizeY = (int) this.worm.getBoundingBox().getYLength();
-        int sizeZ = (int) this.worm.getBoundingBox().getZLength();
+        int sizeX = (int) this.worm.getBoundingBox().getLengthX();
+        int sizeY = (int) this.worm.getBoundingBox().getLengthY();
+        int sizeZ = (int) this.worm.getBoundingBox().getLengthZ();
 
 
         if (d2 < 1.0E-8D) {

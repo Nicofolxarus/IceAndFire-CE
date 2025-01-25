@@ -21,6 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
@@ -226,12 +227,12 @@ public class BlockEntityDragonForge extends LockableContainerBlockEntity impleme
 
     public Optional<DragonForgeRecipe> getCurrentRecipe() {
         assert this.world != null;
-        return this.world.getRecipeManager().getFirstMatch(IafRecipes.DRAGON_FORGE_TYPE.get(), this, this.world);
+        return this.world.getRecipeManager().getFirstMatch(IafRecipes.DRAGON_FORGE_TYPE.get(), this, this.world).map(RecipeEntry::value);
     }
 
     public List<DragonForgeRecipe> getRecipes() {
         assert this.world != null;
-        return this.world.getRecipeManager().listAllOfType(IafRecipes.DRAGON_FORGE_TYPE.get());
+        return this.world.getRecipeManager().listAllOfType(IafRecipes.DRAGON_FORGE_TYPE.get()).stream().map(RecipeEntry::value).toList();
     }
 
     public boolean canSmelt() {

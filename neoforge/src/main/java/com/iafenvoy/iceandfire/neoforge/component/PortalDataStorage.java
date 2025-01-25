@@ -1,13 +1,12 @@
-package com.iafenvoy.iceandfire.forge.component;
+package com.iafenvoy.iceandfire.neoforge.component;
 
 import com.iafenvoy.iceandfire.data.component.PortalData;
-import com.iafenvoy.uranus.forge.component.ITickableCapability;
+import com.iafenvoy.uranus.neoforge.component.ITickableAttachment;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraftforge.common.capabilities.AutoRegisterCapability;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
-@AutoRegisterCapability
-public class PortalDataStorage implements ITickableCapability {
+public class PortalDataStorage implements ITickableAttachment, INBTSerializable<NbtCompound> {
     private final PortalData data;
 
     public PortalDataStorage(PlayerEntity player) {

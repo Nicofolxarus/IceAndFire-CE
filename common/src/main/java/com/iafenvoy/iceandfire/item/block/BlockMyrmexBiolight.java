@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.item.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
@@ -17,6 +18,7 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
 public class BlockMyrmexBiolight extends PlantBlock {
+    private static final MapCodec<? extends PlantBlock> CODEC = createCodec(s -> new BlockMyrmexBiolight());
     public static final BooleanProperty CONNECTED_DOWN = BooleanProperty.of("down");
 
     public BlockMyrmexBiolight() {
@@ -30,6 +32,11 @@ public class BlockMyrmexBiolight extends PlantBlock {
         return worldIn.getBlockState(blockpos).getBlock() == this || worldIn.getBlockState(blockpos).isOpaque();
     }
 
+
+    @Override
+    protected MapCodec<? extends PlantBlock> getCodec() {
+        return CODEC;
+    }
 
     @Override
     public BlockState getStateForNeighborUpdate(BlockState stateIn, Direction facing, BlockState facingState, WorldAccess worldIn, BlockPos currentPos, BlockPos facingPos) {

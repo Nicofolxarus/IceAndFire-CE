@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.item.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FallingBlock;
@@ -27,6 +28,11 @@ public class BlockFallingReturningState extends FallingBlock {
 
         this.returnState = revertState;
         this.setDefaultState(this.stateManager.getDefaultState().with(REVERTS, Boolean.FALSE));
+    }
+
+    @Override
+    protected MapCodec<? extends FallingBlock> getCodec() {
+        return createCodec(s -> this);
     }
 
     @Override

@@ -1,9 +1,9 @@
 package com.iafenvoy.iceandfire.entity.util;
 
 import com.iafenvoy.iceandfire.registry.IafParticles;
+import net.minecraft.block.spawner.MobSpawnerLogic;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.MobSpawnerLogic;
 import net.minecraft.world.World;
 
 // This class only servers the point of changing the particles spawned

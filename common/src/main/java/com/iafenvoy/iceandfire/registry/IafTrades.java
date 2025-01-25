@@ -6,6 +6,7 @@ import com.iafenvoy.iceandfire.mixin.PointOfInterestTypesAccessor;
 import com.iafenvoy.iceandfire.util.trade.TradeOfferHelper;
 import com.iafenvoy.iceandfire.util.trade.factory.BuyWithPrice;
 import dev.architectury.registry.registries.DeferredRegister;
+import dev.architectury.registry.registries.DeferredSupplier;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -28,7 +29,7 @@ public final class IafTrades {
     private static final String SCRIBE = "scribe";
     private static final RegistrySupplier<Block> SCRIBE_BLOCK = IafBlocks.LECTERN;
     public static final Function<Block, Set<BlockState>> SCRIBE_WORKSTATION = block -> new HashSet<>(block.getStateManager().getStates());
-    public static final RegistrySupplier<PointOfInterestType> SCRIBE_POI = POI_REGISTRY.register(SCRIBE, () -> new PointOfInterestType(SCRIBE_WORKSTATION.apply(SCRIBE_BLOCK.get()), 1, 1));
+    public static final DeferredSupplier<PointOfInterestType> SCRIBE_POI = POI_REGISTRY.register(SCRIBE, () -> new PointOfInterestType(SCRIBE_WORKSTATION.apply(SCRIBE_BLOCK.get()), 1, 1));
     public static final RegistrySupplier<VillagerProfession> SCRIBE_PROFESSION = PROFESSION_REGISTRY.register(SCRIBE, () -> new VillagerProfession(SCRIBE, e -> e.matchesKey(SCRIBE_POI.getKey()), e -> e.matchesKey(SCRIBE_POI.getKey()), ImmutableSet.of(), ImmutableSet.of(), SoundEvents.ENTITY_VILLAGER_WORK_LIBRARIAN));
 
     public static void init() {

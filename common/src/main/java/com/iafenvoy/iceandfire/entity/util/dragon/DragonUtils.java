@@ -50,8 +50,8 @@ public class DragonUtils {
         // In water escort
         BlockPos inWaterEscortPos = dragon.getEscortPosition();
         // We don't need to get too close
-        if (Math.abs(dragon.getX() - inWaterEscortPos.getX()) < dragon.getBoundingBox().getXLength()
-                && Math.abs(dragon.getZ() - inWaterEscortPos.getZ()) < dragon.getBoundingBox().getZLength())
+        if (Math.abs(dragon.getX() - inWaterEscortPos.getX()) < dragon.getBoundingBox().getLengthX()
+                && Math.abs(dragon.getZ() - inWaterEscortPos.getZ()) < dragon.getBoundingBox().getLengthZ())
             return dragon.getBlockPos();
         // Takes off if the escort position is no longer in water, mainly for using elytra to fly out of the water
         if (inWaterEscortPos.getY() - dragon.getY() > 8 + dragon.getYNavSize() && !dragon.getWorld().getFluidState(inWaterEscortPos.down()).isIn(FluidTags.WATER))

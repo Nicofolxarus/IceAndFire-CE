@@ -36,7 +36,7 @@ public class ItemBestiary extends Item {
     }
 
     @Override
-    public void onCraft(ItemStack stack, World worldIn, PlayerEntity playerIn) {
+    public void onCraft(ItemStack stack, World world) {
         stack.getOrCreateNbt().putIntArray("Pages", new int[]{0});
     }
 

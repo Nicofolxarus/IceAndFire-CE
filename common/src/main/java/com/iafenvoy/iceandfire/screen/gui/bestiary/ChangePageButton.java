@@ -17,7 +17,7 @@ public class ChangePageButton extends ButtonWidget {
     }
 
     @Override
-    public void renderButton(DrawContext matrixStack, int mouseX, int mouseY, float partial) {
+    protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
         if (this.active) {
             Identifier resourceLocation = Identifier.of(IceAndFire.MOD_ID, "textures/gui/bestiary/widgets.png");
             boolean flag = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
@@ -26,7 +26,7 @@ public class ChangePageButton extends ButtonWidget {
             if (flag) i += 23;
             if (!this.right) j += 13;
             j += this.color * 23;
-            matrixStack.drawTexture(resourceLocation, this.getX(), this.getY(), i, j, this.width, this.height);
+            context.drawTexture(resourceLocation, this.getX(), this.getY(), i, j, this.width, this.height);
         }
     }
 }

@@ -9,12 +9,14 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.Instrument;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.VerticallyAttachableBlockItem;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 
 import java.util.function.Supplier;
@@ -36,10 +38,10 @@ public final class IafBlocks {
     public static final RegistrySupplier<Block> GOLD_PILE = register("gold_pile", BlockGoldPile::new);
     public static final RegistrySupplier<Block> SILVER_PILE = register("silver_pile", BlockGoldPile::new);
     public static final RegistrySupplier<Block> COPPER_PILE = register("copper_pile", BlockGoldPile::new);
-    public static final RegistrySupplier<Block> SILVER_ORE = register("silver_ore", () -> new ExperienceDroppingBlock(AbstractBlock.Settings.create().mapColor(MapColor.STONE_GRAY).strength(3, 3).requiresTool()));
-    public static final RegistrySupplier<Block> DEEPSLATE_SILVER_ORE = register("deepslate_silver_ore", () -> new ExperienceDroppingBlock(AbstractBlock.Settings.create().mapColor(MapColor.DEEPSLATE_GRAY).strength(3, 3).requiresTool()));
+    public static final RegistrySupplier<Block> SILVER_ORE = register("silver_ore", () -> new ExperienceDroppingBlock(ConstantIntProvider.create(2), AbstractBlock.Settings.create().mapColor(MapColor.STONE_GRAY).strength(3, 3).requiresTool()));
+    public static final RegistrySupplier<Block> DEEPSLATE_SILVER_ORE = register("deepslate_silver_ore", () -> new ExperienceDroppingBlock(ConstantIntProvider.create(2), AbstractBlock.Settings.create().mapColor(MapColor.DEEPSLATE_GRAY).strength(3, 3).requiresTool()));
     public static final RegistrySupplier<Block> SILVER_BLOCK = register("silver_block", () -> BlockGeneric.builder(3.0F, 5.0F, BlockSoundGroup.METAL, MapColor.IRON_GRAY, null, null, false));
-    public static final RegistrySupplier<Block> SAPPHIRE_ORE = register("sapphire_ore", () -> new ExperienceDroppingBlock(AbstractBlock.Settings.create().mapColor(MapColor.STONE_GRAY).strength(4, 3).requiresTool(), UniformIntProvider.create(3, 7)));
+    public static final RegistrySupplier<Block> SAPPHIRE_ORE = register("sapphire_ore", () -> new ExperienceDroppingBlock(UniformIntProvider.create(3, 7), AbstractBlock.Settings.create().mapColor(MapColor.STONE_GRAY).strength(4, 3).requiresTool()));
     public static final RegistrySupplier<Block> SAPPHIRE_BLOCK = register("sapphire_block", () -> BlockGeneric.builder(3.0F, 6.0F, BlockSoundGroup.METAL, MapColor.IRON_GRAY, null, null, false));
     public static final RegistrySupplier<Block> RAW_SILVER_BLOCK = register("raw_silver_block", () -> BlockGeneric.builder(3.0F, 5.0F, BlockSoundGroup.STONE, MapColor.IRON_GRAY, Instrument.BASEDRUM, null, false));
     public static final RegistrySupplier<Block> CHARRED_DIRT = register("chared_dirt", () -> BlockReturningState.builder(0.5F, 0.0F, BlockSoundGroup.GRAVEL, MapColor.DIRT_BROWN, null, null, false, Blocks.DIRT.getDefaultState()));

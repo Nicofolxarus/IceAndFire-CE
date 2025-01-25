@@ -1,7 +1,5 @@
 package com.iafenvoy.iceandfire.loot;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
 import com.iafenvoy.iceandfire.data.DragonColor;
 import com.iafenvoy.iceandfire.entity.EntityDragonBase;
 import com.iafenvoy.iceandfire.item.ItemDragonEgg;
@@ -11,15 +9,21 @@ import com.iafenvoy.iceandfire.item.food.ItemDragonFlesh;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafLoots;
 import com.iafenvoy.iceandfire.registry.tag.IafItemTags;
+import com.mojang.serialization.Codec;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.condition.LootCondition;
+import net.minecraft.loot.condition.LootConditionTypes;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.function.ConditionalLootFunction;
 import net.minecraft.loot.function.LootFunctionType;
 
+import java.util.List;
+
 public class CustomizeToDragon extends ConditionalLootFunction {
-    public CustomizeToDragon(LootCondition[] conditionsIn) {
+    public static final Codec<CustomizeToDragon> CODEC = LootConditionTypes.CODEC.listOf().xmap(CustomizeToDragon::new, x -> x.conditions);
+
+    public CustomizeToDragon(List<LootCondition> conditionsIn) {
         super(conditionsIn);
     }
 
@@ -58,16 +62,5 @@ public class CustomizeToDragon extends ConditionalLootFunction {
     @Override
     public LootFunctionType getType() {
         return IafLoots.CUSTOMIZE_TO_DRAGON.get();
-    }
-
-    public static class Serializer extends ConditionalLootFunction.Serializer<CustomizeToDragon> {
-        public Serializer() {
-            super();
-        }
-
-        @Override
-        public CustomizeToDragon fromJson(JsonObject object, JsonDeserializationContext deserializationContext, LootCondition[] conditionsIn) {
-            return new CustomizeToDragon(conditionsIn);
-        }
     }
 }

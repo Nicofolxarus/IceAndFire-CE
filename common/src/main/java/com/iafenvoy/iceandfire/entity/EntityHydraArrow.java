@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 
 public class EntityHydraArrow extends PersistentProjectileEntity {
     public EntityHydraArrow(EntityType<? extends PersistentProjectileEntity> t, World worldIn) {
-        super(t, worldIn);
+        super(t, worldIn, new ItemStack(IafItems.HYDRA_ARROW.get()));
         this.setDamage(5F);
     }
 
@@ -31,7 +31,7 @@ public class EntityHydraArrow extends PersistentProjectileEntity {
 
 
     public EntityHydraArrow(EntityType<? extends EntityHydraArrow> t, World worldIn, LivingEntity shooter) {
-        super(t, shooter, worldIn);
+        super(t, shooter, worldIn, new ItemStack(IafItems.HYDRA_ARROW.get()));
         this.setDamage(5F);
     }
 
@@ -80,10 +80,5 @@ public class EntityHydraArrow extends PersistentProjectileEntity {
         if (shootingEntity instanceof LivingEntity) {
             ((LivingEntity) shootingEntity).heal((float) this.getDamage());
         }
-    }
-
-    @Override
-    protected ItemStack asItemStack() {
-        return new ItemStack(IafItems.HYDRA_ARROW.get());
     }
 }

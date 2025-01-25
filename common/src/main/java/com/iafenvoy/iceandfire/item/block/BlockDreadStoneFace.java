@@ -2,6 +2,7 @@ package com.iafenvoy.iceandfire.item.block;
 
 import com.iafenvoy.iceandfire.item.block.util.IDragonProof;
 import com.iafenvoy.iceandfire.item.block.util.IDreadBlock;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -14,6 +15,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 
 public class BlockDreadStoneFace extends HorizontalFacingBlock implements IDreadBlock, IDragonProof {
+    private static final MapCodec<? extends HorizontalFacingBlock> CODEC = createCodec(s -> new BlockDreadStoneFace());
+
     public BlockDreadStoneFace() {
         super(Settings.copy(Blocks.STONE));
         this.setDefaultState(this.getStateManager().getDefaultState().with(FACING, Direction.NORTH).with(UNBREAKABLE, false));
@@ -34,5 +37,10 @@ public class BlockDreadStoneFace extends HorizontalFacingBlock implements IDread
     @Override
     public BlockState getPlacementState(ItemPlacementContext context) {
         return this.getDefaultState().with(FACING, context.getHorizontalPlayerFacing().getOpposite());
+    }
+
+    @Override
+    protected MapCodec<? extends HorizontalFacingBlock> getCodec() {
+        return CODEC;
     }
 }

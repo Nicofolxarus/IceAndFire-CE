@@ -1,21 +1,24 @@
 package com.iafenvoy.iceandfire.loot;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
 import com.iafenvoy.iceandfire.entity.EntitySeaSerpent;
 import com.iafenvoy.iceandfire.item.ItemSeaSerpentScales;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafLoots;
+import com.mojang.serialization.Codec;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.condition.LootCondition;
+import net.minecraft.loot.condition.LootConditionTypes;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.function.ConditionalLootFunction;
 import net.minecraft.loot.function.LootFunctionType;
 
-public class CustomizeToSeaSerpent extends ConditionalLootFunction {
+import java.util.List;
 
-    public CustomizeToSeaSerpent(LootCondition[] conditionsIn) {
+public class CustomizeToSeaSerpent extends ConditionalLootFunction {
+    public static final Codec<CustomizeToSeaSerpent> CODEC = LootConditionTypes.CODEC.listOf().xmap(CustomizeToSeaSerpent::new, x -> x.conditions);
+
+    public CustomizeToSeaSerpent(List<LootCondition> conditionsIn) {
         super(conditionsIn);
     }
 
@@ -38,16 +41,5 @@ public class CustomizeToSeaSerpent extends ConditionalLootFunction {
     @Override
     public LootFunctionType getType() {
         return IafLoots.CUSTOMIZE_TO_SERPENT.get();
-    }
-
-    public static class Serializer extends ConditionalLootFunction.Serializer<CustomizeToSeaSerpent> {
-        public Serializer() {
-            super();
-        }
-
-        @Override
-        public CustomizeToSeaSerpent fromJson(JsonObject object, JsonDeserializationContext deserializationContext, LootCondition[] conditionsIn) {
-            return new CustomizeToSeaSerpent(conditionsIn);
-        }
     }
 }

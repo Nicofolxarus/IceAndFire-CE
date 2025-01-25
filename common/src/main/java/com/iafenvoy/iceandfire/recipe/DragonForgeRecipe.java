@@ -1,28 +1,31 @@
 package com.iafenvoy.iceandfire.recipe;
 
-import com.google.gson.JsonObject;
 import com.iafenvoy.iceandfire.entity.block.BlockEntityDragonForge;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafRecipeSerializers;
 import com.iafenvoy.iceandfire.registry.IafRecipes;
-import com.iafenvoy.uranus.client.model.tabula.JsonUtils;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.recipe.*;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class DragonForgeRecipe implements Recipe<BlockEntityDragonForge> {
+    private final Identifier id;
     private final Ingredient input;
     private final Ingredient blood;
     private final ItemStack result;
     private final String dragonType;
     private final int cookTime;
-    private final Identifier recipeId;
 
-    public DragonForgeRecipe(Identifier recipeId, Ingredient input, Ingredient blood, ItemStack result, String dragonType, int cookTime) {
-        this.recipeId = recipeId;
+    public DragonForgeRecipe(Identifier id, Ingredient input, Ingredient blood, ItemStack result, String dragonType, int cookTime) {
+        this.id = id;
         this.input = input;
         this.blood = blood;
         this.result = result;
@@ -65,7 +68,7 @@ public class DragonForgeRecipe implements Recipe<BlockEntityDragonForge> {
     }
 
     @Override
-    public ItemStack getOutput(DynamicRegistryManager registryAccess) {
+    public ItemStack getResult(DynamicRegistryManager registryAccess) {
         return this.result;
     }
 
@@ -84,11 +87,6 @@ public class DragonForgeRecipe implements Recipe<BlockEntityDragonForge> {
     }
 
     @Override
-    public Identifier getId() {
-        return this.recipeId;
-    }
-
-    @Override
     public ItemStack createIcon() {
         return new ItemStack(IafBlocks.DRAGONFORGE_FIRE_CORE.get());
     }
@@ -103,29 +101,37 @@ public class DragonForgeRecipe implements Recipe<BlockEntityDragonForge> {
         return IafRecipes.DRAGON_FORGE_TYPE.get();
     }
 
+    public Identifier getId() {
+        return this.id;
+    }
+
     public static class Serializer implements RecipeSerializer<DragonForgeRecipe> {
         @Override
-        public DragonForgeRecipe read(Identifier recipeId, JsonObject json) {
-            String dragonType = JsonUtils.getString(json, "dragon_type");
-            Ingredient input = Ingredient.fromJson(JsonUtils.getJsonObject(json, "input"));
-            Ingredient blood = Ingredient.fromJson(JsonUtils.getJsonObject(json, "blood"));
-            int cookTime = JsonUtils.getInt(json, "cook_time");
-            ItemStack result = ShapedRecipe.outputFromJson(JsonUtils.getJsonObject(json, "result"));
-            return new DragonForgeRecipe(recipeId, input, blood, result, dragonType, cookTime);
-        }
-
-        @Override
-        public DragonForgeRecipe read(Identifier recipeId, PacketByteBuf buffer) {
+        public DragonForgeRecipe read(PacketByteBuf buffer) {
+            Identifier id = buffer.readIdentifier();
             int cookTime = buffer.readInt();
             String dragonType = buffer.readString();
             Ingredient input = Ingredient.fromPacket(buffer);
             Ingredient blood = Ingredient.fromPacket(buffer);
             ItemStack result = buffer.readItemStack();
-            return new DragonForgeRecipe(recipeId, input, blood, result, dragonType, cookTime);
+            return new DragonForgeRecipe(id, input, blood, result, dragonType, cookTime);
+        }
+
+        @Override
+        public Codec<DragonForgeRecipe> codec() {
+            return RecordCodecBuilder.create(i -> i.group(
+                    Identifier.CODEC.fieldOf("id").forGetter(DragonForgeRecipe::getId),
+                    Ingredient.ALLOW_EMPTY_CODEC.fieldOf("input").forGetter(DragonForgeRecipe::getInput),
+                    Ingredient.ALLOW_EMPTY_CODEC.fieldOf("blood").forGetter(DragonForgeRecipe::getBlood),
+                    ItemStack.CODEC.fieldOf("result").forGetter(DragonForgeRecipe::getResultItem),
+                    Codec.STRING.fieldOf("dragonType").forGetter(DragonForgeRecipe::getDragonType),
+                    Codec.INT.fieldOf("cookTime").forGetter(DragonForgeRecipe::getCookTime)
+            ).apply(i, DragonForgeRecipe::new));
         }
 
         @Override
         public void write(PacketByteBuf buffer, DragonForgeRecipe recipe) {
+            buffer.writeIdentifier(recipe.id);
             buffer.writeInt(recipe.cookTime);
             buffer.writeString(recipe.dragonType);
             recipe.input.write(buffer);

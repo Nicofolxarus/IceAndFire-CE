@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[47,)"
+loaderVersion = "[2,)"
 issueTrackerURL = "https://github.com/IAFEnvoy/IceAndFire-CE/issues"
 license = "LGPL-3.0"
 
@@ -15,29 +15,32 @@ Dragons and other mythological creatures in minecraft.
 logoFile = "logo.jpg"
 
 [[dependencies.iceandfire]]
-modId = "forge"
-mandatory = true
-versionRange = "[47,)"
+modId = "neoforge"
+type = "required"
+versionRange = "[20.4,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.iceandfire]]
 modId = "minecraft"
-mandatory = true
+type = "required"
 versionRange = "[1.20.1,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.iceandfire]]
 modId = "uranus"
-mandatory = true
+type = "required"
 versionRange = "[2,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.iceandfire]]
 modId = "jupiter"
-mandatory = true
+type = "required"
 versionRange = "[2,)"
 ordering = "NONE"
 side = "BOTH"
+
+[[mixins]]
+config = "iceandfire.mixins.json"

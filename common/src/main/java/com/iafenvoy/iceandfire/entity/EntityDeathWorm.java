@@ -437,7 +437,7 @@ public class EntityDeathWorm extends TameableEntity implements ISyncMount, ICust
 
     @Override
     protected void pushOutOfBlocks(double x, double y, double z) {
-        PositionImpl blockpos = new PositionImpl(x, y, z);
+        Vec3d blockpos = new Vec3d(x, y, z);
         Vec3i vec3i = new Vec3i((int) Math.round(blockpos.getX()), (int) Math.round(blockpos.getY()), (int) Math.round(blockpos.getZ()));
         Vec3d vector3d = new Vec3d(x - blockpos.getX(), y - blockpos.getY(), z - blockpos.getZ());
         BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();

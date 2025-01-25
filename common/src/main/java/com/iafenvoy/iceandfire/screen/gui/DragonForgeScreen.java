@@ -11,6 +11,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -58,16 +59,16 @@ public class DragonForgeScreen extends HandledScreen<DragonForgeScreenHandler> {
     private int getCookTime(int time) {
         assert this.client != null;
         assert this.client.world != null;
-        List<DragonForgeRecipe> recipes = this.client.world.getRecipeManager().listAllOfType(IafRecipes.DRAGON_FORGE_TYPE.get()).stream().filter(item -> item.isValidInput(this.tileFurnace.getSlot(0).getStack()) && item.isValidBlood(this.tileFurnace.getSlot(1).getStack())).toList();
-        int maxCookTime = recipes.isEmpty() ? 100 : recipes.get(0).getCookTime();
+        List<RecipeEntry<DragonForgeRecipe>> recipes = this.client.world.getRecipeManager().listAllOfType(IafRecipes.DRAGON_FORGE_TYPE.get()).stream().filter(item -> item.value().isValidInput(this.tileFurnace.getSlot(0).getStack()) && item.value().isValidBlood(this.tileFurnace.getSlot(1).getStack())).toList();
+        int maxCookTime = recipes.isEmpty() ? 100 : recipes.get(0).value().getCookTime();
         double scale = 125000.0 / maxCookTime;
         return (int) (scale * time / maxCookTime);
     }
 
     @Override
-    public void render(DrawContext pGuiGraphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(pGuiGraphics);
-        super.render(pGuiGraphics, mouseX, mouseY, partialTicks);
-        this.drawMouseoverTooltip(pGuiGraphics, mouseX, mouseY);
+    public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(context,mouseX,mouseY,partialTicks);
+        super.render(context, mouseX, mouseY, partialTicks);
+        this.drawMouseoverTooltip(context, mouseX, mouseY);
     }
 }

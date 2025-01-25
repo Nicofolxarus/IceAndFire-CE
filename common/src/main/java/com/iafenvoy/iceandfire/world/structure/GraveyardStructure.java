@@ -7,6 +7,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolBasedGenerator;
+import net.minecraft.structure.pool.alias.StructurePoolAliasLookup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
@@ -46,7 +47,8 @@ public class GraveyardStructure extends IafJigsawStructure {
                 // Here, blockpos's y value is 60 which means the structure spawn 60 blocks above terrain height.
                 // Set this to false for structure to be place only at the passed in blockpos's Y value instead.
                 // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
-                this.maxDistanceFromCenter);
+                this.maxDistanceFromCenter,
+                StructurePoolAliasLookup.EMPTY);
     }
 
     @Override

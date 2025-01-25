@@ -6,6 +6,7 @@ import com.iafenvoy.iceandfire.item.block.util.IDragonProof;
 import com.iafenvoy.iceandfire.item.block.util.INoTab;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -116,11 +117,16 @@ public class BlockDragonForgeCore extends BlockWithEntity implements IDragonProo
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> entityType) {
-        return checkType(entityType, IafBlockEntities.DRAGONFORGE_CORE.get(), BlockEntityDragonForge::tick);
+        return validateTicker(entityType, IafBlockEntities.DRAGONFORGE_CORE.get(), BlockEntityDragonForge::tick);
     }
 
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new BlockEntityDragonForge(pos, state, this.isFire);
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return MapCodec.unit(this);//TODO: Codec
     }
 }

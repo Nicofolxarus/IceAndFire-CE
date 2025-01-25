@@ -5,6 +5,7 @@ import com.iafenvoy.iceandfire.entity.block.BlockEntityDragonForge;
 import com.iafenvoy.iceandfire.entity.block.BlockEntityDragonForgeInput;
 import com.iafenvoy.iceandfire.item.block.util.IDragonProof;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -80,11 +81,16 @@ public class BlockDragonForgeInput extends BlockWithEntity implements IDragonPro
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> entityType) {
-        return world.isClient ? null : checkType(entityType, IafBlockEntities.DRAGONFORGE_INPUT.get(), BlockEntityDragonForgeInput::tick);
+        return world.isClient ? null : validateTicker(entityType, IafBlockEntities.DRAGONFORGE_INPUT.get(), BlockEntityDragonForgeInput::tick);
     }
 
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new BlockEntityDragonForgeInput(pos, state);
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return MapCodec.unit(this);//TODO: Codec
     }
 }

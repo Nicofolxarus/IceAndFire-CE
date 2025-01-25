@@ -121,7 +121,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
 
     @Override
     public void render(DrawContext ms, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(ms);
+        this.renderBackground(ms, mouseX, mouseY, partialTicks);
         for (Drawable widget : this.drawables)
             if (widget instanceof IndexPageButton button) {
                 button.active = this.index;

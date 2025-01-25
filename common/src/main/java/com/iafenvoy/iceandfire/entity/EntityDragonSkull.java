@@ -54,11 +54,6 @@ public class EntityDragonSkull extends AnimalEntity implements IBlacklistedFromS
     }
 
     @Override
-    public boolean canBreatheInWater() {
-        return true;
-    }
-
-    @Override
     public boolean isInvulnerableTo(DamageSource i) {
         return i.getAttacker() != null && super.isInvulnerableTo(i);
     }

@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 public class EntitySeaSerpentArrow extends PersistentProjectileEntity {
     public EntitySeaSerpentArrow(EntityType<? extends PersistentProjectileEntity> t, World worldIn) {
-        super(t, worldIn);
+        super(t, worldIn, new ItemStack(IafItems.SEA_SERPENT_ARROW.get()));
         this.setDamage(3F);
     }
 
@@ -21,7 +21,7 @@ public class EntitySeaSerpentArrow extends PersistentProjectileEntity {
     }
 
     public EntitySeaSerpentArrow(EntityType<? extends PersistentProjectileEntity> t, World worldIn, LivingEntity shooter) {
-        super(t, shooter, worldIn);
+        super(t, shooter, worldIn, new ItemStack(IafItems.SEA_SERPENT_ARROW.get()));
         this.setDamage(3F);
     }
 
@@ -42,10 +42,5 @@ public class EntitySeaSerpentArrow extends PersistentProjectileEntity {
     @Override
     public boolean isTouchingWater() {
         return false;
-    }
-
-    @Override
-    protected ItemStack asItemStack() {
-        return new ItemStack(IafItems.SEA_SERPENT_ARROW.get());
     }
 }

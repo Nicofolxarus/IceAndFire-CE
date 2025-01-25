@@ -224,12 +224,6 @@ public class EntityStoneStatue extends LivingEntity implements IBlacklistedFromS
         this.dataTracker.set(CRACK_AMOUNT, crackAmount);
     }
 
-
-    @Override
-    public boolean canBreatheInWater() {
-        return true;
-    }
-
     @Override
     public boolean canBeTurnedToStone() {
         return false;
