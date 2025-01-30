@@ -12,15 +12,23 @@ public class CyclopsAIAttackMelee extends MeleeAttackGoal {
 
     @Override
     protected void attack(LivingEntity entity) {
-        if (this.isCyclopsBlinded()) {
+        float distance = this.mob.distanceTo(entity);
+        final double d0 = Math.sqrt(this.getSquaredMaxAttackDistance(entity));
+        if (this.isCyclopsBlinded() && distance >= 6) {
             this.stop();
             return;
         }
-        this.mob.swingHand(Hand.MAIN_HAND);
-        this.mob.tryAttack(entity);
+        if (distance <= d0) {
+            this.mob.swingHand(Hand.MAIN_HAND);
+            this.mob.tryAttack(entity);
+        }
     }
 
     private boolean isCyclopsBlinded() {
-        return this.mob instanceof EntityCyclops && ((EntityCyclops) this.mob).isBlinded();
+        return this.mob instanceof EntityCyclops cyclops && cyclops.isBlinded();
+    }
+
+    protected double getSquaredMaxAttackDistance(LivingEntity entity) {
+        return this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F + entity.getWidth();
     }
 }

@@ -55,7 +55,6 @@ dependencies {
     modApi "com.terraformersmc:modmenu:${modmenu_version}"
 
     // EMI
-    modCompileOnly "dev.emi:emi-fabric:${emi_version}:api"
     modLocalRuntime "dev.emi:emi-fabric:${emi_version}"
 
     // Jade
