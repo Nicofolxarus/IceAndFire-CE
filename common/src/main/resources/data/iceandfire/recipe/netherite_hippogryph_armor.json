@@ -10,7 +10,7 @@
     "item": "minecraft:netherite_ingot"
   },
   "result": {
-    "item": "iceandfire:netherite_hippogryph_armor"
+    "id": "iceandfire:netherite_hippogryph_armor"
   },
   "show_notification": true
 }

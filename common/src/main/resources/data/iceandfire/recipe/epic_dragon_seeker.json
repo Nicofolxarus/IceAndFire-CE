@@ -7,7 +7,7 @@
     "item": "iceandfire:dragon_seeker"
   },
   "result": {
-    "item": "iceandfire:epic_dragon_seeker"
+    "id": "iceandfire:epic_dragon_seeker"
   },
   "template": {
     "item": "minecraft:netherite_upgrade_smithing_template"

@@ -17,6 +17,7 @@
     "InGameHudMixin",
     "LivingEntityRendererMixin",
     "PlayerEntityRendererMixin",
+    "RotatingCubeMapRendererMixin",
     "TitleScreenMixin"
   ],
   "injectors": {

@@ -263,7 +263,7 @@ public abstract class EntityMyrmexBase extends AnimalEntity implements IAnimated
         TradeOfferList merchantoffers = this.getOffers();
         if (!merchantoffers.isEmpty())
             tag.put("Offers", TradeOfferList.CODEC.encodeStart(NbtOps.INSTANCE, merchantoffers).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtCompound()));
-        tag.put("Inventory", ItemStack.CODEC.listOf().encodeStart(NbtOps.INSTANCE, this.villagerInventory.getHeldStacks()).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtList()));
+        tag.put("Inventory", ItemStack.OPTIONAL_CODEC.listOf().encodeStart(NbtOps.INSTANCE, this.villagerInventory.getHeldStacks()).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtList()));
     }
 
     @Override
@@ -276,7 +276,7 @@ public abstract class EntityMyrmexBase extends AnimalEntity implements IAnimated
             this.setHive(MyrmexWorldData.get(this.getWorld()).getHiveFromUUID(tag.getUuid("HiveUUID")));
         if (tag.contains("Offers"))
             this.offers = TradeOfferList.CODEC.parse(NbtOps.INSTANCE, tag.get("Offers")).resultOrPartial(IceAndFire.LOGGER::error).orElse(new TradeOfferList());
-        List<ItemStack> inv = ItemStack.CODEC.listOf().parse(NbtOps.INSTANCE, tag.get("Inventory")).resultOrPartial(IceAndFire.LOGGER::error).orElse(List.of());
+        List<ItemStack> inv = ItemStack.OPTIONAL_CODEC.listOf().parse(NbtOps.INSTANCE, tag.get("Inventory")).resultOrPartial(IceAndFire.LOGGER::error).orElse(List.of());
         for (int i = 0; i < inv.size() && i < this.villagerInventory.size(); i++)
             this.villagerInventory.setStack(i, inv.get(i));
         this.setConfigurableAttributes();

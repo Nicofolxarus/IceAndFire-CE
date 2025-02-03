@@ -28,7 +28,7 @@ public class MyrmexAddRoomScreenHandler extends ScreenHandler {
         this(syncId, playerInventory);
         NbtCompound nbt = buf.readNbt();
         if (nbt != null)
-            this.staff = ItemStack.CODEC.parse(NbtOps.INSTANCE, nbt.get("data")).resultOrPartial(IceAndFire.LOGGER::error).orElse(ItemStack.EMPTY);
+            this.staff = ItemStack.OPTIONAL_CODEC.parse(NbtOps.INSTANCE, nbt.get("data")).resultOrPartial(IceAndFire.LOGGER::error).orElse(ItemStack.EMPTY);
         this.interactPos = BlockPos.fromLong(buf.readLong());
         this.facing = buf.readEnumConstant(Direction.class);
         this.targetId = buf.readUuid();

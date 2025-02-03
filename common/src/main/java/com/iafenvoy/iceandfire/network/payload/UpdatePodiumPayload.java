@@ -15,7 +15,7 @@ public record UpdatePodiumPayload(BlockPos blockPos, ItemStack heldStack) implem
     public static final Id<UpdatePodiumPayload> ID = new Id<>(IDENTIFIER);
     public static final PacketCodec<ByteBuf, UpdatePodiumPayload> CODEC = PacketCodecs.codec(RecordCodecBuilder.create(i -> i.group(
             BlockPos.CODEC.fieldOf("blockPos").forGetter(UpdatePodiumPayload::blockPos),
-            ItemStack.CODEC.fieldOf("heldStack").forGetter(UpdatePodiumPayload::heldStack)
+            ItemStack.OPTIONAL_CODEC.fieldOf("heldStack").forGetter(UpdatePodiumPayload::heldStack)
     ).apply(i, UpdatePodiumPayload::new)));
 
     @Override

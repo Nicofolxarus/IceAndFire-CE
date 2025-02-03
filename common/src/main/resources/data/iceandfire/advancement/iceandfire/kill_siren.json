@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "iceandfire:siren_tear"
+    "id": "iceandfire:siren_tear"
     },
     "title": {
       "translate": "advancements.iceandfire.kill_siren.title"

@@ -759,7 +759,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
         compound.putBoolean("AgingDisabled", this.isAgingDisabled());
         compound.putInt("Command", this.getCommand());
         if (this.dragonInventory != null)
-            compound.put("Items", ItemStack.CODEC.listOf().encodeStart(NbtOps.INSTANCE, this.dragonInventory.getHeldStacks()).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtList()));
+            compound.put("Items", ItemStack.OPTIONAL_CODEC.listOf().encodeStart(NbtOps.INSTANCE, this.dragonInventory.getHeldStacks()).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtList()));
         compound.putBoolean("CrystalBound", this.isBoundToCrystal());
         if (this.hasCustomName())
             compound.put("CustomName", TextCodecs.CODEC.encodeStart(NbtOps.INSTANCE, this.getCustomName()).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtCompound()));
@@ -799,7 +799,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
         this.setCommand(compound.getInt("Command"));
 
         this.createInventory();
-        List<ItemStack> stacks = ItemStack.CODEC.listOf().parse(NbtOps.INSTANCE, compound.get("Items")).resultOrPartial(IceAndFire.LOGGER::error).orElse(List.of());
+        List<ItemStack> stacks = ItemStack.OPTIONAL_CODEC.listOf().parse(NbtOps.INSTANCE, compound.get("Items")).resultOrPartial(IceAndFire.LOGGER::error).orElse(List.of());
         for (int i = 0; i < stacks.size() && i < this.dragonInventory.size(); i++)
             this.dragonInventory.setStack(i, stacks.get(i));
 

@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "iceandfire:stymphalian_bird_feather"
+    "id": "iceandfire:stymphalian_bird_feather"
     },
     "title": {
       "translate": "advancements.iceandfire.kill_stymphalian_bird.title"

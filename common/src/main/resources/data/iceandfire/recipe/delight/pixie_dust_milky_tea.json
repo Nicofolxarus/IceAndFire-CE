@@ -16,7 +16,7 @@
     }
   ],
   "result": {
-    "item": "iceandfire:pixie_dust_milky_tea"
+    "id": "iceandfire:pixie_dust_milky_tea"
   },
   "container": {
     "item": "minecraft:glass_bottle"

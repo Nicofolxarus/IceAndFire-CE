@@ -11,7 +11,7 @@
     "BBB"
   ],
   "result": {
-    "item": "iceandfire:dragon_bone_wall"
+    "id": "iceandfire:dragon_bone_wall"
   },
   "show_notification": true
 }

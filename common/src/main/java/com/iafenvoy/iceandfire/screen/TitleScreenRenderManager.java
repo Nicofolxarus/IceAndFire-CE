@@ -104,12 +104,13 @@ public class TitleScreenRenderManager {
             float heightScale = height / 427F;
             float imageScale = Math.min(widthScale, heightScale) * 192;
             RenderSystem.enableBlend();
+            RenderSystem.setShaderColor(1, 1, 1, globalAlpha);
             for (Picture picture : drawnPictures) {
-                RenderSystem.setShaderColor(1, 1, 1, globalAlpha);
                 int x = (int) (picture.x * widthScale) + middleX;
                 int y = (int) ((picture.y * heightScale) + middleY);
                 ms.drawTexture(drawingTextures[picture.image], x, y, 0, 0, (int) imageScale, (int) imageScale, (int) imageScale, (int) imageScale);
             }
+            RenderSystem.setShaderColor(1, 1, 1, 1);
             RenderSystem.disableBlend();
         }
     }

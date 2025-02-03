@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "iceandfire:deathworm_tounge"
+    "id": "iceandfire:deathworm_tounge"
     },
     "title": {
       "translate": "advancements.iceandfire.kill_deathworm.title"

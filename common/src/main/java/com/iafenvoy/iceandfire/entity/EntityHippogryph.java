@@ -397,7 +397,7 @@ public class EntityHippogryph extends TameableEntity implements NamedScreenHandl
         compound.putInt("Armor", this.getArmor());
         compound.putInt("Feedings", this.feedings);
         if (this.hippogryphInventory != null)
-            compound.put("Items", ItemStack.CODEC.listOf().encodeStart(NbtOps.INSTANCE, this.hippogryphInventory.getHeldStacks()).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtList()));
+            compound.put("Items", ItemStack.OPTIONAL_CODEC.listOf().encodeStart(NbtOps.INSTANCE, this.hippogryphInventory.getHeldStacks()).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtList()));
         compound.putBoolean("HasHomePosition", this.hasHomePosition);
         if (this.homePos != null && this.hasHomePosition) {
             compound.putInt("HomeAreaX", this.homePos.getX());
@@ -423,7 +423,7 @@ public class EntityHippogryph extends TameableEntity implements NamedScreenHandl
         this.feedings = compound.getInt("Feedings");
 
         this.initHippogryphInv();
-        List<ItemStack> inv = ItemStack.CODEC.listOf().parse(NbtOps.INSTANCE, compound.get("Items")).resultOrPartial(IceAndFire.LOGGER::error).orElse(List.of());
+        List<ItemStack> inv = ItemStack.OPTIONAL_CODEC.listOf().parse(NbtOps.INSTANCE, compound.get("Items")).resultOrPartial(IceAndFire.LOGGER::error).orElse(List.of());
         for (int i = 0; i < inv.size() && i < this.hippogryphInventory.size(); i++)
             this.hippogryphInventory.setStack(i, inv.get(i));
 

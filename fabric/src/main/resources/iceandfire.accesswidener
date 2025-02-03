@@ -28,7 +28,6 @@ accessible method net/minecraft/client/render/GameRenderer loadPostProcessor (Ln
 accessible method net/minecraft/client/render/Camera clipToSpace (F)F
 accessible method net/minecraft/client/render/Camera moveBy (FFF)V
 accessible method net/minecraft/particle/SimpleParticleType <init> (Z)V
-accessible method net/minecraft/recipe/BrewingRecipeRegistry registerPotionRecipe (Lnet/minecraft/potion/Potion;Lnet/minecraft/item/Item;Lnet/minecraft/potion/Potion;)V
 accessible field net/minecraft/entity/projectile/PersistentProjectileEntity stack Lnet/minecraft/item/ItemStack;
 accessible method net/minecraft/block/Blocks createLeavesBlock (Lnet/minecraft/sound/BlockSoundGroup;)Lnet/minecraft/block/Block;
 accessible method net/minecraft/entity/SpawnRestriction register (Lnet/minecraft/entity/EntityType;Lnet/minecraft/entity/SpawnLocation;Lnet/minecraft/world/Heightmap$Type;Lnet/minecraft/entity/SpawnRestriction$SpawnPredicate;)V

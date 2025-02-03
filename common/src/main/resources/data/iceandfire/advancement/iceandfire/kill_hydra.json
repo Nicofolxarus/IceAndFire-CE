@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "iceandfire:hydra_fang"
+    "id": "iceandfire:hydra_fang"
     },
     "title": {
       "translate": "advancements.iceandfire.kill_hydra.title"

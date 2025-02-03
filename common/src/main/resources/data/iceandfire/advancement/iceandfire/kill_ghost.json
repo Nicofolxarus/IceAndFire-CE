@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "iceandfire:ectoplasm"
+    "id": "iceandfire:ectoplasm"
     },
     "title": {
       "translate": "advancements.iceandfire.kill_ghost.title"

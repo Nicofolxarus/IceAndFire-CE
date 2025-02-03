@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "iceandfire:frozen_splinters"
   },
-  "result": "minecraft:stick",
+  "result": {
+    "id": "minecraft:stick"
+  },
   "experience": 0.1,
   "cookingtime": 200
 }

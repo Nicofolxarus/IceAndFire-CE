@@ -10,7 +10,7 @@
     "item": "minecraft:netherite_block"
   },
   "result": {
-    "item": "iceandfire:dragonarmor_netherite_body"
+    "id": "iceandfire:dragonarmor_netherite_body"
   },
   "show_notification": true
 }

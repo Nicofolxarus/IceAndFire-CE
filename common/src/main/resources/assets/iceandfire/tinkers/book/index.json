@@ -3,7 +3,7 @@
     "name": "iafmodifiers",
     "data": "sections/modifiers.json",
     "icon": {
-      "item": {
+    "id": {
         "id": "minecraft:redstone"
       }
     }

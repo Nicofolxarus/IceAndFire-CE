@@ -15,7 +15,7 @@
     "BIB"
   ],
   "result": {
-    "item": "iceandfire:dragonforge_ice_input"
+    "id": "iceandfire:dragonforge_ice_input"
   },
   "show_notification": true
 }

@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "iceandfire:troll_tusk"
+    "id": "iceandfire:troll_tusk"
     },
     "title": {
       "translate": "advancements.iceandfire.kill_troll.title"

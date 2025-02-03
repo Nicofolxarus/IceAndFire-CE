@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "iceandfire:dread_stone_bricks"
   },
-  "result": "iceandfire:dread_stone_stairs",
+  "result": {
+    "id": "iceandfire:dread_stone_stairs"
+  },
   "count": 2
 }

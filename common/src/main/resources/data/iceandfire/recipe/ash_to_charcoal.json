@@ -12,7 +12,7 @@
     "BBB"
   ],
   "result": {
-    "item": "minecraft:charcoal"
+    "id": "minecraft:charcoal"
   },
   "show_notification": true
 }

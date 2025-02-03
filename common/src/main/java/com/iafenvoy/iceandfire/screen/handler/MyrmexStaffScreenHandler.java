@@ -24,7 +24,7 @@ public class MyrmexStaffScreenHandler extends ScreenHandler {
         this(syncId, playerInventory);
         NbtCompound nbt = buf.readNbt();
         if (nbt != null)
-            this.staff = ItemStack.CODEC.parse(NbtOps.INSTANCE, nbt.get("data")).resultOrPartial(IceAndFire.LOGGER::error).orElse(ItemStack.EMPTY);
+            this.staff = ItemStack.OPTIONAL_CODEC.parse(NbtOps.INSTANCE, nbt.get("data")).resultOrPartial(IceAndFire.LOGGER::error).orElse(ItemStack.EMPTY);
         this.targetId = buf.readUuid();
     }
 

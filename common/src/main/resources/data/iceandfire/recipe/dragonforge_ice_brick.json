@@ -16,7 +16,7 @@
   ],
   "result": {
     "count": 4,
-    "item": "iceandfire:dragonforge_ice_brick"
+    "id": "iceandfire:dragonforge_ice_brick"
   },
   "show_notification": true
 }

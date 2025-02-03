@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "iceandfire:silver_ore"
   },
-  "result": "iceandfire:silver_ingot",
+  "result": {
+    "id": "iceandfire:silver_ingot"
+  },
   "experience": 0.35,
   "cookingtime": 200
 }

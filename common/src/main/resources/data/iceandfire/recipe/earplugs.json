@@ -10,7 +10,7 @@
     "B B"
   ],
   "result": {
-    "item": "iceandfire:earplugs"
+    "id": "iceandfire:earplugs"
   },
   "show_notification": true
 }

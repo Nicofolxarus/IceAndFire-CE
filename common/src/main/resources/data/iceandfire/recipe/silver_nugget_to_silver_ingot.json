@@ -12,7 +12,7 @@
     "###"
   ],
   "result": {
-    "item": "iceandfire:silver_ingot"
+    "id": "iceandfire:silver_ingot"
   },
   "show_notification": true
 }

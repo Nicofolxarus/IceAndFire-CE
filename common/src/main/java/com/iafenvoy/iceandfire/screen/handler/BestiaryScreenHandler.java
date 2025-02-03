@@ -23,7 +23,7 @@ public class BestiaryScreenHandler extends ScreenHandler {
         this(syncId, playerInventory);
         NbtCompound nbt = buf.readNbt();
         if (nbt != null)
-            this.bookStack = ItemStack.CODEC.parse(NbtOps.INSTANCE, nbt.get("data")).resultOrPartial(IceAndFire.LOGGER::error).orElse(ItemStack.EMPTY);
+            this.bookStack = ItemStack.OPTIONAL_CODEC.parse(NbtOps.INSTANCE, nbt.get("data")).resultOrPartial(IceAndFire.LOGGER::error).orElse(ItemStack.EMPTY);
     }
 
     @Override

@@ -42,7 +42,7 @@ public class ItemBestiary extends Item {
                 public void saveExtraData(PacketByteBuf buf) {
                     ItemStack stack = playerIn.getStackInHand(handIn);
                     NbtCompound compound = new NbtCompound();
-                    compound.put("data", ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, stack).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtCompound()));
+                    compound.put("data", ItemStack.OPTIONAL_CODEC.encodeStart(NbtOps.INSTANCE, stack).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtCompound()));
                     buf.writeNbt(compound);
                 }
 

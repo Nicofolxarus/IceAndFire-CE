@@ -115,7 +115,7 @@ public class DragonForgeRecipe implements Recipe<BlockEntityDragonForge> {
                     Identifier.CODEC.fieldOf("id").forGetter(DragonForgeRecipe::getId),
                     Ingredient.ALLOW_EMPTY_CODEC.fieldOf("input").forGetter(DragonForgeRecipe::getInput),
                     Ingredient.ALLOW_EMPTY_CODEC.fieldOf("blood").forGetter(DragonForgeRecipe::getBlood),
-                    ItemStack.CODEC.fieldOf("result").forGetter(DragonForgeRecipe::getResultItem),
+                    ItemStack.OPTIONAL_CODEC.fieldOf("result").forGetter(DragonForgeRecipe::getResultItem),
                     Codec.STRING.fieldOf("dragonType").forGetter(DragonForgeRecipe::getDragonType),
                     Codec.INT.fieldOf("cookTime").forGetter(DragonForgeRecipe::getCookTime)
             ).apply(i, DragonForgeRecipe::new));

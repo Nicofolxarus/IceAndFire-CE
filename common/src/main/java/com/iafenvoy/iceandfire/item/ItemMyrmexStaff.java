@@ -42,7 +42,7 @@ public class ItemMyrmexStaff extends Item {
                     @Override
                     public void saveExtraData(PacketByteBuf buf) {
                         NbtCompound compound = new NbtCompound();
-                        compound.put("data", ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, itemStackIn).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtCompound()));
+                        compound.put("data", ItemStack.OPTIONAL_CODEC.encodeStart(NbtOps.INSTANCE, itemStackIn).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtCompound()));
                         buf.writeNbt(compound);
                         buf.writeUuid(id);
                     }
@@ -77,7 +77,7 @@ public class ItemMyrmexStaff extends Item {
                         public void saveExtraData(PacketByteBuf buf) {
                             ItemStack stack = context.getPlayer().getStackInHand(context.getHand());
                             NbtCompound compound = new NbtCompound();
-                            compound.put("data", ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, stack).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtCompound()));
+                            compound.put("data", ItemStack.OPTIONAL_CODEC.encodeStart(NbtOps.INSTANCE, stack).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtCompound()));
                             buf.writeNbt(compound);
                             buf.writeLong(context.getBlockPos().asLong());
                             buf.writeEnumConstant(serverPlayer.getHorizontalFacing());
