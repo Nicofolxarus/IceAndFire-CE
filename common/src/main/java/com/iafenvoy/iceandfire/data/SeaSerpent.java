@@ -3,17 +3,18 @@ package com.iafenvoy.iceandfire.data;
 import com.google.common.collect.ImmutableList;
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.item.ItemSeaSerpentScales;
-import com.iafenvoy.iceandfire.item.armor.IafArmorMaterial;
 import com.iafenvoy.iceandfire.item.armor.ItemSeaSerpentArmor;
 import com.iafenvoy.iceandfire.item.block.BlockSeaSerpentScales;
+import com.iafenvoy.iceandfire.registry.IafArmorMaterials;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafItems;
-import com.iafenvoy.uranus.object.IdUtil;
-import com.iafenvoy.uranus.object.item.CustomArmorMaterial;
+import com.iafenvoy.uranus.util.function.MemorizeSupplier;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.Block;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -35,7 +36,7 @@ public class SeaSerpent {
     public static final SeaSerpent TEAL = new SeaSerpent("teal", Formatting.AQUA);
     private final String name;
     private final Formatting color;
-    public CustomArmorMaterial armorMaterial;
+    public RegistrySupplier<ArmorMaterial> armorMaterial;
     public RegistrySupplier<Item> scale, helmet, chestplate, leggings, boots;
     public RegistrySupplier<Block> scaleBlock;
 
@@ -64,7 +65,7 @@ public class SeaSerpent {
 
     public static void initArmors() {
         for (SeaSerpent color : SeaSerpent.values()) {
-            color.armorMaterial = new IafArmorMaterial(IdUtil.build(IceAndFire.MOD_ID, "sea_serpent_scales_") + color.name, 30, new int[]{4, 8, 7, 4}, 25, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 2.5F);
+            color.armorMaterial = IafArmorMaterials.register("sea_serpent_scales_" + color.name, 30, new int[]{4, 8, 7, 4}, 25, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 2.5F, new MemorizeSupplier<>(() -> Ingredient.ofItems(color.scale.get())));
             color.scaleBlock = IafBlocks.register("sea_serpent_scale_block_" + color.name, () -> new BlockSeaSerpentScales(color.name, color.color));
             color.scale = IafItems.register("sea_serpent_scales_" + color.name, () -> new ItemSeaSerpentScales(color.name, color.color));
             color.helmet = IafItems.register("tide_" + color.name + "_helmet", () -> new ItemSeaSerpentArmor(color, color.armorMaterial, ArmorItem.Type.HELMET));

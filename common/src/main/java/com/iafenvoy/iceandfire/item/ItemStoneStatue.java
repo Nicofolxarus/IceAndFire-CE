@@ -1,13 +1,14 @@
 package com.iafenvoy.iceandfire.item;
 
+import com.iafenvoy.iceandfire.component.StoneStatusComponent;
 import com.iafenvoy.iceandfire.entity.EntityStoneStatue;
+import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafEntities;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -15,39 +16,28 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ItemStoneStatue extends Item {
     public ItemStoneStatue() {
-        super(new Settings().maxCount(1));
+        super(new Settings().maxCount(1).component(IafDataComponents.STONE_STATUS.get(), new StoneStatusComponent(true, "", new NbtCompound())));
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
-        if (stack.getNbt() != null) {
-            boolean isPlayer = stack.getNbt().getBoolean("IAFStoneStatuePlayerEntity");
-            String id = stack.getNbt().getString("IAFStoneStatueEntityID");
-            if (EntityType.get(id).orElse(null) != null) {
-                EntityType<?> type = EntityType.get(id).orElse(null);
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
+        if (stack.contains(IafDataComponents.STONE_STATUS.get())) {
+            StoneStatusComponent component = stack.get(IafDataComponents.STONE_STATUS.get());
+            Optional<EntityType<?>> optional = EntityType.get(component.entityType());
+            if (optional.isPresent()) {
                 MutableText untranslated;
-                if (isPlayer)
-                    untranslated = Text.translatable("entity.minecraft.player");
-                else {
-                    assert type != null;
-                    untranslated = Text.translatable(type.getTranslationKey());
-                }
+                if (component.isPlayer()) untranslated = Text.translatable("entity.minecraft.player");
+                else untranslated = Text.translatable(optional.get().getTranslationKey());
                 tooltip.add(untranslated.formatted(Formatting.GRAY));
             }
         }
-    }
-
-    @Override
-    public void onCraft(ItemStack itemStack, World world) {
-        itemStack.setNbt(new NbtCompound());
-        assert itemStack.getNbt() != null;
-        itemStack.getNbt().putBoolean("IAFStoneStatuePlayerEntity", true);
     }
 
     @Override
@@ -57,12 +47,11 @@ public class ItemStoneStatue extends Item {
         } else {
             assert context.getPlayer() != null;
             ItemStack stack = context.getPlayer().getStackInHand(context.getHand());
-            if (stack.getNbt() != null) {
-                String id = stack.getNbt().getString("IAFStoneStatueEntityID");
-                NbtCompound statueNBT = stack.getNbt().getCompound("IAFStoneStatueNBT");
+            if (stack.contains(IafDataComponents.STONE_STATUS.get())) {
+                StoneStatusComponent component = stack.get(IafDataComponents.STONE_STATUS.get());
                 EntityStoneStatue statue = new EntityStoneStatue(IafEntities.STONE_STATUE.get(), context.getWorld());
-                statue.readCustomDataFromNbt(statueNBT);
-                statue.setTrappedEntityTypeString(id);
+                statue.readCustomDataFromNbt(component.nbt());
+                statue.setTrappedEntityTypeString(component.entityType());
                 double d1 = context.getPlayer().getX() - (context.getBlockPos().getX() + 0.5);
                 double d2 = context.getPlayer().getZ() - (context.getBlockPos().getZ() + 0.5);
                 float yaw = (float) (MathHelper.atan2(d2, d1) * (180F / (float) Math.PI)) - 90;
@@ -72,10 +61,8 @@ public class ItemStoneStatue extends Item {
                 statue.bodyYaw = yaw;
                 statue.prevBodyYaw = yaw;
                 statue.updatePositionAndAngles(context.getBlockPos().getX() + 0.5, context.getBlockPos().getY() + 1, context.getBlockPos().getZ() + 0.5, yaw, 0);
-                if (!context.getWorld().isClient) {
+                if (!context.getWorld().isClient)
                     context.getWorld().spawnEntity(statue);
-                    statue.readCustomDataFromNbt(stack.getNbt());
-                }
                 statue.setCrackAmount(0);
 
                 if (!context.getPlayer().isCreative())

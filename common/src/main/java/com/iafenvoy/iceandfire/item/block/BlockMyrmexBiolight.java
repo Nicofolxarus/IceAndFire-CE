@@ -32,7 +32,6 @@ public class BlockMyrmexBiolight extends PlantBlock {
         return worldIn.getBlockState(blockpos).getBlock() == this || worldIn.getBlockState(blockpos).isOpaque();
     }
 
-
     @Override
     protected MapCodec<? extends PlantBlock> getCodec() {
         return CODEC;

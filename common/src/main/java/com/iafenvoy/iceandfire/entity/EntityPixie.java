@@ -1,15 +1,14 @@
 package com.iafenvoy.iceandfire.entity;
 
 import com.google.common.base.Predicate;
-import com.iafenvoy.iceandfire.StaticVariables;
 import com.iafenvoy.iceandfire.entity.ai.*;
 import com.iafenvoy.iceandfire.entity.block.BlockEntityPixieHouse;
+import com.iafenvoy.iceandfire.network.payload.UpdatePixieHousePayload;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafParticles;
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import com.iafenvoy.iceandfire.registry.tag.IafItemTags;
 import com.iafenvoy.uranus.ServerHelper;
-import com.iafenvoy.uranus.network.PacketBufferUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -32,8 +31,9 @@ import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.ActionResult;
@@ -42,7 +42,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.*;
+import net.minecraft.world.Heightmap;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
+import net.minecraft.world.World;
 
 @SuppressWarnings("ALL")
 public class EntityPixie extends TameableEntity {
@@ -50,8 +53,8 @@ public class EntityPixie extends TameableEntity {
     public static final int STEAL_COOLDOWN = 3000;
     private static final TrackedData<Integer> COLOR = DataTracker.registerData(EntityPixie.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> COMMAND = DataTracker.registerData(EntityPixie.class, TrackedDataHandlerRegistry.INTEGER);
-    public final StatusEffect[] positivePotions = new StatusEffect[]{StatusEffects.STRENGTH, StatusEffects.JUMP_BOOST, StatusEffects.SPEED, StatusEffects.LUCK, StatusEffects.HASTE};
-    public final StatusEffect[] negativePotions = new StatusEffect[]{StatusEffects.WEAKNESS, StatusEffects.NAUSEA, StatusEffects.SLOWNESS, StatusEffects.UNLUCK, StatusEffects.MINING_FATIGUE};
+    public final RegistryEntry<StatusEffect>[] positivePotions = new RegistryEntry[]{StatusEffects.STRENGTH, StatusEffects.JUMP_BOOST, StatusEffects.SPEED, StatusEffects.LUCK, StatusEffects.HASTE};
+    public final RegistryEntry<StatusEffect>[] negativePotions = new RegistryEntry[]{StatusEffects.WEAKNESS, StatusEffects.NAUSEA, StatusEffects.SLOWNESS, StatusEffects.UNLUCK, StatusEffects.MINING_FATIGUE};
     public boolean slowSpeed = false;
     public int ticksUntilHouseAI;
     public int ticksHeldItemFor;
@@ -133,6 +136,11 @@ public class EntityPixie extends TameableEntity {
     }
 
     @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return stack.isOf(Items.SUGAR);
+    }
+
+    @Override
     public boolean damage(DamageSource source, float amount) {
         if (!this.getWorld().isClient && this.getRandom().nextInt(3) == 0 && !this.getStackInHand(Hand.MAIN_HAND).isEmpty()) {
             this.dropStack(this.getStackInHand(Hand.MAIN_HAND), 0);
@@ -171,10 +179,10 @@ public class EntityPixie extends TameableEntity {
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(COLOR, 0);
-        this.dataTracker.startTracking(COMMAND, 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(COLOR, 0);
+        builder.add(COMMAND, 0);
     }
 
     @Override
@@ -248,15 +256,10 @@ public class EntityPixie extends TameableEntity {
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setColor(this.random.nextInt(5));
         this.setStackInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
-
-        if (dataTag != null) {
-            System.out.println("EntityPixie spawned with dataTag: " + dataTag);
-        }
-
         return spawnDataIn;
     }
 
@@ -326,9 +329,7 @@ public class EntityPixie extends TameableEntity {
                     house.pixieItems.set(0, this.getStackInHand(Hand.MAIN_HAND));
                     house.tamedPixie = this.isTamed();
                     house.pixieOwnerUUID = this.getOwnerUuid();
-                    PacketByteBuf buf = PacketBufferUtils.create().writeBlockPos(this.housePos);
-                    buf.writeBoolean(true).writeInt(this.getColor());
-                    ServerHelper.sendToAll(StaticVariables.UPDATE_PIXIE_HOUSE, buf);
+                    ServerHelper.sendToAll(new UpdatePixieHousePayload(this.housePos, true, this.getColor()));
                     this.remove(RemovalReason.DISCARDED);
                 }
             }
@@ -422,11 +423,6 @@ public class EntityPixie extends TameableEntity {
         }
 
         return super.isTeammate(entityIn);
-    }
-
-    @Override
-    public EntityView method_48926() {
-        return this.getWorld();
     }
 
     class AIMoveControl extends MoveControl {

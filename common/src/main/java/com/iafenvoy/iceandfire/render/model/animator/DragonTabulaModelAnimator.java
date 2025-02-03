@@ -59,7 +59,7 @@ public abstract class DragonTabulaModelAnimator extends IceAndFireTabulaModelAni
         TabulaModel<EntityDragonBase> prevPosition = swimming ? this.swimPoses[prevIndex] : walking ? this.walkPoses[prevIndex] : this.flyPoses[prevIndex];
         float delta = ((walking ? entity.walkCycle : entity.flightCycle) / 10.0F) % 1.0F;
         if (swimming) delta = (entity.swimCycle / 10.0F) % 1.0F;
-        float partialTick = MinecraftClient.getInstance().getTickDelta();
+        float partialTick = MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false);
         float deltaTicks = delta + (partialTick / 10.0F);
         if (delta == 0) deltaTicks = 0;
 
@@ -135,7 +135,7 @@ public abstract class DragonTabulaModelAnimator extends IceAndFireTabulaModelAni
                     model.getCube("armL1"), model.getCube("armL2"), this.clawL,
                     model.getCube("armR1"), model.getCube("armR2"), this.clawR,
                     1.0F, 0.5F, 0.5F, -0.15F, -0.15F, 0F,
-                    MinecraftClient.getInstance().getTickDelta()
+                    MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false)
             );
     }
 
@@ -214,7 +214,7 @@ public abstract class DragonTabulaModelAnimator extends IceAndFireTabulaModelAni
             // TabulaModel customPose = customPose(entity);
             TabulaModel<EntityDragonBase> pose = this.getModel(EnumDragonPoses.DEAD);
             if (!this.isRotationEqual(cube, pose.getCube(cube.boxName)))
-                this.transitionTo(cube, pose.getCube(cube.boxName), entity.prevModelDeadProgress + (entity.modelDeadProgress - entity.prevModelDeadProgress) * MinecraftClient.getInstance().getTickDelta(), 20, cube.boxName.equals("ThighR") || cube.boxName.equals("ThighL"));
+                this.transitionTo(cube, pose.getCube(cube.boxName), entity.prevModelDeadProgress + (entity.modelDeadProgress - entity.prevModelDeadProgress) * MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false), 20, cube.boxName.equals("ThighR") || cube.boxName.equals("ThighL"));
             //Ugly hack to make sure ice dragon models are touching the ground when dead
             if (this instanceof IceDragonTabulaModelAnimator)
                 if (cube.boxName.equals("BodyUpper"))

@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 public class EntityStymphalianArrow extends PersistentProjectileEntity {
     public EntityStymphalianArrow(EntityType<? extends PersistentProjectileEntity> t, World worldIn) {
-        super(t, worldIn, new ItemStack(IafItems.STYMPHALIAN_ARROW.get()));
+        super(t, worldIn);
         this.setDamage(3.5F);
     }
 
@@ -20,8 +20,8 @@ public class EntityStymphalianArrow extends PersistentProjectileEntity {
         this.setDamage(3.5F);
     }
 
-    public EntityStymphalianArrow(EntityType<? extends PersistentProjectileEntity> t, World worldIn, LivingEntity shooter) {
-        super(t, shooter, worldIn, new ItemStack(IafItems.STYMPHALIAN_ARROW.get()));
+    public EntityStymphalianArrow(EntityType<? extends PersistentProjectileEntity> t, World worldIn, LivingEntity shooter, ItemStack from) {
+        super(t, shooter, worldIn, new ItemStack(IafItems.STYMPHALIAN_ARROW.get()), from);
         this.setDamage(3.5F);
     }
 
@@ -32,6 +32,11 @@ public class EntityStymphalianArrow extends PersistentProjectileEntity {
         if (sqrt < 0.1F) {
             this.setVelocity(this.getVelocity().add(0, -0.01F, 0));
         }
+    }
+
+    @Override
+    protected ItemStack getDefaultItemStack() {
+        return new ItemStack(IafItems.STYMPHALIAN_ARROW.get());
     }
 
     @Override

@@ -14,6 +14,7 @@ import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.server.ServerConfigHandler;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -29,60 +30,52 @@ public class EntityDreadMob extends HostileEntity implements IDreadMob {
     }
 
     public static Entity necromancyEntity(LivingEntity entity) {
-        Entity lichSummoned;
-        if (entity.getGroup() == EntityGroup.ARTHROPOD) {
-            lichSummoned = new EntityDreadScuttler(IafEntities.DREAD_SCUTTLER.get(), entity.getWorld());
+        if (entity.getType().isIn(EntityTypeTags.ARTHROPOD)) {
+            EntityDreadScuttler lichSummoned = new EntityDreadScuttler(IafEntities.DREAD_SCUTTLER.get(), entity.getWorld());
             float readInScale = (entity.getWidth() / 1.5F);
-            if (entity.getWorld() instanceof ServerWorldAccess) {
-                ((EntityDreadScuttler) lichSummoned).initialize((ServerWorldAccess) entity.getWorld(), entity.getWorld().getLocalDifficulty(entity.getBlockPos()), SpawnReason.MOB_SUMMONED, null, null);
-            }
-            ((EntityDreadScuttler) lichSummoned).setSize(readInScale);
+            if (entity.getWorld() instanceof ServerWorldAccess serverWorldAccess)
+                lichSummoned.initialize(serverWorldAccess, entity.getWorld().getLocalDifficulty(entity.getBlockPos()), SpawnReason.MOB_SUMMONED, null);
+            lichSummoned.setSize(readInScale);
             return lichSummoned;
         }
         if (entity instanceof ZombieEntity || entity instanceof IHumanoid) {
-            lichSummoned = new EntityDreadGhoul(IafEntities.DREAD_GHOUL.get(), entity.getWorld());
+            EntityDreadGhoul lichSummoned = new EntityDreadGhoul(IafEntities.DREAD_GHOUL.get(), entity.getWorld());
             float readInScale = (entity.getWidth() / 0.6F);
-            if (entity.getWorld() instanceof ServerWorldAccess) {
-                ((EntityDreadGhoul) lichSummoned).initialize((ServerWorldAccess) entity.getWorld(), entity.getWorld().getLocalDifficulty(entity.getBlockPos()), SpawnReason.MOB_SUMMONED, null, null);
-            }
-            ((EntityDreadGhoul) lichSummoned).setSize(readInScale);
+            if (entity.getWorld() instanceof ServerWorldAccess serverWorldAccess)
+                lichSummoned.initialize(serverWorldAccess, entity.getWorld().getLocalDifficulty(entity.getBlockPos()), SpawnReason.MOB_SUMMONED, null);
+            lichSummoned.setSize(readInScale);
             return lichSummoned;
         }
-        if (entity.getGroup() == EntityGroup.UNDEAD || entity instanceof AbstractSkeletonEntity || entity instanceof PlayerEntity) {
-            lichSummoned = new EntityDreadThrall(IafEntities.DREAD_THRALL.get(), entity.getWorld());
-            EntityDreadThrall thrall = (EntityDreadThrall) lichSummoned;
-            if (entity.getWorld() instanceof ServerWorldAccess) {
-                thrall.initialize((ServerWorldAccess) entity.getWorld(), entity.getWorld().getLocalDifficulty(entity.getBlockPos()), SpawnReason.MOB_SUMMONED, null, null);
+        if (entity.getType().isIn(EntityTypeTags.UNDEAD) || entity instanceof AbstractSkeletonEntity || entity instanceof PlayerEntity) {
+            EntityDreadThrall lichSummoned = new EntityDreadThrall(IafEntities.DREAD_THRALL.get(), entity.getWorld());
+            if (entity.getWorld() instanceof ServerWorldAccess serverWorldAccess) {
+                lichSummoned.initialize(serverWorldAccess, entity.getWorld().getLocalDifficulty(entity.getBlockPos()), SpawnReason.MOB_SUMMONED, null);
             }
-            thrall.setCustomArmorHead(false);
-            thrall.setCustomArmorChest(false);
-            thrall.setCustomArmorLegs(false);
-            thrall.setCustomArmorFeet(false);
-            for (EquipmentSlot slot : EquipmentSlot.values()) {
-                thrall.equipStack(slot, entity.getEquippedStack(slot));
-            }
-            return thrall;
-        }
-        if (entity instanceof AbstractHorseEntity) {
-            lichSummoned = new EntityDreadHorse(IafEntities.DREAD_HORSE.get(), entity.getWorld());
+            lichSummoned.setCustomArmorHead(false);
+            lichSummoned.setCustomArmorChest(false);
+            lichSummoned.setCustomArmorLegs(false);
+            lichSummoned.setCustomArmorFeet(false);
+            for (EquipmentSlot slot : EquipmentSlot.values())
+                lichSummoned.equipStack(slot, entity.getEquippedStack(slot));
             return lichSummoned;
         }
+        if (entity instanceof AbstractHorseEntity)
+            return new EntityDreadHorse(IafEntities.DREAD_HORSE.get(), entity.getWorld());
         if (entity instanceof AnimalEntity) {
-            lichSummoned = new EntityDreadBeast(IafEntities.DREAD_BEAST.get(), entity.getWorld());
+            EntityDreadBeast lichSummoned = new EntityDreadBeast(IafEntities.DREAD_BEAST.get(), entity.getWorld());
             float readInScale = (entity.getWidth() / 1.2F);
-            if (entity.getWorld() instanceof ServerWorldAccess) {
-                ((EntityDreadBeast) lichSummoned).initialize((ServerWorldAccess) entity.getWorld(), entity.getWorld().getLocalDifficulty(entity.getBlockPos()), SpawnReason.MOB_SUMMONED, null, null);
-            }
-            ((EntityDreadBeast) lichSummoned).setSize(readInScale);
+            if (entity.getWorld() instanceof ServerWorldAccess serverWorldAccess)
+                lichSummoned.initialize(serverWorldAccess, entity.getWorld().getLocalDifficulty(entity.getBlockPos()), SpawnReason.MOB_SUMMONED, null);
+            lichSummoned.setSize(readInScale);
             return lichSummoned;
         }
         return null;
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(COMMANDER_UNIQUE_ID, Optional.empty());
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(COMMANDER_UNIQUE_ID, Optional.empty());
     }
 
     @Override
@@ -130,11 +123,9 @@ public class EntityDreadMob extends HostileEntity implements IDreadMob {
     @Override
     public void tickMovement() {
         super.tickMovement();
-        if (!this.getWorld().isClient && this.getCommander() instanceof EntityDreadLich lich) {
-            if (lich.getTarget() != null && lich.getTarget().isAlive()) {
+        if (!this.getWorld().isClient && this.getCommander() instanceof EntityDreadLich lich)
+            if (lich.getTarget() != null && lich.getTarget().isAlive())
                 this.setTarget(lich.getTarget());
-            }
-        }
     }
 
     @Override
@@ -142,9 +133,8 @@ public class EntityDreadMob extends HostileEntity implements IDreadMob {
         try {
             UUID uuid = this.getCommanderId();
             LivingEntity player = uuid == null ? null : this.getWorld().getPlayerByUuid(uuid);
-            if (player != null) {
-                return player;
-            } else {
+            if (player != null) return player;
+            else {
                 if (!this.getWorld().isClient) {
                     Entity entity = this.getWorld().getServer().getWorld(this.getWorld().getRegistryKey()).getEntity(uuid);
                     if (entity instanceof LivingEntity) {
@@ -164,15 +154,12 @@ public class EntityDreadMob extends HostileEntity implements IDreadMob {
             Entity summoned = necromancyEntity(LivingEntityIn);
             if (summoned != null) {
                 summoned.copyPositionAndRotation(LivingEntityIn);
-                if (!this.getWorld().isClient) {
+                if (!this.getWorld().isClient)
                     this.getWorld().spawnEntity(summoned);
-                }
-                if (commander instanceof EntityDreadLich) {
-                    ((EntityDreadLich) commander).setMinionCount(((EntityDreadLich) commander).getMinionCount() + 1);
-                }
-                if (summoned instanceof EntityDreadMob) {
-                    ((EntityDreadMob) summoned).setCommanderId(commander.getUuid());
-                }
+                if (commander instanceof EntityDreadLich lich)
+                    lich.setMinionCount(lich.getMinionCount() + 1);
+                if (summoned instanceof EntityDreadMob mob)
+                    mob.setCommanderId(commander.getUuid());
             }
         }
 
@@ -180,14 +167,8 @@ public class EntityDreadMob extends HostileEntity implements IDreadMob {
 
     @Override
     public void remove(RemovalReason reason) {
-        if (!this.isRemoved() && this.getCommander() != null && this.getCommander() instanceof EntityDreadLich lich) {
+        if (!this.isRemoved() && this.getCommander() != null && this.getCommander() instanceof EntityDreadLich lich)
             lich.setMinionCount(lich.getMinionCount() - 1);
-        }
         super.remove(reason);
-    }
-
-    @Override
-    public EntityGroup getGroup() {
-        return EntityGroup.UNDEAD;
     }
 }

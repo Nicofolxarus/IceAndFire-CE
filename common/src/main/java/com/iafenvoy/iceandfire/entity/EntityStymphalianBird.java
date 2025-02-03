@@ -94,10 +94,10 @@ public class EntityStymphalianBird extends HostileEntity implements IAnimatedEnt
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(VICTOR_ENTITY, Optional.empty());
-        this.dataTracker.startTracking(FLYING, Boolean.FALSE);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(VICTOR_ENTITY, Optional.empty());
+        builder.add(FLYING, Boolean.FALSE);
     }
 
     @Override
@@ -423,8 +423,8 @@ public class EntityStymphalianBird extends HostileEntity implements IAnimatedEnt
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.getAttributeInstance(EntityAttributes.GENERIC_FOLLOW_RANGE).setBaseValue(IafCommonConfig.INSTANCE.stymphalianBird.targetSearchLength.getValue());
         return spawnDataIn;
     }

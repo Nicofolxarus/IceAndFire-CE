@@ -5,9 +5,8 @@ import com.iafenvoy.iceandfire.registry.IafParticles;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.WallTorchBlock;
-import net.minecraft.block.enums.Instrument;
-import net.minecraft.particle.DefaultParticleType;
-import net.minecraft.particle.DustParticleEffect;
+import net.minecraft.block.enums.NoteBlockInstrument;
+import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -17,7 +16,7 @@ import net.minecraft.world.World;
 public class BlockDreadTorchWall extends WallTorchBlock implements IDreadBlock {
     public BlockDreadTorchWall() {
         //TODO: Particle Type
-        super(new DefaultParticleType(false),Settings.create().mapColor(MapColor.OAK_TAN).instrument(Instrument.BASS).burnable().luminance((state) -> 5).sounds(BlockSoundGroup.STONE).nonOpaque().dynamicBounds().noCollision());
+        super(new SimpleParticleType(false), Settings.create().mapColor(MapColor.OAK_TAN).instrument(NoteBlockInstrument.BASS).burnable().luminance((state) -> 5).sounds(BlockSoundGroup.STONE).nonOpaque().dynamicBounds().noCollision());
     }
 
     @Override

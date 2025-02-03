@@ -4,7 +4,7 @@ import com.iafenvoy.iceandfire.item.block.util.IDreadBlock;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafProcessors;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
@@ -20,7 +20,7 @@ import net.minecraft.world.WorldView;
 
 public class DreadRuinProcessor extends StructureProcessor {
     public static final DreadRuinProcessor INSTANCE = new DreadRuinProcessor();
-    public static final Codec<DreadRuinProcessor> CODEC = Codec.unit(() -> INSTANCE);
+    public static final MapCodec<DreadRuinProcessor> CODEC = MapCodec.unit(() -> INSTANCE);
 
     public static BlockState getRandomCrackedBlock(BlockState prev, Random random) {
         float rand = random.nextFloat();

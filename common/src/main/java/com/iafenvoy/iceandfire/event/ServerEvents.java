@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.event;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.StaticVariables;
+import com.iafenvoy.iceandfire.component.StoneStatusComponent;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.component.IafEntityData;
 import com.iafenvoy.iceandfire.entity.*;
@@ -15,12 +15,10 @@ import com.iafenvoy.iceandfire.item.ItemDragonHorn;
 import com.iafenvoy.iceandfire.item.armor.ItemDragonSteelArmor;
 import com.iafenvoy.iceandfire.item.armor.ItemScaleArmor;
 import com.iafenvoy.iceandfire.item.armor.ItemTrollArmor;
-import com.iafenvoy.iceandfire.registry.IafBlocks;
-import com.iafenvoy.iceandfire.registry.IafDamageTypes;
-import com.iafenvoy.iceandfire.registry.IafEntities;
-import com.iafenvoy.iceandfire.registry.IafItems;
+import com.iafenvoy.iceandfire.network.payload.PlayerHitMultipartPayload;
+import com.iafenvoy.iceandfire.registry.*;
 import com.iafenvoy.iceandfire.registry.tag.IafEntityTags;
-import com.iafenvoy.uranus.network.PacketBufferUtils;
+import com.iafenvoy.uranus.object.RegistryHelper;
 import com.iafenvoy.uranus.util.RandomHelper;
 import dev.architectury.event.CompoundEventResult;
 import dev.architectury.event.EventResult;
@@ -44,9 +42,10 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.tag.DamageTypeTags;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -188,7 +187,7 @@ public class ServerEvents {
                 ItemStack stack = player.getMainHandStack();
                 entity.playSound(SoundEvents.BLOCK_STONE_BREAK, 2, 0.5F + (float) (RandomHelper.nextDouble(-1, 1) * 0.2 + 0.5));
 
-                if (stack.getItem().isSuitableFor(Blocks.STONE.getDefaultState()) || stack.getItem().getTranslationKey().contains("pickaxe")) {
+                if (stack.isIn(ItemTags.PICKAXES)) {
                     statue.setCrackAmount(statue.getCrackAmount() + 1);
 
                     if (statue.getCrackAmount() > 9) {
@@ -197,15 +196,10 @@ public class ServerEvents {
                         entity.playSound(SoundEvents.BLOCK_STONE_BREAK, 2F, (float) (RandomHelper.nextDouble(-1, 1) * 0.2 + 0.5));
                         entity.remove(Entity.RemovalReason.KILLED);
 
-                        if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, stack) > 0) {
+                        if (EnchantmentHelper.getLevel(RegistryHelper.getEnchantment(world.getRegistryManager(), Enchantments.SILK_TOUCH), stack) > 0) {
                             ItemStack statuette = new ItemStack(IafItems.STONE_STATUE.get());
-                            NbtCompound tag = statuette.getOrCreateNbt();
-                            tag.putBoolean("IAFStoneStatuePlayerEntity", statue.getTrappedEntityTypeString().equalsIgnoreCase("minecraft:player"));
-                            tag.putString("IAFStoneStatueEntityID", statue.getTrappedEntityTypeString());
-                            tag.put("IAFStoneStatueNBT", writtenTag);
-                            statue.writeCustomDataToNbt(tag);
-
-                            if (!statue.getWorld().isClient())
+                            statuette.set(IafDataComponents.STONE_STATUS.get(), new StoneStatusComponent(statue.getTrappedEntityTypeString().equalsIgnoreCase("minecraft:player"), statue.getTrappedEntityTypeString(), writtenTag));
+                            if (!statue.getWorld().isClient)
                                 statue.dropStack(statuette, 1);
                         } else if (!statue.getWorld().isClient)
                             statue.dropItem(Blocks.COBBLESTONE, 2 + player.getRandom().nextInt(4));
@@ -231,11 +225,8 @@ public class ServerEvents {
                 extraData = hydraHead.headIndex;
                 hydra.triggerHeadFlags(extraData);
             }
-            if (mutlipartPart.getWorld().isClient && parent != null) {
-                PacketByteBuf buf = PacketBufferUtils.create();
-                buf.writeInt(parent.getId()).writeInt(extraData);
-                NetworkManager.sendToServer(StaticVariables.PLAYER_HIT_MULTIPART, buf);
-            }
+            if (mutlipartPart.getWorld().isClient && parent != null)
+                NetworkManager.sendToServer(new PlayerHitMultipartPayload(parent.getId(), extraData));
         }
         if (entity instanceof LivingEntity livingEntity) {
             if (entity.getType().isIn(IafEntityTags.CHICKENS)) signalChickenAlarm(livingEntity, player);
@@ -277,8 +268,8 @@ public class ServerEvents {
                         EntityGhost ghost = IafEntities.GHOST.get().create(world);
                         assert ghost != null;
                         ghost.copyPositionAndRotation(entity);
-                        if (!world.isClient) {
-                            ghost.initialize((ServerWorldAccess) world, world.getLocalDifficulty(entity.getBlockPos()), SpawnReason.SPAWNER, null, null);
+                        if (world instanceof ServerWorldAccess serverWorldAccess) {
+                            ghost.initialize(serverWorldAccess, world.getLocalDifficulty(entity.getBlockPos()), SpawnReason.SPAWNER, null);
                             world.spawnEntity(ghost);
                         }
                         ghost.setDaytimeMode(true);

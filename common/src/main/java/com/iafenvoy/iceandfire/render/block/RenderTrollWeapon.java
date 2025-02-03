@@ -26,7 +26,7 @@ public class RenderTrollWeapon extends BuiltinModelItemRenderer {
             weapon = trollWeapon.weapon;
         stackIn.push();
         stackIn.translate(0.5F, -0.75F, 0.5F);
-        MODEL.render(stackIn, bufferIn.getBuffer(RenderLayer.getEntityCutout(weapon.getTexture())), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+        MODEL.render(stackIn, bufferIn.getBuffer(RenderLayer.getEntityCutout(weapon.getTexture())), combinedLightIn, combinedOverlayIn, -1);
         stackIn.pop();
     }
 }

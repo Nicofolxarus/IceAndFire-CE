@@ -4,7 +4,6 @@ import com.iafenvoy.iceandfire.data.component.IafEntityData;
 import com.iafenvoy.iceandfire.entity.util.IBlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
 import com.iafenvoy.iceandfire.registry.IafSounds;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -12,6 +11,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
@@ -71,7 +71,7 @@ public class ItemSirenFlute extends Item {
         if (pointedEntity instanceof LivingEntity livingEntity) {
             IafEntityData data = IafEntityData.get(livingEntity);
             data.miscData.setLoveTicks(10 * 20);
-            itemStackIn.damage(2, player, entity -> entity.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+            itemStackIn.damage(2, player, EquipmentSlot.MAINHAND);
             player.getItemCooldownManager().set(itemStackIn.getItem(), 45 * 20);
         }
 
@@ -79,9 +79,9 @@ public class ItemSirenFlute extends Item {
         return new TypedActionResult<>(ActionResult.PASS, itemStackIn);
     }
 
-
     @Override
-    public void appendTooltip(ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
         tooltip.add(Text.translatable("item.iceandfire.legendary_weapon.desc").formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("item.iceandfire.siren_flute.desc_0").formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("item.iceandfire.siren_flute.desc_1").formatted(Formatting.GRAY));

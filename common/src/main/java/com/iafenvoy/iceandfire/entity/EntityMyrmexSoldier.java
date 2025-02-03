@@ -18,6 +18,9 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootTable;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.village.TradeOffers;
@@ -61,13 +64,18 @@ public class EntityMyrmexSoldier extends EntityMyrmexBase {
     }
 
     @Override
-    protected Identifier getLootTableId() {
-        return this.isJungle() ? JUNGLE_LOOT : DESERT_LOOT;
+    protected RegistryKey<LootTable> getLootTableId() {
+        return RegistryKey.of(RegistryKeys.LOOT_TABLE, this.isJungle() ? JUNGLE_LOOT : DESERT_LOOT);
     }
 
     @Override
     public int getXpToDrop() {
         return 5;
+    }
+
+    @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return false;
     }
 
     @Override

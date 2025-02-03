@@ -1,25 +1,22 @@
 package com.iafenvoy.iceandfire.entity.util;
 
 import com.google.common.collect.ImmutableMap;
+import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.block.Block;
-import net.minecraft.block.SuspiciousStewIngredient;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.item.*;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionUtil;
-import net.minecraft.recipe.BrewingRecipeRegistry;
-import net.minecraft.registry.Registries;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
+import net.minecraft.village.TradedItem;
 
-import java.util.List;
+import java.util.Optional;
 
 public class MyrmexTrades {
     public static final Int2ObjectMap<TradeOffers.Factory[]> DESERT_WORKER;
@@ -189,127 +186,12 @@ public class MyrmexTrades {
 
     private static ItemStack createEgg(boolean jungle, int caste) {
         ItemStack egg = new ItemStack(jungle ? IafItems.MYRMEX_JUNGLE_EGG.get() : IafItems.MYRMEX_DESERT_EGG.get());
-        NbtCompound tag = new NbtCompound();
-        tag.putInt("EggOrdinal", caste);
-        egg.setNbt(tag);
+        egg.set(IafDataComponents.INT.get(), caste);
         return egg;
     }
 
     private static Int2ObjectMap<TradeOffers.Factory[]> createTrades(ImmutableMap<Integer, TradeOffers.Factory[]> p_221238_0_) {
         return new Int2ObjectOpenHashMap<>(p_221238_0_);
-    }
-
-    static class ItemsForDesertResinAndItemsTrade implements TradeOffers.Factory {
-        private final ItemStack buyingItem;
-        private final int buyingItemCount;
-        private final int emeraldCount;
-        private final ItemStack sellingItem;
-        private final int sellingItemCount;
-        private final int maxUses;
-        private final int xpValue;
-        private final float priceMultiplier;
-
-        public ItemsForDesertResinAndItemsTrade(ItemConvertible buyingItem, int buyingItemCount, Item sellingItem, int sellingItemCount, int maxUses, int xpValue) {
-            this(buyingItem, buyingItemCount, 1, sellingItem, sellingItemCount, maxUses, xpValue);
-        }
-
-        public ItemsForDesertResinAndItemsTrade(ItemConvertible buyingItem, int buyingItemCount, int emeraldCount, Item sellingItem, int sellingItemCount, int maxUses, int xpValue) {
-            this.buyingItem = new ItemStack(buyingItem);
-            this.buyingItemCount = buyingItemCount;
-            this.emeraldCount = emeraldCount;
-            this.sellingItem = new ItemStack(sellingItem);
-            this.sellingItemCount = sellingItemCount;
-            this.maxUses = maxUses;
-            this.xpValue = xpValue;
-            this.priceMultiplier = 0.05F;
-        }
-
-        @Override
-        public TradeOffer create(Entity trader, Random rand) {
-            return new TradeOffer(new ItemStack(IafItems.MYRMEX_DESERT_RESIN.get(), this.emeraldCount), new ItemStack(this.buyingItem.getItem(), this.buyingItemCount), new ItemStack(this.sellingItem.getItem(), this.sellingItemCount), this.maxUses, this.xpValue, this.priceMultiplier);
-        }
-    }
-
-
-    static class ItemWithPotionForDesertResinAndItemsTrade implements TradeOffers.Factory {
-        private final ItemStack potionStack;
-        private final int potionCount;
-        private final int emeraldCount;
-        private final int maxUses;
-        private final int xpValue;
-        private final Item buyingItem;
-        private final int buyingItemCount;
-        private final float priceMultiplier;
-
-        public ItemWithPotionForDesertResinAndItemsTrade(Item buyingItem, int buyingItemCount, Item p_i50526_3_, int p_i50526_4_, int emeralds, int maxUses, int xpValue) {
-            this.potionStack = new ItemStack(p_i50526_3_);
-            this.emeraldCount = emeralds;
-            this.maxUses = maxUses;
-            this.xpValue = xpValue;
-            this.buyingItem = buyingItem;
-            this.buyingItemCount = buyingItemCount;
-            this.potionCount = p_i50526_4_;
-            this.priceMultiplier = 0.05F;
-        }
-
-        @Override
-        public TradeOffer create(Entity trader, Random rand) {
-            ItemStack lvt_3_1_ = new ItemStack(IafItems.MYRMEX_DESERT_RESIN.get(), this.emeraldCount);
-            List<Potion> lvt_4_1_ = Registries.POTION.stream().filter((potion) -> !potion.getEffects().isEmpty() && BrewingRecipeRegistry.isBrewable(potion)).toList();
-            Potion lvt_5_1_ = lvt_4_1_.get(rand.nextInt(lvt_4_1_.size()));
-            ItemStack lvt_6_1_ = PotionUtil.setPotion(new ItemStack(this.potionStack.getItem(), this.potionCount), lvt_5_1_);
-            return new TradeOffer(lvt_3_1_, new ItemStack(this.buyingItem, this.buyingItemCount), lvt_6_1_, this.maxUses, this.xpValue, this.priceMultiplier);
-        }
-    }
-
-    static class EnchantedItemForDesertResinTrade implements TradeOffers.Factory {
-        private final ItemStack sellingStack;
-        private final int emeraldCount;
-        private final int maxUses;
-        private final int xpValue;
-        private final float priceMultiplier;
-
-        public EnchantedItemForDesertResinTrade(Item p_i50535_1_, int emeraldCount, int maxUses, int xpValue) {
-            this(p_i50535_1_, emeraldCount, maxUses, xpValue, 0.05F);
-        }
-
-        public EnchantedItemForDesertResinTrade(Item sellItem, int emeraldCount, int maxUses, int xpValue, float priceMultiplier) {
-            this.sellingStack = new ItemStack(sellItem);
-            this.emeraldCount = emeraldCount;
-            this.maxUses = maxUses;
-            this.xpValue = xpValue;
-            this.priceMultiplier = priceMultiplier;
-        }
-
-        @Override
-        public TradeOffer create(Entity trader, Random rand) {
-            int lvt_3_1_ = 5 + rand.nextInt(15);
-            ItemStack lvt_4_1_ = EnchantmentHelper.enchant(rand, new ItemStack(this.sellingStack.getItem()), lvt_3_1_, false);
-            int lvt_5_1_ = Math.min(this.emeraldCount + lvt_3_1_, 64);
-            ItemStack lvt_6_1_ = new ItemStack(IafItems.MYRMEX_DESERT_RESIN.get(), lvt_5_1_);
-            return new TradeOffer(lvt_6_1_, lvt_4_1_, this.maxUses, this.xpValue, this.priceMultiplier);
-        }
-    }
-
-    static class SuspiciousStewForEmeraldTrade implements TradeOffers.Factory {
-        final StatusEffect effect;
-        final int duration;
-        final int xpValue;
-        private final float priceMultiplier;
-
-        public SuspiciousStewForEmeraldTrade(StatusEffect effectIn, int durationIn, int xpValue) {
-            this.effect = effectIn;
-            this.duration = durationIn;
-            this.xpValue = xpValue;
-            this.priceMultiplier = 0.05F;
-        }
-
-        @Override
-        public TradeOffer create(Entity trader, Random rand) {
-            ItemStack lvt_3_1_ = new ItemStack(Items.SUSPICIOUS_STEW, 1);
-            SuspiciousStewItem.addEffectsToStew(lvt_3_1_, List.of(new SuspiciousStewIngredient.StewEffect(this.effect, this.duration)));
-            return new TradeOffer(new ItemStack(IafItems.MYRMEX_DESERT_RESIN.get(), 1), lvt_3_1_, 12, this.xpValue, this.priceMultiplier);
-        }
     }
 
     static class ItemsForDesertResinTrade implements TradeOffers.Factory {
@@ -347,9 +229,8 @@ public class MyrmexTrades {
 
         @Override
         public TradeOffer create(Entity trader, Random rand) {
-            ItemStack cloneStack = new ItemStack(this.stack.getItem(), this.itemCount);
-            cloneStack.setNbt(this.stack.getNbt());
-            return new TradeOffer(new ItemStack(IafItems.MYRMEX_DESERT_RESIN.get(), this.emeraldCount), cloneStack, this.maxUses, this.exp, this.multiplier);
+            ItemStack cloneStack = this.stack.copyComponentsToNewStack(this.stack.getItem(), this.itemCount);
+            return new TradeOffer(new TradedItem(IafItems.MYRMEX_DESERT_RESIN.get(), this.emeraldCount), cloneStack, this.maxUses, this.exp, this.multiplier);
         }
     }
 
@@ -370,11 +251,9 @@ public class MyrmexTrades {
 
         @Override
         public TradeOffer create(Entity trader, Random rand) {
-            ItemStack lvt_3_1_ = new ItemStack(this.tradeItem, this.count);
-            return new TradeOffer(lvt_3_1_, new ItemStack(IafItems.MYRMEX_DESERT_RESIN.get()), this.maxUses, this.xpValue, this.priceMultiplier);
+            return new TradeOffer(new TradedItem(this.tradeItem, this.count), new ItemStack(IafItems.MYRMEX_DESERT_RESIN.get()), this.maxUses, this.xpValue, this.priceMultiplier);
         }
     }
-
 
     static class ItemsForJungleResinAndItemsTrade implements TradeOffers.Factory {
         private final ItemStack buyingItem;
@@ -403,67 +282,7 @@ public class MyrmexTrades {
 
         @Override
         public TradeOffer create(Entity trader, Random rand) {
-            return new TradeOffer(new ItemStack(IafItems.MYRMEX_JUNGLE_RESIN.get(), this.emeraldCount), new ItemStack(this.buyingItem.getItem(), this.buyingItemCount), new ItemStack(this.sellingItem.getItem(), this.sellingItemCount), this.maxUses, this.xpValue, this.priceMultiplier);
-        }
-    }
-
-    static class ItemWithPotionForJungleResinAndItemsTrade implements TradeOffers.Factory {
-        private final ItemStack potionStack;
-        private final int potionCount;
-        private final int emeraldCount;
-        private final int maxUses;
-        private final int xpValue;
-        private final Item buyingItem;
-        private final int buyingItemCount;
-        private final float priceMultiplier;
-
-        public ItemWithPotionForJungleResinAndItemsTrade(Item buyingItem, int buyingItemCount, Item p_i50526_3_, int p_i50526_4_, int emeralds, int maxUses, int xpValue) {
-            this.potionStack = new ItemStack(p_i50526_3_);
-            this.emeraldCount = emeralds;
-            this.maxUses = maxUses;
-            this.xpValue = xpValue;
-            this.buyingItem = buyingItem;
-            this.buyingItemCount = buyingItemCount;
-            this.potionCount = p_i50526_4_;
-            this.priceMultiplier = 0.05F;
-        }
-
-        @Override
-        public TradeOffer create(Entity trader, Random rand) {
-            ItemStack lvt_3_1_ = new ItemStack(IafItems.MYRMEX_JUNGLE_RESIN.get(), this.emeraldCount);
-            List<Potion> lvt_4_1_ = Registries.POTION.stream().filter((potion) -> !potion.getEffects().isEmpty() && BrewingRecipeRegistry.isBrewable(potion)).toList();
-            Potion lvt_5_1_ = lvt_4_1_.get(rand.nextInt(lvt_4_1_.size()));
-            ItemStack lvt_6_1_ = PotionUtil.setPotion(new ItemStack(this.potionStack.getItem(), this.potionCount), lvt_5_1_);
-            return new TradeOffer(lvt_3_1_, new ItemStack(this.buyingItem, this.buyingItemCount), lvt_6_1_, this.maxUses, this.xpValue, this.priceMultiplier);
-        }
-    }
-
-    static class EnchantedItemForJungleResinTrade implements TradeOffers.Factory {
-        private final ItemStack sellingStack;
-        private final int emeraldCount;
-        private final int maxUses;
-        private final int xpValue;
-        private final float priceMultiplier;
-
-        public EnchantedItemForJungleResinTrade(Item p_i50535_1_, int emeraldCount, int maxUses, int xpValue) {
-            this(p_i50535_1_, emeraldCount, maxUses, xpValue, 0.05F);
-        }
-
-        public EnchantedItemForJungleResinTrade(Item sellItem, int emeraldCount, int maxUses, int xpValue, float priceMultiplier) {
-            this.sellingStack = new ItemStack(sellItem);
-            this.emeraldCount = emeraldCount;
-            this.maxUses = maxUses;
-            this.xpValue = xpValue;
-            this.priceMultiplier = priceMultiplier;
-        }
-
-        @Override
-        public TradeOffer create(Entity trader, Random rand) {
-            int lvt_3_1_ = 5 + rand.nextInt(15);
-            ItemStack lvt_4_1_ = EnchantmentHelper.enchant(rand, new ItemStack(this.sellingStack.getItem()), lvt_3_1_, false);
-            int lvt_5_1_ = Math.min(this.emeraldCount + lvt_3_1_, 64);
-            ItemStack lvt_6_1_ = new ItemStack(IafItems.MYRMEX_JUNGLE_RESIN.get(), lvt_5_1_);
-            return new TradeOffer(lvt_6_1_, lvt_4_1_, this.maxUses, this.xpValue, this.priceMultiplier);
+            return new TradeOffer(new TradedItem(IafItems.MYRMEX_JUNGLE_RESIN.get(), this.emeraldCount), Optional.of(new TradedItem(this.buyingItem.getItem(), this.buyingItemCount)), new ItemStack(this.sellingItem.getItem(), this.sellingItemCount), this.maxUses, this.xpValue, this.priceMultiplier);
         }
     }
 
@@ -502,9 +321,8 @@ public class MyrmexTrades {
 
         @Override
         public TradeOffer create(Entity trader, Random rand) {
-            ItemStack cloneStack = new ItemStack(this.stack.getItem(), this.itemCount);
-            cloneStack.setNbt(this.stack.getNbt());
-            return new TradeOffer(new ItemStack(IafItems.MYRMEX_JUNGLE_RESIN.get(), this.emeraldCount), cloneStack, this.maxUses, this.exp, this.multiplier);
+            ItemStack cloneStack = this.stack.copyComponentsToNewStack(this.stack.getItem(), this.itemCount);
+            return new TradeOffer(new TradedItem(IafItems.MYRMEX_JUNGLE_RESIN.get(), this.emeraldCount), cloneStack, this.maxUses, this.exp, this.multiplier);
         }
     }
 
@@ -525,7 +343,7 @@ public class MyrmexTrades {
 
         @Override
         public TradeOffer create(Entity trader, Random rand) {
-            ItemStack lvt_3_1_ = new ItemStack(this.tradeItem, this.count);
+            TradedItem lvt_3_1_ = new TradedItem(this.tradeItem, this.count);
             return new TradeOffer(lvt_3_1_, new ItemStack(IafItems.MYRMEX_JUNGLE_RESIN.get()), this.maxUses, this.xpValue, this.priceMultiplier);
         }
     }

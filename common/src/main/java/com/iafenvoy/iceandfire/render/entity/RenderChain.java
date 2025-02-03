@@ -12,7 +12,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
-import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 import java.util.List;
@@ -66,25 +65,24 @@ public class RenderChain {
         float f31 = f4 + f32;
 
         VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderLayer.getEntityCutoutNoCull(getTexture()));
-        MatrixStack.Entry matrixstack$entry = matrixStackIn.peek();
-        Matrix4f matrix4f = matrixstack$entry.getPositionMatrix();
-        Matrix3f matrix3f = matrixstack$entry.getNormalMatrix();
+        MatrixStack.Entry entry = matrixStackIn.peek();
+        Matrix4f matrix4f = entry.getPositionMatrix();
         matrixStackIn.push();
-        vertex(ivertexbuilder, matrix4f, matrix3f, f19, f4, f20, j, k, l, 0.4999F, f30, lightIn);
-        vertex(ivertexbuilder, matrix4f, matrix3f, f19, 0.0F, f20, j, k, l, 0.4999F, f29, lightIn);
-        vertex(ivertexbuilder, matrix4f, matrix3f, f21, 0.0F, f22, j, k, l, 0.0F, f29, lightIn);
-        vertex(ivertexbuilder, matrix4f, matrix3f, f21, f4, f22, j, k, l, 0.0F, f30, lightIn);
+        vertex(ivertexbuilder, matrix4f, entry, f19, f4, f20, j, k, l, 0.4999F, f30, lightIn);
+        vertex(ivertexbuilder, matrix4f, entry, f19, 0.0F, f20, j, k, l, 0.4999F, f29, lightIn);
+        vertex(ivertexbuilder, matrix4f, entry, f21, 0.0F, f22, j, k, l, 0.0F, f29, lightIn);
+        vertex(ivertexbuilder, matrix4f, entry, f21, f4, f22, j, k, l, 0.0F, f30, lightIn);
 
-        vertex(ivertexbuilder, matrix4f, matrix3f, f23, f4, f24, j, k, l, 0.4999F, f31, lightIn);
-        vertex(ivertexbuilder, matrix4f, matrix3f, f23, 0.0F, f24, j, k, l, 0.4999F, f32, lightIn);
-        vertex(ivertexbuilder, matrix4f, matrix3f, f25, 0.0F, f26, j, k, l, 0.0F, f32, lightIn);
-        vertex(ivertexbuilder, matrix4f, matrix3f, f25, f4, f26, j, k, l, 0.0F, f31, lightIn);
+        vertex(ivertexbuilder, matrix4f, entry, f23, f4, f24, j, k, l, 0.4999F, f31, lightIn);
+        vertex(ivertexbuilder, matrix4f, entry, f23, 0.0F, f24, j, k, l, 0.4999F, f32, lightIn);
+        vertex(ivertexbuilder, matrix4f, entry, f25, 0.0F, f26, j, k, l, 0.0F, f32, lightIn);
+        vertex(ivertexbuilder, matrix4f, entry, f25, f4, f26, j, k, l, 0.0F, f31, lightIn);
         matrixStackIn.pop();
         matrixStackIn.pop();
     }
 
-    private static void vertex(VertexConsumer consumer, Matrix4f matrix4f, Matrix3f matrix3f, float x, float y, float z, int r, int g, int b, float u, float v, int packedLight) {
-        consumer.vertex(matrix4f, x, y, z).color(r, g, b, 255).texture(u, v).overlay(OverlayTexture.DEFAULT_UV).light(packedLight).normal(matrix3f, 0.0F, 1.0F, 0.0F).next();
+    private static void vertex(VertexConsumer consumer, Matrix4f matrix4f, MatrixStack.Entry entry, float x, float y, float z, int r, int g, int b, float u, float v, int packedLight) {
+        consumer.vertex(matrix4f, x, y, z).color(r, g, b, 255).texture(u, v).overlay(OverlayTexture.DEFAULT_UV).light(packedLight).normal(entry, 0.0F, 1.0F, 0.0F);
     }
 
     private static Vec3d getPosition(Entity LivingEntityIn, double p_177110_2_) {

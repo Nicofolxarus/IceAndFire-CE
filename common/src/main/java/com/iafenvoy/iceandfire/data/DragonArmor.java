@@ -1,17 +1,17 @@
 package com.iafenvoy.iceandfire.data;
 
 import com.google.common.collect.ImmutableList;
-import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.item.armor.IafArmorMaterial;
 import com.iafenvoy.iceandfire.item.armor.ItemDragonArmor;
 import com.iafenvoy.iceandfire.item.armor.ItemScaleArmor;
+import com.iafenvoy.iceandfire.registry.IafArmorMaterials;
 import com.iafenvoy.iceandfire.registry.IafItems;
-import com.iafenvoy.uranus.object.IdUtil;
-import com.iafenvoy.uranus.object.item.CustomArmorMaterial;
+import com.iafenvoy.uranus.util.function.MemorizeSupplier;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvents;
 
 import java.util.ArrayList;
@@ -35,9 +35,9 @@ public class DragonArmor {
     public static final DragonArmor BLACK = new DragonArmor(DragonColor.BLACK, IafItems.DRAGONSCALES_BLACK);
     private final DragonColor color;
     private final Supplier<Item> repairItem;
-    public CustomArmorMaterial material;
+    public RegistrySupplier<ArmorMaterial> material;
     public RegistrySupplier<Item> helmet, chestplate, leggings, boots;
-    public CustomArmorMaterial armorMaterial;
+    public RegistrySupplier<ArmorMaterial> armorMaterial;
 
     public DragonArmor(DragonColor color, Supplier<Item> repairItem) {
         this.color = color;
@@ -48,7 +48,7 @@ public class DragonArmor {
     public static void initArmors() {
         for (int i = 0; i < ARMORS.size(); i++) {
             DragonArmor value = ARMORS.get(i);
-            value.armorMaterial = new IafArmorMaterial(IdUtil.build(IceAndFire.MOD_ID, "armor_dragon_scales" + (i + 1)), 36, new int[]{5, 7, 9, 5}, 15, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 2);
+            value.armorMaterial = IafArmorMaterials.register("armor_dragon_scales_" + (i + 1), 36, new int[]{5, 7, 9, 5}, 15, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 2, new MemorizeSupplier<>(() -> Ingredient.ofItems(value.repairItem.get())));
             String sub = "armor_" + value.color.name().toLowerCase(Locale.ROOT);
 
             value.helmet = IafItems.register(sub + "_helmet", () -> new ItemScaleArmor(value.color, value, value.armorMaterial, ArmorItem.Type.HELMET));

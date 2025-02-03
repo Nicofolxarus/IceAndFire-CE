@@ -27,6 +27,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -197,9 +198,8 @@ public class EntityFireDragon extends EntityDragonBase {
     @Override
     protected float getVelocityMultiplier() {
         // Disable soul sand slow down
-        if (this.isOnSoulSpeedBlock()) {
+        if (this.getWorld().getBlockState(this.getVelocityAffectingPos()).isIn(BlockTags.SOUL_SPEED_BLOCKS))
             return this.getDragonStage() >= 2 ? 1.0f : 0.8f;
-        }
         return super.getVelocityMultiplier();
     }
 
@@ -467,8 +467,8 @@ public class EntityFireDragon extends EntityDragonBase {
     }
 
     @Override
-    public ItemStack getSkull() {
-        return new ItemStack(IafItems.DRAGON_SKULL_FIRE.get());
+    public Item getSkull() {
+        return IafItems.DRAGON_SKULL_FIRE.get();
     }
 
     @Override

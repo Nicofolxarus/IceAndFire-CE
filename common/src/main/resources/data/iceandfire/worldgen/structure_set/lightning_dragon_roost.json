@@ -6,10 +6,7 @@
     "spacing": 18,
     "exclusion_zone": {
       "chunk_count": 6,
-      "other_set": [
-        "iceandfire:fire_dragon_roost",
-        "iceandfire:ice_dragon_roost"
-      ]
+      "other_set": "iceandfire:fire_dragon_roost"
     }
   },
   "structures": [

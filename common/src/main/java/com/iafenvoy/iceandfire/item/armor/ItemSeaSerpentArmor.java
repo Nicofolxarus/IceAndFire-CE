@@ -1,15 +1,16 @@
 package com.iafenvoy.iceandfire.item.armor;
 
 import com.iafenvoy.iceandfire.data.SeaSerpent;
-import com.iafenvoy.uranus.object.item.CustomArmorMaterial;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -19,7 +20,7 @@ import java.util.List;
 public class ItemSeaSerpentArmor extends ArmorItem implements IArmorFinder {
     public final SeaSerpent armorType;
 
-    public ItemSeaSerpentArmor(SeaSerpent armorType, CustomArmorMaterial material, Type slot) {
+    public ItemSeaSerpentArmor(SeaSerpent armorType, RegistryEntry<ArmorMaterial> material, Type slot) {
         super(material, slot, new Settings());
         this.armorType = armorType;
     }
@@ -31,6 +32,7 @@ public class ItemSeaSerpentArmor extends ArmorItem implements IArmorFinder {
             case CHESTPLATE -> "item.iceandfire.sea_serpent_chestplate";
             case LEGGINGS -> "item.iceandfire.sea_serpent_leggings";
             case BOOTS -> "item.iceandfire.sea_serpent_boots";
+            case BODY -> "???";
         };
     }
 
@@ -52,7 +54,8 @@ public class ItemSeaSerpentArmor extends ArmorItem implements IArmorFinder {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
         tooltip.add(Text.translatable("sea_serpent." + this.armorType.getName()).formatted(this.armorType.getColor()));
         tooltip.add(Text.translatable("item.iceandfire.sea_serpent_armor.desc_0").formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("item.iceandfire.sea_serpent_armor.desc_1").formatted(Formatting.GRAY));

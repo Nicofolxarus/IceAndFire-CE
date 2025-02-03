@@ -311,11 +311,11 @@ public class EntityHydra extends HostileEntity implements IAnimatedEntity, IMult
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(VARIANT, 0);
-        this.dataTracker.startTracking(HEAD_COUNT, 3);
-        this.dataTracker.startTracking(SEVERED_HEAD, -1);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(VARIANT, 0);
+        builder.add(HEAD_COUNT, 3);
+        builder.add(SEVERED_HEAD, -1);
     }
 
     @Override
@@ -337,8 +337,8 @@ public class EntityHydra extends HostileEntity implements IAnimatedEntity, IMult
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        EntityData data = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        EntityData data = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setVariant(this.random.nextInt(3));
         return data;
     }

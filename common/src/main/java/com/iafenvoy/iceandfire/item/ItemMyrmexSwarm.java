@@ -2,10 +2,10 @@ package com.iafenvoy.iceandfire.item;
 
 import com.iafenvoy.iceandfire.entity.EntityMyrmexSwarmer;
 import com.iafenvoy.iceandfire.registry.IafEntities;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
@@ -46,7 +46,8 @@ public class ItemMyrmexSwarm extends Item {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
         tooltip.add(Text.translatable("item.iceandfire.legendary_weapon.desc").formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("item.iceandfire.myrmex_swarm.desc_0").formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("item.iceandfire.myrmex_swarm.desc_1").formatted(Formatting.GRAY));

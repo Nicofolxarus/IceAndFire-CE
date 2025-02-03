@@ -41,7 +41,7 @@ public class DragonScreen extends HandledScreen<DragonScreenHandler> {
     @Override
     protected void drawBackground(DrawContext matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1, 1, 1, 1);
         int k = (this.width - this.backgroundWidth) / 2;
         int l = (this.height - this.backgroundHeight) / 2;
         matrixStack.drawTexture(texture, k, l, 0, 0, this.backgroundWidth, this.backgroundHeight);

@@ -32,19 +32,19 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.*;
 import net.minecraft.world.explosion.Explosion;
-
-import java.util.ArrayList;
 
 public class EntityTroll extends HostileEntity implements IAnimatedEntity, IVillagerFear, IHumanoid, IHasCustomizableAttributes {
     public static final Animation ANIMATION_STRIKE_HORIZONTAL = Animation.create(20);
@@ -136,10 +136,10 @@ public class EntityTroll extends HostileEntity implements IAnimatedEntity, IVill
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(VARIANT, TrollType.FOREST.getName());
-        this.dataTracker.startTracking(WEAPON, TrollType.BuiltinWeapon.AXE.getName());
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(VARIANT, TrollType.FOREST.getName());
+        builder.add(WEAPON, TrollType.BuiltinWeapon.AXE.getName());
     }
 
     private String getVariant() {
@@ -192,8 +192,8 @@ public class EntityTroll extends HostileEntity implements IAnimatedEntity, IVill
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setTrollType(TrollType.getBiomeType(this.getWorld().getBiome(this.getBlockPos())));
         this.setWeaponType(TrollType.getWeaponForType(this.getTrollType()));
         return spawnDataIn;
@@ -208,8 +208,8 @@ public class EntityTroll extends HostileEntity implements IAnimatedEntity, IVill
     }
 
     @Override
-    protected Identifier getLootTableId() {
-        return this.getTrollType().getLootTable();
+    protected RegistryKey<LootTable> getLootTableId() {
+        return RegistryKey.of(RegistryKeys.LOOT_TABLE, this.getTrollType().getLootTable());
     }
 
     @Override
@@ -224,7 +224,7 @@ public class EntityTroll extends HostileEntity implements IAnimatedEntity, IVill
             if (IafCommonConfig.INSTANCE.troll.dropWeapon.getValue()) {
                 if (this.getRandom().nextInt(3) == 0) {
                     ItemStack weaponStack = new ItemStack(this.getWeaponType().getItem(), 1);
-                    weaponStack.damage(this.getRandom().nextInt(250), this.getRandom(), null);
+                    weaponStack.setDamage(this.getRandom().nextInt(250));
                     this.dropItemAt(weaponStack, this.getX(), this.getY(), this.getZ());
                 } else {
                     ItemStack brokenDrop = new ItemStack(Blocks.STONE_BRICKS, this.getRandom().nextInt(2) + 1);
@@ -343,12 +343,12 @@ public class EntityTroll extends HostileEntity implements IAnimatedEntity, IVill
                 float weaponZ = (float) (this.getZ() + 1.9F * MathHelper.sin((float) ((this.bodyYaw + 90) * Math.PI / 180)));
                 float weaponY = (float) (this.getY() + (this.getStandingEyeHeight() / 2));
                 //TODO: Recheck Explosion
-                Explosion explosion = new Explosion(this.getWorld(), this, weaponX, weaponY, weaponZ, 1F + this.getRandom().nextFloat(),false, Explosion.DestructionType.KEEP);
+                Explosion explosion = new Explosion(this.getWorld(), this, weaponX, weaponY, weaponZ, 1F + this.getRandom().nextFloat(), false, Explosion.DestructionType.KEEP);
                 if (!IafEvents.ON_GRIEF_BREAK_BLOCK.invoker().onBreakBlock(this, weaponX, weaponY, weaponZ)) {
                     explosion.collectBlocksAndDamageEntities();
                     explosion.affectWorld(true);
                 }
-                this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1, 1);
+                this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE.value(), 1, 1);
             }
         }
         if (this.getAnimation() == ANIMATION_STRIKE_VERTICAL && this.getAnimationTick() == 10)

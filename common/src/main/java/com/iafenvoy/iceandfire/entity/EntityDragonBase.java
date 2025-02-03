@@ -1,8 +1,9 @@
 package com.iafenvoy.iceandfire.entity;
 
 import com.google.common.base.Predicate;
-import com.iafenvoy.iceandfire.StaticVariables;
+import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.api.IafEvents;
+import com.iafenvoy.iceandfire.component.DragonSkullComponent;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.DragonArmor;
 import com.iafenvoy.iceandfire.data.DragonColor;
@@ -14,6 +15,9 @@ import com.iafenvoy.iceandfire.entity.util.*;
 import com.iafenvoy.iceandfire.entity.util.dragon.*;
 import com.iafenvoy.iceandfire.item.ItemSummoningCrystal;
 import com.iafenvoy.iceandfire.item.block.util.IDragonProof;
+import com.iafenvoy.iceandfire.network.payload.DragonSetBurnBlockPayload;
+import com.iafenvoy.iceandfire.network.payload.StartRidingMobPayload;
+import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafSounds;
@@ -28,7 +32,6 @@ import com.iafenvoy.uranus.animation.Animation;
 import com.iafenvoy.uranus.animation.AnimationHandler;
 import com.iafenvoy.uranus.animation.IAnimatedEntity;
 import com.iafenvoy.uranus.data.EntityPropertyDelegate;
-import com.iafenvoy.uranus.network.PacketBufferUtils;
 import com.iafenvoy.uranus.object.entity.pathfinding.raycoms.AdvancedPathNavigate;
 import com.iafenvoy.uranus.object.entity.pathfinding.raycoms.IPassabilityNavigator;
 import com.iafenvoy.uranus.object.entity.pathfinding.raycoms.PathingStuckHandler;
@@ -70,11 +73,12 @@ import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
@@ -83,6 +87,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.text.TextCodecs;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -107,8 +112,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
     public static final float[] growth_stage_3 = new float[]{7F, 12.5F};
     public static final float[] growth_stage_4 = new float[]{12.5F, 20F};
     public static final float[] growth_stage_5 = new float[]{20F, 30F};
-    protected static final TrackedData<Boolean> SWIMMING = DataTracker.registerData(EntityDragonBase.class, TrackedDataHandlerRegistry.BOOLEAN);
-    private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("556E1665-8B10-40C8-8F9D-CF9B1667F295");
+    private static final Identifier ARMOR_MODIFIER = Identifier.of(IceAndFire.MOD_ID, "armor_modifier");
     private static final TrackedData<Integer> HUNGER = DataTracker.registerData(EntityDragonBase.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> AGE_TICKS = DataTracker.registerData(EntityDragonBase.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Boolean> GENDER = DataTracker.registerData(EntityDragonBase.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -470,12 +474,8 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                 this.breathFireAtPos(this.burningTarget);
                 this.setBreathingFire(true);
             } else {
-                if (!this.getWorld().isClient) {
-                    PacketByteBuf buf = PacketBufferUtils.create();
-                    buf.writeInt(this.getId()).writeBoolean(true);
-                    buf.writeBlockPos(this.burningTarget);
-                    ServerHelper.sendToAll(StaticVariables.DRAGON_SET_BURN_BLOCK, buf);
-                }
+                if (!this.getWorld().isClient)
+                    ServerHelper.sendToAll(new DragonSetBurnBlockPayload(this.getId(), true, this.burningTarget));
                 this.burningTarget = null;
             }
         }
@@ -621,25 +621,25 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(HUNGER, 0);
-        this.dataTracker.startTracking(AGE_TICKS, 0);
-        this.dataTracker.startTracking(GENDER, false);
-        this.dataTracker.startTracking(VARIANT, DragonColor.RED.name());
-        this.dataTracker.startTracking(SLEEPING, false);
-        this.dataTracker.startTracking(FIREBREATHING, false);
-        this.dataTracker.startTracking(HOVERING, false);
-        this.dataTracker.startTracking(FLYING, false);
-        this.dataTracker.startTracking(DEATH_STAGE, 0);
-        this.dataTracker.startTracking(MODEL_DEAD, false);
-        this.dataTracker.startTracking(CONTROL_STATE, (byte) 0);
-        this.dataTracker.startTracking(TACKLE, false);
-        this.dataTracker.startTracking(AGINGDISABLED, false);
-        this.dataTracker.startTracking(COMMAND, 0);
-        this.dataTracker.startTracking(DRAGON_PITCH, 0F);
-        this.dataTracker.startTracking(CRYSTAL_BOUND, false);
-        this.dataTracker.startTracking(CUSTOM_POSE, "");
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(HUNGER, 0);
+        builder.add(AGE_TICKS, 0);
+        builder.add(GENDER, false);
+        builder.add(VARIANT, DragonColor.RED.name());
+        builder.add(SLEEPING, false);
+        builder.add(FIREBREATHING, false);
+        builder.add(HOVERING, false);
+        builder.add(FLYING, false);
+        builder.add(DEATH_STAGE, 0);
+        builder.add(MODEL_DEAD, false);
+        builder.add(CONTROL_STATE, (byte) 0);
+        builder.add(TACKLE, false);
+        builder.add(AGINGDISABLED, false);
+        builder.add(COMMAND, 0);
+        builder.add(DRAGON_PITCH, 0F);
+        builder.add(CRYSTAL_BOUND, false);
+        builder.add(CUSTOM_POSE, "");
     }
 
     @Override
@@ -758,23 +758,11 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
         }
         compound.putBoolean("AgingDisabled", this.isAgingDisabled());
         compound.putInt("Command", this.getCommand());
-        if (this.dragonInventory != null) {
-            NbtList nbttaglist = new NbtList();
-            for (int i = 0; i < this.dragonInventory.size(); ++i) {
-                ItemStack itemstack = this.dragonInventory.getStack(i);
-                if (!itemstack.isEmpty()) {
-                    NbtCompound CompoundNBT = new NbtCompound();
-                    CompoundNBT.putByte("Slot", (byte) i);
-                    itemstack.writeNbt(CompoundNBT);
-                    nbttaglist.add(CompoundNBT);
-                }
-            }
-            compound.put("Items", nbttaglist);
-        }
+        if (this.dragonInventory != null)
+            compound.put("Items", ItemStack.CODEC.listOf().encodeStart(NbtOps.INSTANCE, this.dragonInventory.getHeldStacks()).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtList()));
         compound.putBoolean("CrystalBound", this.isBoundToCrystal());
-        if (this.hasCustomName()) {
-            compound.putString("CustomName", Text.Serialization.toJsonString(this.getCustomName()));
-        }
+        if (this.hasCustomName())
+            compound.put("CustomName", TextCodecs.CODEC.encodeStart(NbtOps.INSTANCE, this.getCustomName()).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtCompound()));
         this.removeParts();
         this.lastScale = 0;
     }
@@ -793,7 +781,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
             this.setVariant(colors.get(compound.getInt("Variant")).name());
         }
         this.setInSittingPose(compound.getBoolean("Sleeping"));
-        this.setTamed(compound.getBoolean("TamedDragon"));
+        this.setTamed(compound.getBoolean("TamedDragon"), true);
         this.setBreathingFire(compound.getBoolean("FireBreathing"));
         this.usingGroundAttack = compound.getBoolean("AttackDecision");
         this.setHovering(compound.getBoolean("Hovering"));
@@ -809,32 +797,17 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
         this.setTackling(compound.getBoolean("Tackle"));
         this.setAgingDisabled(compound.getBoolean("AgingDisabled"));
         this.setCommand(compound.getInt("Command"));
-        if (this.dragonInventory != null) {
-            NbtList nbttaglist = compound.getList("Items", 10);
-            this.createInventory();
-            for (NbtElement inbt : nbttaglist) {
-                NbtCompound CompoundNBT = (NbtCompound) inbt;
-                int j = CompoundNBT.getByte("Slot") & 255;
-                if (j <= 4) {
-                    this.dragonInventory.setStack(j, ItemStack.fromNbt(CompoundNBT));
-                }
-            }
-        } else {
-            NbtList nbttaglist = compound.getList("Items", 10);
-            this.createInventory();
-            for (NbtElement inbt : nbttaglist) {
-                NbtCompound CompoundNBT = (NbtCompound) inbt;
-                int j = CompoundNBT.getByte("Slot") & 255;
-                this.dragonInventory.setStack(j, ItemStack.fromNbt(CompoundNBT));
-            }
-        }
+
+        this.createInventory();
+        List<ItemStack> stacks = ItemStack.CODEC.listOf().parse(NbtOps.INSTANCE, compound.get("Items")).resultOrPartial(IceAndFire.LOGGER::error).orElse(List.of());
+        for (int i = 0; i < stacks.size() && i < this.dragonInventory.size(); i++)
+            this.dragonInventory.setStack(i, stacks.get(i));
+
         this.setCrystalBound(compound.getBoolean("CrystalBound"));
-        if (compound.contains("CustomName", 8) && !compound.getString("CustomName").startsWith("TextComponent")) {
-            this.setCustomName(Text.Serialization.fromJson(compound.getString("CustomName")));
-        }
+        if (compound.contains("CustomName", 8) && !compound.getString("CustomName").startsWith("TextComponent"))
+            this.setCustomName(TextCodecs.CODEC.parse(NbtOps.INSTANCE, compound.get("CustomName")).resultOrPartial(IceAndFire.LOGGER::error).orElse(Text.empty()));
 
         this.setConfigurableAttributes();
-
         this.updateAttributes();
     }
 
@@ -898,8 +871,8 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
         final double baseValue = this.minimumArmor + (armorStep * this.getAgeInDays());
         this.getAttributeInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(baseValue);
         if (!this.getWorld().isClient) {
-            this.getAttributeInstance(EntityAttributes.GENERIC_ARMOR).removeModifier(ARMOR_MODIFIER_UUID);
-            this.getAttributeInstance(EntityAttributes.GENERIC_ARMOR).addPersistentModifier(new EntityAttributeModifier(ARMOR_MODIFIER_UUID, "Dragon armor bonus", this.calculateArmorModifier(), EntityAttributeModifier.Operation.ADDITION));
+            this.getAttributeInstance(EntityAttributes.GENERIC_ARMOR).removeModifier(ARMOR_MODIFIER);
+            this.getAttributeInstance(EntityAttributes.GENERIC_ARMOR).addPersistentModifier(new EntityAttributeModifier(ARMOR_MODIFIER, this.calculateArmorModifier(), EntityAttributeModifier.Operation.ADD_VALUE));
         }
         this.getAttributeInstance(EntityAttributes.GENERIC_FOLLOW_RANGE).setBaseValue(Math.min(2048, IafCommonConfig.INSTANCE.dragon.targetSearchLength.getValue()));
     }
@@ -1104,7 +1077,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
         }
         if (!this.isModelDead()) {
             if (stack.getItem() == IafItems.CREATIVE_DRAGON_MEAL.get()) {
-                this.setTamed(true);
+                this.setTamed(true, true);
                 this.setOwner(player);
                 this.setHunger(this.getHunger() + 20);
                 this.heal(Math.min(this.getHealth(), (int) (this.getMaxHealth() / 2)));
@@ -1125,7 +1098,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
             if (this.isOwner(player)) {
                 if (stack.getItem() == this.dragonType.getCrystalItem() && !ItemSummoningCrystal.hasDragon(stack)) {
                     this.setCrystalBound(true);
-                    NbtCompound compound = stack.getOrCreateNbt();
+                    NbtCompound compound = stack.get(IafDataComponents.NBT_COMPOUND.get());
                     NbtCompound dragonTag = new NbtCompound();
                     dragonTag.putUuid("DragonUUID", this.getUuid());
                     if (this.getCustomName() != null) {
@@ -1146,15 +1119,11 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                             if (player.getPassengerList().size() >= 3)
                                 return ActionResult.FAIL;
                             this.startRiding(player, true);
-                            PacketByteBuf buf = PacketBufferUtils.create();
-                            buf.writeInt(this.getId()).writeBoolean(true).writeBoolean(true);
-                            ServerHelper.sendToAll(StaticVariables.START_RIDING_MOB_S2C, buf);
+                            NetworkManager.sendToServer(new StartRidingMobPayload(this.getId(), true, true));
                         } else if (dragonStage > 2 && !player.hasVehicle()) {
                             player.setSneaking(false);
                             player.startRiding(this, true);
-                            PacketByteBuf buf = PacketBufferUtils.create();
-                            buf.writeInt(this.getId()).writeBoolean(true).writeBoolean(false);
-                            ServerHelper.sendToAll(StaticVariables.START_RIDING_MOB_S2C, buf);
+                            NetworkManager.sendToServer(new StartRidingMobPayload(this.getId(), true, false));
                             this.setInSittingPose(false);
                         }
                         this.getNavigation().stop();
@@ -1242,16 +1211,10 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                 if (!this.getWorld().isClient && stack.isEmpty()) {
                     if (IafCommonConfig.INSTANCE.dragon.lootSkull.getValue()) {
                         if (this.getDeathStage() >= lastDeathStage - 1) {
-                            ItemStack skull = this.getSkull().copy();
-                            skull.setNbt(new NbtCompound());
-                            assert skull.getNbt() != null;
-                            skull.getNbt().putInt("Stage", this.getDragonStage());
-                            skull.getNbt().putInt("DragonType", 0);
-                            skull.getNbt().putInt("DragonAge", this.getAgeInDays());
+                            ItemStack skull = new ItemStack(this.getSkull());
+                            skull.set(IafDataComponents.DRAGON_SKULL.get(), new DragonSkullComponent(this.getDragonStage(), this.getAgeInDays()));
                             this.setDeathStage(this.getDeathStage() + 1);
-                            if (!this.getWorld().isClient) {
-                                this.dropStack(skull, 1);
-                            }
+                            if (!this.getWorld().isClient) this.dropStack(skull, 1);
                             this.remove(RemovalReason.DISCARDED);
                         } else if (this.getDeathStage() == (lastDeathStage / 2) - 1 && IafCommonConfig.INSTANCE.dragon.lootHeart.getValue()) {
                             ItemStack heart = new ItemStack(this.getHeartItem(), 1);
@@ -1259,17 +1222,15 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                             ItemStack egg = new ItemStack(colors.get(this.random.nextInt(colors.size())).getEggItem(), 1);
                             if (!this.getWorld().isClient) {
                                 this.dropStack(heart, 1);
-                                if (!this.isMale() && this.getDragonStage() > 3) {
+                                if (!this.isMale() && this.getDragonStage() > 3)
                                     this.dropStack(egg, 1);
-                                }
                             }
                             this.setDeathStage(this.getDeathStage() + 1);
                         } else {
                             this.setDeathStage(this.getDeathStage() + 1);
                             ItemStack drop = this.getRandomDrop();
-                            if (!drop.isEmpty() && !this.getWorld().isClient) {
+                            if (!drop.isEmpty() && !this.getWorld().isClient)
                                 this.dropStack(drop, 1);
-                            }
                         }
                     }
                 }
@@ -1285,17 +1246,14 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
 
     public abstract Item getFleshItem();
 
-    public ItemStack getSkull() {
-        return ItemStack.EMPTY;
-    }
+    public abstract Item getSkull();
 
     private ItemStack getRandomDrop() {
         ItemStack stack = this.getItemFromLootTable();
-        if (stack.getItem() == IafItems.DRAGON_BONE.get()) {
+        if (stack.getItem() == IafItems.DRAGON_BONE.get())
             this.playSound(SoundEvents.ENTITY_SKELETON_AMBIENT, 1, 1);
-        } else {
-            this.playSound(SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
-        }
+        else
+            this.playSound(SoundEvents.ITEM_ARMOR_EQUIP_LEATHER.value(), 1, 1);
         return stack;
     }
 
@@ -1308,11 +1266,11 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
     public abstract Identifier getDeadLootTable();
 
     public ItemStack getItemFromLootTable() {
-        LootTable loottable = this.getWorld().getServer().getLootManager().getLootTable(this.getDeadLootTable());
+        LootTable lootTable = this.getWorld().getRegistryManager().get(RegistryKeys.LOOT_TABLE).get(this.getDeadLootTable());
         LootContextParameterSet.Builder lootparams$builder = (new LootContextParameterSet.Builder((ServerWorld) this.getWorld())).add(LootContextParameters.THIS_ENTITY, this).add(LootContextParameters.ORIGIN, this.getPos()).add(LootContextParameters.DAMAGE_SOURCE, this.getWorld().getDamageSources().generic());
-        for (ItemStack itemstack : loottable.generateLoot(lootparams$builder.build(LootContextTypes.ENTITY))) {
-            return itemstack;
-        }
+        if (lootTable != null)
+            for (ItemStack itemstack : lootTable.generateLoot(lootparams$builder.build(LootContextTypes.ENTITY)))
+                return itemstack;
         return ItemStack.EMPTY;
     }
 
@@ -1601,8 +1559,8 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setGender(this.getRandom().nextBoolean());
         final int age = this.getRandom().nextInt(80) + 1;
         this.growDragon(age);
@@ -1678,7 +1636,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
         this.updateParts();
         this.prevDragonPitch = this.getDragonPitch();
         this.getWorld().getProfiler().push("dragonLogic");
-        this.setStepHeight(this.getStepHeight());
+        this.getAttributeInstance(EntityAttributes.GENERIC_STEP_HEIGHT).setBaseValue(this.getStepHeight());
         this.isOverAir = this.isOverAirLogic();
         this.logic.updateDragonCommon();
         if (this.isModelDead()) {
@@ -1748,9 +1706,8 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
             this.setFlying(false);
         }
         AnimationHandler.INSTANCE.updateAnimations(this);
-        if (this.animationTick > this.getAnimation().getDuration() && !this.getWorld().isClient) {
+        if (this.animationTick > this.getAnimation().getDuration() && !this.getWorld().isClient)
             this.animationTick = 0;
-        }
     }
 
     @Override
@@ -1783,16 +1740,9 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
     @Override
     public boolean tryAttack(Entity entityIn) {
         this.getLookControl().lookAt(entityIn, 30.0F, 30.0F);
-        if (this.isTackling() || this.isModelDead()) {
-            return false;
-        }
-
-        final boolean flag = entityIn.damage(this.getWorld().getDamageSources().mobAttack(this), ((int) this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).getValue()));
-
-        if (flag) {
-            this.applyDamageEffects(this, entityIn);
-        }
-
+        if (this.isTackling() || this.isModelDead()) return false;
+        boolean flag = entityIn.damage(this.getWorld().getDamageSources().mobAttack(this), ((int) this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).getValue()));
+//        if (flag) this.applyDamageEffects(this, entityIn);
         return flag;
     }
 
@@ -1823,11 +1773,8 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
             this.setPosition(riding.getX() + extraX, riding.getY() + extraY, riding.getZ() + extraZ);
             if ((this.getControlState() == 1 << 4 || player.isFallFlying()) && !riding.hasVehicle()) {
                 this.stopRiding();
-                if (this.getWorld().isClient) {
-                    PacketByteBuf buf = PacketBufferUtils.create();
-                    buf.writeInt(this.getId()).writeBoolean(false).writeBoolean(true);
-                    NetworkManager.sendToServer(StaticVariables.START_RIDING_MOB_C2S, buf);
-                }
+                if (this.getWorld().isClient)
+                    NetworkManager.sendToServer(new StartRidingMobPayload(this.getId(), false, true));
             }
         }
     }
@@ -2867,11 +2814,6 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
         if (this.moveControl instanceof IafDragonFlightManager.PlayerFlightMoveHelper)
             return pDeltaMovement;
         return super.applyMovementInput(pDeltaMovement, pFriction);
-    }
-
-    @Override
-    public EntityView method_48926() {
-        return this.getWorld();
     }
 
     @Override

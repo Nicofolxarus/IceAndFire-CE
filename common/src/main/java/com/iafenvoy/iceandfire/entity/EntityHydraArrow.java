@@ -4,7 +4,6 @@ import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafParticles;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -13,13 +12,12 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityHydraArrow extends PersistentProjectileEntity {
     public EntityHydraArrow(EntityType<? extends PersistentProjectileEntity> t, World worldIn) {
-        super(t, worldIn, new ItemStack(IafItems.HYDRA_ARROW.get()));
+        super(t, worldIn);
         this.setDamage(5F);
     }
 
@@ -30,8 +28,8 @@ public class EntityHydraArrow extends PersistentProjectileEntity {
     }
 
 
-    public EntityHydraArrow(EntityType<? extends EntityHydraArrow> t, World worldIn, LivingEntity shooter) {
-        super(t, shooter, worldIn, new ItemStack(IafItems.HYDRA_ARROW.get()));
+    public EntityHydraArrow(EntityType<? extends EntityHydraArrow> t, World worldIn, LivingEntity shooter,ItemStack shotFrom) {
+        super(t, shooter, worldIn, new ItemStack(IafItems.HYDRA_ARROW.get()),shotFrom);
         this.setDamage(5F);
     }
 
@@ -54,16 +52,9 @@ public class EntityHydraArrow extends PersistentProjectileEntity {
         if (damage >= 3.0F && player.getActiveItem().getItem() instanceof ShieldItem) {
             ItemStack copyBeforeUse = player.getActiveItem().copy();
             int i = 1 + MathHelper.floor(damage);
-            player.getActiveItem().damage(i, player, (p_213360_0_) -> p_213360_0_.sendEquipmentBreakStatus(EquipmentSlot.CHEST));
+            player.getActiveItem().damage(i, player, LivingEntity.getSlotForHand(player.getActiveHand()));
 
             if (player.getActiveItem().isEmpty()) {
-                Hand Hand = player.getActiveHand();
-
-                if (Hand == net.minecraft.util.Hand.MAIN_HAND) {
-                    this.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-                } else {
-                    this.equipStack(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
-                }
                 player.clearActiveItem();
                 this.playSound(SoundEvents.ITEM_SHIELD_BREAK, 0.8F, 0.8F + this.getWorld().random.nextFloat() * 0.4F);
             }
@@ -80,5 +71,10 @@ public class EntityHydraArrow extends PersistentProjectileEntity {
         if (shootingEntity instanceof LivingEntity) {
             ((LivingEntity) shootingEntity).heal((float) this.getDamage());
         }
+    }
+
+    @Override
+    protected ItemStack getDefaultItemStack() {
+        return new ItemStack(IafItems.HYDRA_ARROW.get());
     }
 }

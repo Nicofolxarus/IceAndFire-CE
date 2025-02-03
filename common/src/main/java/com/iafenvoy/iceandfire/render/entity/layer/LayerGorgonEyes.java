@@ -24,7 +24,7 @@ public class LayerGorgonEyes extends FeatureRenderer<EntityGorgon, ModelGorgon> 
         if (entity.getAnimation() == EntityGorgon.ANIMATION_SCARE || entity.getAnimation() == EntityGorgon.ANIMATION_HIT) {
             RenderLayer eyes = RenderLayer.getEyes(TEXTURE);
             VertexConsumer vertexConsumer = bufferIn.getBuffer(eyes);
-            this.getContextModel().render(matrixStackIn, vertexConsumer, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+            this.getContextModel().render(matrixStackIn, vertexConsumer, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
         }
     }
 }

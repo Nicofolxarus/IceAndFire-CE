@@ -7,7 +7,7 @@ import net.minecraft.block.ChestBlock;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ChestBlockEntity;
-import net.minecraft.block.enums.Instrument;
+import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.sound.BlockSoundGroup;
@@ -23,7 +23,7 @@ import java.util.List;
 
 public class BlockGhostChest extends ChestBlock {
     public BlockGhostChest() {
-        super(Settings.create().mapColor(MapColor.OAK_TAN).instrument(Instrument.BASS).burnable().strength(2.5F).sounds(BlockSoundGroup.WOOD), IafBlockEntities.GHOST_CHEST::get);
+        super(Settings.create().mapColor(MapColor.OAK_TAN).instrument(NoteBlockInstrument.BASS).burnable().strength(2.5F).sounds(BlockSoundGroup.WOOD), IafBlockEntities.GHOST_CHEST::get);
     }
 
     @Override

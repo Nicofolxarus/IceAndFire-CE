@@ -3,7 +3,7 @@ package com.iafenvoy.iceandfire.item.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
-import net.minecraft.block.enums.Instrument;
+import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
@@ -22,7 +22,7 @@ public class BlockReturningState extends Block {
         this.setDefaultState(this.stateManager.getDefaultState().with(REVERTS, Boolean.FALSE));
     }
 
-    public static BlockReturningState builder(float hardness, float resistance, BlockSoundGroup sound, boolean slippery, MapColor color, Instrument instrument, PistonBehavior reaction, boolean ignited, BlockState returnToState) {
+    public static BlockReturningState builder(float hardness, float resistance, BlockSoundGroup sound, boolean slippery, MapColor color, NoteBlockInstrument instrument, PistonBehavior reaction, boolean ignited, BlockState returnToState) {
         Settings props = Settings.create().mapColor(color).sounds(sound).strength(hardness, resistance).slipperiness(0.98F).ticksRandomly();
         if (instrument != null) props.instrument(instrument);
         if (reaction != null) props.pistonBehavior(reaction);
@@ -30,7 +30,7 @@ public class BlockReturningState extends Block {
         return new BlockReturningState(props, returnToState);
     }
 
-    public static BlockReturningState builder(float hardness, float resistance, BlockSoundGroup sound, MapColor color, Instrument instrument, PistonBehavior reaction, boolean ignited, BlockState returnToState) {
+    public static BlockReturningState builder(float hardness, float resistance, BlockSoundGroup sound, MapColor color, NoteBlockInstrument instrument, PistonBehavior reaction, boolean ignited, BlockState returnToState) {
         Settings props = Settings.create().mapColor(color).sounds(sound).strength(hardness, resistance).ticksRandomly();
         if (instrument != null) props.instrument(instrument);
         if (reaction != null) props.pistonBehavior(reaction);

@@ -1,9 +1,12 @@
 package com.iafenvoy.iceandfire.screen.handler;
 
+import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.registry.IafScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.util.math.BlockPos;
@@ -23,7 +26,9 @@ public class MyrmexAddRoomScreenHandler extends ScreenHandler {
 
     public MyrmexAddRoomScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
         this(syncId, playerInventory);
-        this.staff = ItemStack.fromNbt(buf.readNbt());
+        NbtCompound nbt = buf.readNbt();
+        if (nbt != null)
+            this.staff = ItemStack.CODEC.parse(NbtOps.INSTANCE, nbt.get("data")).resultOrPartial(IceAndFire.LOGGER::error).orElse(ItemStack.EMPTY);
         this.interactPos = BlockPos.fromLong(buf.readLong());
         this.facing = buf.readEnumConstant(Direction.class);
         this.targetId = buf.readUuid();

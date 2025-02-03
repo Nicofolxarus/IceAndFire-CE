@@ -11,8 +11,10 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.structure.StructureContext;
 import net.minecraft.structure.StructurePiece;
 import net.minecraft.structure.StructurePieceType;
@@ -296,7 +298,7 @@ public abstract class DragonRoostStructure extends Structure {
 
         protected abstract EntityType<? extends EntityDragonBase> getDragonType();
 
-        protected abstract Identifier getRoostLootTable();
+        protected abstract RegistryKey<LootTable> getRoostLootTable();
 
         protected abstract BlockState transform(BlockState block);
 

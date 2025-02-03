@@ -5,6 +5,7 @@ import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.util.IBlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.IDeadMob;
 import com.iafenvoy.iceandfire.entity.util.MyrmexHive;
+import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafSounds;
@@ -70,11 +71,11 @@ public class EntityMyrmexEgg extends LivingEntity implements IBlacklistedFromSta
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.getDataTracker().startTracking(MYRMEX_TYPE, false);
-        this.getDataTracker().startTracking(MYRMEX_AGE, 0);
-        this.getDataTracker().startTracking(MYRMEX_CASTE, 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(MYRMEX_TYPE, false);
+        builder.add(MYRMEX_AGE, 0);
+        builder.add(MYRMEX_CASTE, 0);
     }
 
 
@@ -193,9 +194,7 @@ public class EntityMyrmexEgg extends LivingEntity implements IBlacklistedFromSta
 
     private ItemStack getItem() {
         ItemStack egg = new ItemStack(this.isJungle() ? IafItems.MYRMEX_JUNGLE_EGG.get() : IafItems.MYRMEX_DESERT_EGG.get(), 1);
-        NbtCompound newTag = new NbtCompound();
-        newTag.putInt("EggOrdinal", this.getMyrmexCaste());
-        egg.setNbt(newTag);
+        egg.set(IafDataComponents.INT.get(), this.getMyrmexCaste());
         return egg;
     }
 

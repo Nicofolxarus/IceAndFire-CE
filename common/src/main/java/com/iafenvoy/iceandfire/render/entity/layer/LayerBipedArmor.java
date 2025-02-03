@@ -75,9 +75,9 @@ public class LayerBipedArmor<T extends LivingEntity & IAnimatedEntity, M extends
         }
     }
 
-    private void renderArmorItem(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn, boolean p_241738_5_, A modelIn, Identifier armorResource) {
-        VertexConsumer ivertexbuilder = ItemRenderer.getArmorGlintConsumer(bufferIn, RenderLayer.getArmorCutoutNoCull(armorResource), false, p_241738_5_);
-        modelIn.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, (float) 1.0, (float) 1.0, (float) 1.0, 1.0F);
+    private void renderArmorItem(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn, boolean glint, A modelIn, Identifier armorResource) {
+        VertexConsumer ivertexbuilder = ItemRenderer.getArmorGlintConsumer(bufferIn, RenderLayer.getArmorCutoutNoCull(armorResource), glint);
+        modelIn.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
     }
 
     private A getSlotModel(EquipmentSlot equipmentSlotType) {

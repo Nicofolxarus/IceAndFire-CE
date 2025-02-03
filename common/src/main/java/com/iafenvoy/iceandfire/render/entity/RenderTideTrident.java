@@ -27,14 +27,11 @@ public class RenderTideTrident extends EntityRenderer<EntityTideTrident> {
         matrixStackIn.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(MathHelper.lerp(partialTicks, entityIn.prevYaw, entityIn.getYaw()) - 90.0F));
         matrixStackIn.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(MathHelper.lerp(partialTicks, entityIn.prevPitch, entityIn.getPitch()) + 90.0F));
         VertexConsumer ivertexbuilder = net.minecraft.client.render.item.ItemRenderer.getItemGlintConsumer(bufferIn, this.tridentModel.getLayer(this.getTexture(entityIn)), false, entityIn.isEnchanted());
-        this.tridentModel.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+        this.tridentModel.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
         matrixStackIn.pop();
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 
-    /**
-     * Returns the location of an entity's texture.
-     */
     @Override
     public Identifier getTexture(EntityTideTrident entity) {
         return TRIDENT;

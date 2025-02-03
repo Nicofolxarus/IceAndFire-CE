@@ -44,7 +44,7 @@ public class RenderLectern<T extends BlockEntityLectern> implements BlockEntityR
         float f6 = 1.29F;
 
         this.bookModel.setPageAngles(partialTicks, MathHelper.clamp(f4, 0.0F, 1.0F), MathHelper.clamp(f5, 0.0F, 1.0F), f6);
-        this.bookModel.render(matrixStackIn, bufferIn.getBuffer(ENCHANTMENT_TABLE_BOOK_TEXTURE), combinedLightIn, combinedOverlayIn, 1, 1F, 1, 1);
+        this.bookModel.render(matrixStackIn, bufferIn.getBuffer(ENCHANTMENT_TABLE_BOOK_TEXTURE), combinedLightIn, combinedOverlayIn, -1);
         matrixStackIn.pop();
     }
 

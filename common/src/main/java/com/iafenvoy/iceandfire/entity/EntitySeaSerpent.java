@@ -157,6 +157,11 @@ public class EntitySeaSerpent extends AnimalEntity implements IAnimatedEntity, I
     }
 
     @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return false;
+    }
+
+    @Override
     public void tickCramming() {
         List<Entity> entities = this.getWorld().getOtherEntities(this, this.getBoundingBox().stretch(0.20000000298023224D, 0.0D, 0.20000000298023224D));
         entities.stream().filter(entity -> !(entity instanceof EntityMultipartPart) && entity.isPushable()).forEach(entity -> entity.pushAwayFrom(this));
@@ -179,11 +184,6 @@ public class EntitySeaSerpent extends AnimalEntity implements IAnimatedEntity, I
         Vec3d vector3d = new Vec3d(this.getX(), this.getEyeY(), this.getZ());
         Vec3d bector3d1 = new Vec3d(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
         return this.getWorld().raycast(new RaycastContext(vector3d, bector3d1, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this)).getType() == HitResult.Type.MISS;
-    }
-
-    @Override
-    public EntityGroup getGroup() {
-        return EntityGroup.AQUATIC;
     }
 
     @Override
@@ -321,13 +321,13 @@ public class EntitySeaSerpent extends AnimalEntity implements IAnimatedEntity, I
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(VARIANT, SeaSerpent.BLUE.getName());
-        this.dataTracker.startTracking(SCALE, 0F);
-        this.dataTracker.startTracking(JUMPING, false);
-        this.dataTracker.startTracking(BREATHING, false);
-        this.dataTracker.startTracking(ANCIENT, false);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(VARIANT, SeaSerpent.BLUE.getName());
+        builder.add(SCALE, 0F);
+        builder.add(JUMPING, false);
+        builder.add(BREATHING, false);
+        builder.add(ANCIENT, false);
     }
 
     @Override
@@ -619,8 +619,8 @@ public class EntitySeaSerpent extends AnimalEntity implements IAnimatedEntity, I
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setVariant(RandomHelper.randomOne(SeaSerpent.values()).getName());
         boolean ancient = this.getRandom().nextInt(16) == 1;
         if (ancient) {

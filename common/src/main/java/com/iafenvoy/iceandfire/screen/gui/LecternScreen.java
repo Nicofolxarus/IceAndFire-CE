@@ -8,7 +8,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.*;
+import net.minecraft.client.render.DiffuseLighting;
+import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.BookModel;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.resource.language.I18n;
@@ -89,7 +92,7 @@ public class LecternScreen extends HandledScreen<LecternScreenHandler> {
         assert this.client != null;
         DiffuseLighting.disableGuiDepthLighting();
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1, 1, 1, 1);
         int i = (this.width - this.backgroundWidth) / 2;
         int j = (this.height - this.backgroundHeight) / 2;
         ms.drawTexture(ENCHANTMENT_TABLE_GUI_TEXTURE, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
@@ -120,21 +123,20 @@ public class LecternScreen extends HandledScreen<LecternScreenHandler> {
         if (f4 > 1.0F) f4 = 1.0F;
 
         bookModel.setPageAngles(0, f3, f4, f1);
-        VertexConsumerProvider.Immediate multibuffersource$buffersource = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
-        VertexConsumer vertexconsumer = multibuffersource$buffersource.getBuffer(bookModel.getLayer(ENCHANTMENT_TABLE_BOOK_TEXTURE));
-        bookModel.render(ms.getMatrices(), vertexconsumer, 15728880, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
-        multibuffersource$buffersource.draw();
+        VertexConsumer vertexconsumer = ms.getVertexConsumers().getBuffer(bookModel.getLayer(ENCHANTMENT_TABLE_BOOK_TEXTURE));
+        bookModel.render(ms.getMatrices(), vertexconsumer, 15728880, OverlayTexture.DEFAULT_UV, -1);
+        ms.getVertexConsumers().draw();
         ms.getMatrices().pop();
         RenderSystem.viewport(0, 0, this.client.getWindow().getFramebufferWidth(), this.client.getWindow().getFramebufferHeight());
         RenderSystem.restoreProjectionMatrix();
         DiffuseLighting.enableGuiDepthLighting();
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1, 1, 1, 1);
 
         for (int i1 = 0; i1 < 3; ++i1) {
             int j1 = i + 60;
             int k1 = j1 + 20;
             int l1 = this.handler.getPossiblePages()[i1] == null ? -1 : this.handler.getPossiblePages()[i1].getId();//enchantment level
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.setShaderColor(1, 1, 1, 1);
             if (l1 == -1)
                 ms.drawTexture(ENCHANTMENT_TABLE_GUI_TEXTURE, j1, j + 14 + 19 * i1, 0, 185, 108, 19);
             else {
@@ -206,7 +208,7 @@ public class LecternScreen extends HandledScreen<LecternScreenHandler> {
         float f1 = (this.flipT - this.flip) * 0.4F;
         if (this.flapTimer > 0) {
             assert this.client != null;
-            f1 = (this.ticks + this.client.getTickDelta()) * 0.5F;
+            f1 = (this.ticks + this.client.getRenderTickCounter().getTickDelta(false)) * 0.5F;
             this.flapTimer--;
         }
         f1 = MathHelper.clamp(f1, -0.2F, 0.2F);

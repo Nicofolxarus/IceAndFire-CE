@@ -1,6 +1,7 @@
 package com.iafenvoy.iceandfire.item.tool;
 
 import com.iafenvoy.iceandfire.registry.tag.IafItemTags;
+import com.iafenvoy.uranus.object.RegistryHelper;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
@@ -33,28 +34,28 @@ public class ItemDragonBow extends BowItem {
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (user instanceof PlayerEntity playerEntity) {
-            boolean bl = playerEntity.getAbilities().creativeMode || EnchantmentHelper.getLevel(Enchantments.INFINITY, stack) > 0;
+            boolean bl = playerEntity.getAbilities().creativeMode || EnchantmentHelper.getLevel(RegistryHelper.getEnchantment(world.getRegistryManager(), Enchantments.INFINITY), stack) > 0;
             ItemStack itemStack = playerEntity.getProjectileType(stack);
             if (!itemStack.isEmpty() || bl) {
                 if (itemStack.isEmpty())
                     itemStack = new ItemStack(Items.ARROW);
-                int i = this.getMaxUseTime(stack) - remainingUseTicks;
+                int i = this.getMaxUseTime(stack, user) - remainingUseTicks;
                 float f = getPullProgress(i);
                 if (!((double) f < 0.1)) {
                     boolean bl2 = bl && this.getProjectiles().test(itemStack);
                     if (!world.isClient) {
                         ArrowItem arrowItem = (ArrowItem) (itemStack.getItem() instanceof ArrowItem ? itemStack.getItem() : Items.ARROW);
-                        PersistentProjectileEntity persistentProjectileEntity = arrowItem.createArrow(world, itemStack, playerEntity);
+                        PersistentProjectileEntity persistentProjectileEntity = arrowItem.createArrow(world, itemStack, playerEntity, stack);
                         persistentProjectileEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, f * 3.0F, 1.0F);
                         if (f == 1.0F) persistentProjectileEntity.setCritical(true);
-                        int j = EnchantmentHelper.getLevel(Enchantments.POWER, stack);
+                        int j = EnchantmentHelper.getLevel(RegistryHelper.getEnchantment(world.getRegistryManager(), Enchantments.POWER), stack);
                         if (j > 0)
                             persistentProjectileEntity.setDamage(persistentProjectileEntity.getDamage() + (double) j * 0.5 + 0.5);
-                        int k = EnchantmentHelper.getLevel(Enchantments.PUNCH, stack);
-                        if (k > 0) persistentProjectileEntity.setPunch(k);
-                        if (EnchantmentHelper.getLevel(Enchantments.FLAME, stack) > 0)
+//                        int k = EnchantmentHelper.getLevel(RegistryHelper.getEnchantment(world.getRegistryManager(), Enchantments.PUNCH), stack);
+//                        if (k > 0) persistentProjectileEntity.setPunch(k);
+                        if (EnchantmentHelper.getLevel(RegistryHelper.getEnchantment(world.getRegistryManager(), Enchantments.FLAME), stack) > 0)
                             persistentProjectileEntity.setOnFireFor(100);
-                        stack.damage(1, playerEntity, p -> p.sendToolBreakStatus(playerEntity.getActiveHand()));
+                        stack.damage(1, playerEntity, LivingEntity.getSlotForHand(user.getActiveHand()));
                         if (bl2 || playerEntity.getAbilities().creativeMode && (itemStack.isOf(Items.SPECTRAL_ARROW) || itemStack.isOf(Items.TIPPED_ARROW)))
                             persistentProjectileEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
                         world.spawnEntity(persistentProjectileEntity);

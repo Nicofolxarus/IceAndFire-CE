@@ -7,6 +7,7 @@ import com.iafenvoy.iceandfire.data.DragonArmor;
 import com.iafenvoy.iceandfire.data.SeaSerpent;
 import com.iafenvoy.iceandfire.data.TrollType;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
+import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import com.iafenvoy.iceandfire.screen.handler.BestiaryScreenHandler;
@@ -24,7 +25,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.registry.Registries;
 import net.minecraft.resource.Resource;
 import net.minecraft.text.Text;
@@ -33,7 +33,6 @@ import org.apache.commons.io.IOUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.iafenvoy.iceandfire.data.BestiaryPages.*;
 
@@ -59,8 +58,8 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
         super(container, inv, name);
         this.book = container.getBook();
         if (!this.book.isEmpty() && this.book.getItem() != null && this.book.getItem() == IafItems.BESTIARY.get())
-            if (this.book.getNbt() != null) {
-                Set<BestiaryPages> pages = BestiaryPages.containedPages(this.book.getNbt().getList("Pages", NbtElement.STRING_TYPE).stream().map(NbtElement::asString).collect(Collectors.toList()));
+            if (this.book.contains(IafDataComponents.BESTIARY_PAGES.get())) {
+                Set<BestiaryPages> pages = BestiaryPages.containedPages(this.book.get(IafDataComponents.BESTIARY_PAGES.get()));
                 this.allPageTypes.addAll(pages);
                 // Make sure the pages are sorted according to the enum
                 this.allPageTypes.sort(Comparator.comparingInt(BestiaryPages::getId));
@@ -129,7 +128,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
             }
         for (int i = 0; i < this.indexButtons.size(); i++)
             this.indexButtons.get(i).active = i < 10 * (this.indexPages + 1) && i >= 10 * (this.indexPages) && this.index;
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1, 1, 1, 1);
         int cornerX = (this.width - X) / 2;
         int cornerY = (this.height - Y) / 2;
         ms.drawTexture(TEXTURE, cornerX, cornerY, 0, 0, X, Y, 390, 390);
@@ -137,9 +136,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
         super.render(ms, mouseX, mouseY, partialTicks);
         ms.getMatrices().push();
         ms.getMatrices().translate(cornerX, cornerY, 0.0F);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        int centerX = (this.width - X) / 2;
-        int centerY = (this.height - Y) / 2;
+        RenderSystem.setShaderColor(1, 1, 1, 1);
         if (!this.index) {
             this.drawPerPage(ms, this.bookPages);
             int pageLeft = this.bookPages * 2 + 1;
@@ -746,7 +743,6 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                             line = line.substring(8, line.length() - 1);
                             String[] split = line.split(" ");
                             Identifier id = Identifier.of(IceAndFire.MOD_ID, "textures/gui/bestiary/" + split[0]);
-                            assert id != null;
                             Identifier resourcelocation = PICTURE_LOCATION_CACHE.computeIfAbsent(id.toString(), k -> id);
                             ms.getMatrices().push();
                             this.drawImage(ms, resourcelocation, Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3]), Integer.parseInt(split[4]), Integer.parseInt(split[5]), Integer.parseInt(split[6]), Float.parseFloat(split[7]) * 512F);

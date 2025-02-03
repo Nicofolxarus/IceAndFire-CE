@@ -29,13 +29,14 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootTable;
 import net.minecraft.loot.LootTables;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -44,7 +45,6 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
-@SuppressWarnings("ALL")
 public class EntityGhost extends HostileEntity implements IAnimatedEntity, IVillagerFear, IAnimalFear, IHumanoid, IBlacklistedFromStatues, IHasCustomizableAttributes {
     private static final TrackedData<Integer> COLOR = DataTracker.registerData(EntityGhost.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Boolean> CHARGING = DataTracker.registerData(EntityGhost.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -79,7 +79,7 @@ public class EntityGhost extends HostileEntity implements IAnimatedEntity, IVill
     }
 
     @Override
-    protected Identifier getLootTableId() {
+    protected RegistryKey<LootTable> getLootTableId() {
         return this.wasFromChest() ? LootTables.EMPTY : this.getType().getLootTableId();
     }
 
@@ -142,12 +142,6 @@ public class EntityGhost extends HostileEntity implements IAnimatedEntity, IVill
 
     public void setFromChest(boolean moving) {
         this.dataTracker.set(WAS_FROM_CHEST, moving);
-    }
-
-
-    @Override
-    public EntityGroup getGroup() {
-        return EntityGroup.UNDEAD;
     }
 
     @Override
@@ -284,8 +278,8 @@ public class EntityGhost extends HostileEntity implements IAnimatedEntity, IVill
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setColor(this.random.nextInt(3));
         if (this.random.nextInt(200) == 0)
             this.setColor(-1);
@@ -294,13 +288,13 @@ public class EntityGhost extends HostileEntity implements IAnimatedEntity, IVill
 
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.getDataTracker().startTracking(COLOR, 0);
-        this.getDataTracker().startTracking(CHARGING, false);
-        this.getDataTracker().startTracking(IS_DAYTIME_MODE, false);
-        this.getDataTracker().startTracking(WAS_FROM_CHEST, false);
-        this.getDataTracker().startTracking(DAYTIME_COUNTER, 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(COLOR, 0);
+        builder.add(CHARGING, false);
+        builder.add(IS_DAYTIME_MODE, false);
+        builder.add(WAS_FROM_CHEST, false);
+        builder.add(DAYTIME_COUNTER, 0);
     }
 
     public int getColor() {
@@ -397,13 +391,12 @@ public class EntityGhost extends HostileEntity implements IAnimatedEntity, IVill
                     if (this.ghost.getTarget() == null) {
                         Vec3d vec3d1 = this.ghost.getVelocity();
                         this.ghost.setYaw(-((float) MathHelper.atan2(vec3d1.x, vec3d1.z)) * (180F / (float) Math.PI));
-                        this.ghost.bodyYaw = this.ghost.getYaw();
                     } else {
                         double d4 = this.ghost.getTarget().getX() - this.ghost.getX();
                         double d5 = this.ghost.getTarget().getZ() - this.ghost.getZ();
                         this.ghost.setYaw(-((float) MathHelper.atan2(d4, d5)) * (180F / (float) Math.PI));
-                        this.ghost.bodyYaw = this.ghost.getYaw();
                     }
+                    this.ghost.bodyYaw = this.ghost.getYaw();
                 }
             }
         }

@@ -44,17 +44,17 @@ public class LayerDragonEyes extends FeatureRenderer<EntityDragonBase, TabulaMod
             VertexConsumer ivertexbuilder = bufferIn.getBuffer(eyes);
             if (dragon instanceof EntityLightningDragon && this.lightningHead != null) {
                 this.copyPositions(this.lightningHead, this.getContextModel());
-                this.lightningHead.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+                this.lightningHead.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
             } else if (dragon instanceof EntityIceDragon && this.iceHead != null) {
                 this.copyPositions(this.iceHead, this.getContextModel());
-                this.iceHead.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+                this.iceHead.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
             } else if (this.fireHead != null) {
                 this.copyPositions(this.fireHead, this.getContextModel());
-                this.fireHead.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+                this.fireHead.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
             }
             //Fallback method
             else
-                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
         }
     }
 

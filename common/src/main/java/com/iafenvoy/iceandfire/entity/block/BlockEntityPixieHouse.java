@@ -1,21 +1,20 @@
 package com.iafenvoy.iceandfire.entity.block;
 
-import com.iafenvoy.iceandfire.StaticVariables;
 import com.iafenvoy.iceandfire.entity.EntityPixie;
+import com.iafenvoy.iceandfire.network.payload.UpdatePixieHousePayload;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafParticles;
 import com.iafenvoy.uranus.ServerHelper;
-import com.iafenvoy.uranus.network.PacketBufferUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -67,14 +66,15 @@ public class BlockEntityPixieHouse extends BlockEntity {
     }
 
     @Override
-    public void writeNbt(NbtCompound compound) {
-        compound.putInt("HouseType", this.houseType);
-        compound.putBoolean("HasPixie", this.hasPixie);
-        compound.putInt("PixieType", this.pixieType);
-        compound.putBoolean("TamedPixie", this.tamedPixie);
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.writeNbt(nbt, registryLookup);
+        nbt.putInt("HouseType", this.houseType);
+        nbt.putBoolean("HasPixie", this.hasPixie);
+        nbt.putInt("PixieType", this.pixieType);
+        nbt.putBoolean("TamedPixie", this.tamedPixie);
         if (this.pixieOwnerUUID != null)
-            compound.putUuid("PixieOwnerUUID", this.pixieOwnerUUID);
-        Inventories.writeNbt(compound, this.pixieItems);
+            nbt.putUuid("PixieOwnerUUID", this.pixieOwnerUUID);
+        Inventories.writeNbt(nbt, this.pixieItems, registryLookup);
     }
 
     @Override
@@ -83,21 +83,21 @@ public class BlockEntityPixieHouse extends BlockEntity {
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return this.createNbtWithIdentifyingData();
+    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+        return this.createNbtWithIdentifyingData(registryLookup);
     }
 
     @Override
-    public void readNbt(NbtCompound compound) {
-        this.houseType = compound.getInt("HouseType");
-        this.hasPixie = compound.getBoolean("HasPixie");
-        this.pixieType = compound.getInt("PixieType");
-        this.tamedPixie = compound.getBoolean("TamedPixie");
-        if (compound.containsUuid("PixieOwnerUUID"))
-            this.pixieOwnerUUID = compound.getUuid("PixieOwnerUUID");
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
+        this.houseType = nbt.getInt("HouseType");
+        this.hasPixie = nbt.getBoolean("HasPixie");
+        this.pixieType = nbt.getInt("PixieType");
+        this.tamedPixie = nbt.getBoolean("TamedPixie");
+        if (nbt.containsUuid("PixieOwnerUUID"))
+            this.pixieOwnerUUID = nbt.getUuid("PixieOwnerUUID");
         this.pixieItems = DefaultedList.ofSize(1, ItemStack.EMPTY);
-        Inventories.readNbt(compound, this.pixieItems);
-        super.readNbt(compound);
+        Inventories.readNbt(nbt, this.pixieItems, registryLookup);
     }
 
     public void releasePixie() {
@@ -105,18 +105,15 @@ public class BlockEntityPixieHouse extends BlockEntity {
         pixie.updatePositionAndAngles(this.pos.getX() + 0.5F, this.pos.getY() + 1F, this.pos.getZ() + 0.5F, ThreadLocalRandom.current().nextInt(360), 0);
         pixie.setStackInHand(Hand.MAIN_HAND, this.pixieItems.get(0));
         pixie.setColor(this.pixieType);
+        pixie.ticksUntilHouseAI = 500;
+        pixie.setTamed(this.tamedPixie, true);
+        pixie.setOwnerUuid(this.pixieOwnerUUID);
         assert this.world != null;
         if (!this.world.isClient)
             this.world.spawnEntity(pixie);
         this.hasPixie = false;
         this.pixieType = 0;
-        pixie.ticksUntilHouseAI = 500;
-        pixie.setTamed(this.tamedPixie);
-        pixie.setOwnerUuid(this.pixieOwnerUUID);
-        if (!this.world.isClient) {
-            PacketByteBuf buf = PacketBufferUtils.create().writeBlockPos(this.pos);
-            buf.writeBoolean(false).writeInt(0);
-            ServerHelper.sendToAll(StaticVariables.UPDATE_PIXIE_HOUSE, buf);
-        }
+        if (!this.world.isClient)
+            ServerHelper.sendToAll(new UpdatePixieHousePayload(this.pos, false, 0));
     }
 }

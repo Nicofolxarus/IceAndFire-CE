@@ -25,7 +25,7 @@ public class LayerSeaSerpentAncient extends FeatureRenderer<EntitySeaSerpent, Ad
         if (serpent.isAncient()) {
             RenderLayer tex = RenderLayer.getEntityNoOutline(serpent.isBlinking() ? TEXTURE_BLINK : TEXTURE);
             VertexConsumer vertexConsumer = bufferIn.getBuffer(tex);
-            this.getContextModel().render(matrixStackIn, vertexConsumer, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+            this.getContextModel().render(matrixStackIn, vertexConsumer, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
         }
     }
 }

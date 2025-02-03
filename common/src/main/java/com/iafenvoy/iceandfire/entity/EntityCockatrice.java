@@ -32,6 +32,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.EntityEffectParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
@@ -107,6 +108,11 @@ public class EntityCockatrice extends TameableEntity implements IAnimatedEntity,
     @Override
     public int getXpToDrop() {
         return 10;
+    }
+
+    @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return false;
     }
 
     @Override
@@ -228,14 +234,14 @@ public class EntityCockatrice extends TameableEntity implements IAnimatedEntity,
 
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(HEN, Boolean.FALSE);
-        this.dataTracker.startTracking(STARING, Boolean.FALSE);
-        this.dataTracker.startTracking(TARGET_ENTITY, 0);
-        this.dataTracker.startTracking(TAMING_PLAYER, 0);
-        this.dataTracker.startTracking(TAMING_LEVEL, 0);
-        this.dataTracker.startTracking(COMMAND, 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(HEN, Boolean.FALSE);
+        builder.add(STARING, Boolean.FALSE);
+        builder.add(TARGET_ENTITY, 0);
+        builder.add(TAMING_PLAYER, 0);
+        builder.add(TAMING_LEVEL, 0);
+        builder.add(COMMAND, 0);
     }
 
     public boolean hasTargetedEntity() {
@@ -339,8 +345,8 @@ public class EntityCockatrice extends TameableEntity implements IAnimatedEntity,
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setHen(this.getRandom().nextBoolean());
         return spawnDataIn;
     }
@@ -548,7 +554,7 @@ public class EntityCockatrice extends TameableEntity implements IAnimatedEntity,
 
                     while (d4 < d3) {
                         d4 += 1.8D - d5 + this.random.nextDouble() * (1.7D - d5);
-                        this.getWorld().addParticle(ParticleTypes.ENTITY_EFFECT, this.getX() + d0 * d4, this.getY() + d1 * d4 + (double) this.getStandingEyeHeight(), this.getZ() + d2 * d4, 0.0D, 0.0D, 0.0D);
+                        this.getWorld().addParticle(EntityEffectParticleEffect.create(ParticleTypes.ENTITY_EFFECT, 0xFF000000), this.getX() + d0 * d4, this.getY() + d1 * d4 + (double) this.getStandingEyeHeight(), this.getZ() + d2 * d4, 0.0D, 0.0D, 0.0D);
                     }
                 }
             }
@@ -696,10 +702,5 @@ public class EntityCockatrice extends TameableEntity implements IAnimatedEntity,
     @Override
     public boolean canImmediatelyDespawn(double distanceToClosestPlayer) {
         return false;
-    }
-
-    @Override
-    public EntityView method_48926() {
-        return this.getWorld();
     }
 }

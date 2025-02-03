@@ -26,7 +26,7 @@ import java.util.List;
 @SuppressWarnings("ALL")
 public class EntityDreadLichSkull extends PersistentProjectileEntity {
     public EntityDreadLichSkull(EntityType<? extends PersistentProjectileEntity> type, World worldIn) {
-        super(type, worldIn, ItemStack.EMPTY);
+        super(type, worldIn);
         this.setDamage(6F);
     }
 
@@ -37,12 +37,15 @@ public class EntityDreadLichSkull extends PersistentProjectileEntity {
     }
 
     public EntityDreadLichSkull(EntityType<? extends PersistentProjectileEntity> type, World worldIn, LivingEntity shooter, double x, double y, double z) {
-        super(type, shooter, worldIn, ItemStack.EMPTY);
+        super(type, worldIn);
+        this.setOwner(shooter);
         this.setDamage(6);
+        this.setPos(x, y, z);
     }
 
     public EntityDreadLichSkull(EntityType<? extends PersistentProjectileEntity> type, World worldIn, LivingEntity shooter, double dmg) {
-        super(type, shooter, worldIn, ItemStack.EMPTY);
+        super(type, worldIn);
+        this.setOwner(shooter);
         this.setDamage(dmg);
     }
 
@@ -146,18 +149,18 @@ public class EntityDreadLichSkull extends PersistentProjectileEntity {
         }
     }
 
+    @Override
+    protected ItemStack getDefaultItemStack() {
+        return ItemStack.EMPTY;
+    }
+
     protected void damageShield(PlayerEntity player, float damage) {
         if (damage >= 3.0F && player.getActiveItem().getItem() instanceof ShieldItem) {
             int i = 1 + MathHelper.floor(damage);
-            player.getActiveItem().damage(i, player, (playerSheild) -> playerSheild.sendToolBreakStatus(playerSheild.getActiveHand()));
+            player.getActiveItem().damage(i, player, LivingEntity.getSlotForHand(player.getActiveHand()));
 
             if (player.getActiveItem().isEmpty()) {
-                Hand Hand = player.getActiveHand();
-                if (Hand == net.minecraft.util.Hand.MAIN_HAND) {
-                    this.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-                } else {
-                    this.equipStack(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
-                }
+                Hand hand = player.getActiveHand();
                 player.clearActiveItem();
                 this.playSound(SoundEvents.ITEM_SHIELD_BREAK, 0.8F, 0.8F + this.getWorld().random.nextFloat() * 0.4F);
             }

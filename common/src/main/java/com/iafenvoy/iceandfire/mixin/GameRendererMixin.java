@@ -8,8 +8,8 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.render.VertexFormats;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.resource.ResourceFactory;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,7 +28,7 @@ public class GameRendererMixin {
     private Camera camera;
 
     @Inject(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;update(Lnet/minecraft/world/BlockView;Lnet/minecraft/entity/Entity;ZZF)V", shift = At.Shift.AFTER))
-    private void onCameraSetup(float tickDelta, long limitTime, MatrixStack matrices, CallbackInfo ci) {
+    private void onCameraSetup(RenderTickCounter tickCounter, CallbackInfo ci) {
         ClientEvents.onCameraSetup(this.camera);
     }
 

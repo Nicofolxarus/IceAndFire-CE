@@ -23,6 +23,6 @@ public class LayerGenericGlowing<T extends LivingEntity, M extends EntityModel<T
     public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn, LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         RenderLayer eyes = RenderLayer.getEyes(this.texture);
         VertexConsumer ivertexbuilder = bufferIn.getBuffer(eyes);
-        this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+        this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
     }
 }

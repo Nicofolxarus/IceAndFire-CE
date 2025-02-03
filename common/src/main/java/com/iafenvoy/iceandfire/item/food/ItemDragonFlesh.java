@@ -12,7 +12,7 @@ public class ItemDragonFlesh extends ItemGenericFood {
     final int dragonType;
 
     public ItemDragonFlesh(int dragonType) {
-        super(8, 0.8F, true, false, false);
+        super(8, 0.8F, false, false);
         this.dragonType = dragonType;
     }
 

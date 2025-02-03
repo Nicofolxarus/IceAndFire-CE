@@ -4,12 +4,11 @@ import com.iafenvoy.iceandfire.entity.block.BlockEntityPodium;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.enums.Instrument;
+import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -22,7 +21,7 @@ public class BlockPodium extends BlockWithEntity {
     protected static final VoxelShape AABB = Block.createCuboidShape(2, 0, 2, 14, 23, 14);
 
     public BlockPodium() {
-        super(Settings.create().mapColor(MapColor.OAK_TAN).instrument(Instrument.BASS).burnable().nonOpaque().dynamicBounds().strength(2.0F).sounds(BlockSoundGroup.WOOD));
+        super(Settings.create().mapColor(MapColor.OAK_TAN).instrument(NoteBlockInstrument.BASS).burnable().nonOpaque().dynamicBounds().strength(2.0F).sounds(BlockSoundGroup.WOOD));
     }
 
     @Override
@@ -46,10 +45,10 @@ public class BlockPodium extends BlockWithEntity {
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockHitResult hit) {
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!player.isSneaking()) {
-            if (!worldIn.isClient) {
-                NamedScreenHandlerFactory screenHandlerFactory = this.createScreenHandlerFactory(state, worldIn, pos);
+            if (!world.isClient) {
+                NamedScreenHandlerFactory screenHandlerFactory = this.createScreenHandlerFactory(state, world, pos);
                 if (screenHandlerFactory != null)
                     player.openHandledScreen(screenHandlerFactory);
             }

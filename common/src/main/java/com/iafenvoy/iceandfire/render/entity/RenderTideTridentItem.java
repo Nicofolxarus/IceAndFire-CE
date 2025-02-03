@@ -12,8 +12,8 @@ import net.minecraft.client.render.item.BuiltinModelItemRenderer;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.RotationAxis;
 
 public class RenderTideTridentItem extends BuiltinModelItemRenderer {
@@ -28,11 +28,8 @@ public class RenderTideTridentItem extends BuiltinModelItemRenderer {
         stackIn.translate(0.5F, 0.5f, 0.5f);
         if (type == ModelTransformationMode.GUI || type == ModelTransformationMode.FIXED || type == ModelTransformationMode.NONE || type == ModelTransformationMode.GROUND) {
             ItemStack tridentInventory = new ItemStack(IafItems.TIDE_TRIDENT_INVENTORY.get());
-            if (stack.hasEnchantments()) {
-                assert stack.getNbt() != null;
-                NbtList enchantments = stack.getNbt().getList("Enchantments", 10);
-                tridentInventory.setSubNbt("Enchantments", enchantments);
-            }
+            if (stack.hasEnchantments())
+                tridentInventory.set(DataComponentTypes.ENCHANTMENTS, stack.get(DataComponentTypes.ENCHANTMENTS));
             MinecraftClient.getInstance().getItemRenderer().renderItem(tridentInventory, type, type == ModelTransformationMode.GROUND ? combinedLightIn : 240, combinedOverlayIn, stackIn, bufferIn, MinecraftClient.getInstance().world, 0);
         } else {
             stackIn.push();
@@ -42,7 +39,7 @@ public class RenderTideTridentItem extends BuiltinModelItemRenderer {
             else stackIn.translate(0, 0.6F, 0.0F);
             stackIn.multiply(RotationAxis.POSITIVE_X.rotationDegrees(160.0F));
             VertexConsumer glintVertexBuilder = ItemRenderer.getDirectItemGlintConsumer(bufferIn, RenderLayer.getEntityCutoutNoCull(RenderTideTrident.TRIDENT), false, stack.hasGlint());
-            MODEL.render(stackIn, glintVertexBuilder, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            MODEL.render(stackIn, glintVertexBuilder, combinedLightIn, combinedOverlayIn, -1);
             stackIn.pop();
         }
     }

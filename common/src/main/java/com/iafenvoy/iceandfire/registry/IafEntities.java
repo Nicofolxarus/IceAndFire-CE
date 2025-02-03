@@ -8,10 +8,7 @@ import dev.architectury.registry.level.biome.BiomeModifications;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.SpawnRestriction;
+import net.minecraft.entity.*;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.SpawnSettings;
@@ -81,13 +78,13 @@ public final class IafEntities {
     public static final RegistrySupplier<EntityType<EntityGhostSword>> GHOST_SWORD = build("ghost_sword", EntityGhostSword::new, SpawnGroup.MISC, false, 0.5F, 0.5F);
 
     private static <T extends Entity> RegistrySupplier<EntityType<T>> build(String entityName, EntityType.EntityFactory<T> constructor, SpawnGroup category, boolean fireImmune, float sizeX, float sizeY) {
-        EntityType.Builder<T> builder = EntityType.Builder.create(constructor, category).setDimensions(sizeX, sizeY);
+        EntityType.Builder<T> builder = EntityType.Builder.create(constructor, category).dimensions(sizeX, sizeY);
         if (fireImmune) builder.makeFireImmune();
         return register(entityName, () -> builder.build(entityName));
     }
 
     private static <T extends Entity> RegistrySupplier<EntityType<T>> build(String entityName, EntityType.EntityFactory<T> constructor, SpawnGroup category, boolean fireImmune, float sizeX, float sizeY, int trackingRange) {
-        EntityType.Builder<T> builder = EntityType.Builder.create(constructor, category).setDimensions(sizeX, sizeY).maxTrackingRange(trackingRange);
+        EntityType.Builder<T> builder = EntityType.Builder.create(constructor, category).dimensions(sizeX, sizeY).maxTrackingRange(trackingRange);
         if (fireImmune) builder.makeFireImmune();
         return register(entityName, () -> builder.build(entityName));
     }
@@ -140,11 +137,11 @@ public final class IafEntities {
     }
 
     public static void commonSetup() {
-        SpawnRestriction.register(HIPPOGRYPH.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityHippogryph::canMobSpawn);
-        SpawnRestriction.register(TROLL.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityTroll::canTrollSpawnOn);
-        SpawnRestriction.register(DREAD_LICH.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityDreadLich::canLichSpawnOn);
-        SpawnRestriction.register(COCKATRICE.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityCockatrice::canMobSpawn);
-        SpawnRestriction.register(AMPHITHERE.get(), SpawnRestriction.Location.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING, EntityAmphithere::canAmphithereSpawnOn);
+        SpawnRestriction.register(HIPPOGRYPH.get(), SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityHippogryph::canMobSpawn);
+        SpawnRestriction.register(TROLL.get(), SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityTroll::canTrollSpawnOn);
+        SpawnRestriction.register(DREAD_LICH.get(), SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityDreadLich::canLichSpawnOn);
+        SpawnRestriction.register(COCKATRICE.get(), SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityCockatrice::canMobSpawn);
+        SpawnRestriction.register(AMPHITHERE.get(), SpawnLocationTypes.UNRESTRICTED, Heightmap.Type.MOTION_BLOCKING, EntityAmphithere::canAmphithereSpawnOn);
     }
 
     public static void addSpawners() {

@@ -30,20 +30,18 @@ public class EntityGhostSword extends PersistentProjectileEntity {
     private int knockbackStrength;
 
     public EntityGhostSword(EntityType<? extends PersistentProjectileEntity> type, World worldIn) {
-        super(type, worldIn, ItemStack.EMPTY);
+        super(type, worldIn);
         this.setDamage(9F);
     }
 
-    public EntityGhostSword(EntityType<? extends PersistentProjectileEntity> type, World worldIn, double x, double y, double z,
-                            float r, float g, float b) {
+    public EntityGhostSword(EntityType<? extends PersistentProjectileEntity> type, World worldIn, double x, double y, double z, float r, float g, float b) {
         this(type, worldIn);
         this.setPosition(x, y, z);
         this.setDamage(9F);
     }
 
-    public EntityGhostSword(EntityType<? extends PersistentProjectileEntity> type, World worldIn, LivingEntity shooter,
-                            double dmg) {
-        super(type, shooter, worldIn, ItemStack.EMPTY);
+    public EntityGhostSword(EntityType<? extends PersistentProjectileEntity> type, World worldIn, LivingEntity shooter, double dmg, ItemStack from) {
+        super(type, shooter, worldIn, ItemStack.EMPTY, from);
         this.setDamage(dmg);
     }
 
@@ -122,7 +120,6 @@ public class EntityGhostSword extends PersistentProjectileEntity {
         return true;
     }
 
-    @Override
     public void setPunch(int knockbackStrengthIn) {
         this.knockbackStrength = knockbackStrengthIn;
     }
@@ -191,5 +188,10 @@ public class EntityGhostSword extends PersistentProjectileEntity {
             if (!this.getWorld().isClient && this.getVelocity().lengthSquared() < 1.0E-7D)
                 this.remove(RemovalReason.DISCARDED);
         }
+    }
+
+    @Override
+    protected ItemStack getDefaultItemStack() {
+        return ItemStack.EMPTY;
     }
 }

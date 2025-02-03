@@ -9,13 +9,16 @@ import com.iafenvoy.iceandfire.registry.IafStructureTypes;
 import com.iafenvoy.iceandfire.registry.tag.CommonTags;
 import com.iafenvoy.iceandfire.registry.tag.IafBlockTags;
 import com.iafenvoy.iceandfire.world.GenerationConstants;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.structure.StructureContext;
 import net.minecraft.util.Identifier;
@@ -30,8 +33,8 @@ import net.minecraft.world.gen.structure.StructureType;
 import java.util.stream.Collectors;
 
 public class LightningDragonRoostStructure extends DragonRoostStructure {
-    public static final Codec<LightningDragonRoostStructure> CODEC = RecordCodecBuilder.<LightningDragonRoostStructure>mapCodec(instance ->
-            instance.group(configCodecBuilder(instance)).apply(instance, LightningDragonRoostStructure::new)).codec();
+    public static final MapCodec<LightningDragonRoostStructure> CODEC = RecordCodecBuilder.<LightningDragonRoostStructure>mapCodec(instance ->
+            instance.group(configCodecBuilder(instance)).apply(instance, LightningDragonRoostStructure::new));
 
     protected LightningDragonRoostStructure(Config config) {
         super(config);
@@ -64,8 +67,8 @@ public class LightningDragonRoostStructure extends DragonRoostStructure {
         }
 
         @Override
-        protected Identifier getRoostLootTable() {
-            return DRAGON_CHEST;
+        protected RegistryKey<LootTable> getRoostLootTable() {
+            return RegistryKey.of(RegistryKeys.LOOT_TABLE, DRAGON_CHEST);
         }
 
         @Override

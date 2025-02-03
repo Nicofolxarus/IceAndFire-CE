@@ -4,6 +4,7 @@ import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.entity.EntityGhost;
 import com.iafenvoy.iceandfire.registry.IafRenderLayers;
 import com.iafenvoy.iceandfire.render.model.ModelGhost;
+import com.iafenvoy.iceandfire.util.Color4i;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -73,7 +74,7 @@ public class RenderGhost extends MobEntityRenderer<EntityGhost, ModelGhost> {
         }
 
         float f7 = this.getAnimationProgress(entityIn, partialTicks);
-        this.setupTransforms(entityIn, matrixStackIn, f7, f, partialTicks);
+        this.setupTransforms(entityIn, matrixStackIn, f7, f, partialTicks, 1);
         matrixStackIn.scale(-1.0F, -1.0F, 1.0F);
         this.scale(entityIn, matrixStackIn, partialTicks);
         matrixStackIn.translate(0.0D, -1.501F, 0.0D);
@@ -100,30 +101,28 @@ public class RenderGhost extends MobEntityRenderer<EntityGhost, ModelGhost> {
                 matrixStackIn.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F));
                 {
                     matrixStackIn.push();
-                    MatrixStack.Entry matrixstack$entry = matrixStackIn.peek();
-                    Matrix4f matrix4f = matrixstack$entry.getPositionMatrix();
-                    Matrix3f matrix3f = matrixstack$entry.getNormalMatrix();
-                    this.drawVertex(matrix4f, matrix3f, ivertexbuilder, i, (int) (alphaForRender * 255), -1, -2, 0, 1F, 0.0F, 0, 1, 0, 240);
-                    this.drawVertex(matrix4f, matrix3f, ivertexbuilder, i, (int) (alphaForRender * 255), 1, -2, 0, 0.5F, 0.0F, 0, 1, 0, 240);
-                    this.drawVertex(matrix4f, matrix3f, ivertexbuilder, i, (int) (alphaForRender * 255), 1, 2, 0, 0.5F, 1, 0, 1, 0, 240);
-                    this.drawVertex(matrix4f, matrix3f, ivertexbuilder, i, (int) (alphaForRender * 255), -1, 2, 0, 1F, 1, 0, 1, 0, 240);
+                    MatrixStack.Entry entry = matrixStackIn.peek();
+                    Matrix4f matrix4f = entry.getPositionMatrix();
+                    this.drawVertex(matrix4f, entry, ivertexbuilder, i, (int) (alphaForRender * 255), -1, -2, 0, 1F, 0.0F, 0, 1, 0, 240);
+                    this.drawVertex(matrix4f, entry, ivertexbuilder, i, (int) (alphaForRender * 255), 1, -2, 0, 0.5F, 0.0F, 0, 1, 0, 240);
+                    this.drawVertex(matrix4f, entry, ivertexbuilder, i, (int) (alphaForRender * 255), 1, 2, 0, 0.5F, 1, 0, 1, 0, 240);
+                    this.drawVertex(matrix4f, entry, ivertexbuilder, i, (int) (alphaForRender * 255), -1, 2, 0, 1F, 1, 0, 1, 0, 240);
                     matrixStackIn.pop();
                 }
                 matrixStackIn.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F));
                 {
                     matrixStackIn.push();
-                    MatrixStack.Entry matrixstack$entry = matrixStackIn.peek();
-                    Matrix4f matrix4f = matrixstack$entry.getPositionMatrix();
-                    Matrix3f matrix3f = matrixstack$entry.getNormalMatrix();
-                    this.drawVertex(matrix4f, matrix3f, ivertexbuilder, i, (int) (alphaForRender * 255), -1, -2, 0, 0.0F, 0.0F, 0, 1, 0, 240);
-                    this.drawVertex(matrix4f, matrix3f, ivertexbuilder, i, (int) (alphaForRender * 255), 1, -2, 0, 0.5F, 0.0F, 0, 1, 0, 240);
-                    this.drawVertex(matrix4f, matrix3f, ivertexbuilder, i, (int) (alphaForRender * 255), 1, 2, 0, 0.5F, 1, 0, 1, 0, 240);
-                    this.drawVertex(matrix4f, matrix3f, ivertexbuilder, i, (int) (alphaForRender * 255), -1, 2, 0, 0.0F, 1, 0, 1, 0, 240);
+                    MatrixStack.Entry entry = matrixStackIn.peek();
+                    Matrix4f matrix4f = entry.getPositionMatrix();
+                    this.drawVertex(matrix4f, entry, ivertexbuilder, i, (int) (alphaForRender * 255), -1, -2, 0, 0.0F, 0.0F, 0, 1, 0, 240);
+                    this.drawVertex(matrix4f, entry, ivertexbuilder, i, (int) (alphaForRender * 255), 1, -2, 0, 0.5F, 0.0F, 0, 1, 0, 240);
+                    this.drawVertex(matrix4f, entry, ivertexbuilder, i, (int) (alphaForRender * 255), 1, 2, 0, 0.5F, 1, 0, 1, 0, 240);
+                    this.drawVertex(matrix4f, entry, ivertexbuilder, i, (int) (alphaForRender * 255), -1, 2, 0, 0.0F, 1, 0, 1, 0, 240);
                     matrixStackIn.pop();
                 }
                 matrixStackIn.pop();
             } else
-                this.model.render(matrixStackIn, ivertexbuilder, 240, i, 1.0F, 1.0F, 1.0F, alphaForRender);
+                this.model.render(matrixStackIn, ivertexbuilder, 240, i, new Color4i(1.0F, 1.0F, 1.0F, alphaForRender).getIntValue());
         }
 
         if (!entityIn.isSpectator())
@@ -158,7 +157,7 @@ public class RenderGhost extends MobEntityRenderer<EntityGhost, ModelGhost> {
         };
     }
 
-    public void drawVertex(Matrix4f stack, Matrix3f normal, VertexConsumer builder, int packedRed, int alphaInt, int x, int y, int z, float u, float v, int lightmap, int lightmap3, int lightmap2, int lightmap4) {
-        builder.vertex(stack, (float) x, (float) y, (float) z).color(255, 255, 255, alphaInt).texture(u, v).overlay(packedRed).light(lightmap4).normal(normal, (float) lightmap, (float) lightmap2, (float) lightmap3).next();
+    public void drawVertex(Matrix4f stack, MatrixStack.Entry entry, VertexConsumer builder, int packedRed, int alphaInt, int x, int y, int z, float u, float v, int lightmap, int lightmap3, int lightmap2, int lightmap4) {
+        builder.vertex(stack, (float) x, (float) y, (float) z).color(255, 255, 255, alphaInt).texture(u, v).overlay(packedRed).light(lightmap4).normal(entry,  lightmap,  lightmap2,  lightmap3);
     }
 }

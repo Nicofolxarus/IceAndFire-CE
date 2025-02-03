@@ -118,7 +118,7 @@ public class RenderStoneStatue extends EntityRenderer<EntityStoneStatue> {
             if (model instanceof ModelHydraBody hydraBody && fakeEntity instanceof EntityHydra hydra)
                 LayerHydraHead.renderHydraHeads(hydraBody, true, matrixStackIn, bufferIn, packedLightIn, hydra, 0, 0, partialTicks, 0, 0, 0);
         } else
-            model.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+            model.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
 
         matrixStackIn.pop();
 
@@ -135,7 +135,7 @@ public class RenderStoneStatue extends EntityRenderer<EntityStoneStatue> {
             if (model instanceof ICustomStatueModel statueModel)
                 statueModel.renderStatue(matrixStackIn, ivertexbuilder2, packedLightIn, fakeEntity);
             else
-                model.render(matrixStackIn, ivertexbuilder2, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+                model.render(matrixStackIn, ivertexbuilder2, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
             matrixStackIn.pop();
             matrixStackIn.pop();
         }

@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.world;
 
 import com.iafenvoy.iceandfire.registry.IafPlacementFilters;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.Heightmap;
@@ -17,7 +17,7 @@ import net.minecraft.world.gen.placementmodifier.PlacementModifierType;
  */
 public class CustomBiomeFilter extends AbstractConditionalPlacementModifier {
     private static final CustomBiomeFilter INSTANCE = new CustomBiomeFilter();
-    public static final Codec<CustomBiomeFilter> CODEC = Codec.unit(() -> INSTANCE);
+    public static final MapCodec<CustomBiomeFilter> CODEC = MapCodec.unit(() -> INSTANCE);
 
     private CustomBiomeFilter() { /* Nothing to do */ }
 

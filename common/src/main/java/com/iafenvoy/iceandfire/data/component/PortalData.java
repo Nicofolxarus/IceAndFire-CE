@@ -5,7 +5,6 @@ import com.iafenvoy.iceandfire.impl.ComponentManager;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafWorld;
 import com.iafenvoy.iceandfire.world.processor.DreadPortalProcessor;
-import com.iafenvoy.iceandfire.world.util.DimensionUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
@@ -33,11 +32,11 @@ public class PortalData {
             this.teleported = true;
             MinecraftServer server = serverWorld.getServer();
             if (world.getRegistryKey().getValue().equals(IafWorld.DREAD_LAND.getValue()))
-                DimensionUtil.changeDimension(this.player, server.getWorld(World.OVERWORLD), new TeleportTarget(this.player.getPos(), Vec3d.ZERO, this.player.headYaw, this.player.getPitch()));
+                this.player.teleportTo(new TeleportTarget(serverWorld, this.player.getPos(), Vec3d.ZERO, this.player.headYaw, this.player.getPitch(), TeleportTarget.SEND_TRAVEL_THROUGH_PORTAL_PACKET));
             else {
                 ServerWorld dreadLand = server.getWorld(IafWorld.DREAD_LAND);
                 if (dreadLand == null) return;
-                DimensionUtil.changeDimension(this.player, dreadLand, new TeleportTarget(this.player.getPos(), Vec3d.ZERO, this.player.headYaw, this.player.getPitch()));
+                this.player.teleportTo(new TeleportTarget(serverWorld, this.player.getPos(), Vec3d.ZERO, this.player.headYaw, this.player.getPitch(), TeleportTarget.SEND_TRAVEL_THROUGH_PORTAL_PACKET));
                 if (!dreadLand.getBlockState(this.player.getBlockPos()).isOf(IafBlocks.DREAD_PORTAL.get()))
                     server.getStructureTemplateManager().getTemplate(Identifier.of(IceAndFire.MOD_ID, "dread_exit_portal")).ifPresent(structureTemplate -> structureTemplate.place(dreadLand, this.player.getBlockPos().subtract(new BlockPos(2, 1, 2)), BlockPos.ORIGIN, new StructurePlacementData().addProcessor(new DreadPortalProcessor()), dreadLand.random, 2));
                 this.player.sendMessage(Text.translatable("warning.iceandfire.dreadland.not_complete"));

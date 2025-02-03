@@ -27,20 +27,12 @@ public class EntityPixieCharge extends AbstractFireballEntity {
     }
 
     public EntityPixieCharge(EntityType<? extends AbstractFireballEntity> t, World worldIn, double posX, double posY, double posZ, double accelX, double accelY, double accelZ) {
-        super(t, posX, posY, posZ, accelX, accelY, accelZ, worldIn);
-        double d0 = Math.sqrt(accelX * accelX + accelY * accelY + accelZ * accelZ);
-        this.powerX = accelX / d0 * 0.07D;
-        this.powerY = accelY / d0 * 0.07D;
-        this.powerZ = accelZ / d0 * 0.07D;
+        super(t, posX, posY, posZ, new Vec3d(accelX, accelY, accelZ), worldIn);
         this.rgb = EntityPixie.PARTICLE_RGB[this.random.nextInt(EntityPixie.PARTICLE_RGB.length - 1)];
     }
 
     public EntityPixieCharge(EntityType<? extends AbstractFireballEntity> t, World worldIn, PlayerEntity shooter, double accelX, double accelY, double accelZ) {
-        super(t, shooter, accelX, accelY, accelZ, worldIn);
-        double d0 = Math.sqrt(accelX * accelX + accelY * accelY + accelZ * accelZ);
-        this.powerX = accelX / d0 * 0.07D;
-        this.powerY = accelY / d0 * 0.07D;
-        this.powerZ = accelZ / d0 * 0.07D;
+        super(t, shooter, new Vec3d(accelX, accelY, accelZ), worldIn);
         this.rgb = EntityPixie.PARTICLE_RGB[this.random.nextInt(EntityPixie.PARTICLE_RGB.length - 1)];
     }
 
@@ -77,12 +69,8 @@ public class EntityPixieCharge extends AbstractFireballEntity {
             double d2 = this.getZ() + vector3d.z;
             ProjectileUtil.setRotationFromVelocity(this, 0.2F);
             float f = this.getDrag();
-            this.setVelocity(vector3d.add(this.powerX, this.powerY, this.powerZ).multiply(f));
+            this.setVelocity(vector3d.add(vector3d.normalize().multiply(this.movementMultiplier)).multiply(f));
 
-            this.powerX *= 0.95F;
-            this.powerY *= 0.95F;
-            this.powerZ *= 0.95F;
-            this.addVelocity(this.powerX, this.powerY, this.powerZ);
             ++this.ticksInAir;
 
             if (this.isTouchingWater())

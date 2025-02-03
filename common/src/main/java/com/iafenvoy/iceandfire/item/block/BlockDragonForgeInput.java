@@ -10,14 +10,13 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.enums.Instrument;
+import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -28,7 +27,7 @@ public class BlockDragonForgeInput extends BlockWithEntity implements IDragonPro
     private final int dragonType;
 
     public BlockDragonForgeInput(int dragonType) {
-        super(Settings.create().mapColor(MapColor.STONE_GRAY).instrument(Instrument.BASEDRUM).dynamicBounds().strength(40, 500).sounds(BlockSoundGroup.METAL));
+        super(Settings.create().mapColor(MapColor.STONE_GRAY).instrument(NoteBlockInstrument.BASEDRUM).dynamicBounds().strength(40, 500).sounds(BlockSoundGroup.METAL));
         this.dragonType = dragonType;
         this.setDefaultState(this.getStateManager().getDefaultState().with(ACTIVE, Boolean.FALSE));
     }
@@ -38,9 +37,9 @@ public class BlockDragonForgeInput extends BlockWithEntity implements IDragonPro
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hitResult) {
-        if (this.getConnectedTileEntity(world, hitResult.getBlockPos()) != null) {
-            BlockEntityDragonForge forge = this.getConnectedTileEntity(world, hitResult.getBlockPos());
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+        if (this.getConnectedTileEntity(world, pos) != null) {
+            BlockEntityDragonForge forge = this.getConnectedTileEntity(world, pos);
             if (forge != null && forge.getPropertyDelegate().fireType == this.dragonType) {
                 if (!world.isClient) {
                     NamedScreenHandlerFactory inamedcontainerprovider = this.createScreenHandlerFactory(forge.getCachedState(), world, forge.getPos());

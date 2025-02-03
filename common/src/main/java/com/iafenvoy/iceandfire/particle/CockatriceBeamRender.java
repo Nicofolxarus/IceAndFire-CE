@@ -12,14 +12,13 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
-import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 public class CockatriceBeamRender {
     public static final RenderLayer TEXTURE_BEAM = RenderLayer.getEntityCutoutNoCull(Identifier.of(IceAndFire.MOD_ID, "textures/models/cockatrice/beam.png"));
 
-    private static void vertex(VertexConsumer consumer, Matrix4f matrix4f, Matrix3f matrix3f, float x, float y, float z, int red, int green, int blue, float u, float v) {
-        consumer.vertex(matrix4f, x, y, z).color(red, green, blue, 255).texture(u, v).overlay(OverlayTexture.DEFAULT_UV).light(15728880).normal(matrix3f, 0.0F, 1.0F, 0.0F).next();
+    private static void vertex(VertexConsumer consumer, Matrix4f matrix4f, MatrixStack.Entry entry, float x, float y, float z, int red, int green, int blue, float u, float v) {
+        consumer.vertex(matrix4f, x, y, z).color(red, green, blue, 255).texture(u, v).overlay(OverlayTexture.DEFAULT_UV).light(15728880).normal(entry, 0.0F, 1.0F, 0.0F);
     }
 
     public static void render(Entity entityIn, Entity targetEntity, MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, float partialTicks) {
@@ -67,22 +66,21 @@ public class CockatriceBeamRender {
         VertexConsumer buffer = bufferIn.getBuffer(TEXTURE_BEAM);
         MatrixStack.Entry entry = matrixStackIn.peek();
         Matrix4f matrix4f = entry.getPositionMatrix();
-        Matrix3f matrix3f = entry.getNormalMatrix();
-        vertex(buffer, matrix4f, matrix3f, f19, f4, f20, j, k, l, 0.4999F, f30);
-        vertex(buffer, matrix4f, matrix3f, f19, 0.0F, f20, j, k, l, 0.4999F, f29);
-        vertex(buffer, matrix4f, matrix3f, f21, 0.0F, f22, j, k, l, 0.0F, f29);
-        vertex(buffer, matrix4f, matrix3f, f21, f4, f22, j, k, l, 0.0F, f30);
-        vertex(buffer, matrix4f, matrix3f, f23, f4, f24, j, k, l, 0.4999F, f30);
-        vertex(buffer, matrix4f, matrix3f, f23, 0.0F, f24, j, k, l, 0.4999F, f29);
-        vertex(buffer, matrix4f, matrix3f, f25, 0.0F, f26, j, k, l, 0.0F, f29);
-        vertex(buffer, matrix4f, matrix3f, f25, f4, f26, j, k, l, 0.0F, f30);
+        vertex(buffer, matrix4f, entry, f19, f4, f20, j, k, l, 0.4999F, f30);
+        vertex(buffer, matrix4f, entry, f19, 0.0F, f20, j, k, l, 0.4999F, f29);
+        vertex(buffer, matrix4f, entry, f21, 0.0F, f22, j, k, l, 0.0F, f29);
+        vertex(buffer, matrix4f, entry, f21, f4, f22, j, k, l, 0.0F, f30);
+        vertex(buffer, matrix4f, entry, f23, f4, f24, j, k, l, 0.4999F, f30);
+        vertex(buffer, matrix4f, entry, f23, 0.0F, f24, j, k, l, 0.4999F, f29);
+        vertex(buffer, matrix4f, entry, f25, 0.0F, f26, j, k, l, 0.0F, f29);
+        vertex(buffer, matrix4f, entry, f25, f4, f26, j, k, l, 0.0F, f30);
         float f31 = 0.0F;
         if (entityIn.age % 2 == 0) f31 = 0.5F;
 
-        vertex(buffer, matrix4f, matrix3f, f11, f4, f12, j, k, l, 0.5F, f31 + 0.5F);
-        vertex(buffer, matrix4f, matrix3f, f13, f4, f14, j, k, l, 1.0F, f31 + 0.5F);
-        vertex(buffer, matrix4f, matrix3f, f17, f4, f18, j, k, l, 1.0F, f31);
-        vertex(buffer, matrix4f, matrix3f, f15, f4, f16, j, k, l, 0.5F, f31);
+        vertex(buffer, matrix4f, entry, f11, f4, f12, j, k, l, 0.5F, f31 + 0.5F);
+        vertex(buffer, matrix4f, entry, f13, f4, f14, j, k, l, 1.0F, f31 + 0.5F);
+        vertex(buffer, matrix4f, entry, f17, f4, f18, j, k, l, 1.0F, f31);
+        vertex(buffer, matrix4f, entry, f15, f4, f16, j, k, l, 0.5F, f31);
         matrixStackIn.pop();
     }
 

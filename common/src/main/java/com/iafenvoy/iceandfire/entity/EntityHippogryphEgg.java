@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.entity;
 
+import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import net.minecraft.entity.Entity;
@@ -57,18 +58,10 @@ public class EntityHippogryphEgg extends EggEntity {
             EntityHippogryph hippogryph = new EntityHippogryph(IafEntities.HIPPOGRYPH.get(), this.getWorld());
             hippogryph.setBreedingAge(-24000);
             hippogryph.refreshPositionAndAngles(this.getX(), this.getY(), this.getZ(), this.getYaw(), 0.0F);
-            if (this.itemstack != null) {
-                NbtCompound tag = this.itemstack.getNbt();
-                String variant = "";
-                if (tag != null)
-                    variant = tag.getString("EggType");
-                hippogryph.setVariant(variant);
-            }
-
-            if (thrower instanceof PlayerEntity) {
-                hippogryph.setOwner((PlayerEntity) thrower);
-            }
-
+            if (this.itemstack != null)
+                hippogryph.setVariant(this.itemstack.get(IafDataComponents.STRING.get()));
+            if (thrower instanceof PlayerEntity player)
+                hippogryph.setOwner(player);
             this.getWorld().spawnEntity(hippogryph);
         }
 

@@ -13,8 +13,10 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
@@ -23,7 +25,6 @@ import net.minecraft.structure.StructurePiece;
 import net.minecraft.structure.StructurePieceType;
 import net.minecraft.structure.StructurePiecesCollector;
 import net.minecraft.util.BlockRotation;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -245,7 +246,7 @@ public abstract class DragonCaveStructure extends Structure {
 
         protected abstract BlockState getPaletteBlock(Random random);
 
-        protected abstract Identifier getChestTable(boolean male);
+        protected abstract RegistryKey<LootTable> getChestTable(boolean male);
 
         protected abstract EntityType<? extends EntityDragonBase> getDragonType();
     }

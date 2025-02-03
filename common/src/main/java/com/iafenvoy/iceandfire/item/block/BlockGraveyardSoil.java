@@ -31,7 +31,7 @@ public class BlockGraveyardSoil extends Block {
                     EntityGhost ghost = IafEntities.GHOST.get().create(worldIn);
                     assert ghost != null;
                     ghost.updatePositionAndAngles(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, ThreadLocalRandom.current().nextFloat() * 360F, 0);
-                    ghost.initialize(worldIn, worldIn.getLocalDifficulty(pos), SpawnReason.SPAWNER, null, null);
+                    ghost.initialize(worldIn, worldIn.getLocalDifficulty(pos), SpawnReason.SPAWNER, null);
                     worldIn.spawnEntity(ghost);
                     ghost.setAnimation(EntityGhost.ANIMATION_SCARE);
                     ghost.setPositionTarget(pos, 16);

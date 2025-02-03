@@ -5,7 +5,6 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 
 public class ModelStonePlayer extends BipedEntityModel<EntityStoneStatue> {
-
     public ModelStonePlayer(ModelPart p_170677_) {
         super(p_170677_);
     }

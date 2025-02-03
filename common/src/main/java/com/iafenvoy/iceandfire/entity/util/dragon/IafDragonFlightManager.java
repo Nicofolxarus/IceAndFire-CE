@@ -10,6 +10,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
+import net.minecraft.entity.ai.pathing.PathContext;
 import net.minecraft.entity.ai.pathing.PathNodeMaker;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -159,7 +160,7 @@ public class IafDragonFlightManager {
                 EntityNavigation pathnavigate = this.entity.getNavigation();
                 if (pathnavigate != null) {
                     PathNodeMaker nodeprocessor = pathnavigate.getNodeMaker();
-                    if (nodeprocessor != null && nodeprocessor.getDefaultNodeType(this.entity.getWorld(), MathHelper.floor(this.entity.getX() + (double) f7), MathHelper.floor(this.entity.getY()), MathHelper.floor(this.entity.getZ() + (double) f8)) != PathNodeType.WALKABLE) {
+                    if (nodeprocessor != null && nodeprocessor.getDefaultNodeType(new PathContext(this.entity.getWorld(), this.entity), MathHelper.floor(this.entity.getX() + (double) f7), MathHelper.floor(this.entity.getY()), MathHelper.floor(this.entity.getZ() + (double) f8)) != PathNodeType.WALKABLE) {
                         this.forwardMovement = 1.0F;
                         this.sidewaysMovement = 0.0F;
                         f1 = f;

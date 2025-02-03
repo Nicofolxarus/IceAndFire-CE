@@ -75,7 +75,6 @@ public class EntitySiren extends HostileEntity implements IAnimatedEntity, IVill
         super(t, worldIn);
         this.switchNavigator(true);
         if (worldIn.isClient) this.tail_buffer = new ChainBuffer();
-        this.setStepHeight(1F);
     }
 
     public static boolean isWearingEarplugs(LivingEntity entity) {
@@ -90,7 +89,8 @@ public class EntitySiren extends HostileEntity implements IAnimatedEntity, IVill
                 //SPEED
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
                 //ATTACK
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0D);
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0D)
+                .add(EntityAttributes.GENERIC_STEP_HEIGHT,1);
     }
 
     public static float updateRotation(float angle, float targetAngle, float maxIncrease) {
@@ -412,20 +412,20 @@ public class EntitySiren extends HostileEntity implements IAnimatedEntity, IVill
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(HAIR_COLOR, 0);
-        this.dataTracker.startTracking(SING_POSE, 0);
-        this.dataTracker.startTracking(AGGRESSIVE, Boolean.FALSE);
-        this.dataTracker.startTracking(SINGING, Boolean.FALSE);
-        this.dataTracker.startTracking(SWIMMING, Boolean.FALSE);
-        this.dataTracker.startTracking(CHARMED, Boolean.FALSE);
-        this.dataTracker.startTracking(CLIMBING, (byte) 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(HAIR_COLOR, 0);
+        builder.add(SING_POSE, 0);
+        builder.add(AGGRESSIVE, Boolean.FALSE);
+        builder.add(SINGING, Boolean.FALSE);
+        builder.add(SWIMMING, Boolean.FALSE);
+        builder.add(CHARMED, Boolean.FALSE);
+        builder.add(CLIMBING, (byte) 0);
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setHairColor(this.getRandom().nextInt(3));
         this.setSingingPose(this.getRandom().nextInt(3));
         return spawnDataIn;

@@ -4,6 +4,7 @@ import com.iafenvoy.iceandfire.IceAndFire;
 import net.minecraft.datafixer.DataFixTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.PersistentState;
@@ -23,7 +24,7 @@ public class DragonPosWorldData extends PersistentState {
     public DragonPosWorldData() {
     }
 
-    public DragonPosWorldData(NbtCompound compoundTag) {
+    public DragonPosWorldData(NbtCompound compoundTag, RegistryWrapper.WrapperLookup registryLookup) {
         this.load(compoundTag);
     }
 
@@ -73,7 +74,7 @@ public class DragonPosWorldData extends PersistentState {
     }
 
     @Override
-    public NbtCompound writeNbt(NbtCompound compound) {
+    public NbtCompound writeNbt(NbtCompound compound, RegistryWrapper.WrapperLookup registryLookup) {
         compound.putInt("Tick", this.tickCounter);
         NbtList nbttaglist = new NbtList();
         for (Map.Entry<UUID, BlockPos> pair : this.lastDragonPositions.entrySet()) {

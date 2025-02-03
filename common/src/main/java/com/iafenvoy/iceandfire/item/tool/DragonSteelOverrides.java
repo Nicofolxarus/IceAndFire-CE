@@ -6,8 +6,7 @@ import com.iafenvoy.iceandfire.data.component.IafEntityData;
 import com.iafenvoy.iceandfire.entity.EntityDeathWorm;
 import com.iafenvoy.iceandfire.event.ServerEvents;
 import com.iafenvoy.iceandfire.registry.IafItems;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.EntityGroup;
+import com.iafenvoy.iceandfire.registry.IafToolMaterials;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
@@ -17,9 +16,9 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
+import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.world.World;
 
 import java.util.List;
 
@@ -35,9 +34,9 @@ public interface DragonSteelOverrides<T extends ToolItem> {
 
     default float getAttackDamage(T item) {
         if (item instanceof SwordItem swordItem)
-            return swordItem.getAttackDamage();
+            return swordItem.getMaterial().getAttackDamage();
         if (item instanceof MiningToolItem toolItem)
-            return toolItem.getAttackDamage();
+            return toolItem.getMaterial().getAttackDamage();
         return item.getMaterial().getAttackDamage();
     }
 
@@ -58,12 +57,12 @@ public interface DragonSteelOverrides<T extends ToolItem> {
     }
 
     default void hurtEnemy(T item, ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (item.getMaterial() == IafItems.SILVER_TOOL_MATERIAL)
-            if (target.getGroup() == EntityGroup.UNDEAD)
+        if (item.getMaterial() == IafToolMaterials.SILVER_TOOL_MATERIAL)
+            if (target.getType().isIn(EntityTypeTags.UNDEAD))
                 target.damage(attacker.getWorld().getDamageSources().magic(), this.getAttackDamage(item) + 3.0F);
 
-        if (item.getMaterial() == IafItems.MYRMEX_CHITIN_TOOL_MATERIAL) {
-            if (target.getGroup() != EntityGroup.ARTHROPOD)
+        if (item.getMaterial() == IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL) {
+            if (target.getType().isIn(EntityTypeTags.ARTHROPOD))
                 target.damage(attacker.getWorld().getDamageSources().generic(), this.getAttackDamage(item) + 5.0F);
             if (target instanceof EntityDeathWorm)
                 target.damage(attacker.getWorld().getDamageSources().generic(), this.getAttackDamage(item) + 5.0F);
@@ -102,10 +101,10 @@ public interface DragonSteelOverrides<T extends ToolItem> {
         }
     }
 
-    default void appendHoverText(ToolMaterial tier, ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
-        if (tier == IafItems.SILVER_TOOL_MATERIAL)
+    default void appendHoverText(ToolMaterial tier, List<Text> tooltip) {
+        if (tier == IafToolMaterials.SILVER_TOOL_MATERIAL)
             tooltip.add(Text.translatable("silvertools.hurt").formatted(Formatting.GREEN));
-        if (tier == IafItems.MYRMEX_CHITIN_TOOL_MATERIAL)
+        if (tier == IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL)
             tooltip.add(Text.translatable("myrmextools.hurt").formatted(Formatting.GREEN));
         if (this.isDragonSteelFire(tier)) {
             if (IafCommonConfig.INSTANCE.armors.dragonFireAbility.getValue())

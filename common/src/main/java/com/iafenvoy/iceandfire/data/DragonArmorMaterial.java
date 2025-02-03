@@ -54,6 +54,7 @@ public class DragonArmorMaterial {
                     Identifier.of(IceAndFire.MOD_ID, "textures/models/dragon_armor/armor_neck_" + this.name + ".png");
             case HEAD ->
                     Identifier.of(IceAndFire.MOD_ID, "textures/models/dragon_armor/armor_head_" + this.name + ".png");
+            case BODY -> Identifier.of("");
         };
     }
 }

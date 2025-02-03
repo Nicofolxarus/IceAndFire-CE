@@ -90,11 +90,11 @@ public class EntityDragonEgg extends LivingEntity implements IBlacklistedFromSta
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.getDataTracker().startTracking(DRAGON_TYPE, DragonColor.RED.toString());
-        this.getDataTracker().startTracking(DRAGON_AGE, 0);
-        this.getDataTracker().startTracking(OWNER_UNIQUE_ID, Optional.empty());
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(DRAGON_TYPE, DragonColor.RED.toString());
+        builder.add(DRAGON_AGE, 0);
+        builder.add(OWNER_UNIQUE_ID, Optional.empty());
     }
 
     public UUID getOwnerId() {
@@ -185,7 +185,7 @@ public class EntityDragonEgg extends LivingEntity implements IBlacklistedFromSta
                 dragon.setCustomName(this.getCustomName());
             }
 
-            dragon.setTamed(true);
+            dragon.setTamed(true, true);
             dragon.setOwnerUuid(this.getOwnerId());
 
             if (dragonType == DragonType.LIGHTNING) {

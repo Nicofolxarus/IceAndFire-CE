@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,8 +29,8 @@ public abstract class InGameHudMixin {
     @Final
     private MinecraftClient client;
 
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getFrozenTicks()I"))
-    private void renderDreadPortalOverlay(DrawContext context, float tickDelta, CallbackInfo ci) {
+    @Inject(method = "renderMiscOverlays", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getFrozenTicks()I"))
+    private void renderDreadPortalOverlay(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         if (this.client.player == null) return;
         int renderTick = PortalRenderTick.getTick(), i = this.client.player.getMinFreezeDamageTicks();
         if (renderTick > 0) this.renderOverlay(context, POWDER_SNOW_OUTLINE, (float) Math.min(renderTick, i) / i);

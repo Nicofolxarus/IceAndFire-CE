@@ -1,7 +1,6 @@
 package com.iafenvoy.iceandfire.entity;
 
-import com.iafenvoy.iceandfire.StaticVariables;
-import com.iafenvoy.uranus.network.PacketBufferUtils;
+import com.iafenvoy.iceandfire.network.payload.MultipartInteractPayload;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -14,7 +13,6 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
@@ -64,15 +62,9 @@ public abstract class EntityMultipartPart extends Entity {
 
     public static boolean sharesRider(Entity parent, Entity entityIn) {
         for (Entity entity : parent.getPassengerList()) {
-            if (entity.equals(entityIn)) {
-                return true;
-            }
-
-            if (sharesRider(entity, entityIn)) {
-                return true;
-            }
+            if (entity.equals(entityIn)) return true;
+            if (sharesRider(entity, entityIn)) return true;
         }
-
         return false;
     }
 
@@ -90,15 +82,15 @@ public abstract class EntityMultipartPart extends Entity {
 
     @Override
     public EntityDimensions getDimensions(EntityPose poseIn) {
-        return new EntityDimensions(this.getScaleX(), this.getScaleY(), false);
+        return EntityDimensions.changing(this.getScaleX(), this.getScaleY());
     }
 
     @Override
-    protected void initDataTracker() {
-        this.dataTracker.startTracking(PARENT_UUID, Optional.empty());
-        this.dataTracker.startTracking(SCALE_WIDTH, 0.5F);
-        this.dataTracker.startTracking(SCALE_HEIGHT, 0.5F);
-        this.dataTracker.startTracking(PART_YAW, 0F);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        builder.add(PARENT_UUID, Optional.empty());
+        builder.add(SCALE_WIDTH, 0.5F);
+        builder.add(SCALE_HEIGHT, 0.5F);
+        builder.add(PART_YAW, 0F);
     }
 
     public UUID getParentId() {
@@ -226,22 +218,16 @@ public abstract class EntityMultipartPart extends Entity {
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
         Entity parent = this.getParent();
-        if (this.getWorld().isClient && this.getParentId() != null) {
-            PacketByteBuf buf = PacketBufferUtils.create();
-            buf.writeUuid(this.getParentId()).writeFloat(0);
-            NetworkManager.sendToServer(StaticVariables.MULTIPART_INTERACT, buf);
-        }
+        if (this.getWorld().isClient && this.getParentId() != null)
+            NetworkManager.sendToServer(new MultipartInteractPayload(this.getParentId(), 0));
         return parent != null ? parent.interact(player, hand) : ActionResult.PASS;
     }
 
     @Override
     public boolean damage(DamageSource source, float damage) {
         Entity parent = this.getParent();
-        if (this.getWorld().isClient && this.getParentId() != null && source.getAttacker() instanceof PlayerEntity) {
-            PacketByteBuf buf = PacketBufferUtils.create();
-            buf.writeUuid(this.getParentId()).writeFloat(damage * this.damageMultiplier);
-            NetworkManager.sendToServer(StaticVariables.MULTIPART_INTERACT, buf);
-        }
+        if (this.getWorld().isClient && this.getParentId() != null && source.getAttacker() instanceof PlayerEntity)
+            NetworkManager.sendToServer(new MultipartInteractPayload(this.getParentId(), damage * this.damageMultiplier));
         return parent != null && parent.damage(source, damage * this.damageMultiplier);
     }
 

@@ -7,7 +7,7 @@ import com.iafenvoy.iceandfire.registry.IafItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
-import net.minecraft.block.enums.Instrument;
+import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.BlockSoundGroup;
@@ -16,7 +16,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -27,11 +26,10 @@ public class BlockDreadWoodLock extends Block implements IDragonProof, IDreadBlo
     public static final BooleanProperty PLAYER_PLACED = BooleanProperty.of("player_placed");
 
     public BlockDreadWoodLock() {
-        super(Settings.create().mapColor(MapColor.OAK_TAN).instrument(Instrument.BASS).burnable().strength(-1.0F, 1000000F).sounds(BlockSoundGroup.WOOD));
+        super(Settings.create().mapColor(MapColor.OAK_TAN).instrument(NoteBlockInstrument.BASS).burnable().strength(-1.0F, 1000000F).sounds(BlockSoundGroup.WOOD));
         this.setDefaultState(this.getStateManager().getDefaultState().with(PLAYER_PLACED, Boolean.FALSE));
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public float calcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView worldIn, BlockPos pos) {
         if (state.get(PLAYER_PLACED)) {
@@ -43,8 +41,8 @@ public class BlockDreadWoodLock extends Block implements IDragonProof, IDreadBlo
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hitResult) {
-        ItemStack stack = player.getStackInHand(hand);
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+        ItemStack stack = player.getActiveItem();
         if (stack.getItem() == IafItems.DREAD_KEY.get()) {
             if (!player.isCreative())
                 stack.decrement(1);

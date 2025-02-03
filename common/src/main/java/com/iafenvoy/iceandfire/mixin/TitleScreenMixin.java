@@ -4,7 +4,6 @@ import com.iafenvoy.iceandfire.config.IafClientConfig;
 import com.iafenvoy.iceandfire.screen.TitleScreenRenderManager;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.RotatingCubeMapRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.SplashTextRenderer;
 import net.minecraft.client.gui.screen.TitleScreen;
@@ -12,7 +11,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,7 +24,6 @@ public abstract class TitleScreenMixin extends Screen {
     private SplashTextRenderer splashText;
 
     @Shadow
-    @Final
     private boolean doBackgroundFade;
 
     @Shadow
@@ -50,12 +47,12 @@ public abstract class TitleScreenMixin extends Screen {
         TitleScreenRenderManager.tick();
     }
 
-    @WrapWithCondition(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/RotatingCubeMapRenderer;render(FF)V"))
-    private boolean cancelOriginalRender(RotatingCubeMapRenderer instance, float delta, float alpha) {
+    @WrapWithCondition(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/TitleScreen;renderPanoramaBackground(Lnet/minecraft/client/gui/DrawContext;F)V"))
+    private boolean cancelOriginalRender(TitleScreen instance, DrawContext context, float delta) {
         return !IafClientConfig.INSTANCE.customMainMenu.getValue();
     }
 
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/RotatingCubeMapRenderer;render(FF)V",shift = At.Shift.AFTER))
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/TitleScreen;renderPanoramaBackground(Lnet/minecraft/client/gui/DrawContext;F)V", shift = At.Shift.AFTER))
     private void onRenderBackground(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (!IafClientConfig.INSTANCE.customMainMenu.getValue()) return;
         TitleScreenRenderManager.renderBackground(context, this.width, this.height);

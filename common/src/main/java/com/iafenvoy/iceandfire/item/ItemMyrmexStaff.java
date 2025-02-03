@@ -1,16 +1,18 @@
 package com.iafenvoy.iceandfire.item;
 
+import com.iafenvoy.iceandfire.IceAndFire;
+import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.screen.handler.MyrmexAddRoomScreenHandler;
 import com.iafenvoy.iceandfire.screen.handler.MyrmexStaffScreenHandler;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -25,20 +27,7 @@ import java.util.UUID;
 
 public class ItemMyrmexStaff extends Item {
     public ItemMyrmexStaff(boolean jungle) {
-        super(new Settings().maxCount(1));
-    }
-
-    @Override
-    public void onCraft(ItemStack itemStack, World world) {
-        itemStack.setNbt(new NbtCompound());
-    }
-
-    @Override
-    public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
-        if (stack.getNbt() == null) {
-            stack.setNbt(new NbtCompound());
-            stack.getNbt().putUuid("HiveUUID", new UUID(0, 0));
-        }
+        super(new Settings().maxCount(1).component(IafDataComponents.UUID.get(), new UUID(0, 0)));
     }
 
     @Override
@@ -46,14 +35,14 @@ public class ItemMyrmexStaff extends Item {
         ItemStack itemStackIn = playerIn.getStackInHand(hand);
         if (playerIn.isSneaking())
             return super.use(worldIn, playerIn, hand);
-        if (itemStackIn.getNbt() != null && itemStackIn.getNbt().containsUuid("HiveUUID")) {
-            UUID id = itemStackIn.getNbt().getUuid("HiveUUID");
+        if (itemStackIn.contains(IafDataComponents.UUID.get())) {
+            UUID id = itemStackIn.get(IafDataComponents.UUID.get());
             if (id != null && !id.equals(new UUID(0, 0)) && playerIn instanceof ServerPlayerEntity serverPlayer)
                 MenuRegistry.openExtendedMenu(serverPlayer, new ExtendedMenuProvider() {
                     @Override
                     public void saveExtraData(PacketByteBuf buf) {
                         NbtCompound compound = new NbtCompound();
-                        itemStackIn.writeNbt(compound);
+                        compound.put("data", ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, itemStackIn).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtCompound()));
                         buf.writeNbt(compound);
                         buf.writeUuid(id);
                     }
@@ -79,16 +68,16 @@ public class ItemMyrmexStaff extends Item {
         if (!context.getPlayer().isSneaking()) {
             return super.useOnBlock(context);
         } else {
-            NbtCompound tag = context.getPlayer().getStackInHand(context.getHand()).getNbt();
-            if (tag != null && tag.containsUuid("HiveUUID")) {
-                UUID id = tag.getUuid("HiveUUID");
+            ItemStack stack = context.getPlayer().getStackInHand(context.getHand());
+            if (stack.contains(IafDataComponents.UUID.get())) {
+                UUID id = stack.get(IafDataComponents.UUID.get());
                 if (id != null && !id.equals(new UUID(0, 0)) && context.getPlayer() instanceof ServerPlayerEntity serverPlayer)
                     MenuRegistry.openExtendedMenu(serverPlayer, new ExtendedMenuProvider() {
                         @Override
                         public void saveExtraData(PacketByteBuf buf) {
                             ItemStack stack = context.getPlayer().getStackInHand(context.getHand());
                             NbtCompound compound = new NbtCompound();
-                            stack.writeNbt(compound);
+                            compound.put("data", ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, stack).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtCompound()));
                             buf.writeNbt(compound);
                             buf.writeLong(context.getBlockPos().asLong());
                             buf.writeEnumConstant(serverPlayer.getHorizontalFacing());

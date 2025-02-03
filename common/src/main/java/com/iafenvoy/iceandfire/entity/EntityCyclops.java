@@ -57,7 +57,6 @@ public class EntityCyclops extends HostileEntity implements IAnimatedEntity, IBl
 
     public EntityCyclops(EntityType<EntityCyclops> type, World worldIn) {
         super(type, worldIn);
-        this.setStepHeight(2.5F);
         this.setPathfindingPenalty(PathNodeType.WATER, -1.0F);
         this.setPathfindingPenalty(PathNodeType.FENCE, 0.0F);
         ANIMATION_STOMP = Animation.create(27);
@@ -77,7 +76,8 @@ public class EntityCyclops extends HostileEntity implements IAnimatedEntity, IBl
                 //FOLLOW RANGE
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32D)
                 //ARMOR
-                .add(EntityAttributes.GENERIC_ARMOR, 20.0D);
+                .add(EntityAttributes.GENERIC_ARMOR, 20.0D)
+                .add(EntityAttributes.GENERIC_STEP_HEIGHT, 2.5F);
     }
 
     @Override
@@ -163,10 +163,10 @@ public class EntityCyclops extends HostileEntity implements IAnimatedEntity, IBl
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(BLINDED, Boolean.FALSE);
-        this.dataTracker.startTracking(VARIANT, 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(BLINDED, Boolean.FALSE);
+        builder.add(VARIANT, 0);
     }
 
     @Override
@@ -306,8 +306,8 @@ public class EntityCyclops extends HostileEntity implements IAnimatedEntity, IBl
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setVariant(this.getRandom().nextInt(4));
         return spawnDataIn;
     }

@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 public class EntitySeaSerpentArrow extends PersistentProjectileEntity {
     public EntitySeaSerpentArrow(EntityType<? extends PersistentProjectileEntity> t, World worldIn) {
-        super(t, worldIn, new ItemStack(IafItems.SEA_SERPENT_ARROW.get()));
+        super(t, worldIn);
         this.setDamage(3F);
     }
 
@@ -20,8 +20,8 @@ public class EntitySeaSerpentArrow extends PersistentProjectileEntity {
         this.setDamage(3F);
     }
 
-    public EntitySeaSerpentArrow(EntityType<? extends PersistentProjectileEntity> t, World worldIn, LivingEntity shooter) {
-        super(t, shooter, worldIn, new ItemStack(IafItems.SEA_SERPENT_ARROW.get()));
+    public EntitySeaSerpentArrow(EntityType<? extends PersistentProjectileEntity> t, World worldIn, LivingEntity shooter, ItemStack shotFrom) {
+        super(t, shooter, worldIn, new ItemStack(IafItems.SEA_SERPENT_ARROW.get()), shotFrom);
         this.setDamage(3F);
     }
 
@@ -37,6 +37,11 @@ public class EntitySeaSerpentArrow extends PersistentProjectileEntity {
             this.getWorld().addParticle(ParticleTypes.BUBBLE, this.getX() + xRatio + this.random.nextFloat() * this.getWidth() * 1.0F - this.getWidth() - d0 * 10.0D, this.getY() + this.random.nextFloat() * this.getHeight() - d1 * 10.0D, this.getZ() + zRatio + this.random.nextFloat() * this.getWidth() * 1.0F - this.getWidth() - d2 * 10.0D, d0, d1, d2);
             this.getWorld().addParticle(ParticleTypes.SPLASH, this.getX() + xRatio + this.random.nextFloat() * this.getWidth() * 1.0F - this.getWidth() - d0 * 10.0D, this.getY() + this.random.nextFloat() * this.getHeight() - d1 * 10.0D, this.getZ() + zRatio + this.random.nextFloat() * this.getWidth() * 1.0F - this.getWidth() - d2 * 10.0D, d0, d1, d2);
         }
+    }
+
+    @Override
+    protected ItemStack getDefaultItemStack() {
+        return new ItemStack(IafItems.SEA_SERPENT_ARROW.get());
     }
 
     @Override

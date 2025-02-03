@@ -3,8 +3,10 @@ package com.iafenvoy.iceandfire.world.structure;
 import com.iafenvoy.iceandfire.registry.IafStructureTypes;
 import com.iafenvoy.iceandfire.registry.tag.IafBiomeTags;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.structure.StructureLiquidSettings;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolBasedGenerator;
 import net.minecraft.structure.pool.alias.StructurePoolAliasLookup;
@@ -12,12 +14,13 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.heightprovider.HeightProvider;
+import net.minecraft.world.gen.structure.DimensionPadding;
 import net.minecraft.world.gen.structure.StructureType;
 
 import java.util.Optional;
 
 public class GraveyardStructure extends IafJigsawStructure {
-    public static final Codec<GraveyardStructure> CODEC = RecordCodecBuilder.<GraveyardStructure>mapCodec(instance ->
+    public static final MapCodec<GraveyardStructure> CODEC = RecordCodecBuilder.<GraveyardStructure>mapCodec(instance ->
             instance.group(GraveyardStructure.configCodecBuilder(instance),
                     StructurePool.REGISTRY_CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
                     Identifier.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),
@@ -25,7 +28,7 @@ public class GraveyardStructure extends IafJigsawStructure {
                     HeightProvider.CODEC.fieldOf("start_height").forGetter(structure -> structure.startHeight),
                     Heightmap.Type.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(structure -> structure.projectStartToHeightmap),
                     Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter(structure -> structure.maxDistanceFromCenter)
-            ).apply(instance, GraveyardStructure::new)).codec();
+            ).apply(instance, GraveyardStructure::new));
 
     public GraveyardStructure(Config config, RegistryEntry<StructurePool> startPool, Optional<Identifier> startJigsawName, int size, HeightProvider startHeight, Optional<Heightmap.Type> projectStartToHeightmap, int maxDistanceFromCenter) {
         super(config, startPool, startJigsawName, size, startHeight, projectStartToHeightmap, maxDistanceFromCenter);
@@ -48,7 +51,9 @@ public class GraveyardStructure extends IafJigsawStructure {
                 // Set this to false for structure to be place only at the passed in blockpos's Y value instead.
                 // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
                 this.maxDistanceFromCenter,
-                StructurePoolAliasLookup.EMPTY);
+                StructurePoolAliasLookup.EMPTY,
+                DimensionPadding.NONE,
+                StructureLiquidSettings.IGNORE_WATERLOGGING);
     }
 
     @Override

@@ -1,17 +1,16 @@
 package com.iafenvoy.iceandfire.event;
 
-import com.iafenvoy.iceandfire.StaticVariables;
 import com.iafenvoy.iceandfire.config.IafClientConfig;
 import com.iafenvoy.iceandfire.data.component.IafEntityData;
 import com.iafenvoy.iceandfire.entity.EntityDragonBase;
 import com.iafenvoy.iceandfire.entity.EntityMultipartPart;
 import com.iafenvoy.iceandfire.entity.util.ICustomMoveController;
+import com.iafenvoy.iceandfire.network.payload.DragonControlPayload;
 import com.iafenvoy.iceandfire.particle.CockatriceBeamRender;
 import com.iafenvoy.iceandfire.registry.IafKeybindings;
 import com.iafenvoy.iceandfire.registry.IafParticles;
 import com.iafenvoy.iceandfire.render.block.RenderFrozenState;
 import com.iafenvoy.iceandfire.render.entity.RenderChain;
-import com.iafenvoy.uranus.network.PacketBufferUtils;
 import dev.architectury.event.EventResult;
 import dev.architectury.networking.NetworkManager;
 import net.fabricmc.api.EnvType;
@@ -25,7 +24,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 
@@ -40,13 +38,9 @@ public class ClientEvents {
             float scale = ((EntityDragonBase) player.getVehicle()).getRenderSize() / 3;
             if (MinecraftClient.getInstance().options.getPerspective() == Perspective.THIRD_PERSON_BACK ||
                     MinecraftClient.getInstance().options.getPerspective() == Perspective.THIRD_PERSON_FRONT) {
-                if (currentView == 1) {
-                    camera.moveBy(-camera.clipToSpace(scale * 1.2F), 0F, 0);
-                } else if (currentView == 2) {
-                    camera.moveBy(-camera.clipToSpace(scale * 3F), 0F, 0);
-                } else if (currentView == 3) {
-                    camera.moveBy(-camera.clipToSpace(scale * 5F), 0F, 0);
-                }
+                if (currentView == 1) camera.moveBy(-camera.clipToSpace(scale * 1.2F), 0F, 0);
+                else if (currentView == 2) camera.moveBy(-camera.clipToSpace(scale * 3F), 0F, 0);
+                else if (currentView == 3) camera.moveBy(-camera.clipToSpace(scale * 5F), 0F, 0);
             }
         }
     }
@@ -64,12 +58,8 @@ public class ClientEvents {
                 byte previousState = moveController.getControlState();
                 moveController.dismount(mc.options.sneakKey.isPressed());
                 byte controlState = moveController.getControlState();
-                if (controlState != previousState) {
-                    PacketByteBuf buf = PacketBufferUtils.create();
-                    buf.writeInt(entity.getId()).writeByte(controlState);
-                    buf.writeBlockPos(entity.getBlockPos());
-                    NetworkManager.sendToServer(StaticVariables.DRAGON_CONTROL, buf);
-                }
+                if (controlState != previousState)
+                    NetworkManager.sendToServer(new DragonControlPayload(entity.getId(), controlState, entity.getBlockPos()));
             }
         }
         if (entity instanceof PlayerEntity player && player.getWorld().isClient) {
@@ -83,10 +73,7 @@ public class ClientEvents {
                 controller.strike(IafKeybindings.DRAGON_BREATH.isPressed());
                 byte controlState = controller.getControlState();
                 if (controlState != previousState) {
-                    PacketByteBuf buf = PacketBufferUtils.create();
-                    buf.writeInt(vehicle.getId()).writeByte(controlState);
-                    buf.writeBlockPos(vehicle.getBlockPos());
-                    NetworkManager.sendToServer(StaticVariables.DRAGON_CONTROL, buf);
+                    NetworkManager.sendToServer(new DragonControlPayload(vehicle.getId(), controlState, vehicle.getBlockPos()));
                 }
             }
             GameRenderer renderer = MinecraftClient.getInstance().gameRenderer;

@@ -53,19 +53,19 @@ public class RenderHippogryph extends MobEntityRenderer<EntityHippogryph, ModelH
                     default -> null;
                 };
                 VertexConsumer ivertexbuilder = bufferIn.getBuffer(type);
-                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
             }
             if (hippo.isSaddled()) {
                 VertexConsumer ivertexbuilder = bufferIn.getBuffer(this.SADDLE_TEXTURE);
-                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
             }
             if (hippo.isSaddled() && hippo.getControllingPassenger() != null) {
                 VertexConsumer ivertexbuilder = bufferIn.getBuffer(this.BRIDLE);
-                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
             }
             if (hippo.isChested()) {
                 VertexConsumer ivertexbuilder = bufferIn.getBuffer(this.CHEST);
-                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
             }
         }
     }

@@ -1,26 +1,25 @@
 package com.iafenvoy.iceandfire.item.food;
 
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public abstract class ItemGenericFood extends Item {
-    public ItemGenericFood(int amount, float saturation, boolean isWolfFood, boolean eatFast, boolean alwaysEdible) {
-        super(new Settings().food(createFood(amount, saturation, isWolfFood, eatFast, alwaysEdible, null)));
+    public ItemGenericFood(int amount, float saturation, boolean eatFast, boolean alwaysEdible) {
+        super(new Settings().food(createFood(amount, saturation, eatFast, alwaysEdible, null)));
     }
 
-    public ItemGenericFood(int amount, float saturation, boolean isWolfFood, boolean eatFast, boolean alwaysEdible, int stackSize) {
-        super(new Settings().food(createFood(amount, saturation, isWolfFood, eatFast, alwaysEdible, null)).maxCount(stackSize));
+    public ItemGenericFood(int amount, float saturation, boolean eatFast, boolean alwaysEdible, int stackSize) {
+        super(new Settings().food(createFood(amount, saturation, eatFast, alwaysEdible, null)).maxCount(stackSize));
     }
 
-    public static FoodComponent createFood(int amount, float saturation, boolean isWolfFood, boolean eatFast, boolean alwaysEdible, StatusEffectInstance potion) {
+    public static FoodComponent createFood(int amount, float saturation, boolean eatFast, boolean alwaysEdible, StatusEffectInstance potion) {
         FoodComponent.Builder builder = new FoodComponent.Builder();
-        builder.hunger(amount);
+        builder.nutrition(amount);
         builder.saturationModifier(saturation);
-        if (isWolfFood) builder.meat();
         if (eatFast) builder.snack();
         if (alwaysEdible) builder.alwaysEdible();
         if (potion != null) builder.statusEffect(potion, 1.0F);

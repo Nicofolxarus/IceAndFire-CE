@@ -67,7 +67,7 @@ public class BlockLaunchExplosion extends Explosion {
     @Override
     public void affectWorld(boolean spawnParticles) {
         if (this.world.isClient)
-            this.world.playSound(this.x, this.y, this.z, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.world.random.nextFloat() - this.world.random.nextFloat()) * 0.2F) * 0.7F, false);
+            this.world.playSound(this.x, this.y, this.z, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), SoundCategory.BLOCKS, 4.0F, (1.0F + (this.world.random.nextFloat() - this.world.random.nextFloat()) * 0.2F) * 0.7F, false);
 
         boolean flag = this.mode != DestructionType.KEEP;
         if (spawnParticles) {

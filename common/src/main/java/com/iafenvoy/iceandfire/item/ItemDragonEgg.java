@@ -3,16 +3,14 @@ package com.iafenvoy.iceandfire.item;
 import com.iafenvoy.iceandfire.data.DragonColor;
 import com.iafenvoy.iceandfire.entity.EntityDragonEgg;
 import com.iafenvoy.iceandfire.registry.IafEntities;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,12 +33,8 @@ public class ItemDragonEgg extends Item {
     }
 
     @Override
-    public void onCraft(ItemStack itemStack, World world) {
-        itemStack.setNbt(new NbtCompound());
-    }
-
-    @Override
-    public void appendTooltip(ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
         tooltip.add(Text.translatable("dragon." + this.type.name().toLowerCase(Locale.ROOT)).formatted(this.type.color()));
     }
 
@@ -52,7 +46,7 @@ public class ItemDragonEgg extends Item {
         egg.setEggType(this.type);
         egg.refreshPositionAndAngles(offset.getX() + 0.5, offset.getY(), offset.getZ() + 0.5, 0, 0);
         egg.onPlayerPlace(context.getPlayer());
-        if (itemstack.hasCustomName())
+        if (itemstack.contains(DataComponentTypes.CUSTOM_NAME))
             egg.setCustomName(itemstack.getName());
         if (!context.getWorld().isClient)
             context.getWorld().spawnEntity(egg);

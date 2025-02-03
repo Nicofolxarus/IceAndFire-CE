@@ -4,7 +4,6 @@ import com.iafenvoy.iceandfire.data.component.IafEntityData;
 import com.iafenvoy.iceandfire.entity.EntityGorgon;
 import com.iafenvoy.iceandfire.entity.util.IBlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -12,6 +11,8 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.particle.EntityEffectParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
@@ -33,7 +34,8 @@ public class ItemCockatriceScepter extends Item {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
         tooltip.add(Text.translatable("item.iceandfire.legendary_weapon.desc").formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("item.iceandfire.cockatrice_scepter.desc_0").formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("item.iceandfire.cockatrice_scepter.desc_1").formatted(Formatting.GRAY));
@@ -42,7 +44,7 @@ public class ItemCockatriceScepter extends Item {
     @Override
     public void onStoppedUsing(ItemStack stack, World worldIn, LivingEntity livingEntity, int timeLeft) {
         if (this.specialWeaponDmg > 0) {
-            stack.damage(this.specialWeaponDmg, livingEntity, player -> player.sendToolBreakStatus(livingEntity.getActiveHand()));
+            stack.damage(this.specialWeaponDmg, livingEntity, LivingEntity.getSlotForHand(livingEntity.getActiveHand()));
             this.specialWeaponDmg = 0;
         }
         IafEntityData data = IafEntityData.get(livingEntity);
@@ -57,7 +59,7 @@ public class ItemCockatriceScepter extends Item {
     }
 
     @Override
-    public int getMaxUseTime(ItemStack stack) {
+    public int getMaxUseTime(ItemStack stack, LivingEntity user) {
         return 1;
     }
 
@@ -151,7 +153,7 @@ public class ItemCockatriceScepter extends Item {
         double d4 = this.rand.nextDouble();
         while (d4 < d3) {
             d4 += 1.0D;
-            origin.getWorld().addParticle(ParticleTypes.ENTITY_EFFECT, origin.getX() + d0 * d4, origin.getY() + d1 * d4 + (double) origin.getStandingEyeHeight() * 0.5D, origin.getZ() + d2 * d4, 0.0D, 0.0D, 0.0D);
+            origin.getWorld().addParticle(EntityEffectParticleEffect.create(ParticleTypes.ENTITY_EFFECT, 0xFF000000), origin.getX() + d0 * d4, origin.getY() + d1 * d4 + (double) origin.getStandingEyeHeight() * 0.5D, origin.getZ() + d2 * d4, 0.0D, 0.0D, 0.0D);
         }
     }
 }

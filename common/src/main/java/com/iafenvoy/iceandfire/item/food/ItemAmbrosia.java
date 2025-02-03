@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 public class ItemAmbrosia extends ItemGenericFood {
     public ItemAmbrosia() {
-        super(5, 0.6F, false, false, true, 1);
+        super(5, 0.6F, false, true, 1);
     }
 
     @Override

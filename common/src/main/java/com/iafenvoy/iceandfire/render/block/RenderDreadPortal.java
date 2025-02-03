@@ -29,7 +29,7 @@ public class RenderDreadPortal<T extends BlockEntityDreadPortal> implements Bloc
     private void renderCube(Matrix4f matrix4f, VertexConsumer consumer) {
         float f = 1.0F;
         float f1 = 1.0F;
-        this.renderFace(matrix4f, consumer, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, Direction.SOUTH);
+        this.renderFace(matrix4f, consumer, 0.0F, 1.0F, 0.0F, -1, 1.0F, 0.0F, 0.0F, 0.0F, Direction.SOUTH);
         this.renderFace(matrix4f, consumer, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, Direction.NORTH);
         this.renderFace(matrix4f, consumer, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, Direction.EAST);
         this.renderFace(matrix4f, consumer, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 0.0F, Direction.WEST);
@@ -41,10 +41,10 @@ public class RenderDreadPortal<T extends BlockEntityDreadPortal> implements Bloc
         float r = 1.0F;
         float g = 1.0F;
         float b = 1.0F;
-        consumer.vertex(matrix4f, x1, y1, z1).color(r, g, b, 1.0F).next();
-        consumer.vertex(matrix4f, x2, y1, z2).color(r, g, b, 1.0F).next();
-        consumer.vertex(matrix4f, x2, y2, z3).color(r, g, b, 1.0F).next();
-        consumer.vertex(matrix4f, x1, y2, z4).color(r, g, b, 1.0F).next();
+        consumer.vertex(matrix4f, x1, y1, z1).color(r, g, b, 1.0F);
+        consumer.vertex(matrix4f, x2, y1, z2).color(r, g, b, 1.0F);
+        consumer.vertex(matrix4f, x2, y2, z3).color(r, g, b, 1.0F);
+        consumer.vertex(matrix4f, x1, y2, z4).color(r, g, b, 1.0F);
     }
 
     protected RenderLayer renderType() {

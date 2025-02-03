@@ -105,7 +105,6 @@ public class EntityAmphithere extends TameableEntity implements ISyncMount, IAni
             this.pitch_buffer = new IFChainBuffer();
             this.tail_buffer = new IFChainBuffer();
         }
-        this.setStepHeight(1F);
         this.switchNavigator(0);
     }
 
@@ -158,7 +157,8 @@ public class EntityAmphithere extends TameableEntity implements ISyncMount, IAni
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, IafCommonConfig.INSTANCE.amphithere.attackDamage.getValue())
                 .add(EntityAttributes.GENERIC_FLYING_SPEED, IafCommonConfig.INSTANCE.amphithere.flightSpeed.getValue())
                 //FOLLOW RANGE
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D);
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D)
+                .add(EntityAttributes.GENERIC_STEP_HEIGHT, 1);
     }
 
     @Override
@@ -516,13 +516,13 @@ public class EntityAmphithere extends TameableEntity implements ISyncMount, IAni
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(VARIANT, 0);
-        this.dataTracker.startTracking(FLYING, false);
-        this.dataTracker.startTracking(FLAP_TICKS, 0);
-        this.dataTracker.startTracking(CONTROL_STATE, (byte) 0);
-        this.dataTracker.startTracking(COMMAND, 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(VARIANT, 0);
+        builder.add(FLYING, false);
+        builder.add(FLAP_TICKS, 0);
+        builder.add(CONTROL_STATE, (byte) 0);
+        builder.add(COMMAND, 0);
     }
 
     @Override
@@ -812,8 +812,8 @@ public class EntityAmphithere extends TameableEntity implements ISyncMount, IAni
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setVariant(this.getRandom().nextInt(5));
         return spawnDataIn;
     }
@@ -924,11 +924,6 @@ public class EntityAmphithere extends TameableEntity implements ISyncMount, IAni
         Vec3d Vector3d = new Vec3d(this.getX(), this.getEyeY(), this.getZ());
         Vec3d Vector3d1 = new Vec3d(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
         return this.getWorld().raycast(new RaycastContext(Vector3d, Vector3d1, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this)).getType() == HitResult.Type.MISS;
-    }
-
-    @Override
-    public EntityView method_48926() {
-        return this.getWorld();
     }
 
     public enum FlightBehavior {

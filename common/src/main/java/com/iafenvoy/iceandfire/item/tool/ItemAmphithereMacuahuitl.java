@@ -1,24 +1,23 @@
 package com.iafenvoy.iceandfire.item.tool;
 
-import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafSounds;
-import net.minecraft.client.item.TooltipContext;
+import com.iafenvoy.iceandfire.registry.IafToolMaterials;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.Random;
 
 public class ItemAmphithereMacuahuitl extends SwordItem {
     public ItemAmphithereMacuahuitl() {
-        super(IafItems.AMPHITHERE_SWORD_TOOL_MATERIAL, 3, -2.4F, new Settings());
+        super(IafToolMaterials.AMPHITHERE_SWORD_TOOL_MATERIAL, new Settings());
     }
 
     @Override
@@ -42,7 +41,8 @@ public class ItemAmphithereMacuahuitl extends SwordItem {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
         tooltip.add(Text.translatable("item.iceandfire.legendary_weapon.desc").formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("item.iceandfire.amphithere_macuahuitl.desc_0").formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("item.iceandfire.amphithere_macuahuitl.desc_1").formatted(Formatting.GRAY));

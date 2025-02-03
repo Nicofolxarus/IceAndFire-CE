@@ -1,20 +1,20 @@
 package com.iafenvoy.iceandfire.entity.block;
 
-import com.iafenvoy.iceandfire.StaticVariables;
 import com.iafenvoy.iceandfire.entity.EntityPixie;
+import com.iafenvoy.iceandfire.network.payload.UpdatePixieHousePayload;
+import com.iafenvoy.iceandfire.network.payload.UpdatePixieJarPayload;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafParticles;
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import com.iafenvoy.uranus.ServerHelper;
-import com.iafenvoy.uranus.network.PacketBufferUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
@@ -25,7 +25,6 @@ import java.util.Random;
 import java.util.UUID;
 
 public class BlockEntityJar extends BlockEntity {
-
     private static final float PARTICLE_WIDTH = 0.3F;
     private static final float PARTICLE_HEIGHT = 0.6F;
     private final Random rand;
@@ -62,18 +61,13 @@ public class BlockEntityJar extends BlockEntity {
         }
         if (entityJar.ticksExisted % 24000 == 0 && !entityJar.hasProduced && entityJar.hasPixie) {
             entityJar.hasProduced = true;
-            if (!level.isClient) {
-                PacketByteBuf buf = PacketBufferUtils.create().writeBlockPos(pos);
-                buf.writeBoolean(entityJar.hasProduced);
-                ServerHelper.sendToAll(StaticVariables.UPDATE_PIXIE_JAR, buf);
-            }
+            if (!level.isClient)
+                ServerHelper.sendToAll(new UpdatePixieJarPayload(pos, true));
         }
         if (entityJar.hasPixie && entityJar.hasProduced != entityJar.prevHasProduced && entityJar.ticksExisted > 5) {
-            if (!level.isClient) {
-                PacketByteBuf buf = PacketBufferUtils.create().writeBlockPos(pos);
-                buf.writeBoolean(entityJar.hasProduced);
-                ServerHelper.sendToAll(StaticVariables.UPDATE_PIXIE_JAR, buf);
-            } else
+            if (!level.isClient)
+                ServerHelper.sendToAll(new UpdatePixieJarPayload(pos, entityJar.hasProduced));
+            else
                 level.playSound(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5, IafSounds.PIXIE_HURT.get(), SoundCategory.BLOCKS, 1, 1, false);
         }
         entityJar.prevRotationYaw = entityJar.rotationYaw;
@@ -85,15 +79,16 @@ public class BlockEntityJar extends BlockEntity {
     }
 
     @Override
-    public void writeNbt(NbtCompound compound) {
-        compound.putBoolean("HasPixie", this.hasPixie);
-        compound.putInt("PixieType", this.pixieType);
-        compound.putBoolean("HasProduced", this.hasProduced);
-        compound.putBoolean("TamedPixie", this.tamedPixie);
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.writeNbt(nbt, registryLookup);
+        nbt.putBoolean("HasPixie", this.hasPixie);
+        nbt.putInt("PixieType", this.pixieType);
+        nbt.putBoolean("HasProduced", this.hasProduced);
+        nbt.putBoolean("TamedPixie", this.tamedPixie);
         if (this.pixieOwnerUUID != null)
-            compound.putUuid("PixieOwnerUUID", this.pixieOwnerUUID);
-        compound.putInt("TicksExisted", this.ticksExisted);
-        Inventories.writeNbt(compound, this.pixieItems);
+            nbt.putUuid("PixieOwnerUUID", this.pixieOwnerUUID);
+        nbt.putInt("TicksExisted", this.ticksExisted);
+        Inventories.writeNbt(nbt, this.pixieItems, registryLookup);
     }
 
     @Override
@@ -102,36 +97,32 @@ public class BlockEntityJar extends BlockEntity {
     }
 
     @Override
-    public void readNbt(NbtCompound compound) {
-        this.hasPixie = compound.getBoolean("HasPixie");
-        this.pixieType = compound.getInt("PixieType");
-        this.hasProduced = compound.getBoolean("HasProduced");
-        this.ticksExisted = compound.getInt("TicksExisted");
-        this.tamedPixie = compound.getBoolean("TamedPixie");
-        if (compound.containsUuid("PixieOwnerUUID"))
-            this.pixieOwnerUUID = compound.getUuid("PixieOwnerUUID");
+    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
+        this.hasPixie = nbt.getBoolean("HasPixie");
+        this.pixieType = nbt.getInt("PixieType");
+        this.hasProduced = nbt.getBoolean("HasProduced");
+        this.ticksExisted = nbt.getInt("TicksExisted");
+        this.tamedPixie = nbt.getBoolean("TamedPixie");
+        if (nbt.containsUuid("PixieOwnerUUID"))
+            this.pixieOwnerUUID = nbt.getUuid("PixieOwnerUUID");
         this.pixieItems = DefaultedList.ofSize(1, ItemStack.EMPTY);
-        Inventories.readNbt(compound, this.pixieItems);
-        super.readNbt(compound);
+        Inventories.readNbt(nbt, this.pixieItems, registryLookup);
     }
 
     public void releasePixie() {
         EntityPixie pixie = new EntityPixie(IafEntities.PIXIE.get(), this.world);
         pixie.updatePositionAndAngles(this.pos.getX() + 0.5F, this.pos.getY() + 1F, this.pos.getZ() + 0.5F, new Random().nextInt(360), 0);
-        pixie.setStackInHand(Hand.MAIN_HAND, this.pixieItems.get(0));
+        pixie.setStackInHand(Hand.MAIN_HAND, this.pixieItems.getFirst());
         pixie.setColor(this.pixieType);
+        pixie.ticksUntilHouseAI = 500;
+        pixie.setTamed(this.tamedPixie, false);
+        pixie.setOwnerUuid(this.pixieOwnerUUID);
         assert this.world != null;
         this.world.spawnEntity(pixie);
         this.hasPixie = false;
         this.pixieType = 0;
-        pixie.ticksUntilHouseAI = 500;
-        pixie.setTamed(this.tamedPixie);
-        pixie.setOwnerUuid(this.pixieOwnerUUID);
-
-        if (!this.world.isClient) {
-            PacketByteBuf buf = PacketBufferUtils.create().writeBlockPos(this.pos);
-            buf.writeBoolean(false).writeInt(0);
-            ServerHelper.sendToAll(StaticVariables.UPDATE_PIXIE_HOUSE, buf);
-        }
+        if (!this.world.isClient)
+            ServerHelper.sendToAll(new UpdatePixieHousePayload(this.pos, false, 0));
     }
 }

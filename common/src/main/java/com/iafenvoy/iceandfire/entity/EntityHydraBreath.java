@@ -22,18 +22,12 @@ public class EntityHydraBreath extends AbstractFireballEntity implements IDragon
         super(t, worldIn);
     }
 
-    public EntityHydraBreath(EntityType<? extends AbstractFireballEntity> t, World worldIn, double posX, double posY,
-                             double posZ, double accelX, double accelY, double accelZ) {
-        super(t, posX, posY, posZ, accelX, accelY, accelZ, worldIn);
+    public EntityHydraBreath(EntityType<? extends AbstractFireballEntity> t, World worldIn, double posX, double posY, double posZ, double accelX, double accelY, double accelZ) {
+        super(t, posX, posY, posZ, new Vec3d(accelX, accelY, accelZ), worldIn);
     }
 
-    public EntityHydraBreath(EntityType<? extends AbstractFireballEntity> t, World worldIn, EntityHydra shooter,
-                             double accelX, double accelY, double accelZ) {
-        super(t, shooter, accelX, accelY, accelZ, worldIn);
-        double d0 = Math.sqrt(accelX * accelX + accelY * accelY + accelZ * accelZ);
-        this.powerX = accelX / d0 * 0.02D;
-        this.powerY = accelY / d0 * 0.02D;
-        this.powerZ = accelZ / d0 * 0.02D;
+    public EntityHydraBreath(EntityType<? extends AbstractFireballEntity> t, World worldIn, EntityHydra shooter, double accelX, double accelY, double accelZ) {
+        super(t, shooter, new Vec3d(accelX, accelY, accelZ), worldIn);
     }
 
     @Override
@@ -85,12 +79,14 @@ public class EntityHydraBreath extends AbstractFireballEntity implements IDragon
                 for (int i = 0; i < 15; ++i)
                     this.getWorld().addParticle(IafParticles.HYDRA_BREATH.get(), this.getX() + (double) (this.random.nextFloat() * this.getWidth()) - (double) this.getWidth() * 0.5F, this.getY() - 0.5D, this.getZ() + (double) (this.random.nextFloat() * this.getWidth()) - (double) this.getWidth() * 0.5F, 0.1D, 1.0D, 0.1D);
 
-            this.setVelocity(Vector3d.add(this.powerX, this.powerY, this.powerZ).multiply(f));
+//            this.setVelocity(Vector3d.add(this.powerX, this.powerY, this.powerZ).multiply(f));
+//            this.powerX *= 0.95F;
+//            this.powerY *= 0.95F;
+//            this.powerZ *= 0.95F;
+//            this.addVelocity(this.powerX, this.powerY, this.powerZ);
 
-            this.powerX *= 0.95F;
-            this.powerY *= 0.95F;
-            this.powerZ *= 0.95F;
-            this.addVelocity(this.powerX, this.powerY, this.powerZ);
+            Vec3d vec3d = this.getVelocity();
+            this.setVelocity(vec3d.add(vec3d.normalize().multiply(this.accelerationPower)).multiply(this.getDrag()));
 
             if (this.isTouchingWater()) {
                 for (int i = 0; i < 4; ++i) {

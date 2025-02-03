@@ -68,8 +68,8 @@ public class RenderJar<T extends BlockEntityJar> implements BlockEntityRenderer<
                 matrixStackIn.scale(0.50F, 0.50F, 0.50F);
                 ModelPixie model = MODEL_PIXIE.get();
                 model.animateInJar(entity.hasProduced, entity, 0);
-                model.render(matrixStackIn, buffer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-                model.render(matrixStackIn, bufferIn.getBuffer(typeGlow), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                model.render(matrixStackIn, buffer, combinedLightIn, combinedOverlayIn, -1);
+                model.render(matrixStackIn, bufferIn.getBuffer(typeGlow), combinedLightIn, combinedOverlayIn, -1);
             }
             matrixStackIn.pop();
             matrixStackIn.pop();

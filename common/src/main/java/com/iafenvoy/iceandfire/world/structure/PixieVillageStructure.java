@@ -7,7 +7,7 @@ import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafStructurePieces;
 import com.iafenvoy.iceandfire.registry.IafStructureTypes;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -31,8 +31,8 @@ import net.minecraft.world.gen.structure.StructureType;
 import java.util.Optional;
 
 public class PixieVillageStructure extends Structure {
-    public static final Codec<PixieVillageStructure> CODEC = RecordCodecBuilder.<PixieVillageStructure>mapCodec(instance ->
-            instance.group(configCodecBuilder(instance)).apply(instance, PixieVillageStructure::new)).codec();
+    public static final MapCodec<PixieVillageStructure> CODEC = RecordCodecBuilder.<PixieVillageStructure>mapCodec(instance ->
+            instance.group(configCodecBuilder(instance)).apply(instance, PixieVillageStructure::new));
 
     protected PixieVillageStructure(Config config) {
         super(config);
@@ -100,7 +100,7 @@ public class PixieVillageStructure extends Structure {
                         };
                         EntityPixie pixie = IafEntities.PIXIE.get().create(world.toServerWorld());
                         assert pixie != null;
-                        pixie.initialize(world, world.getLocalDifficulty(buildPosition2.up()), SpawnReason.SPAWNER, null, null);
+                        pixie.initialize(world, world.getLocalDifficulty(buildPosition2.up()), SpawnReason.SPAWNER, null);
                         pixie.setPosition(buildPosition2.getX(), buildPosition2.getY() + 2, buildPosition2.getZ());
                         pixie.setPersistent();
                         world.spawnEntity(pixie);

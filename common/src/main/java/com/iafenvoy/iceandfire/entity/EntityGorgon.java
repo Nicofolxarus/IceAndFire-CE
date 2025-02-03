@@ -254,16 +254,9 @@ public class EntityGorgon extends HostileEntity implements IAnimatedEntity, IVil
         return 30;
     }
 
-    @Override
-    public EntityGroup getGroup() {
-        return EntityGroup.UNDEAD;
-    }
-
     public void forcePreyToLook(LivingEntity mob) {
-        if (mob instanceof MobEntity mobEntity) {
+        if (mob instanceof MobEntity mobEntity)
             mobEntity.getLookControl().lookAt(this.getX(), this.getY() + (double) this.getStandingEyeHeight(), this.getZ(), (float) mobEntity.getMaxHeadRotation(), (float) mobEntity.getMaxLookPitchChange());
-
-        }
     }
 
     @Override

@@ -1,7 +1,10 @@
 package com.iafenvoy.iceandfire.entity;
 
 import com.iafenvoy.iceandfire.entity.util.IDreadMob;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityData;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
@@ -10,7 +13,6 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.SkeletonHorseEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.ServerConfigHandler;
-import net.minecraft.world.EntityView;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -25,7 +27,6 @@ public class EntityDreadHorse extends SkeletonHorseEntity implements IDreadMob {
         super(type, worldIn);
     }
 
-
     public static DefaultAttributeContainer.Builder bakeAttributes() {
         return createBaseHorseAttributes()
                 //HEALTH
@@ -36,11 +37,10 @@ public class EntityDreadHorse extends SkeletonHorseEntity implements IDreadMob {
                 .add(EntityAttributes.GENERIC_ARMOR, 4.0D);
     }
 
-
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(COMMANDER_UNIQUE_ID, Optional.empty());
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(COMMANDER_UNIQUE_ID, Optional.empty());
     }
 
     @Override
@@ -71,8 +71,8 @@ public class EntityDreadHorse extends SkeletonHorseEntity implements IDreadMob {
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        EntityData data = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        EntityData data = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setBreedingAge(24000);
         return data;
     }
@@ -98,15 +98,5 @@ public class EntityDreadHorse extends SkeletonHorseEntity implements IDreadMob {
         } catch (IllegalArgumentException var2) {
             return null;
         }
-    }
-
-    @Override
-    public EntityGroup getGroup() {
-        return EntityGroup.UNDEAD;
-    }
-
-    @Override
-    public EntityView method_48926() {
-        return this.getWorld();
     }
 }

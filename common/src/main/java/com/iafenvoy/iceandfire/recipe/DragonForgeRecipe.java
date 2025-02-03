@@ -5,14 +5,17 @@ import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafRecipeSerializers;
 import com.iafenvoy.iceandfire.registry.IafRecipes;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
-import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -59,6 +62,11 @@ public class DragonForgeRecipe implements Recipe<BlockEntityDragonForge> {
         return this.input.test(inv.getStack(0)) && this.blood.test(inv.getStack(1)) && this.dragonType.equals(inv.getTypeID());
     }
 
+    @Override
+    public ItemStack craft(BlockEntityDragonForge input, RegistryWrapper.WrapperLookup lookup) {
+        return this.result;
+    }
+
     public boolean isValidInput(ItemStack stack) {
         return this.input.test(stack);
     }
@@ -67,23 +75,18 @@ public class DragonForgeRecipe implements Recipe<BlockEntityDragonForge> {
         return this.blood.test(blood);
     }
 
-    @Override
-    public ItemStack getResult(DynamicRegistryManager registryAccess) {
-        return this.result;
-    }
-
     public ItemStack getResultItem() {
-        return this.result;
-    }
-
-    @Override
-    public ItemStack craft(BlockEntityDragonForge dragonforge, DynamicRegistryManager registryAccess) {
         return this.result;
     }
 
     @Override
     public boolean fits(int width, int height) {
         return false;
+    }
+
+    @Override
+    public ItemStack getResult(RegistryWrapper.WrapperLookup registriesLookup) {
+        return this.result;
     }
 
     @Override
@@ -107,19 +110,8 @@ public class DragonForgeRecipe implements Recipe<BlockEntityDragonForge> {
 
     public static class Serializer implements RecipeSerializer<DragonForgeRecipe> {
         @Override
-        public DragonForgeRecipe read(PacketByteBuf buffer) {
-            Identifier id = buffer.readIdentifier();
-            int cookTime = buffer.readInt();
-            String dragonType = buffer.readString();
-            Ingredient input = Ingredient.fromPacket(buffer);
-            Ingredient blood = Ingredient.fromPacket(buffer);
-            ItemStack result = buffer.readItemStack();
-            return new DragonForgeRecipe(id, input, blood, result, dragonType, cookTime);
-        }
-
-        @Override
-        public Codec<DragonForgeRecipe> codec() {
-            return RecordCodecBuilder.create(i -> i.group(
+        public MapCodec<DragonForgeRecipe> codec() {
+            return RecordCodecBuilder.mapCodec(i -> i.group(
                     Identifier.CODEC.fieldOf("id").forGetter(DragonForgeRecipe::getId),
                     Ingredient.ALLOW_EMPTY_CODEC.fieldOf("input").forGetter(DragonForgeRecipe::getInput),
                     Ingredient.ALLOW_EMPTY_CODEC.fieldOf("blood").forGetter(DragonForgeRecipe::getBlood),
@@ -130,13 +122,16 @@ public class DragonForgeRecipe implements Recipe<BlockEntityDragonForge> {
         }
 
         @Override
-        public void write(PacketByteBuf buffer, DragonForgeRecipe recipe) {
-            buffer.writeIdentifier(recipe.id);
-            buffer.writeInt(recipe.cookTime);
-            buffer.writeString(recipe.dragonType);
-            recipe.input.write(buffer);
-            recipe.blood.write(buffer);
-            buffer.writeItemStack(recipe.result);
+        public PacketCodec<RegistryByteBuf, DragonForgeRecipe> packetCodec() {
+            return PacketCodec.tuple(
+                    Identifier.PACKET_CODEC, DragonForgeRecipe::getId,
+                    Ingredient.PACKET_CODEC, DragonForgeRecipe::getInput,
+                    Ingredient.PACKET_CODEC, DragonForgeRecipe::getBlood,
+                    ItemStack.PACKET_CODEC, DragonForgeRecipe::getResultItem,
+                    PacketCodecs.STRING, DragonForgeRecipe::getDragonType,
+                    PacketCodecs.INTEGER, DragonForgeRecipe::getCookTime,
+                    DragonForgeRecipe::new
+            );
         }
     }
 }

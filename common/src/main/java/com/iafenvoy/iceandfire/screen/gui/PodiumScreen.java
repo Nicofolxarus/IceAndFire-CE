@@ -37,7 +37,7 @@ public class PodiumScreen extends HandledScreen<PodiumScreenHandler> {
 
     @Override
     protected void drawBackground(DrawContext pGuiGraphics, float partialTicks, int x, int y) {
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1, 1, 1, 1);
         int i = (this.width - this.backgroundWidth) / 2;
         int j = (this.height - this.backgroundHeight) / 2;
         pGuiGraphics.drawTexture(PODUIM_TEXTURE, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);

@@ -19,7 +19,7 @@ public class LayerDragonMaleOverlay extends FeatureRenderer<EntityDragonBase, Ta
     @Override
     public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn, EntityDragonBase dragon, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (dragon.isMale() && !dragon.isSkeletal())
-            this.getContextModel().render(matrixStackIn, bufferIn.getBuffer(RenderLayer.getEntityTranslucent(this.getTexture(dragon))), packedLightIn, OverlayTexture.DEFAULT_UV, 1, 1, 1, 1);
+            this.getContextModel().render(matrixStackIn, bufferIn.getBuffer(RenderLayer.getEntityTranslucent(this.getTexture(dragon))), packedLightIn, OverlayTexture.DEFAULT_UV, -1);
     }
 
     @Override

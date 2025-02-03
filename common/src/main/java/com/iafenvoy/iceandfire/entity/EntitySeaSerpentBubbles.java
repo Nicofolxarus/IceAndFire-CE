@@ -21,15 +21,11 @@ public class EntitySeaSerpentBubbles extends AbstractFireballEntity implements I
     }
 
     public EntitySeaSerpentBubbles(EntityType<? extends AbstractFireballEntity> t, World worldIn, double posX, double posY, double posZ, double accelX, double accelY, double accelZ) {
-        super(t, posX, posY, posZ, accelX, accelY, accelZ, worldIn);
+        super(t, posX, posY, posZ, new Vec3d(accelX, accelY, accelZ), worldIn);
     }
 
     public EntitySeaSerpentBubbles(EntityType<? extends AbstractFireballEntity> t, World worldIn, EntitySeaSerpent shooter, double accelX, double accelY, double accelZ) {
-        super(t, shooter, accelX, accelY, accelZ, worldIn);
-        double d0 = Math.sqrt(accelX * accelX + accelY * accelY + accelZ * accelZ);
-        this.powerX = accelX / d0 * 0.1D;
-        this.powerY = accelY / d0 * 0.1D;
-        this.powerZ = accelZ / d0 * 0.1D;
+        super(t, shooter, new Vec3d(accelX, accelY, accelZ), worldIn);
     }
 
     @Override
@@ -47,29 +43,24 @@ public class EntitySeaSerpentBubbles extends AbstractFireballEntity implements I
         Entity shootingEntity = this.getOwner();
         if (this.age > 400) this.remove(RemovalReason.DISCARDED);
         this.autoTarget();
-        this.powerX *= 0.95F;
-        this.powerY *= 0.95F;
-        this.powerZ *= 0.95F;
-        this.addVelocity(this.powerX, this.powerY, this.powerZ);
 
         if (this.getWorld().isClient || (shootingEntity == null || !shootingEntity.isAlive()) && this.getWorld().isChunkLoaded(this.getBlockPos())) {
             this.baseTick();
             HitResult raytraceresult = ProjectileUtil.getCollision(this, this::canHit);
-            if (raytraceresult.getType() != HitResult.Type.MISS) {
+            if (raytraceresult.getType() != HitResult.Type.MISS)
                 this.onCollision(raytraceresult);
-            }
 
-            Vec3d Vector3d = this.getVelocity();
-            double d0 = this.getX() + Vector3d.x;
-            double d1 = this.getY() + Vector3d.y;
-            double d2 = this.getZ() + Vector3d.z;
+            Vec3d vec3d = this.getVelocity();
+            double d0 = this.getX() + vec3d.x;
+            double d1 = this.getY() + vec3d.y;
+            double d2 = this.getZ() + vec3d.z;
             ProjectileUtil.setRotationFromVelocity(this, 0.2F);
             float f = this.getDrag();
             if (this.getWorld().isClient)
                 for (int i = 0; i < 3; ++i)
                     this.getWorld().addParticle(IafParticles.SERPENT_BUBBLE.get(), this.getX() + (double) (this.random.nextFloat() * this.getWidth()) - (double) this.getWidth() * 0.5F, this.getY() - 0.5D, this.getZ() + (double) (this.random.nextFloat() * this.getWidth()) - (double) this.getWidth() * 0.5F, 0, 0, 0);
 
-            this.setVelocity(Vector3d.add(this.powerX, this.powerY, this.powerZ).multiply(f));
+            this.setVelocity(vec3d.add(vec3d.normalize().multiply(this.movementMultiplier)).multiply(f));
             this.setPosition(d0, d1, d2);
             this.setPosition(this.getX(), this.getY(), this.getZ());
         }
@@ -88,14 +79,14 @@ public class EntitySeaSerpentBubbles extends AbstractFireballEntity implements I
         if (this.getWorld().isClient) {
             Entity shootingEntity = this.getOwner();
             if (shootingEntity instanceof EntitySeaSerpent && ((EntitySeaSerpent) shootingEntity).getTarget() != null) {
-                Entity target = ((EntitySeaSerpent) shootingEntity).getTarget();
-                double d2 = target.getX() - this.getX();
-                double d3 = target.getY() - this.getY();
-                double d4 = target.getZ() - this.getZ();
-                double d0 = Math.sqrt(d2 * d2 + d3 * d3 + d4 * d4);
-                this.powerX = d2 / d0 * 0.1D;
-                this.powerY = d3 / d0 * 0.1D;
-                this.powerZ = d4 / d0 * 0.1D;
+//                Entity target = ((EntitySeaSerpent) shootingEntity).getTarget();
+//                double d2 = target.getX() - this.getX();
+//                double d3 = target.getY() - this.getY();
+//                double d4 = target.getZ() - this.getZ();
+//                double d0 = Math.sqrt(d2 * d2 + d3 * d3 + d4 * d4);
+//                this.powerX = d2 / d0 * 0.1D;
+//                this.powerY = d3 / d0 * 0.1D;
+//                this.powerZ = d4 / d0 * 0.1D;
             } else if (this.age > 20)
                 this.remove(RemovalReason.DISCARDED);
         }

@@ -26,8 +26,12 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
@@ -99,8 +103,8 @@ public class EntityMyrmexRoyal extends EntityMyrmexBase {
     }
 
     @Override
-    protected Identifier getLootTableId() {
-        return this.isJungle() ? JUNGLE_LOOT : DESERT_LOOT;
+    protected RegistryKey<LootTable> getLootTableId() {
+        return RegistryKey.of(RegistryKeys.LOOT_TABLE, this.isJungle() ? JUNGLE_LOOT : DESERT_LOOT);
     }
 
     @Override
@@ -109,9 +113,14 @@ public class EntityMyrmexRoyal extends EntityMyrmexBase {
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(FLYING, Boolean.FALSE);
+    public boolean isBreedingItem(ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(FLYING, Boolean.FALSE);
     }
 
     protected void switchNavigator(boolean onLand) {

@@ -31,8 +31,8 @@ public class RenderDeathWormGauntlet extends BuiltinModelItemRenderer {
             texture = RenderLayer.getEntityCutout(RenderDeathWorm.TEXTURE_YELLOW);
         stackIn.push();
         stackIn.translate(0.5F, 0.5F, 0.5F);
-        MODEL.animate(stack, MinecraftClient.getInstance().getTickDelta());
-        MODEL.render(stackIn, bufferIn.getBuffer(texture), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+        MODEL.animate(stack, MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false));
+        MODEL.render(stackIn, bufferIn.getBuffer(texture), combinedLightIn, combinedOverlayIn, -1);
         stackIn.pop();
     }
 }

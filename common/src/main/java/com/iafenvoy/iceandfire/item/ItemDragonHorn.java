@@ -1,8 +1,9 @@
 package com.iafenvoy.iceandfire.item;
 
+import com.iafenvoy.iceandfire.component.DragonHornComponent;
 import com.iafenvoy.iceandfire.entity.EntityDragonBase;
+import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafEntities;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -10,6 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundCategory;
@@ -23,6 +25,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ItemDragonHorn extends Item {
     public ItemDragonHorn() {
@@ -30,8 +33,8 @@ public class ItemDragonHorn extends Item {
     }
 
     public static int getDragonType(ItemStack stack) {
-        if (stack.getNbt() != null) {
-            String id = stack.getNbt().getString("DragonHornEntityID");
+        if (stack.contains(IafDataComponents.DRAGON_HORN.get())) {
+            String id = stack.get(IafDataComponents.DRAGON_HORN.get()).entityType();
             if (EntityType.get(id).isPresent()) {
                 EntityType<?> entityType = EntityType.get(id).get();
                 if (entityType == IafEntities.FIRE_DRAGON.get()) return 1;
@@ -43,32 +46,20 @@ public class ItemDragonHorn extends Item {
     }
 
     @Override
-    public void onCraft(ItemStack itemStack, World world) {
-        itemStack.setNbt(new NbtCompound());
-    }
-
-    @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
         ItemStack trueStack = playerIn.getStackInHand(hand);
-        if (!playerIn.getWorld().isClient && trueStack.isOf(this) && (trueStack.getNbt() == null || trueStack.getNbt().getCompound("EntityTag").isEmpty())) {
+        if (!playerIn.getWorld().isClient && trueStack.isOf(this) && !stack.contains(IafDataComponents.DRAGON_HORN.get())) {
             //TODO: Multipart check
             if (target instanceof EntityDragonBase dragon && dragon.isOwner(playerIn)) {
-                NbtCompound newTag = new NbtCompound();
-
                 NbtCompound entityTag = new NbtCompound();
                 target.saveNbt(entityTag);
-                newTag.put("EntityTag", entityTag);
-
-                newTag.putString("DragonHornEntityID", Registries.ENTITY_TYPE.getId(target.getType()).toString());
-                trueStack.setNbt(newTag);
-
+                trueStack.set(IafDataComponents.DRAGON_HORN.get(), new DragonHornComponent(Registries.ENTITY_TYPE.getId(target.getType()).toString(), null, entityTag));
                 playerIn.swingHand(hand);
                 playerIn.getWorld().playSound(playerIn, playerIn.getBlockPos(), SoundEvents.ENTITY_ZOMBIE_VILLAGER_CONVERTED, SoundCategory.NEUTRAL, 3.0F, 0.75F);
                 target.remove(Entity.RemovalReason.DISCARDED);
                 return ActionResult.SUCCESS;
             }
         }
-
         return ActionResult.FAIL;
     }
 
@@ -78,48 +69,46 @@ public class ItemDragonHorn extends Item {
         if (context.getSide() != Direction.UP)
             return ActionResult.FAIL;
         ItemStack stack = context.getStack();
-        if (stack.getNbt() != null && !stack.getNbt().getString("DragonHornEntityID").isEmpty()) {
+        if (stack.contains(IafDataComponents.DRAGON_HORN.get())) {
+            DragonHornComponent component = stack.get(IafDataComponents.DRAGON_HORN.get());
             World world = context.getWorld();
-            String id = stack.getNbt().getString("DragonHornEntityID");
-            EntityType<?> type = EntityType.get(id).orElse(null);
+            EntityType<?> type = EntityType.get(component.entityType()).orElse(null);
             if (type != null) {
                 Entity entity = type.create(world);
                 if (entity instanceof EntityDragonBase dragon)
-                    dragon.readNbt(stack.getNbt().getCompound("EntityTag"));
+                    dragon.readNbt(component.entityData());
                 //Still needed to allow for intercompatibility
-                if (stack.getNbt().contains("EntityUUID")) {
+                UUID uuid = component.entityUuid();
+                if (uuid != null) {
                     assert entity != null;
-                    entity.setUuid(stack.getNbt().getUuid("EntityUUID"));
+                    entity.setUuid(uuid);
                 }
 
                 assert entity != null;
                 entity.updatePositionAndAngles(context.getBlockPos().getX() + 0.5D, context.getBlockPos().getY() + 1, context.getBlockPos().getZ() + 0.5D, 180 + (context.getHorizontalPlayerFacing()).asRotation(), 0.0F);
-                if (world.spawnEntity(entity)) {
-                    NbtCompound tag = stack.getNbt();
-                    tag.remove("DragonHornEntityID");
-                    tag.remove("EntityTag");
-                    tag.remove("EntityUUID");
-                    stack.setNbt(tag);
-                }
+                if (world.spawnEntity(entity))
+                    stack.remove(IafDataComponents.DRAGON_HORN.get());
             }
         }
         return ActionResult.SUCCESS;
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
-        if (stack.getNbt() != null) {
-            NbtCompound entityTag = stack.getNbt().getCompound("EntityTag");
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
+        if (stack.contains(IafDataComponents.DRAGON_HORN.get())) {
+            DragonHornComponent component = stack.get(IafDataComponents.DRAGON_HORN.get());
+            NbtCompound entityTag = component.entityData();
             if (!entityTag.isEmpty()) {
-                String id = stack.getNbt().getString("DragonHornEntityID");
+                String id = component.entityType();
                 if (EntityType.get(id).isPresent()) {
-                    EntityType<?> type = EntityType.get(id).get();
-                    tooltip.add((Text.translatable(type.getTranslationKey())).formatted(this.getTextColorForEntityType(type)));
+                    EntityType<?> entityType = EntityType.get(id).get();
+                    tooltip.add((Text.translatable(entityType.getTranslationKey())).formatted(this.getTextColorForEntityType(entityType)));
                     String name = (Text.translatable("dragon.unnamed")).getString();
                     if (!entityTag.getString("CustomName").isEmpty()) {
-                        MutableText component = Text.Serialization.fromJson(entityTag.getString("CustomName"));
-                        if (component != null)
-                            name = component.getString();
+                        MutableText text = Text.Serialization.fromJson(entityTag.getString("CustomName"), context.getRegistryLookup());
+                        if (text != null)
+                            name = text.getString();
                     }
 
                     tooltip.add((Text.literal(name)).formatted(Formatting.GRAY));

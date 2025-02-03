@@ -12,11 +12,12 @@ import net.minecraft.world.World;
 
 public class EntityStymphalianFeather extends PersistentProjectileEntity {
     public EntityStymphalianFeather(EntityType<? extends PersistentProjectileEntity> t, World worldIn) {
-        super(t, worldIn, new ItemStack(IafItems.STYMPHALIAN_BIRD_FEATHER.get()));
+        super(t, worldIn);
     }
 
     public EntityStymphalianFeather(EntityType<? extends PersistentProjectileEntity> t, World worldIn, LivingEntity shooter) {
-        super(t, shooter, worldIn, new ItemStack(IafItems.STYMPHALIAN_BIRD_FEATHER.get()));
+        super(t, worldIn);
+        this.setOwner(shooter);
         this.setDamage(IafCommonConfig.INSTANCE.stymphalianBird.featherAttackDamage.getValue());
     }
 
@@ -49,5 +50,10 @@ public class EntityStymphalianFeather extends PersistentProjectileEntity {
             if (entityHit.getEntity() != null && entityHit.getEntity() instanceof EntityStymphalianBird bird)
                 bird.setStuckArrowCount(bird.getStuckArrowCount() - 1);
         }
+    }
+
+    @Override
+    protected ItemStack getDefaultItemStack() {
+        return new ItemStack(IafItems.STYMPHALIAN_BIRD_FEATHER.get());
     }
 }

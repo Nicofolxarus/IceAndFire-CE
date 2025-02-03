@@ -2,6 +2,7 @@ package com.iafenvoy.iceandfire.render.model;
 
 import com.google.common.collect.ImmutableList;
 import com.iafenvoy.iceandfire.data.component.IafEntityData;
+import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.uranus.client.model.AdvancedModelBox;
 import com.iafenvoy.uranus.client.model.basic.BasicModelPart;
 import net.minecraft.client.MinecraftClient;
@@ -108,9 +109,9 @@ public class ModelDeathWormGauntlet extends ModelDragonBase {
 
     public void animate(ItemStack stack, float partialTick) {
         this.resetToDefaultPose();
-        NbtCompound tag = stack.getOrCreateNbt();
+        if(!stack.contains(IafDataComponents.INT.get())) return;
         assert MinecraftClient.getInstance().world != null;
-        Entity holder = MinecraftClient.getInstance().world.getEntityById(tag.getInt("HolderID"));
+        Entity holder = MinecraftClient.getInstance().world.getEntityById(stack.get(IafDataComponents.INT.get()));
 
         if (!(holder instanceof LivingEntity livingEntity)) return;
 
@@ -126,6 +127,6 @@ public class ModelDeathWormGauntlet extends ModelDragonBase {
 
     @Override
     public void renderStatue(MatrixStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, Entity living) {
-        this.render(matrixStackIn, bufferIn, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+        this.render(matrixStackIn, bufferIn, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
     }
 }

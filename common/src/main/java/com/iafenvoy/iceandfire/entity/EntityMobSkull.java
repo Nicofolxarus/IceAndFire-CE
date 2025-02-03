@@ -62,10 +62,10 @@ public class EntityMobSkull extends AnimalEntity implements IBlacklistedFromStat
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.getDataTracker().startTracking(SKULL_DIRECTION, 0F);
-        this.getDataTracker().startTracking(SKULL_ENUM, 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(SKULL_DIRECTION, 0F);
+        builder.add(SKULL_ENUM, 0);
     }
 
     @Override

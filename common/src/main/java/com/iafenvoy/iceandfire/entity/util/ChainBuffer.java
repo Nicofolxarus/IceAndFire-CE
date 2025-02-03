@@ -122,7 +122,7 @@ public class ChainBuffer {
     }
 
     private float getPartialTicks() {
-        return MinecraftClient.getInstance().getTickDelta();
+        return MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false);
     }
 
     /**

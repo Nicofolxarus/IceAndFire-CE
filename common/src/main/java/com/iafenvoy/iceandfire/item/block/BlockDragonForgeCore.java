@@ -3,7 +3,6 @@ package com.iafenvoy.iceandfire.item.block;
 import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.block.BlockEntityDragonForge;
 import com.iafenvoy.iceandfire.item.block.util.IDragonProof;
-import com.iafenvoy.iceandfire.item.block.util.INoTab;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.mojang.serialization.MapCodec;
@@ -20,20 +19,17 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockDragonForgeCore extends BlockWithEntity implements IDragonProof, INoTab {
+public class BlockDragonForgeCore extends BlockWithEntity implements IDragonProof {
     private final int isFire;
-    private final boolean activated;
 
     public BlockDragonForgeCore(int isFire, boolean activated) {
         super(Settings.create().mapColor(MapColor.IRON_GRAY).dynamicBounds().strength(40, 500).sounds(BlockSoundGroup.METAL).luminance((state) -> activated ? 15 : 0));
         this.isFire = isFire;
-        this.activated = activated;
     }
 
     public static String name(int dragonType, boolean activated) {
@@ -64,7 +60,7 @@ public class BlockDragonForgeCore extends BlockWithEntity implements IDragonProo
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hitResult) {
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!player.isSneaking()) {
             if (!world.isClient) {
                 NamedScreenHandlerFactory screenHandlerFactory = this.createScreenHandlerFactory(state, world, pos);
@@ -107,12 +103,6 @@ public class BlockDragonForgeCore extends BlockWithEntity implements IDragonProo
     @Override
     public boolean hasComparatorOutput(BlockState state) {
         return true;
-    }
-
-
-    @Override
-    public boolean shouldBeInTab() {
-        return !this.activated;
     }
 
     @Override

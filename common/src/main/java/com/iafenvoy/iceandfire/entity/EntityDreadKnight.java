@@ -12,11 +12,13 @@ import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.uranus.animation.Animation;
 import com.iafenvoy.uranus.animation.AnimationHandler;
 import com.iafenvoy.uranus.animation.IAnimatedEntity;
+import com.iafenvoy.uranus.object.RegistryHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.block.entity.BannerPatterns;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.BannerPatternsComponent;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -29,10 +31,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.DyeColor;
@@ -42,8 +43,9 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class EntityDreadKnight extends EntityDreadMob implements IAnimatedEntity, IVillagerFear, IAnimalFear {
-    public static final ItemStack SHIELD = generateShield();
     public static final Animation ANIMATION_SPAWN = Animation.create(40);
     private static final TrackedData<Integer> VARIANT = DataTracker.registerData(EntityDreadKnight.class, TrackedDataHandlerRegistry.INTEGER);
     private int animationTick;
@@ -53,14 +55,12 @@ public class EntityDreadKnight extends EntityDreadMob implements IAnimatedEntity
         super(type, worldIn);
     }
 
-    private static ItemStack generateShield() {
-        ItemStack itemstack = new ItemStack(Items.CYAN_BANNER);
-        NbtCompound compoundnbt = itemstack.getOrCreateSubNbt("BlockEntityTag");
-
-        NbtList listnbt = new BannerPattern.Patterns().add(BannerPatterns.BASE, DyeColor.CYAN).add(RegistryEntry.of(IafBannerPatterns.PATTERN_DREAD.get()), DyeColor.WHITE).toNbt();
-        compoundnbt.put("Patterns", listnbt);
-        ItemStack shield = new ItemStack(Items.SHIELD, 1);
-        shield.setNbt(itemstack.getNbt());
+    private ItemStack generateShield() {
+        ItemStack shield = new ItemStack(Items.SHIELD);
+        shield.set(DataComponentTypes.BANNER_PATTERNS, new BannerPatternsComponent(List.of(
+                new BannerPatternsComponent.Layer(RegistryHelper.getEntry(this.getRegistryManager(), RegistryKeys.BANNER_PATTERN, BannerPatterns.BASE), DyeColor.CYAN),
+                new BannerPatternsComponent.Layer(RegistryHelper.getEntry(this.getRegistryManager(), RegistryKeys.BANNER_PATTERN, IafBannerPatterns.PATTERN_DREAD), DyeColor.WHITE)
+        )));
         return shield;
     }
 
@@ -92,9 +92,9 @@ public class EntityDreadKnight extends EntityDreadMob implements IAnimatedEntity
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(VARIANT, 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(VARIANT, 0);
     }
 
     @Override
@@ -117,15 +117,14 @@ public class EntityDreadKnight extends EntityDreadMob implements IAnimatedEntity
     protected void initEquipment(Random pRandom, LocalDifficulty pDifficulty) {
         super.initEquipment(pRandom, pDifficulty);
         this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(IafItems.DREAD_KNIGHT_SWORD.get()));
-        if (this.random.nextBoolean()) {
-            this.equipStack(EquipmentSlot.OFFHAND, SHIELD.copy());
-        }
+        if (this.random.nextBoolean())
+            this.equipStack(EquipmentSlot.OFFHAND, generateShield());
         this.setArmorVariant(this.random.nextInt(3));
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        EntityData data = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        EntityData data = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setAnimation(ANIMATION_SPAWN);
         this.initEquipment(worldIn.getRandom(), difficultyIn);
         return data;
@@ -181,10 +180,10 @@ public class EntityDreadKnight extends EntityDreadMob implements IAnimatedEntity
         return true;
     }
 
-    @Override
-    protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
-        return -0.6F;//TODO: RECHECK
-    }
+//    @Override
+//    protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
+//        return -0.6F;//TODO: RECHECK
+//    }
 
     @Override
     protected SoundEvent getAmbientSound() {

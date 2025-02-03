@@ -64,12 +64,12 @@ public class EntityLightningDragon extends EntityDragonBase {
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(HAS_LIGHTNING_TARGET, false);
-        this.dataTracker.startTracking(LIGHTNING_TARGET_X, 0.0F);
-        this.dataTracker.startTracking(LIGHTNING_TARGET_Y, 0.0F);
-        this.dataTracker.startTracking(LIGHTNING_TARGET_Z, 0.0F);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(HAS_LIGHTNING_TARGET, false);
+        builder.add(LIGHTNING_TARGET_X, 0.0F);
+        builder.add(LIGHTNING_TARGET_Y, 0.0F);
+        builder.add(LIGHTNING_TARGET_Z, 0.0F);
     }
 
     @Override
@@ -432,8 +432,8 @@ public class EntityLightningDragon extends EntityDragonBase {
     }
 
     @Override
-    public ItemStack getSkull() {
-        return new ItemStack(IafItems.DRAGON_SKULL_LIGHTNING.get());
+    public Item getSkull() {
+        return IafItems.DRAGON_SKULL_LIGHTNING.get();
     }
 
     /* FIXME :: Check -> why is this the only dragon overriding this?

@@ -4,13 +4,14 @@ import com.google.common.collect.ImmutableList;
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.item.armor.ItemTrollArmor;
 import com.iafenvoy.iceandfire.item.tool.ItemTrollWeapon;
+import com.iafenvoy.iceandfire.registry.IafArmorMaterials;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.tag.IafBiomeTags;
-import com.iafenvoy.uranus.object.item.CustomArmorMaterial;
 import com.iafenvoy.uranus.util.RandomHelper;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
@@ -24,17 +25,17 @@ import java.util.function.Predicate;
 public class TrollType {
     private static final List<TrollType> TYPES = new ArrayList<>();
     private static final Map<String, TrollType> BY_NAME = new HashMap<>();
-    public static final TrollType FOREST = new TrollType("forest", IafItems.TROLL_FOREST_ARMOR_MATERIAL, biome -> biome.isIn(IafBiomeTags.FOREST_TROLL), Identifier.of(IceAndFire.MOD_ID, "entities/troll_forest"), BuiltinWeapon.TRUNK, BuiltinWeapon.COLUMN_FOREST, BuiltinWeapon.AXE, BuiltinWeapon.HAMMER);
-    public static final TrollType FROST = new TrollType("frost", IafItems.TROLL_FROST_ARMOR_MATERIAL, biome -> biome.isIn(IafBiomeTags.SNOWY_TROLL), Identifier.of(IceAndFire.MOD_ID, "entities/troll_frost"), BuiltinWeapon.COLUMN_FROST, BuiltinWeapon.TRUNK_FROST, BuiltinWeapon.AXE, BuiltinWeapon.HAMMER);
-    public static final TrollType MOUNTAIN = new TrollType("mountain", IafItems.TROLL_MOUNTAIN_ARMOR_MATERIAL, biome -> biome.isIn(IafBiomeTags.MOUNTAIN_TROLL), Identifier.of(IceAndFire.MOD_ID, "entities/troll_mountain"), BuiltinWeapon.COLUMN, BuiltinWeapon.AXE, BuiltinWeapon.HAMMER);
+    public static final TrollType FOREST = new TrollType("forest", IafArmorMaterials.TROLL_FOREST_ARMOR_MATERIAL, biome -> biome.isIn(IafBiomeTags.FOREST_TROLL), Identifier.of(IceAndFire.MOD_ID, "entities/troll_forest"), BuiltinWeapon.TRUNK, BuiltinWeapon.COLUMN_FOREST, BuiltinWeapon.AXE, BuiltinWeapon.HAMMER);
+    public static final TrollType FROST = new TrollType("frost", IafArmorMaterials.TROLL_FROST_ARMOR_MATERIAL, biome -> biome.isIn(IafBiomeTags.SNOWY_TROLL), Identifier.of(IceAndFire.MOD_ID, "entities/troll_frost"), BuiltinWeapon.COLUMN_FROST, BuiltinWeapon.TRUNK_FROST, BuiltinWeapon.AXE, BuiltinWeapon.HAMMER);
+    public static final TrollType MOUNTAIN = new TrollType("mountain", IafArmorMaterials.TROLL_MOUNTAIN_ARMOR_MATERIAL, biome -> biome.isIn(IafBiomeTags.MOUNTAIN_TROLL), Identifier.of(IceAndFire.MOD_ID, "entities/troll_mountain"), BuiltinWeapon.COLUMN, BuiltinWeapon.AXE, BuiltinWeapon.HAMMER);
     public RegistrySupplier<Item> leather, helmet, chestplate, leggings, boots;
     private final String name;
-    private final CustomArmorMaterial material;
+    private final RegistryEntry<ArmorMaterial> material;
     private final Predicate<RegistryEntry<Biome>> biomePredicate;
     private final Identifier lootTable;
     private final List<BuiltinWeapon> weapons;
 
-    public TrollType(String name, CustomArmorMaterial material, Predicate<RegistryEntry<Biome>> biomePredicate, Identifier lootTable, BuiltinWeapon... weapons) {
+    public TrollType(String name, RegistryEntry<ArmorMaterial> material, Predicate<RegistryEntry<Biome>> biomePredicate, Identifier lootTable, BuiltinWeapon... weapons) {
         this.name = name;
         this.weapons = List.of(weapons);
         this.material = material;
@@ -79,7 +80,7 @@ public class TrollType {
         return this.lootTable;
     }
 
-    public CustomArmorMaterial getMaterial() {
+    public RegistryEntry<ArmorMaterial> getMaterial() {
         return this.material;
     }
 

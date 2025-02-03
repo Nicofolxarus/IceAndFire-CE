@@ -2,6 +2,7 @@ package com.iafenvoy.iceandfire.particle;
 
 import com.iafenvoy.iceandfire.render.entity.RenderSiren;
 import com.iafenvoy.iceandfire.render.model.ModelSiren;
+import com.iafenvoy.iceandfire.util.Color4i;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.particle.Particle;
@@ -39,7 +40,7 @@ public class ParticleSirenAppearance extends Particle {
         matrixstack.translate(0.0D, -1.101F, 1.5D);
         VertexConsumerProvider.Immediate irendertypebuffer$impl = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
         VertexConsumer ivertexbuilder = irendertypebuffer$impl.getBuffer(RenderLayer.getEntityTranslucent(RenderSiren.getSirenOverlayTexture(this.sirenType)));
-        this.model.render(matrixstack, ivertexbuilder, 15728880, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, f1);
+        this.model.render(matrixstack, ivertexbuilder, 15728880, OverlayTexture.DEFAULT_UV, new Color4i(1.0F, 1.0F, 1.0F, f1).getIntValue());
         irendertypebuffer$impl.draw();
     }
 }

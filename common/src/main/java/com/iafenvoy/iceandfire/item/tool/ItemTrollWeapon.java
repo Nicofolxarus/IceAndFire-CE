@@ -1,13 +1,13 @@
 package com.iafenvoy.iceandfire.item.tool;
 
 import com.iafenvoy.iceandfire.data.TrollType;
-import com.iafenvoy.iceandfire.registry.IafItems;
-import net.minecraft.client.item.TooltipContext;
+import com.iafenvoy.iceandfire.registry.IafToolMaterials;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -18,7 +18,7 @@ public class ItemTrollWeapon extends SwordItem {
     public final TrollType.ITrollWeapon weapon;
 
     public ItemTrollWeapon(TrollType.ITrollWeapon weapon) {
-        super(IafItems.TROLL_WEAPON_TOOL_MATERIAL, 15, -3.5F, new Settings());
+        super(IafToolMaterials.TROLL_WEAPON_TOOL_MATERIAL, new Settings());
         this.weapon = weapon;
     }
 
@@ -46,7 +46,8 @@ public class ItemTrollWeapon extends SwordItem {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
         tooltip.add(Text.translatable("item.iceandfire.legendary_weapon.desc").formatted(Formatting.GRAY));
     }
 }

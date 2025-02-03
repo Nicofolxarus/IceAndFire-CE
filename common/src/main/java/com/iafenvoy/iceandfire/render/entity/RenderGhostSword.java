@@ -16,7 +16,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 
 public class RenderGhostSword extends EntityRenderer<EntityGhostSword> {
-
     public RenderGhostSword(EntityRendererFactory.Context context) {
         super(context);
     }

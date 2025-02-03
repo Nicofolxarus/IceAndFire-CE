@@ -19,8 +19,9 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.Identifier;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -94,10 +95,10 @@ public class EntityMyrmexSwarmer extends EntityMyrmexRoyal {
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(SUMMONER_ID, Optional.empty());
-        this.dataTracker.startTracking(TICKS_ALIVE, 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(SUMMONER_ID, Optional.empty());
+        builder.add(TICKS_ALIVE, 0);
     }
 
     public LivingEntity getSummoner() {
@@ -221,7 +222,7 @@ public class EntityMyrmexSwarmer extends EntityMyrmexRoyal {
     }
 
     @Override
-    protected Identifier getLootTableId() {
+    protected RegistryKey<LootTable> getLootTableId() {
         return null;
     }
 

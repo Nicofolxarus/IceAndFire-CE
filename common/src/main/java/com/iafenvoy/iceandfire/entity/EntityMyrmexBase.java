@@ -7,6 +7,7 @@ import com.iafenvoy.iceandfire.entity.util.IHasCustomizableAttributes;
 import com.iafenvoy.iceandfire.entity.util.MyrmexHive;
 import com.iafenvoy.iceandfire.item.block.BlockMyrmexConnectedResin;
 import com.iafenvoy.iceandfire.item.block.BlockMyrmexResin;
+import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import com.iafenvoy.iceandfire.registry.tag.IafBiomeTags;
@@ -40,6 +41,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -61,6 +63,7 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -85,7 +88,6 @@ public abstract class EntityMyrmexBase extends AnimalEntity implements IAnimated
     private int timeUntilReset;
     private boolean leveledUp;
     private PlayerEntity customer;
-
 
     public EntityMyrmexBase(EntityType<? extends EntityMyrmexBase> t, World worldIn) {
         super(t, worldIn);
@@ -197,17 +199,16 @@ public abstract class EntityMyrmexBase extends AnimalEntity implements IAnimated
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(CLIMBING, (byte) 0);
-        this.dataTracker.startTracking(GROWTH_STAGE, 2);
-        this.dataTracker.startTracking(VARIANT, Boolean.FALSE);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(CLIMBING, (byte) 0);
+        builder.add(GROWTH_STAGE, 2);
+        builder.add(VARIANT, Boolean.FALSE);
     }
 
     @Override
     public void tick() {
         super.tick();
-        this.setStepHeight(1);
         if (this.getWorld().getDifficulty() == Difficulty.PEACEFUL && this.getTarget() instanceof PlayerEntity) {
             this.setTarget(null);
         }
@@ -260,19 +261,9 @@ public abstract class EntityMyrmexBase extends AnimalEntity implements IAnimated
             tag.putUuid("HiveUUID", this.getHive().hiveUUID);
         }
         TradeOfferList merchantoffers = this.getOffers();
-        if (!merchantoffers.isEmpty()) {
-            tag.put("Offers", merchantoffers.toNbt());
-        }
-
-        NbtList listnbt = new NbtList();
-
-        for (int i = 0; i < this.villagerInventory.size(); ++i) {
-            ItemStack itemstack = this.villagerInventory.getStack(i);
-            if (!itemstack.isEmpty()) {
-                listnbt.add(itemstack.writeNbt(new NbtCompound()));
-            }
-        }
-        tag.put("Inventory", listnbt);
+        if (!merchantoffers.isEmpty())
+            tag.put("Offers", TradeOfferList.CODEC.encodeStart(NbtOps.INSTANCE, merchantoffers).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtCompound()));
+        tag.put("Inventory", ItemStack.CODEC.listOf().encodeStart(NbtOps.INSTANCE, this.villagerInventory.getHeldStacks()).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtList()));
     }
 
     @Override
@@ -281,25 +272,15 @@ public abstract class EntityMyrmexBase extends AnimalEntity implements IAnimated
         this.setGrowthStage(tag.getInt("GrowthStage"));
         this.growthTicks = tag.getInt("GrowthTicks");
         this.setJungleVariant(tag.getBoolean("Variant"));
-        if (tag.containsUuid("HiveUUID")) {
+        if (tag.containsUuid("HiveUUID"))
             this.setHive(MyrmexWorldData.get(this.getWorld()).getHiveFromUUID(tag.getUuid("HiveUUID")));
-        }
-        if (tag.contains("Offers", 10)) {
-            this.offers = new TradeOfferList(tag.getCompound("Offers"));
-        }
-
-        NbtList listnbt = tag.getList("Inventory", 10);
-
-        for (int i = 0; i < listnbt.size(); ++i) {
-            ItemStack itemstack = ItemStack.fromNbt(listnbt.getCompound(i));
-            if (!itemstack.isEmpty()) {
-                this.villagerInventory.addStack(itemstack);
-            }
-        }
+        if (tag.contains("Offers"))
+            this.offers = TradeOfferList.CODEC.parse(NbtOps.INSTANCE, tag.get("Offers")).resultOrPartial(IceAndFire.LOGGER::error).orElse(new TradeOfferList());
+        List<ItemStack> inv = ItemStack.CODEC.listOf().parse(NbtOps.INSTANCE, tag.get("Inventory")).resultOrPartial(IceAndFire.LOGGER::error).orElse(List.of());
+        for (int i = 0; i < inv.size() && i < this.villagerInventory.size(); i++)
+            this.villagerInventory.setStack(i, inv.get(i));
         this.setConfigurableAttributes();
-
     }
-
 
     public boolean canAttackTamable(TameableEntity tameable) {
         if (tameable.getOwner() != null && this.getHive() != null) {
@@ -335,11 +316,6 @@ public abstract class EntityMyrmexBase extends AnimalEntity implements IAnimated
 
     public void setJungleVariant(boolean isJungle) {
         this.dataTracker.set(VARIANT, isJungle);
-    }
-
-    @Override
-    public EntityGroup getGroup() {
-        return EntityGroup.ARTHROPOD;
     }
 
     public boolean isBesideClimbableBlock() {
@@ -467,22 +443,14 @@ public abstract class EntityMyrmexBase extends AnimalEntity implements IAnimated
     }
 
     public void onStaffInteract(PlayerEntity player, ItemStack itemstack) {
-        if (itemstack.getNbt() == null) {
-            return;
-        }
-        UUID staffUUID = itemstack.getNbt().containsUuid("HiveUUID") ? itemstack.getNbt().getUuid("HiveUUID") : null;
-        if (this.getWorld().isClient) {
-            return;
-        }
-        if (!player.isCreative()) {
-            if ((this.getHive() != null && !this.getHive().canPlayerCommandHive(player.getUuid()))) {
+        UUID staffUUID = itemstack.get(IafDataComponents.UUID.get());
+        if (this.getWorld().isClient) return;
+        if (!player.isCreative())
+            if ((this.getHive() != null && !this.getHive().canPlayerCommandHive(player.getUuid())))
                 return;
-            }
-        }
-        if (this.getHive() == null) {
+        if (this.getHive() == null)
             player.sendMessage(Text.translatable("myrmex.message.null_hive"), true);
-
-        } else {
+        else {
             if (staffUUID != null && staffUUID.equals(this.getHive().hiveUUID)) {
                 player.sendMessage(Text.translatable("myrmex.message.staff_already_set"), true);
             } else {
@@ -494,7 +462,7 @@ public abstract class EntityMyrmexBase extends AnimalEntity implements IAnimated
                 } else {
                     player.sendMessage(Text.translatable("myrmex.message.staff_set_unnamed", center.getX(), center.getY(), center.getZ()), true);
                 }
-                itemstack.getNbt().putUuid("HiveUUID", this.getHive().hiveUUID);
+                itemstack.set(IafDataComponents.UUID.get(), this.getHive().hiveUUID);
             }
 
         }
@@ -502,8 +470,8 @@ public abstract class EntityMyrmexBase extends AnimalEntity implements IAnimated
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setHive(MyrmexWorldData.get(this.getWorld()).getNearestHive(this.getBlockPos(), 400));
         if (this.getHive() != null) {
             this.setJungleVariant(isJungleBiome(this.getWorld(), this.getHive().getCenter()));

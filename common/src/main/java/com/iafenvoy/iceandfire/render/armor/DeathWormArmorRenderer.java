@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.render.armor;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.registry.IafItems;
+import com.iafenvoy.iceandfire.registry.IafArmorMaterials;
 import com.iafenvoy.iceandfire.render.model.armor.ModelDeathWormArmor;
 import com.iafenvoy.uranus.client.render.armor.IArmorRendererBase;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -21,10 +21,10 @@ public class DeathWormArmorRenderer implements IArmorRendererBase<LivingEntity> 
 
     @Override
     public Identifier getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot) {
-        ArmorMaterial material = ((ArmorItem) stack.getItem()).getMaterial();
-        if (material == IafItems.DEATHWORM_2_ARMOR_MATERIAL)
+        ArmorMaterial material = ((ArmorItem) stack.getItem()).getMaterial().value();
+        if (material == IafArmorMaterials.DEATHWORM_2_ARMOR_MATERIAL.value())
             return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/armor_deathworm_red" + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
-        else if (material == IafItems.DEATHWORM_1_ARMOR_MATERIAL)
+        else if (material == IafArmorMaterials.DEATHWORM_1_ARMOR_MATERIAL.value())
             return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/armor_deathworm_white" + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
         else
             return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/armor_deathworm_yellow" + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));

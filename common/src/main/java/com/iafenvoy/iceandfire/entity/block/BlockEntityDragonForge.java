@@ -22,6 +22,8 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.recipe.input.RecipeInput;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
@@ -33,7 +35,7 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Optional;
 
-public class BlockEntityDragonForge extends LockableContainerBlockEntity implements SidedInventory {
+public class BlockEntityDragonForge extends LockableContainerBlockEntity implements SidedInventory, RecipeInput {
     private static final int[] SLOTS_TOP = new int[]{0, 1};
     private static final int[] SLOTS_BOTTOM = new int[]{2};
     private static final int[] SLOTS_SIDES = new int[]{0, 1};
@@ -100,6 +102,16 @@ public class BlockEntityDragonForge extends LockableContainerBlockEntity impleme
 
     @Override
     public int size() {
+        return this.forgeItemStacks.size();
+    }
+
+    @Override
+    public ItemStack getStackInSlot(int slot) {
+        return this.forgeItemStacks.get(slot);
+    }
+
+    @Override
+    public int getSize() {
         return this.forgeItemStacks.size();
     }
 
@@ -171,17 +183,18 @@ public class BlockEntityDragonForge extends LockableContainerBlockEntity impleme
     }
 
     @Override
-    public void readNbt(NbtCompound compound) {
-        super.readNbt(compound);
+    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
         this.forgeItemStacks = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
-        Inventories.readNbt(compound, this.forgeItemStacks);
-        this.getPropertyDelegate().cookTime = compound.getInt("CookTime");
+        Inventories.readNbt(nbt, this.forgeItemStacks, registryLookup);
+        this.getPropertyDelegate().cookTime = nbt.getInt("CookTime");
     }
 
     @Override
-    public void writeNbt(NbtCompound compound) {
-        compound.putInt("CookTime", (short) this.getPropertyDelegate().cookTime);
-        Inventories.writeNbt(compound, this.forgeItemStacks);
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.writeNbt(nbt, registryLookup);
+        nbt.putInt("CookTime", (short) this.getPropertyDelegate().cookTime);
+        Inventories.writeNbt(nbt, this.forgeItemStacks, registryLookup);
     }
 
     @Override
@@ -314,6 +327,16 @@ public class BlockEntityDragonForge extends LockableContainerBlockEntity impleme
         return Text.translatable("container.dragonforge_fire" + DragonType.getNameFromInt(this.getPropertyDelegate().fireType));
     }
 
+    @Override
+    protected DefaultedList<ItemStack> getHeldStacks() {
+        return this.forgeItemStacks;
+    }
+
+    @Override
+    protected void setHeldStacks(DefaultedList<ItemStack> inventory) {
+        this.forgeItemStacks = inventory;
+    }
+
     public void transferPower(int i) {
         assert this.world != null;
         if (!this.world.isClient) {
@@ -354,8 +377,8 @@ public class BlockEntityDragonForge extends LockableContainerBlockEntity impleme
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return this.createNbtWithIdentifyingData();
+    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+        return this.createNbtWithIdentifyingData(registryLookup);
     }
 
     public boolean assembled() {

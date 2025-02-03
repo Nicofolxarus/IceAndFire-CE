@@ -1,11 +1,13 @@
 package com.iafenvoy.iceandfire.item;
 
 import com.iafenvoy.iceandfire.entity.EntityMyrmexEgg;
+import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafEntities;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -24,12 +26,12 @@ public class ItemMyrmexEgg extends Item {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
         String caste;
-        NbtCompound tag = stack.getNbt();
         int eggOrdinal = 0;
-        if (tag != null)
-            eggOrdinal = tag.getInt("EggOrdinal");
+        if (stack.contains(IafDataComponents.INT.get()))
+            eggOrdinal = stack.get(IafDataComponents.INT.get());
         caste = switch (eggOrdinal) {
             case 1 -> "soldier";
             case 2 -> "royal";
@@ -49,15 +51,14 @@ public class ItemMyrmexEgg extends Item {
         ItemStack itemstack = context.getPlayer().getStackInHand(context.getHand());
         BlockPos offset = context.getBlockPos().offset(context.getSide());
         EntityMyrmexEgg egg = new EntityMyrmexEgg(IafEntities.MYRMEX_EGG.get(), context.getWorld());
-        NbtCompound tag = itemstack.getNbt();
         int eggOrdinal = 0;
-        if (tag != null)
-            eggOrdinal = tag.getInt("EggOrdinal");
+        if (itemstack.contains(IafDataComponents.INT.get()))
+            eggOrdinal = itemstack.get(IafDataComponents.INT.get());
         egg.setJungle(this.isJungle);
         egg.setMyrmexCaste(eggOrdinal);
         egg.refreshPositionAndAngles(offset.getX() + 0.5, offset.getY(), offset.getZ() + 0.5, 0, 0);
         context.getPlayer();
-        if (itemstack.hasCustomName())
+        if (itemstack.contains(DataComponentTypes.CUSTOM_NAME))
             egg.setCustomName(itemstack.getName());
         if (!context.getWorld().isClient)
             context.getWorld().spawnEntity(egg);
@@ -67,10 +68,9 @@ public class ItemMyrmexEgg extends Item {
 
     @Override
     public boolean hasGlint(ItemStack stack) {
-        NbtCompound tag = stack.getNbt();
         int eggOrdinal = 0;
-        if (tag != null)
-            eggOrdinal = tag.getInt("EggOrdinal");
+        if (stack.contains(IafDataComponents.INT.get()))
+            eggOrdinal = stack.get(IafDataComponents.INT.get());
         return super.hasGlint(stack) || eggOrdinal == 4;
     }
 }

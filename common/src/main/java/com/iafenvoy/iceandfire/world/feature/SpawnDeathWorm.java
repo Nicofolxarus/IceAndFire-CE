@@ -31,7 +31,7 @@ public class SpawnDeathWorm extends Feature<DefaultFeatureConfig> {
                 EntityDeathWorm deathWorm = IafEntities.DEATH_WORM.get().create(worldIn.toServerWorld());
                 assert deathWorm != null;
                 deathWorm.setPosition(position.getX() + 0.5F, position.getY() + 1, position.getZ() + 0.5F);
-                deathWorm.initialize(worldIn, worldIn.getLocalDifficulty(position), SpawnReason.CHUNK_GENERATION, null, null);
+                deathWorm.initialize(worldIn, worldIn.getLocalDifficulty(position), SpawnReason.CHUNK_GENERATION, null);
                 worldIn.spawnEntity(deathWorm);
             }
         }

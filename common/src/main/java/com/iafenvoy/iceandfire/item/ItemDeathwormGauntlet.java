@@ -1,14 +1,14 @@
 package com.iafenvoy.iceandfire.item;
 
 import com.iafenvoy.iceandfire.data.component.IafEntityData;
+import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafSounds;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.math.Box;
@@ -23,11 +23,11 @@ public class ItemDeathwormGauntlet extends Item {
     private int specialDamage = 0;
 
     public ItemDeathwormGauntlet() {
-        super(new Settings().maxDamage(500));
+        super(new Settings().maxDamage(500).component(IafDataComponents.INT.get(), -1));
     }
 
     @Override
-    public int getMaxUseTime(ItemStack stack) {
+    public int getMaxUseTime(ItemStack stack, LivingEntity user) {
         return 1;
     }
 
@@ -47,10 +47,8 @@ public class ItemDeathwormGauntlet extends Item {
     public void usageTick(World level, LivingEntity entity, ItemStack stack, int count) {
         if (!this.deathwormReceded && !this.deathwormLaunched) {
             if (entity instanceof PlayerEntity player) {
-                NbtCompound tag = stack.getOrCreateNbt();
-
-                if (tag.getInt("HolderID") != player.getId())
-                    tag.putInt("HolderID", player.getId());
+                if (stack.get(IafDataComponents.INT.get()) != player.getId())
+                    stack.set(IafDataComponents.INT.get(), player.getId());
 
                 if (player.getItemCooldownManager().getCooldownProgress(this, 0.0F) == 0) {
                     player.getItemCooldownManager().set(this, 10);
@@ -63,15 +61,14 @@ public class ItemDeathwormGauntlet extends Item {
     }
 
     @Override
-    public void onStoppedUsing(ItemStack stack, World worldIn, LivingEntity LivingEntity, int timeLeft) {
+    public void onStoppedUsing(ItemStack stack, World worldIn, LivingEntity user, int timeLeft) {
         if (this.specialDamage > 0) {
-            stack.damage(this.specialDamage, LivingEntity, player -> player.sendToolBreakStatus(LivingEntity.getActiveHand()));
+            stack.damage(this.specialDamage, user, LivingEntity.getSlotForHand(user.getActiveHand()));
             this.specialDamage = 0;
         }
 
-        NbtCompound tag = stack.getOrCreateNbt();
-        if (tag.getInt("HolderID") != -1)
-            tag.putInt("HolderID", -1);
+        if (stack.get(IafDataComponents.INT.get()) != -1)
+            stack.set(IafDataComponents.INT.get(), -1);
     }
 
     @Override
@@ -127,7 +124,8 @@ public class ItemDeathwormGauntlet extends Item {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
         tooltip.add(Text.translatable("item.iceandfire.legendary_weapon.desc").formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("item.iceandfire.deathworm_gauntlet.desc_0").formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("item.iceandfire.deathworm_gauntlet.desc_1").formatted(Formatting.GRAY));

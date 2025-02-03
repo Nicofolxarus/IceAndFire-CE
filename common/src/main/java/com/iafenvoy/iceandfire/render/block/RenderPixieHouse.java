@@ -81,8 +81,8 @@ public class RenderPixieHouse<T extends BlockEntityPixieHouse> implements BlockE
             };
             matrixStackIn.push();
             MODEL_PIXIE.animateInHouse(entity);
-            MODEL_PIXIE.render(matrixStackIn, bufferIn.getBuffer(type), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            MODEL_PIXIE.render(matrixStackIn, bufferIn.getBuffer(type2), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            MODEL_PIXIE.render(matrixStackIn, bufferIn.getBuffer(type), combinedLightIn, combinedOverlayIn, -1);
+            MODEL_PIXIE.render(matrixStackIn, bufferIn.getBuffer(type2), combinedLightIn, combinedOverlayIn, -1);
             matrixStackIn.pop();
             matrixStackIn.pop();
             matrixStackIn.pop();
@@ -96,7 +96,7 @@ public class RenderPixieHouse<T extends BlockEntityPixieHouse> implements BlockE
             default -> TEXTURE_0;
         };
         matrixStackIn.push();
-        MODEL.render(matrixStackIn, bufferIn.getBuffer(pixieType), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+        MODEL.render(matrixStackIn, bufferIn.getBuffer(pixieType), combinedLightIn, combinedOverlayIn, -1);
         matrixStackIn.pop();
         matrixStackIn.pop();
         matrixStackIn.pop();

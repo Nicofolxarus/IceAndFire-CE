@@ -7,7 +7,6 @@ import net.minecraft.entity.ai.pathing.PathNodeNavigator;
 import net.minecraft.world.World;
 
 public class PathNavigateCyclops extends CustomCollisionsNavigator {
-
     public PathNavigateCyclops(EntityCyclops LivingEntityIn, World worldIn) {
         super(LivingEntityIn, worldIn);
     }

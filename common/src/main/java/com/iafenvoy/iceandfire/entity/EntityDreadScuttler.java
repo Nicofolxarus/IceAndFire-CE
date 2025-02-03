@@ -77,10 +77,10 @@ public class EntityDreadScuttler extends EntityDreadMob implements IAnimatedEnti
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(CLIMBING, (byte) 0);
-        this.dataTracker.startTracking(SCALE, 1F);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(CLIMBING, (byte) 0);
+        builder.add(SCALE, 1F);
     }
 
     public float getSize() {
@@ -151,11 +151,6 @@ public class EntityDreadScuttler extends EntityDreadMob implements IAnimatedEnti
     }
 
     @Override
-    public EntityGroup getGroup() {
-        return EntityGroup.ARTHROPOD;
-    }
-
-    @Override
     public boolean canHaveStatusEffect(StatusEffectInstance potioneffectIn) {
         return potioneffectIn.getEffectType() != StatusEffects.POISON && super.canHaveStatusEffect(potioneffectIn);
     }
@@ -177,8 +172,8 @@ public class EntityDreadScuttler extends EntityDreadMob implements IAnimatedEnti
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        EntityData data = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        EntityData data = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setAnimation(ANIMATION_SPAWN);
         this.setSize(0.5F + this.random.nextFloat() * 1.15F);
         return data;

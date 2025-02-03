@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.world.processor;
 
 import com.iafenvoy.iceandfire.registry.IafProcessors;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.structure.StructurePlacementData;
@@ -14,7 +14,7 @@ import net.minecraft.world.WorldView;
 
 public class GraveyardProcessor extends StructureProcessor {
     public static final GraveyardProcessor INSTANCE = new GraveyardProcessor();
-    public static final Codec<GraveyardProcessor> CODEC = Codec.unit(() -> INSTANCE);
+    public static final MapCodec<GraveyardProcessor> CODEC = MapCodec.unit(() -> INSTANCE);
 
     public static BlockState getRandomCobblestone(BlockState prev, Random random) {
         float rand = random.nextFloat();

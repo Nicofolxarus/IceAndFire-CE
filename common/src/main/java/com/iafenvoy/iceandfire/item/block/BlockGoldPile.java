@@ -4,13 +4,13 @@ import com.iafenvoy.iceandfire.registry.IafSounds;
 import net.minecraft.block.*;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -31,7 +31,7 @@ public class BlockGoldPile extends Block {
     }
 
     @Override
-    public boolean canPathfindThrough(BlockState state, BlockView worldIn, BlockPos pos, NavigationType type) {
+    protected boolean canPathfindThrough(BlockState state, NavigationType type) {
         return type == NavigationType.LAND && state.get(LAYERS) < 5;
     }
 
@@ -82,17 +82,18 @@ public class BlockGoldPile extends Block {
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand handIn, BlockHitResult resultIn) {
-        ItemStack item = playerIn.getInventory().getMainHandStack();
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+        ItemStack item = player.getInventory().getMainHandStack();
 
         if (!item.isEmpty() && item.getItem() != null && item.getItem() == this.asItem() && state.get(LAYERS) < 8) {
-            worldIn.setBlockState(pos, state.with(LAYERS, state.get(LAYERS) + 1), 3);
-            if (!playerIn.isCreative()) {
+            world.setBlockState(pos, state.with(LAYERS, state.get(LAYERS) + 1), 3);
+            if (!player.isCreative()) {
                 item.decrement(1);
+                PlayerInventory inventory = player.getInventory();
                 if (item.isEmpty())
-                    playerIn.getInventory().setStack(playerIn.getInventory().selectedSlot, ItemStack.EMPTY);
+                    inventory.setStack(inventory.selectedSlot, ItemStack.EMPTY);
                 else
-                    playerIn.getInventory().setStack(playerIn.getInventory().selectedSlot, item);
+                    inventory.setStack(inventory.selectedSlot, item);
             }
             return ActionResult.SUCCESS;
         }

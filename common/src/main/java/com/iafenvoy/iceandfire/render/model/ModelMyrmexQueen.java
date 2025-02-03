@@ -426,7 +426,7 @@ public class ModelMyrmexQueen extends ModelMyrmexBase<EntityMyrmexQueen> {
 
     @Override
     public void renderStatue(MatrixStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, Entity living) {
-        this.render(matrixStackIn, bufferIn, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+        this.render(matrixStackIn, bufferIn, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
         this.Body5.setScale(1.0F, 1.0F, 1.0F);
         this.Tail1.setScale(1.0F, 1.0F, 1.0F);
         this.Tail2.setScale(1.0F, 1.0F, 1.0F);

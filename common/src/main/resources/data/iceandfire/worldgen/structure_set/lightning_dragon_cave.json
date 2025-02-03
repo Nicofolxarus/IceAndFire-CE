@@ -6,10 +6,7 @@
     "spacing": 20,
     "exclusion_zone": {
       "chunk_count": 6,
-      "other_set": [
-        "iceandfire:fire_dragon_cave",
-        "iceandfire:ice_dragon_cave"
-      ]
+      "other_set": "iceandfire:fire_dragon_cave"
     }
   },
   "structures": [

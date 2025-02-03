@@ -17,7 +17,6 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
 public class PathNavigateDeathWormSand extends SwimNavigation {
-
     public PathNavigateDeathWormSand(EntityDeathWorm deathworm, World worldIn) {
         super(deathworm, worldIn);
     }

@@ -91,7 +91,7 @@ public class TitleScreenRenderManager {
     }
 
     public static void renderBackground(DrawContext ms, int width, int height) {
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1, 1, 1, 1);
         RenderSystem.enableBlend();
         ms.drawTexture(TABLE_TEXTURE, 0, 0, 0, 0, width, height, width, height);
         ms.drawTexture(BESTIARY_TEXTURE, 50, 0, 0, 0, width - 100, height, width - 100, height);
@@ -116,7 +116,7 @@ public class TitleScreenRenderManager {
 
     public static void drawModName(DrawContext ms, int width, int height, int alphaFormatted) {
         int textColor = 0x00FFFFFF | alphaFormatted;
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1, 1, 1, 1);
         RenderSystem.enableBlend();
         boolean b = Platform.isFabric();
         ms.drawText(textRenderer, Formatting.GOLD + "Report if you meet any crash.", 2, height - (b ? 30 : 60), textColor, false);

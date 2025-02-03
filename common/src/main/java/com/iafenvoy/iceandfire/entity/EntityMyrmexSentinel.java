@@ -21,7 +21,11 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.village.TradeOffers;
@@ -73,13 +77,18 @@ public class EntityMyrmexSentinel extends EntityMyrmexBase {
     }
 
     @Override
-    protected Identifier getLootTableId() {
-        return this.isJungle() ? JUNGLE_LOOT : DESERT_LOOT;
+    protected RegistryKey<LootTable> getLootTableId() {
+        return RegistryKey.of(RegistryKeys.LOOT_TABLE, this.isJungle() ? JUNGLE_LOOT : DESERT_LOOT);
     }
 
     @Override
     public int getXpToDrop() {
         return 8;
+    }
+
+    @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return false;
     }
 
     public Entity getHeldEntity() {
@@ -178,9 +187,9 @@ public class EntityMyrmexSentinel extends EntityMyrmexBase {
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(HIDING, Boolean.FALSE);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(HIDING, Boolean.FALSE);
     }
 
     @Override
@@ -190,12 +199,8 @@ public class EntityMyrmexSentinel extends EntityMyrmexBase {
 
     @Override
     public Identifier getAdultTexture() {
-        if (this.isHiding()) {
-            return this.isJungle() ? TEXTURE_JUNGLE_HIDDEN : TEXTURE_DESERT_HIDDEN;
-
-        } else {
-            return this.isJungle() ? TEXTURE_JUNGLE : TEXTURE_DESERT;
-        }
+        if (this.isHiding()) return this.isJungle() ? TEXTURE_JUNGLE_HIDDEN : TEXTURE_DESERT_HIDDEN;
+        else return this.isJungle() ? TEXTURE_JUNGLE : TEXTURE_DESERT;
     }
 
     @Override

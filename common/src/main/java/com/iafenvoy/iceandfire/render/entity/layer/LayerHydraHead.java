@@ -63,7 +63,7 @@ public class LayerHydraHead extends FeatureRenderer<EntityHydra, ModelHydraBody>
             matrixStackIn.translate(TRANSLATE[heads - 1][head - 1] * bodyWidth, 0, 0);
             matrixStackIn.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(ROTATE[heads - 1][head - 1]));
             modelArr[head - 1].setAngles(hydra, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-            modelArr[head - 1].render(matrixStackIn, bufferIn.getBuffer(type), packedLightIn, LivingEntityRenderer.getOverlay(hydra, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
+            modelArr[head - 1].render(matrixStackIn, bufferIn.getBuffer(type), packedLightIn, LivingEntityRenderer.getOverlay(hydra, 0.0F), -1);
             matrixStackIn.pop();
         }
         matrixStackIn.pop();

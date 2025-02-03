@@ -2,11 +2,8 @@ package com.iafenvoy.iceandfire.data;
 
 import com.google.common.collect.ImmutableList;
 import com.iafenvoy.iceandfire.item.ItemBestiary;
+import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -63,8 +60,9 @@ public final class BestiaryPages {
 
     public static List<BestiaryPages> possiblePages(ItemStack book) {
         if (book.getItem() instanceof ItemBestiary) {
-            NbtCompound tag = book.getOrCreateNbt();
-            Collection<BestiaryPages> containedPages = containedPages(tag.getList("Pages", NbtElement.STRING_TYPE).stream().map(NbtElement::asString).toList());
+            List<String> s = book.get(IafDataComponents.BESTIARY_PAGES.get());
+            if (s == null) return List.of();
+            Collection<BestiaryPages> containedPages = containedPages(s);
             List<BestiaryPages> possiblePages = new ArrayList<>(ALL_PAGES);
             possiblePages.removeAll(containedPages);
             return possiblePages;
@@ -74,14 +72,10 @@ public final class BestiaryPages {
 
     public static void addPage(BestiaryPages page, ItemStack book) {
         if (book.getItem() instanceof ItemBestiary) {
-            NbtCompound tag = book.getOrCreateNbt();
-            final List<String> already = tag.getList("Pages", NbtElement.STRING_TYPE).stream().map(NbtElement::asString).collect(Collectors.toList());
-            if (!already.contains(page.name))
-                already.add(page.name);
-            tag.put("Pages", already.stream().reduce(new NbtList(), (p, c) -> {
-                p.add(NbtString.of(c));
-                return p;
-            }, (a1, a2) -> a1));
+            List<String> already = book.get(IafDataComponents.BESTIARY_PAGES.get());
+            if (already == null) return;
+            if (!already.contains(page.name)) already.add(page.name);
+            book.set(IafDataComponents.BESTIARY_PAGES.get(), already);
         }
     }
 

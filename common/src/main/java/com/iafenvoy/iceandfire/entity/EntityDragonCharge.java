@@ -22,20 +22,11 @@ public abstract class EntityDragonCharge extends AbstractFireballEntity implemen
     }
 
     public EntityDragonCharge(EntityType<? extends AbstractFireballEntity> type, World worldIn, double posX, double posY, double posZ, double accelX, double accelY, double accelZ) {
-        super(type, posX, posY, posZ, accelX, accelY, accelZ, worldIn);
-        double d0 = Math.sqrt(accelX * accelX + accelY * accelY + accelZ * accelZ);
-        this.powerX = accelX / d0 * 0.07D;
-        this.powerY = accelY / d0 * 0.07D;
-        this.powerZ = accelZ / d0 * 0.07D;
+        super(type, posX, posY, posZ, new Vec3d(accelX, accelY, accelZ), worldIn);
     }
 
-    public EntityDragonCharge(EntityType<? extends AbstractFireballEntity> type, World worldIn,
-                              EntityDragonBase shooter, double accelX, double accelY, double accelZ) {
-        super(type, shooter, accelX, accelY, accelZ, worldIn);
-        double d0 = Math.sqrt(accelX * accelX + accelY * accelY + accelZ * accelZ);
-        this.powerX = accelX / d0 * 0.07D;
-        this.powerY = accelY / d0 * 0.07D;
-        this.powerZ = accelZ / d0 * 0.07D;
+    public EntityDragonCharge(EntityType<? extends AbstractFireballEntity> type, World worldIn, EntityDragonBase shooter, double accelX, double accelY, double accelZ) {
+        super(type, shooter, new Vec3d(accelX, accelY, accelZ), worldIn);
     }
 
     @Override
@@ -63,7 +54,7 @@ public abstract class EntityDragonCharge extends AbstractFireballEntity implemen
                 }
                 f = 0.8F;
             }
-            this.setVelocity(vector3d.add(this.powerX, this.powerY, this.powerZ).multiply(f));
+            this.setVelocity(vector3d.add(vector3d.normalize().multiply(this.accelerationPower)).multiply(f));
             this.getWorld().addParticle(this.getParticleType(), this.getX(), this.getY() + 0.5D, this.getZ(), 0.0D, 0.0D, 0.0D);
             this.setPosition(d0, d1, d2);
         } else
@@ -79,20 +70,16 @@ public abstract class EntityDragonCharge extends AbstractFireballEntity implemen
             if (movingObject.getType() == HitResult.Type.ENTITY) {
                 Entity entity = ((EntityHitResult) movingObject).getEntity();
 
-                if (entity instanceof IDragonProjectile) {
+                if (entity instanceof IDragonProjectile)
                     return;
-                }
-                if (shootingEntity instanceof EntityDragonBase dragon) {
-                    if (dragon.isTeammate(entity) || dragon.isPartOf(entity) || dragon.isPart(entity)) {
+                if (shootingEntity instanceof EntityDragonBase dragon)
+                    if (dragon.isTeammate(entity) || dragon.isPartOf(entity) || dragon.isPart(entity))
                         return;
-                    }
-                }
                 if (entity == null || entity != shootingEntity && shootingEntity instanceof EntityDragonBase) {
                     assert shootingEntity instanceof EntityDragonBase;
                     EntityDragonBase dragon = (EntityDragonBase) shootingEntity;
-                    if (entity instanceof TameableEntity && ((EntityDragonBase) shootingEntity).isOwner(((EntityDragonBase) shootingEntity).getOwner())) {
+                    if (entity instanceof TameableEntity && dragon.isOwner(((EntityDragonBase) shootingEntity).getOwner()))
                         return;
-                    }
                     dragon.randomizeAttacks();
                     this.remove(RemovalReason.DISCARDED);
                 }
@@ -111,16 +98,12 @@ public abstract class EntityDragonCharge extends AbstractFireballEntity implemen
                             ((EntityDragonBase) shootingEntity).randomizeAttacks();
                         }
                     }
-                    if (shootingEntity instanceof LivingEntity) {
-                        this.applyDamageEffects((LivingEntity) shootingEntity, entity);
-                    }
                     this.remove(RemovalReason.DISCARDED);
                 }
             }
             if (movingObject.getType() != HitResult.Type.MISS) {
-                if (shootingEntity instanceof EntityDragonBase && DragonUtils.canGrief((EntityDragonBase) shootingEntity)) {
-                    this.destroyArea(this.getWorld(), BlockPos.ofFloored(this.getX(), this.getY(), this.getZ()), ((EntityDragonBase) shootingEntity));
-                }
+                if (shootingEntity instanceof EntityDragonBase dragon && DragonUtils.canGrief(dragon))
+                    this.destroyArea(this.getWorld(), BlockPos.ofFloored(this.getX(), this.getY(), this.getZ()), dragon);
                 this.remove(RemovalReason.DISCARDED);
             }
         }

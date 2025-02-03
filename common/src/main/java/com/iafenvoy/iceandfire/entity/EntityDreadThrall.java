@@ -78,13 +78,13 @@ public class EntityDreadThrall extends EntityDreadMob implements IAnimatedEntity
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(CUSTOM_ARMOR_INDEX, 0);
-        this.dataTracker.startTracking(CUSTOM_ARMOR_HEAD, Boolean.FALSE);
-        this.dataTracker.startTracking(CUSTOM_ARMOR_CHEST, Boolean.FALSE);
-        this.dataTracker.startTracking(CUSTOM_ARMOR_LEGS, Boolean.FALSE);
-        this.dataTracker.startTracking(CUSTOM_ARMOR_FEET, Boolean.FALSE);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(CUSTOM_ARMOR_INDEX, 0);
+        builder.add(CUSTOM_ARMOR_HEAD, Boolean.FALSE);
+        builder.add(CUSTOM_ARMOR_CHEST, Boolean.FALSE);
+        builder.add(CUSTOM_ARMOR_LEGS, Boolean.FALSE);
+        builder.add(CUSTOM_ARMOR_FEET, Boolean.FALSE);
     }
 
     @Override
@@ -143,8 +143,8 @@ public class EntityDreadThrall extends EntityDreadMob implements IAnimatedEntity
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        EntityData data = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        EntityData data = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setAnimation(ANIMATION_SPAWN);
         this.initEquipment(worldIn.getRandom(), difficultyIn);
         return data;

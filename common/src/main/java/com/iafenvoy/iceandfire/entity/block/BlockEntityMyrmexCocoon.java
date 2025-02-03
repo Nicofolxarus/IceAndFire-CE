@@ -9,6 +9,7 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
@@ -39,18 +40,17 @@ public class BlockEntityMyrmexCocoon extends LootableContainerBlockEntity {
     }
 
     @Override
-    public void readNbt(NbtCompound compound) {
-        super.readNbt(compound);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
         this.chestContents = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
-
-        if (!this.readLootTable(compound))
-            Inventories.readNbt(compound, this.chestContents);
+        if (!this.readLootTable(nbt))
+            Inventories.readNbt(nbt, this.chestContents, registryLookup);
     }
 
     @Override
-    public void writeNbt(NbtCompound compound) {
-        if (!this.writeLootTable(compound))
-            Inventories.writeNbt(compound, this.chestContents);
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        if (!this.writeLootTable(nbt))
+            Inventories.writeNbt(nbt, this.chestContents, registryLookup);
     }
 
     @Override
@@ -75,12 +75,13 @@ public class BlockEntityMyrmexCocoon extends LootableContainerBlockEntity {
 
 
     @Override
-    protected DefaultedList<ItemStack> method_11282() {
+    protected DefaultedList<ItemStack> getHeldStacks() {
         return this.chestContents;
     }
 
     @Override
-    protected void setInvStackList(DefaultedList<ItemStack> itemsIn) {
+    protected void setHeldStacks(DefaultedList<ItemStack> inventory) {
+        this.chestContents = inventory;
     }
 
     @Override
@@ -99,8 +100,8 @@ public class BlockEntityMyrmexCocoon extends LootableContainerBlockEntity {
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return this.createNbtWithIdentifyingData();
+    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+        return this.createNbtWithIdentifyingData(registryLookup);
     }
 
     public boolean isFull(ItemStack heldStack) {

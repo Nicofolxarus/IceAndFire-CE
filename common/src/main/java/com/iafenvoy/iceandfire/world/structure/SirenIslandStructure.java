@@ -5,7 +5,7 @@ import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafStructurePieces;
 import com.iafenvoy.iceandfire.registry.IafStructureTypes;
 import com.iafenvoy.iceandfire.world.GenerationConstants;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -29,8 +29,8 @@ import net.minecraft.world.gen.structure.StructureType;
 import java.util.Optional;
 
 public class SirenIslandStructure extends Structure {
-    public static final Codec<SirenIslandStructure> CODEC = RecordCodecBuilder.<SirenIslandStructure>mapCodec(instance ->
-            instance.group(configCodecBuilder(instance)).apply(instance, SirenIslandStructure::new)).codec();
+    public static final MapCodec<SirenIslandStructure> CODEC = RecordCodecBuilder.<SirenIslandStructure>mapCodec(instance ->
+            instance.group(configCodecBuilder(instance)).apply(instance, SirenIslandStructure::new));
 
     protected SirenIslandStructure(Config config) {
         super(config);

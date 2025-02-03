@@ -3,13 +3,12 @@ package com.iafenvoy.iceandfire.item.armor;
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.data.DragonArmorMaterial;
 import com.iafenvoy.iceandfire.data.DragonArmorPart;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.Locale;
@@ -39,7 +38,8 @@ public class ItemDragonArmor extends Item {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
         String words = "dragon.armor_" + this.dragonSlot.name().toLowerCase(Locale.ROOT);
         tooltip.add(Text.translatable(words).formatted(Formatting.GRAY));
     }

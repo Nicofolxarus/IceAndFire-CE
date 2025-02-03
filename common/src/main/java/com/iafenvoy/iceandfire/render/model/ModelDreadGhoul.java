@@ -6,7 +6,6 @@ import com.iafenvoy.uranus.client.model.ModelAnimator;
 import com.iafenvoy.uranus.client.model.util.HideableModelRenderer;
 
 public class ModelDreadGhoul extends ModelBipedBase<EntityDreadGhoul> {
-
     public final AdvancedModelBox head2;
     public final AdvancedModelBox clawsRight;
     public final AdvancedModelBox clawsLeft;

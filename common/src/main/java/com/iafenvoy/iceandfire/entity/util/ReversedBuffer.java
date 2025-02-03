@@ -131,6 +131,6 @@ public class ReversedBuffer {
     }
 
     private float getPartialTicks() {
-        return MinecraftClient.getInstance().getTickDelta();
+        return MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false);
     }
 }

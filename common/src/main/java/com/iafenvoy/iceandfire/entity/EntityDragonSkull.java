@@ -1,8 +1,10 @@
 package com.iafenvoy.iceandfire.entity;
 
+import com.iafenvoy.iceandfire.component.DragonSkullComponent;
 import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.util.IBlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.IDeadMob;
+import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -25,7 +27,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 public class EntityDragonSkull extends AnimalEntity implements IBlacklistedFromStatues, IDeadMob {
-
     private static final TrackedData<String> DRAGON_TYPE = DataTracker.registerData(EntityDragonSkull.class, TrackedDataHandlerRegistry.STRING);
     private static final TrackedData<Integer> DRAGON_AGE = DataTracker.registerData(EntityDragonSkull.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> DRAGON_STAGE = DataTracker.registerData(EntityDragonSkull.class, TrackedDataHandlerRegistry.INTEGER);
@@ -75,12 +76,12 @@ public class EntityDragonSkull extends AnimalEntity implements IBlacklistedFromS
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.getDataTracker().startTracking(DRAGON_TYPE, DragonType.FIRE.getName());
-        this.getDataTracker().startTracking(DRAGON_AGE, 0);
-        this.getDataTracker().startTracking(DRAGON_STAGE, 0);
-        this.getDataTracker().startTracking(DRAGON_DIRECTION, 0F);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(DRAGON_TYPE, DragonType.FIRE.getName());
+        builder.add(DRAGON_AGE, 0);
+        builder.add(DRAGON_STAGE, 0);
+        builder.add(DRAGON_DIRECTION, 0F);
     }
 
     @Override
@@ -133,13 +134,9 @@ public class EntityDragonSkull extends AnimalEntity implements IBlacklistedFromS
             return;
         this.remove(RemovalReason.DISCARDED);
         ItemStack stack = new ItemStack(this.getDragonSkullItem());
-        stack.setNbt(new NbtCompound());
-        assert stack.getNbt() != null;
-        stack.getNbt().putInt("Stage", this.getStage());
-        stack.getNbt().putInt("DragonAge", this.getDragonAge());
+        stack.set(IafDataComponents.DRAGON_SKULL.get(), new DragonSkullComponent(this.getStage(), this.getDragonAge()));
         if (!this.getWorld().isClient)
             this.dropStack(stack, 0.0F);
-
     }
 
     public Item getDragonSkullItem() {

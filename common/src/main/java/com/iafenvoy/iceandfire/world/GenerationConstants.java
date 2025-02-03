@@ -12,7 +12,7 @@ public class GenerationConstants {
     public static final Direction[] HORIZONTALS = new Direction[]{Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 
     public static boolean isFarEnoughFromSpawn(final BlockPos position) {
-        BlockPos spawnRelative = Optional.ofNullable(ServerHelper.server.getWorld(World.OVERWORLD)).map(World::getLevelProperties).map(x -> new BlockPos(x.getSpawnX(), position.getY(), x.getSpawnY())).orElse(new BlockPos(0, position.getY(), 0));
+        BlockPos spawnRelative = Optional.ofNullable(ServerHelper.server.getWorld(World.OVERWORLD)).map(World::getLevelProperties).map(x -> new BlockPos(x.getSpawnPos().getX(), position.getY(), x.getSpawnPos().getZ())).orElse(new BlockPos(0, position.getY(), 0));
         return !spawnRelative.isWithinDistance(position, IafCommonConfig.INSTANCE.worldGen.dangerousDistanceLimit.getValue().floatValue());
     }
 }

@@ -2,12 +2,12 @@ package com.iafenvoy.iceandfire.item.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.world.BlockView;
 
 import java.util.List;
 
@@ -22,7 +22,8 @@ public class BlockSeaSerpentScales extends Block {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, BlockView worldIn, List<Text> tooltip, TooltipContext flagIn) {
+    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
+        super.appendTooltip(stack, context, tooltip, options);
         tooltip.add(Text.translatable("sea_serpent." + this.name).formatted(this.color));
     }
 }

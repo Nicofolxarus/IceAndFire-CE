@@ -16,7 +16,7 @@ import net.minecraft.util.math.Vec3d;
 public class RenderLightningDragon extends RenderDragonBase {
     private final LightningRender lightningRender = new LightningRender();
 
-    public RenderLightningDragon(EntityRendererFactory.Context context, TabulaModel modelSupplier, int dragonType) {
+    public RenderLightningDragon(EntityRendererFactory.Context context, TabulaModel modelSupplier) {
         super(context, modelSupplier);
     }
 

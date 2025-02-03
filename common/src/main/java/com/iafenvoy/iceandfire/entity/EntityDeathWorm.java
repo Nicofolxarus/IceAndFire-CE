@@ -38,9 +38,12 @@ import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -92,7 +95,6 @@ public class EntityDeathWorm extends TameableEntity implements ISyncMount, ICust
         if (worldIn.isClient) {
             this.tail_buffer = new ChainBuffer();
         }
-        this.setStepHeight(1F);
         this.switchNavigator(false);
     }
 
@@ -107,7 +109,8 @@ public class EntityDeathWorm extends TameableEntity implements ISyncMount, ICust
                 //FOLLOW RANGE
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, IafCommonConfig.INSTANCE.deathworm.targetSearchLength.getValue())
                 //ARMOR
-                .add(EntityAttributes.GENERIC_ARMOR, 3);
+                .add(EntityAttributes.GENERIC_ARMOR, 3)
+                .add(EntityAttributes.GENERIC_STEP_HEIGHT, 1);
     }
 
     @Override
@@ -194,6 +197,11 @@ public class EntityDeathWorm extends TameableEntity implements ISyncMount, ICust
         return this.getScaleFactor() > 3 ? 20 : 10;
     }
 
+    @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return false;
+    }
+
     private void clearSegments() {
         for (Entity entity : this.segments)
             if (entity != null && !entity.isRemoved())
@@ -233,11 +241,12 @@ public class EntityDeathWorm extends TameableEntity implements ISyncMount, ICust
     }
 
     @Override
-    protected Identifier getLootTableId() {
+    protected RegistryKey<LootTable> getLootTableId() {
         return switch (this.getVariant()) {
-            case 0 -> this.getScaleFactor() > 3 ? TAN_GIANT_LOOT : TAN_LOOT;
-            case 1 -> this.getScaleFactor() > 3 ? RED_GIANT_LOOT : RED_LOOT;
-            case 2 -> this.getScaleFactor() > 3 ? WHITE_GIANT_LOOT : WHITE_LOOT;
+            case 0 -> RegistryKey.of(RegistryKeys.LOOT_TABLE, this.getScaleFactor() > 3 ? TAN_GIANT_LOOT : TAN_LOOT);
+            case 1 -> RegistryKey.of(RegistryKeys.LOOT_TABLE, this.getScaleFactor() > 3 ? RED_GIANT_LOOT : RED_LOOT);
+            case 2 ->
+                    RegistryKey.of(RegistryKeys.LOOT_TABLE, this.getScaleFactor() > 3 ? WHITE_GIANT_LOOT : WHITE_LOOT);
             default -> null;
         };
     }
@@ -248,14 +257,14 @@ public class EntityDeathWorm extends TameableEntity implements ISyncMount, ICust
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(VARIANT, 0);
-        this.dataTracker.startTracking(SCALE, 1F);
-        this.dataTracker.startTracking(CONTROL_STATE, (byte) 0);
-        this.dataTracker.startTracking(WORM_AGE, 10);
-        this.dataTracker.startTracking(HOME, BlockPos.ORIGIN);
-        this.dataTracker.startTracking(JUMP_TICKS, 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(VARIANT, 0);
+        builder.add(SCALE, 1F);
+        builder.add(CONTROL_STATE, (byte) 0);
+        builder.add(WORM_AGE, 10);
+        builder.add(HOME, BlockPos.ORIGIN);
+        builder.add(JUMP_TICKS, 0);
     }
 
     @Override
@@ -356,8 +365,8 @@ public class EntityDeathWorm extends TameableEntity implements ISyncMount, ICust
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setVariant(this.getRandom().nextInt(3));
         float size = 0.25F + (float) (Math.random() * 0.35F);
         this.setDeathWormScale(this.getRandom().nextInt(20) == 0 ? size * 4 : size);
@@ -796,11 +805,6 @@ public class EntityDeathWorm extends TameableEntity implements ISyncMount, ICust
 
     public double processRiderY(double y) {
         return this.isInSand() ? y + 0.2F : y;
-    }
-
-    @Override
-    public EntityView method_48926() {
-        return this.getWorld();
     }
 
     public class SandMoveHelper extends MoveControl {

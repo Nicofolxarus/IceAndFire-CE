@@ -14,6 +14,7 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
@@ -137,16 +138,16 @@ public class BlockEntityLectern extends LockableContainerBlockEntity implements 
     }
 
     @Override
-    public void readNbt(NbtCompound compound) {
-        super.readNbt(compound);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
         this.stacks = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
-        Inventories.readNbt(compound, this.stacks);
+        Inventories.readNbt(nbt, this.stacks, registryLookup);
     }
 
     @Override
-    public void writeNbt(NbtCompound compound) {
-        super.writeNbt(compound);
-        Inventories.writeNbt(compound, this.stacks);
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.writeNbt(nbt, registryLookup);
+        Inventories.writeNbt(nbt, this.stacks, registryLookup);
     }
 
     @Override
@@ -219,13 +220,23 @@ public class BlockEntityLectern extends LockableContainerBlockEntity implements 
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return this.createNbtWithIdentifyingData();
+    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+        return this.createNbtWithIdentifyingData(registryLookup);
     }
 
     @Override
     protected Text getContainerName() {
         return this.getName();
+    }
+
+    @Override
+    protected DefaultedList<ItemStack> getHeldStacks() {
+        return this.stacks;
+    }
+
+    @Override
+    protected void setHeldStacks(DefaultedList<ItemStack> inventory) {
+        this.stacks = inventory;
     }
 
     @Override

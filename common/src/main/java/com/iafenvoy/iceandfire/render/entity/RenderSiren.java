@@ -31,7 +31,6 @@ public class RenderSiren extends MobEntityRenderer<EntitySiren, ModelSiren> {
     @Override
     public void scale(EntitySiren LivingEntityIn, MatrixStack stack, float partialTickTime) {
         stack.translate(0, 0, -0.5F);
-
     }
 
     @Override

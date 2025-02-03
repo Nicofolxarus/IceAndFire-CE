@@ -55,30 +55,30 @@ public class RenderFrozenState {
         float minU = minZ - maxZ;
         float minV = minY - maxY;
         // X+
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.minY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(1.0F, 0.0F, 0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.maxY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(1.0F, 0.0F, 0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.maxY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(1.0F, 0.0F, 0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.minY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(1.0F, 0.0F, 0F).next();
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.minY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(1.0F, 0.0F, 0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.maxY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(1.0F, 0.0F, 0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.maxY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(1.0F, 0.0F, 0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.minY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(1.0F, 0.0F, 0F);
         // X-
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.minY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(-1.0F, 0.0F, 0.0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.maxY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(-1.0F, 0.0F, 0.0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.maxY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(-1.0F, 0.0F, 0.0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.minY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(-1.0F, 0.0F, 0.0F).next();
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.minY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(-1.0F, 0.0F, 0.0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.maxY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(-1.0F, 0.0F, 0.0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.maxY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(-1.0F, 0.0F, 0.0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.minY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(-1.0F, 0.0F, 0.0F);
 
         maxU = maxX - minX;
         maxV = maxY - minY;
         minU = minX - maxX;
         minV = minY - maxY;
         // Z-
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.minY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 0.0F, -1.0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.maxY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 0.0F, -1.0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.maxY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 0.0F, -1.0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.minY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 0.0F, -1.0F).next();
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.minY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 0.0F, -1.0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.maxY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 0.0F, -1.0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.maxY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 0.0F, -1.0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.minY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 0.0F, -1.0F);
         // Z+
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.minY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 0.0F, 1.0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.maxY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 0.0F, 1.0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.maxY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 0.0F, 1.0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.minY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 0.0F, 1.0F).next();
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.minY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 0.0F, 1.0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.maxY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 0.0F, 1.0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.maxY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 0.0F, 1.0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.minY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 0.0F, 1.0F);
 
 
         maxU = maxZ - minZ;
@@ -86,15 +86,15 @@ public class RenderFrozenState {
         minU = minZ - maxZ;
         minV = minX - maxX;
         // Y+
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.maxY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 1.0F, 0.0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.maxY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 1.0F, 0.0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.maxY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 1.0F, 0.0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.maxY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 1.0F, 0.0F).next();
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.maxY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 1.0F, 0.0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.maxY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 1.0F, 0.0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.maxY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 1.0F, 0.0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.maxY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, 1.0F, 0.0F);
 
         // Y-
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.minY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, -1.0F, 0.0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.minY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, -1.0F, 0.0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.minY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, -1.0F, 0.0F).next();
-        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.minY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, -1.0F, 0.0F).next();
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.minY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, -1.0F, 0.0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.minX, (float) boundingBox.minY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, -1.0F, 0.0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.minY, (float) boundingBox.minZ).color(255, 255, 255, alpha).texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, -1.0F, 0.0F);
+        vertexbuffer.vertex(matrix4f, (float) boundingBox.maxX, (float) boundingBox.minY, (float) boundingBox.maxZ).color(255, 255, 255, alpha).texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0.0F, -1.0F, 0.0F);
     }
 }

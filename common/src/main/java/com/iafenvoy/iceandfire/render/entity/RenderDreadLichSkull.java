@@ -31,7 +31,7 @@ public class RenderDreadLichSkull extends EntityRenderer<EntityDreadLichSkull> {
             matrixStackIn.translate(0F, 0F, 0F);
             matrixStackIn.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yaw - 180.0F));
             VertexConsumer ivertexbuilder = ItemRenderer.getItemGlintConsumer(bufferIn, RenderLayer.getEyes(TEXTURE), false, false);
-            MODEL_SPIRIT.render(matrixStackIn, ivertexbuilder, 240, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+            MODEL_SPIRIT.render(matrixStackIn, ivertexbuilder, 240, OverlayTexture.DEFAULT_UV, -1);
             matrixStackIn.pop();
         }
         super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

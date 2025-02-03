@@ -4,8 +4,12 @@ import com.iafenvoy.iceandfire.data.component.IafEntityData;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import net.minecraft.block.WallBlock;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.decoration.AbstractDecorationEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -15,6 +19,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
@@ -44,7 +49,7 @@ public class EntityChainTie extends AbstractDecorationEntity {
         int k = pos.getZ();
 
         for (EntityChainTie entityleashknot : worldIn.getNonSpectatingEntities(EntityChainTie.class, new Box(i - 1.0D, j - 1.0D, k - 1.0D, i + 1.0D, j + 1.0D, k + 1.0D)))
-            if (entityleashknot != null && entityleashknot.getDecorationBlockPos() != null && entityleashknot.getDecorationBlockPos().equals(pos))
+            if (entityleashknot != null && entityleashknot.attachedBlockPos != null && entityleashknot.attachedBlockPos.equals(pos))
                 return entityleashknot;
         return null;
     }
@@ -55,11 +60,13 @@ public class EntityChainTie extends AbstractDecorationEntity {
     }
 
     @Override
-    protected void updateAttachmentPosition() {
-        this.setPos(this.attachmentPos.getX() + 0.5D, this.attachmentPos.getY() + 0.5D, this.attachmentPos.getZ() + 0.5D);
+    protected Box calculateBoundingBox(BlockPos pos, Direction side) {
+        this.setPos(this.attachedBlockPos.getX() + 0.5D, this.attachedBlockPos.getY() + 0.5D, this.attachedBlockPos.getZ() + 0.5D);
         double xSize = 0.3D;
         double ySize = 0.875D;
-        this.setBoundingBox(new Box(this.getX() - xSize, this.getY() - 0.5, this.getZ() - xSize, this.getX() + xSize, this.getY() + ySize - 0.5, this.getZ() + xSize));
+        Box box = new Box(this.getX() - xSize, this.getY() - 0.5, this.getZ() - xSize, this.getX() + xSize, this.getY() + ySize - 0.5, this.getZ() + xSize);
+        this.setBoundingBox(box);
+        return box;
     }
 
     @Override
@@ -69,19 +76,19 @@ public class EntityChainTie extends AbstractDecorationEntity {
         return false;
     }
 
-    @Override
-    public int getWidthPixels() {
-        return 9;
-    }
-
-    @Override
-    public int getHeightPixels() {
-        return 9;
-    }
+//    @Override
+//    public int getWidthPixels() {
+//        return 9;
+//    }
+//
+//    @Override
+//    public int getHeightPixels() {
+//        return 9;
+//    }
 
     @Override
     public void writeCustomDataToNbt(NbtCompound compound) {
-        BlockPos blockpos = this.getDecorationBlockPos();
+        BlockPos blockpos = this.getAttachedBlockPos();
         compound.putInt("TileX", blockpos.getX());
         compound.putInt("TileY", blockpos.getY());
         compound.putInt("TileZ", blockpos.getZ());
@@ -89,12 +96,7 @@ public class EntityChainTie extends AbstractDecorationEntity {
 
     @Override
     public void readCustomDataFromNbt(NbtCompound compound) {
-        this.attachmentPos = new BlockPos(compound.getInt("TileX"), compound.getInt("TileY"), compound.getInt("TileZ"));
-    }
-
-    @Override
-    protected float getEyeHeight(EntityPose poseIn, EntityDimensions sizeIn) {
-        return -0.0625F;
+        this.attachedBlockPos = new BlockPos(compound.getInt("TileX"), compound.getInt("TileY"), compound.getInt("TileZ"));
     }
 
     @Override
@@ -104,7 +106,12 @@ public class EntityChainTie extends AbstractDecorationEntity {
 
     @Override
     public void onBreak(Entity brokenEntity) {
-        this.playSound(SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 1.0F, 1.0F);
+        this.playSound(SoundEvents.ITEM_ARMOR_EQUIP_CHAIN.value(), 1.0F, 1.0F);
+    }
+
+    @Override
+    protected void initDataTracker(DataTracker.Builder builder) {
+
     }
 
     @Override
@@ -154,11 +161,11 @@ public class EntityChainTie extends AbstractDecorationEntity {
 
     @Override
     public boolean canStayAttached() {
-        return this.getWorld().getBlockState(this.attachmentPos).getBlock() instanceof WallBlock;
+        return this.getWorld().getBlockState(this.attachedBlockPos).getBlock() instanceof WallBlock;
     }
 
     @Override
     public void onPlace() {
-        this.playSound(SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 1.0F, 1.0F);
+        this.playSound(SoundEvents.ITEM_ARMOR_EQUIP_CHAIN.value(), 1.0F, 1.0F);
     }
 }

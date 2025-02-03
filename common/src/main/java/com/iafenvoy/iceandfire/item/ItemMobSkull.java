@@ -3,6 +3,7 @@ package com.iafenvoy.iceandfire.item;
 import com.iafenvoy.iceandfire.data.IafSkullType;
 import com.iafenvoy.iceandfire.entity.EntityMobSkull;
 import com.iafenvoy.iceandfire.registry.IafEntities;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -35,7 +36,7 @@ public class ItemMobSkull extends Item {
         skull.setSkullType(this.skull);
         if (!context.getWorld().isClient)
             context.getWorld().spawnEntity(skull);
-        if (stack.hasCustomName())
+        if (stack.contains(DataComponentTypes.CUSTOM_NAME))
             skull.setCustomName(stack.getName());
         if (!player.isCreative())
             stack.decrement(1);

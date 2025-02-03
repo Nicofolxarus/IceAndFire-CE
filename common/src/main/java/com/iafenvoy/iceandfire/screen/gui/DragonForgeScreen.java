@@ -41,7 +41,7 @@ public class DragonForgeScreen extends HandledScreen<DragonForgeScreenHandler> {
 
     @Override
     protected void drawBackground(DrawContext pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1, 1, 1, 1);
         int dragonType = this.tileFurnace.getPropertyDelegate().fireType;
         Identifier texture = switch (dragonType) {
             case 0 -> TEXTURE_FIRE;
@@ -67,7 +67,7 @@ public class DragonForgeScreen extends HandledScreen<DragonForgeScreenHandler> {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(context,mouseX,mouseY,partialTicks);
+        this.renderBackground(context, mouseX, mouseY, partialTicks);
         super.render(context, mouseX, mouseY, partialTicks);
         this.drawMouseoverTooltip(context, mouseX, mouseY);
     }

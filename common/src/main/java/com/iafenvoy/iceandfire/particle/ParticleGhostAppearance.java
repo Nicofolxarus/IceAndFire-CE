@@ -4,6 +4,7 @@ import com.iafenvoy.iceandfire.entity.EntityGhost;
 import com.iafenvoy.iceandfire.registry.IafRenderLayers;
 import com.iafenvoy.iceandfire.render.entity.RenderGhost;
 import com.iafenvoy.iceandfire.render.model.ModelGhost;
+import com.iafenvoy.iceandfire.util.Color4i;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.Perspective;
 import net.minecraft.client.particle.Particle;
@@ -57,7 +58,7 @@ public class ParticleGhostAppearance extends Particle {
 
             VertexConsumer ivertexbuilder = irendertypebuffer$impl.getBuffer(IafRenderLayers.getGhost(RenderGhost.getGhostOverlayForType(ghostEntity.getColor())));
             this.model.setAngles(ghostEntity, 0, 0, entity.age + partialTicks, 0, 0);
-            this.model.render(matrixstack, ivertexbuilder, 240, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, f1);
+            this.model.render(matrixstack, ivertexbuilder, 240, OverlayTexture.DEFAULT_UV, new Color4i(1.0F, 1.0F, 1.0F, f1).getIntValue());
             irendertypebuffer$impl.draw();
         }
     }

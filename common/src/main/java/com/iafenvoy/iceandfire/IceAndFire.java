@@ -1,6 +1,10 @@
 package com.iafenvoy.iceandfire;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
+import com.iafenvoy.iceandfire.data.DragonArmor;
+import com.iafenvoy.iceandfire.data.IafSkullType;
+import com.iafenvoy.iceandfire.data.SeaSerpent;
+import com.iafenvoy.iceandfire.data.TrollType;
 import com.iafenvoy.iceandfire.event.ServerEvents;
 import com.iafenvoy.iceandfire.network.ServerNetworkHelper;
 import com.iafenvoy.iceandfire.registry.*;
@@ -31,10 +35,16 @@ public class IceAndFire {
         ConfigManager.getInstance().registerConfigHandler(IafCommonConfig.INSTANCE);
         ServerConfigManager.registerServerConfig(IafCommonConfig.INSTANCE, ServerConfigManager.PermissionChecker.IS_OPERATOR);
 
+        DragonArmor.initArmors();
+        SeaSerpent.initArmors();
+        IafSkullType.initItems();
+        TrollType.initArmors();
+
+        IafArmorMaterials.REGISTRY.register();
         IafSounds.REGISTRY.register();
-        IafBannerPatterns.REGISTRY.register();
         IafBlocks.REGISTRY.register();
         IafBlockEntities.REGISTRY.register();
+        IafDataComponents.REGISTRY.register();
         IafEntities.REGISTRY.register();
         IafItemGroups.REGISTRY.register();
         IafItems.REGISTRY.register();
@@ -55,12 +65,12 @@ public class IceAndFire {
     }
 
     public static void process() {
-        IafItems.init();
         IafEntities.init();
         IafTrades.init();
         IafRecipes.init();
         IafFeatures.init();
         IafItemGroups.init();
+        IafToolMaterials.init();
 
         BlockEvent.BREAK.register(ServerEvents::onBreakBlock);
         InteractionEvent.INTERACT_ENTITY.register(ServerEvents::onEntityInteract);

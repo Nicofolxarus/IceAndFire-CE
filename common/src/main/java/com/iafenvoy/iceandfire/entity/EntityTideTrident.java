@@ -2,6 +2,7 @@ package com.iafenvoy.iceandfire.entity;
 
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafItems;
+import com.iafenvoy.uranus.object.RegistryHelper;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
@@ -34,9 +35,9 @@ public class EntityTideTrident extends TridentEntity {
         this.setPosition(thrower.getX(), thrower.getEyeY() - 0.1F, thrower.getZ());
         this.setOwner(thrower);
         this.stack = thrownStackIn;
-        this.dataTracker.set(LOYALTY, (byte) EnchantmentHelper.getLoyalty(thrownStackIn));
+        this.dataTracker.set(LOYALTY, (byte) EnchantmentHelper.getLevel(RegistryHelper.getEnchantment(worldIn.getRegistryManager(), Enchantments.LOYALTY), thrownStackIn));
         this.dataTracker.set(ENCHANTED, thrownStackIn.hasGlint());
-        int piercingLevel = EnchantmentHelper.getLevel(Enchantments.PIERCING, thrownStackIn);
+        int piercingLevel = EnchantmentHelper.getLevel(RegistryHelper.getEnchantment(worldIn.getRegistryManager(), Enchantments.PIERCING), thrownStackIn);
         this.setPierceLevel((byte) piercingLevel);
     }
 
@@ -44,8 +45,10 @@ public class EntityTideTrident extends TridentEntity {
     protected void onEntityHit(EntityHitResult result) {
         Entity entity = result.getEntity();
         float f = 12.0F;
-        if (entity instanceof LivingEntity livingentity) {
-            f += EnchantmentHelper.getAttackDamage(this.getItemStack(), livingentity.getGroup());
+        Entity entity2 = this.getOwner();
+        DamageSource damageSource = this.getDamageSources().trident(this, entity2 == null ? this : entity2);
+        if (entity instanceof LivingEntity && this.getWorld() instanceof ServerWorld serverWorld) {
+            f = EnchantmentHelper.getDamage(serverWorld, this.getItemStack(), entity, damageSource, f);
         }
 
         Entity entity1 = this.getOwner();
@@ -58,17 +61,14 @@ public class EntityTideTrident extends TridentEntity {
             if (entity.getType() == EntityType.ENDERMAN) return;
 
             if (entity instanceof LivingEntity livingentity1) {
-                if (entity1 instanceof LivingEntity) {
-                    EnchantmentHelper.onUserDamaged(livingentity1, entity1);
-                    EnchantmentHelper.onTargetDamaged((LivingEntity) entity1, livingentity1);
-                }
-
+                if (entity1 instanceof LivingEntity && this.getWorld() instanceof ServerWorld serverWorld)
+                    EnchantmentHelper.onTargetDamaged(serverWorld, entity, damageSource, this.getWeaponStack());
                 this.onHit(livingentity1);
             }
         }
 
         float f1 = 1.0F;
-        if (this.getWorld() instanceof ServerWorld && this.getWorld().isThundering() && EnchantmentHelper.hasChanneling(this.getItemStack())) {
+        if (this.getWorld() instanceof ServerWorld && this.getWorld().isThundering() && EnchantmentHelper.getLevel(RegistryHelper.getEnchantment(this.getWorld().getRegistryManager(), Enchantments.CHANNELING), this.getItemStack()) > 0) {
             BlockPos blockpos = entity.getBlockPos();
             if (this.getWorld().isSkyVisible(blockpos)) {
                 LightningEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(this.getWorld());
@@ -76,7 +76,7 @@ public class EntityTideTrident extends TridentEntity {
                 lightningboltentity.refreshPositionAfterTeleport(Vec3d.ofCenter(blockpos));
                 lightningboltentity.setChanneler(entity1 instanceof ServerPlayerEntity ? (ServerPlayerEntity) entity1 : null);
                 this.getWorld().spawnEntity(lightningboltentity);
-                soundevent = SoundEvents.ITEM_TRIDENT_THUNDER;
+                soundevent = SoundEvents.ITEM_TRIDENT_THUNDER.value();
                 f1 = 5.0F;
             }
         }

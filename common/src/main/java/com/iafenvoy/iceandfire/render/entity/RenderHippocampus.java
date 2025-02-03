@@ -3,6 +3,7 @@ package com.iafenvoy.iceandfire.render.entity;
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.entity.EntityHippocampus;
 import com.iafenvoy.iceandfire.render.model.ModelHippocampus;
+import com.iafenvoy.iceandfire.util.Color4i;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -67,15 +68,15 @@ public class RenderHippocampus extends MobEntityRenderer<EntityHippocampus, Mode
         public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn, EntityHippocampus hippo, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
             if (hippo.isSaddled()) {
                 VertexConsumer ivertexbuilder = bufferIn.getBuffer(this.SADDLE_TEXTURE);
-                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
             }
             if (hippo.isSaddled() && hippo.getControllingPassenger() != null) {
                 VertexConsumer ivertexbuilder = bufferIn.getBuffer(this.BRIDLE);
-                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
             }
             if (hippo.isChested()) {
                 VertexConsumer ivertexbuilder = bufferIn.getBuffer(this.CHEST);
-                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
             }
             if (hippo.getArmor() != 0) {
                 RenderLayer type = switch (hippo.getArmor()) {
@@ -85,7 +86,7 @@ public class RenderHippocampus extends MobEntityRenderer<EntityHippocampus, Mode
                     default -> null;
                 };
                 VertexConsumer ivertexbuilder = bufferIn.getBuffer(type);
-                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
             }
         }
     }
@@ -108,9 +109,9 @@ public class RenderHippocampus extends MobEntityRenderer<EntityHippocampus, Mode
                 int k = i % j;
                 int l = (i + 1) % j;
                 float f = ((float) (hippo.age % 25) + partialTicks) / 25.0F;
-                float[] afloat1 = SheepEntity.getRgbColor(DyeColor.byId(k));
-                float[] afloat2 = SheepEntity.getRgbColor(DyeColor.byId(l));
-                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, LivingEntityRenderer.getOverlay(hippo, 0.0F), afloat1[0] * (1.0F - f) + afloat2[0] * f, afloat1[1] * (1.0F - f) + afloat2[1] * f, afloat1[2] * (1.0F - f) + afloat2[2] * f, 1.0F);
+                Color4i afloat1 = new Color4i(SheepEntity.getRgbColor(DyeColor.byId(k)));
+                Color4i afloat2 = new Color4i(SheepEntity.getRgbColor(DyeColor.byId(l)));
+                this.getContextModel().render(matrixStackIn, ivertexbuilder, packedLightIn, LivingEntityRenderer.getOverlay(hippo, 0.0F), new Color4i(afloat1.r * (1.0F - f) + afloat2.r * f, afloat1.g * (1.0F - f) + afloat2.g * f, afloat1.b * (1.0F - f) + afloat2.b * f, 1.0F).getIntValue());
             }
         }
     }

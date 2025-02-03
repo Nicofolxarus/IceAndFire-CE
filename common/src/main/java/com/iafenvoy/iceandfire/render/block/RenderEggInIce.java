@@ -19,7 +19,7 @@ public class RenderEggInIce<T extends BlockEntityEggInIce> implements BlockEntit
             matrixStackIn.translate(0.5, -0.8F, 0.5F);
             matrixStackIn.push();
             model.renderFrozen(egg);
-            model.render(matrixStackIn, bufferIn.getBuffer(RenderPodium.getEggTexture(egg.type)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            model.render(matrixStackIn, bufferIn.getBuffer(RenderPodium.getEggTexture(egg.type)), combinedLightIn, combinedOverlayIn, -1);
             matrixStackIn.pop();
             matrixStackIn.pop();
         }

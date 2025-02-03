@@ -27,7 +27,7 @@ public class RenderChainTie extends EntityRenderer<EntityChainTie> {
         matrixStackIn.scale(-1.0F, -1.0F, 1.0F);
         this.leashKnotModel.setAngles(entityIn, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
         VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderLayer.getEntityCutoutNoCull(TEXTURE));
-        this.leashKnotModel.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+        this.leashKnotModel.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
         matrixStackIn.pop();
     }
 

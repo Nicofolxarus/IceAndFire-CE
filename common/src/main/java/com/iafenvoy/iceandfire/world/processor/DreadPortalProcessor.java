@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.world.processor;
 
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafProcessors;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.BlockState;
 import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.structure.StructureTemplate;
@@ -14,7 +14,7 @@ import net.minecraft.world.WorldView;
 
 public class DreadPortalProcessor extends StructureProcessor {
     public static final DreadPortalProcessor INSTANCE = new DreadPortalProcessor();
-    public static final Codec<DreadPortalProcessor> CODEC = Codec.unit(() -> INSTANCE);
+    public static final MapCodec<DreadPortalProcessor> CODEC = MapCodec.unit(() -> INSTANCE);
 
     public static BlockState getRandomCrackedBlock(BlockState prev, Random random) {
         float rand = random.nextFloat();

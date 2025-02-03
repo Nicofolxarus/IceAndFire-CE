@@ -32,7 +32,7 @@ public class LayerDragonArmor extends FeatureRenderer<EntityDragonBase, TabulaMo
             if (stack.isEmpty()) continue;
             Identifier texture = DragonArmorMaterial.getArmorTexture(stack, slot);
             VertexConsumer vertexConsumer = bufferIn.getBuffer(RenderLayer.getEntityCutoutNoCull(texture));
-            model.render(matrixStackIn, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+            model.render(matrixStackIn, vertexConsumer, light, OverlayTexture.DEFAULT_UV, -1);
         }
     }
 }

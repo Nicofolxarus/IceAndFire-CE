@@ -72,14 +72,14 @@ public class EntityStoneStatue extends LivingEntity implements IBlacklistedFromS
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(TRAPPED_ENTITY_TYPE, "minecraft:pig");
-        this.dataTracker.startTracking(TRAPPED_ENTITY_DATA, new NbtCompound());
-        this.dataTracker.startTracking(TRAPPED_ENTITY_WIDTH, 0.5F);
-        this.dataTracker.startTracking(TRAPPED_ENTITY_HEIGHT, 0.5F);
-        this.dataTracker.startTracking(TRAPPED_ENTITY_SCALE, 1F);
-        this.dataTracker.startTracking(CRACK_AMOUNT, 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(TRAPPED_ENTITY_TYPE, "minecraft:pig");
+        builder.add(TRAPPED_ENTITY_DATA, new NbtCompound());
+        builder.add(TRAPPED_ENTITY_WIDTH, 0.5F);
+        builder.add(TRAPPED_ENTITY_HEIGHT, 0.5F);
+        builder.add(TRAPPED_ENTITY_SCALE, 1F);
+        builder.add(CRACK_AMOUNT, 0);
     }
 
     public EntityType<?> getTrappedEntityType() {

@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.entity;
 
+import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.ai.AquaticAIFindWaterTarget;
 import com.iafenvoy.iceandfire.entity.ai.AquaticAIGetInWater;
@@ -15,8 +16,10 @@ import com.iafenvoy.uranus.animation.Animation;
 import com.iafenvoy.uranus.animation.AnimationHandler;
 import com.iafenvoy.uranus.animation.IAnimatedEntity;
 import com.iafenvoy.uranus.data.EntityPropertyDelegate;
+import com.iafenvoy.uranus.object.RegistryHelper;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.AnimalMateGoal;
@@ -44,6 +47,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
@@ -60,11 +64,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.EntityView;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class EntityHippocampus extends TameableEntity implements NamedScreenHandlerFactory, ISyncMount, IAnimatedEntity, ICustomMoveController, InventoryChangedListener, Saddleable {
     public static final int INV_SLOT_SADDLE = 0;
@@ -94,7 +99,6 @@ public class EntityHippocampus extends TameableEntity implements NamedScreenHand
         ANIMATION_SPEAK = Animation.create(15);
         this.setPathfindingPenalty(PathNodeType.WATER, 0.0F);
         this.moveControl = new HippoMoveControl(this);
-        this.setStepHeight(1F);
         if (worldIn.isClient)
             this.tail_buffer = new ChainBuffer();
         this.createInventory();
@@ -117,7 +121,8 @@ public class EntityHippocampus extends TameableEntity implements NamedScreenHand
                 //SPEED
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
                 //ATTACK
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0D);
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0D)
+                .add(EntityAttributes.GENERIC_STEP_HEIGHT, 1);
     }
 
     @Override
@@ -150,11 +155,6 @@ public class EntityHippocampus extends TameableEntity implements NamedScreenHand
     }
 
     @Override
-    public EntityGroup getGroup() {
-        return EntityGroup.AQUATIC;
-    }
-
-    @Override
     public boolean isTeammate(Entity entityIn) {
         if (this.isTamed()) {
             LivingEntity livingentity = this.getOwner();
@@ -170,13 +170,13 @@ public class EntityHippocampus extends TameableEntity implements NamedScreenHand
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(VARIANT, 0);
-        this.dataTracker.startTracking(ARMOR, 0);
-        this.dataTracker.startTracking(SADDLE, Boolean.FALSE);
-        this.dataTracker.startTracking(CHESTED, Boolean.FALSE);
-        this.dataTracker.startTracking(CONTROL_STATE, (byte) 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(VARIANT, 0);
+        builder.add(ARMOR, 0);
+        builder.add(SADDLE, Boolean.FALSE);
+        builder.add(CHESTED, Boolean.FALSE);
+        builder.add(CONTROL_STATE, (byte) 0);
     }
 
     @Override
@@ -211,7 +211,7 @@ public class EntityHippocampus extends TameableEntity implements NamedScreenHand
         if (this.inventory != null && !this.getWorld().isClient) {
             for (int i = 0; i < this.inventory.size(); ++i) {
                 ItemStack itemstack = this.inventory.getStack(i);
-                if (!itemstack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(itemstack))
+                if (!itemstack.isEmpty() && EnchantmentHelper.getLevel(RegistryHelper.getEnchantment(this.getWorld().getRegistryManager(), Enchantments.VANISHING_CURSE), itemstack) == 0)
                     this.dropStack(itemstack);
             }
         }
@@ -351,17 +351,7 @@ public class EntityHippocampus extends TameableEntity implements NamedScreenHand
         compound.putBoolean("Chested", this.isChested());
         compound.putBoolean("Saddled", this.isSaddled());
         compound.putInt("Armor", this.getArmor());
-        NbtList nbttaglist = new NbtList();
-        for (int i = 0; i < this.inventory.size(); ++i) {
-            ItemStack itemstack = this.inventory.getStack(i);
-            if (!itemstack.isEmpty()) {
-                NbtCompound CompoundNBT = new NbtCompound();
-                CompoundNBT.putByte("Slot", (byte) i);
-                itemstack.writeNbt(CompoundNBT);
-                nbttaglist.add(CompoundNBT);
-            }
-        }
-        compound.put("Items", nbttaglist);
+        compound.put("Items", ItemStack.CODEC.listOf().encodeStart(NbtOps.INSTANCE, this.inventory.getHeldStacks()).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtList()));
     }
 
     @Override
@@ -371,15 +361,12 @@ public class EntityHippocampus extends TameableEntity implements NamedScreenHand
         this.setChested(compound.getBoolean("Chested"));
         this.setSaddled(compound.getBoolean("Saddled"));
         this.setArmor(compound.getInt("Armor"));
-        if (this.inventory != null) {
-            NbtList nbttaglist = compound.getList("Items", 10);
-            this.createInventory();
-            for (int i = 0; i < nbttaglist.size(); ++i) {
-                NbtCompound CompoundNBT = nbttaglist.getCompound(i);
-                int j = CompoundNBT.getByte("Slot") & 255;
-                this.inventory.setStack(j, ItemStack.fromNbt(CompoundNBT));
-            }
-        }
+
+        this.createInventory();
+        List<ItemStack> stacks = ItemStack.CODEC.listOf().parse(NbtOps.INSTANCE, compound.get("Items")).resultOrPartial(IceAndFire.LOGGER::error).orElse(List.of());
+        if (this.inventory != null)
+            for (int i = 0; i < stacks.size() && i < this.inventory.size(); i++)
+                this.inventory.setStack(i, stacks.get(i));
     }
 
     protected int getInventorySize() {
@@ -422,7 +409,7 @@ public class EntityHippocampus extends TameableEntity implements NamedScreenHand
     }
 
     @Override
-    public void saddle(SoundCategory pSource) {
+    public void saddle(ItemStack stack, @Nullable SoundCategory soundCategory) {
         this.inventory.setStack(0, new ItemStack(Items.SADDLE));
     }
 
@@ -470,8 +457,8 @@ public class EntityHippocampus extends TameableEntity implements NamedScreenHand
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        EntityData data = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        EntityData data = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setVariant(this.getRandom().nextInt(6));
         return data;
     }
@@ -669,11 +656,6 @@ public class EntityHippocampus extends TameableEntity implements NamedScreenHand
         this.updateContainerEquipment();
         if (this.age > 20 && !flag && this.isSaddled())
             this.playSound(SoundEvents.ENTITY_HORSE_SADDLE, 0.5F, 1.0F);
-    }
-
-    @Override
-    public EntityView method_48926() {
-        return this.getWorld();
     }
 
     @Override

@@ -2,10 +2,10 @@ package com.iafenvoy.iceandfire.item;
 
 import com.iafenvoy.iceandfire.entity.EntityStymphalianFeather;
 import com.iafenvoy.iceandfire.registry.IafEntities;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -40,9 +40,9 @@ public class ItemStymphalianFeatherBundle extends Item {
         return new TypedActionResult<>(ActionResult.PASS, itemStackIn);
     }
 
-
     @Override
-    public void appendTooltip(ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
         tooltip.add(Text.translatable("item.iceandfire.legendary_weapon.desc").formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("item.iceandfire.stymphalian_feather_bundle.desc_0").formatted(Formatting.GRAY));
     }

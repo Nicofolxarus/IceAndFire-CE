@@ -6,6 +6,7 @@ import com.iafenvoy.iceandfire.entity.util.MyrmexHive;
 import net.minecraft.datafixer.DataFixTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.PersistentState;
@@ -32,7 +33,7 @@ public class MyrmexWorldData extends PersistentState {
         this.markDirty();
     }
 
-    public MyrmexWorldData(NbtCompound compoundTag) {
+    public MyrmexWorldData(NbtCompound compoundTag, RegistryWrapper.WrapperLookup registryLookup) {
         this.load(compoundTag);
     }
 
@@ -139,7 +140,7 @@ public class MyrmexWorldData extends PersistentState {
     }
 
     @Override
-    public NbtCompound writeNbt(NbtCompound compound) {
+    public NbtCompound writeNbt(NbtCompound compound, RegistryWrapper.WrapperLookup registryLookup) {
         compound.putInt("Tick", this.tickCounter);
         NbtList nbttaglist = new NbtList();
 

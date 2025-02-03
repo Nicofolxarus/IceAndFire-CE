@@ -4,10 +4,10 @@ import com.iafenvoy.iceandfire.entity.EntitySeaSerpent;
 import com.iafenvoy.iceandfire.item.ItemSeaSerpentScales;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafLoots;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.condition.LootCondition;
-import net.minecraft.loot.condition.LootConditionTypes;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.function.ConditionalLootFunction;
@@ -16,7 +16,7 @@ import net.minecraft.loot.function.LootFunctionType;
 import java.util.List;
 
 public class CustomizeToSeaSerpent extends ConditionalLootFunction {
-    public static final Codec<CustomizeToSeaSerpent> CODEC = LootConditionTypes.CODEC.listOf().xmap(CustomizeToSeaSerpent::new, x -> x.conditions);
+    public static final MapCodec<CustomizeToSeaSerpent> CODEC = RecordCodecBuilder.mapCodec((instance) -> addConditionsField(instance).apply(instance, CustomizeToSeaSerpent::new));
 
     public CustomizeToSeaSerpent(List<LootCondition> conditionsIn) {
         super(conditionsIn);
@@ -39,7 +39,7 @@ public class CustomizeToSeaSerpent extends ConditionalLootFunction {
     }
 
     @Override
-    public LootFunctionType getType() {
+    public LootFunctionType<? extends ConditionalLootFunction> getType() {
         return IafLoots.CUSTOMIZE_TO_SERPENT.get();
     }
 }

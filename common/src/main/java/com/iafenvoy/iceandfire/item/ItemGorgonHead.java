@@ -5,16 +5,16 @@ import com.iafenvoy.iceandfire.entity.EntityStoneStatue;
 import com.iafenvoy.iceandfire.entity.util.IBlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
 import com.iafenvoy.iceandfire.registry.IafDamageTypes;
+import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import com.iafenvoy.iceandfire.registry.tag.IafEntityTags;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.math.Box;
@@ -26,16 +26,11 @@ import java.util.Optional;
 
 public class ItemGorgonHead extends Item {
     public ItemGorgonHead() {
-        super(new Settings().maxDamage(1));
+        super(new Settings().maxDamage(1).component(IafDataComponents.BOOL.get(), false));
     }
 
     @Override
-    public void onCraft(ItemStack itemStack, World world) {
-        itemStack.setNbt(new NbtCompound());
-    }
-
-    @Override
-    public int getMaxUseTime(ItemStack stack) {
+    public int getMaxUseTime(ItemStack stack, LivingEntity user) {
         return 72000;
     }
 
@@ -101,16 +96,14 @@ public class ItemGorgonHead extends Item {
                     stack.decrement(1);
             }
         }
-        assert stack.getNbt() != null;
-        stack.getNbt().putBoolean("Active", false);
+        stack.set(IafDataComponents.BOOL.get(), false);
     }
 
     @Override
     public TypedActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand hand) {
         ItemStack itemStackIn = playerIn.getStackInHand(hand);
         playerIn.setCurrentHand(hand);
-        assert itemStackIn.getNbt() != null;
-        itemStackIn.getNbt().putBoolean("Active", true);
+        itemStackIn.set(IafDataComponents.BOOL.get(), true);
         return new TypedActionResult<>(ActionResult.SUCCESS, itemStackIn);
     }
 
@@ -118,8 +111,10 @@ public class ItemGorgonHead extends Item {
     public void usageTick(World level, LivingEntity player, ItemStack stack, int count) {
     }
 
+
     @Override
-    public void appendTooltip(ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
         tooltip.add(Text.translatable("item.iceandfire.legendary_weapon.desc").formatted(Formatting.GRAY));
     }
 }

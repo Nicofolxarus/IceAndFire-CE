@@ -1,6 +1,7 @@
 package com.iafenvoy.iceandfire.render.block;
 
 import com.iafenvoy.iceandfire.IceAndFire;
+import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.render.model.ModelGorgonHead;
 import com.iafenvoy.iceandfire.render.model.ModelGorgonHeadActive;
@@ -29,16 +30,12 @@ public class RenderGorgonHead extends BuiltinModelItemRenderer {
 
     @Override
     public void render(ItemStack stack, ModelTransformationMode type, MatrixStack stackIn, VertexConsumerProvider bufferIn, int combinedLightIn, int combinedOverlayIn) {
-        boolean active = false;
-        if (stack.getItem() == IafItems.GORGON_HEAD.get())
-            if (stack.getNbt() != null)
-                if (stack.getNbt().getBoolean("Active"))
-                    active = true;
+        boolean active = stack.getItem() == IafItems.GORGON_HEAD.get() && stack.contains(IafDataComponents.BOOL.get()) && stack.get(IafDataComponents.BOOL.get());
         AdvancedEntityModel<Entity> model = active ? ACTIVE_MODEL : INACTIVE_MODEL;
         stackIn.push();
         stackIn.translate(0.5F, active ? 1.5F : 1.25F, 0.5F);
         VertexConsumer ivertexbuilder = bufferIn.getBuffer(active ? ACTIVE_TEXTURE : INACTIVE_TEXTURE);
-        model.render(stackIn, ivertexbuilder, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+        model.render(stackIn, ivertexbuilder, combinedLightIn, combinedOverlayIn, -1);
         stackIn.pop();
     }
 }

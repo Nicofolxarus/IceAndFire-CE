@@ -4,7 +4,9 @@ import com.iafenvoy.iceandfire.data.component.IafEntityData;
 import com.iafenvoy.uranus.neoforge.component.ITickableAttachment;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper;
 import net.neoforged.neoforge.common.util.INBTSerializable;
+import org.jetbrains.annotations.NotNull;
 
 public class EntityDataStorage implements ITickableAttachment, INBTSerializable<NbtCompound> {
     private final IafEntityData data;
@@ -37,5 +39,15 @@ public class EntityDataStorage implements ITickableAttachment, INBTSerializable<
     @Override
     public boolean isDirty() {
         return this.data.isDirty();
+    }
+
+    @Override
+    public NbtCompound serializeNBT(RegistryWrapper.@NotNull WrapperLookup lookup) {
+        return this.serializeNBT();
+    }
+
+    @Override
+    public void deserializeNBT(RegistryWrapper.@NotNull WrapperLookup lookup, @NotNull NbtCompound nbt) {
+        this.deserializeNBT(nbt);
     }
 }

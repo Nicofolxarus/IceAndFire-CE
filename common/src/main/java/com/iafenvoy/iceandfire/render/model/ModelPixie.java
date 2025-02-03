@@ -236,7 +236,7 @@ public class ModelPixie extends ModelDragonBase<EntityPixie> {
             this.Left_Wing2.rotateAngleZ = (float) Math.toRadians(-8);
             this.Right_Wing2.rotateAngleZ = (float) Math.toRadians(8);
         } else if (jar != null) {
-            float partialTicks = MinecraftClient.getInstance().getTickDelta();
+            float partialTicks = MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false);
             this.chainWave(LEFT_WINGS, speed_fly, degree_fly * 0.75F, 1, jar.ticksExisted + partialTicks, 1);
             this.chainWave(RIGHT_WINGS, speed_fly, degree_fly * 0.75F, 1, jar.ticksExisted + partialTicks, 1);
         }
@@ -260,6 +260,6 @@ public class ModelPixie extends ModelDragonBase<EntityPixie> {
 
     @Override
     public void renderStatue(MatrixStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, Entity living) {
-        this.render(matrixStackIn, bufferIn, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+        this.render(matrixStackIn, bufferIn, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
     }
 }

@@ -35,7 +35,7 @@ public class RenderPodium<T extends BlockEntityPodium> implements BlockEntityRen
                 matrixStackIn.push();
                 matrixStackIn.push();
                 model.renderPodium();
-                model.render(matrixStackIn, bufferIn.getBuffer(RenderPodium.getEggTexture(item.type)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                model.render(matrixStackIn, bufferIn.getBuffer(RenderPodium.getEggTexture(item.type)), combinedLightIn, combinedOverlayIn, -1);
                 matrixStackIn.pop();
                 matrixStackIn.pop();
                 matrixStackIn.pop();
@@ -46,7 +46,7 @@ public class RenderPodium<T extends BlockEntityPodium> implements BlockEntityRen
                 matrixStackIn.push();
                 matrixStackIn.push();
                 model.renderPodium();
-                model.render(matrixStackIn, bufferIn.getBuffer(RenderLayer.getEntityCutout(jungle ? RenderMyrmexEgg.EGG_JUNGLE : RenderMyrmexEgg.EGG_DESERT)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                model.render(matrixStackIn, bufferIn.getBuffer(RenderLayer.getEntityCutout(jungle ? RenderMyrmexEgg.EGG_JUNGLE : RenderMyrmexEgg.EGG_DESERT)), combinedLightIn, combinedOverlayIn, -1);
                 matrixStackIn.pop();
                 matrixStackIn.pop();
                 matrixStackIn.pop();

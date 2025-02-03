@@ -6,7 +6,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.chunk.ChunkCache;
 
 public class NodeProcessorFly extends BirdPathNodeMaker {
-
     @Override
     public void init(ChunkCache p_225578_1_, MobEntity p_225578_2_) {
         super.init(p_225578_1_, p_225578_2_);

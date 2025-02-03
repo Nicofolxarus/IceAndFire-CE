@@ -1,12 +1,11 @@
 package com.iafenvoy.iceandfire.entity.block;
 
-import com.iafenvoy.iceandfire.StaticVariables;
 import com.iafenvoy.iceandfire.item.ItemDragonEgg;
 import com.iafenvoy.iceandfire.item.ItemMyrmexEgg;
+import com.iafenvoy.iceandfire.network.payload.UpdatePodiumPayload;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
 import com.iafenvoy.iceandfire.screen.handler.PodiumScreenHandler;
 import com.iafenvoy.uranus.ServerHelper;
-import com.iafenvoy.uranus.network.PacketBufferUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,8 +14,8 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
@@ -79,25 +78,21 @@ public class BlockEntityPodium extends LockableContainerBlockEntity implements S
         this.stacks.set(index, stack);
         if (!stack.isEmpty() && stack.getCount() > this.getMaxCountPerStack())
             stack.setCount(this.getMaxCountPerStack());
-        this.writeNbt(this.toInitialChunkDataNbt());
         assert this.world != null;
-        if (!this.world.isClient) {
-            PacketByteBuf buf = PacketBufferUtils.create().writeBlockPos(this.getPos());
-            PacketBufferUtils.writeItemStack(buf, this.stacks.get(0));
-            ServerHelper.sendToAll(StaticVariables.UPDATE_PODIUM, buf);
-        }
+        if (!this.world.isClient)
+            ServerHelper.sendToAll(new UpdatePodiumPayload(this.getPos(), this.stacks.get(0)));
     }
 
     @Override
-    public void readNbt(NbtCompound compound) {
-        super.readNbt(compound);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
         this.stacks = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
-        Inventories.readNbt(compound, this.stacks);
+        Inventories.readNbt(nbt, this.stacks, registryLookup);
     }
 
     @Override
-    public void writeNbt(NbtCompound compound) {
-        Inventories.writeNbt(compound, this.stacks);
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        Inventories.writeNbt(nbt, this.stacks, registryLookup);
     }
 
     @Override
@@ -154,8 +149,8 @@ public class BlockEntityPodium extends LockableContainerBlockEntity implements S
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return this.createNbtWithIdentifyingData();
+    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+        return this.createNbtWithIdentifyingData(registryLookup);
     }
 
     @Override
@@ -171,6 +166,16 @@ public class BlockEntityPodium extends LockableContainerBlockEntity implements S
     @Override
     protected Text getContainerName() {
         return Text.translatable("block.iceandfire.podium");
+    }
+
+    @Override
+    protected DefaultedList<ItemStack> getHeldStacks() {
+        return this.stacks;
+    }
+
+    @Override
+    protected void setHeldStacks(DefaultedList<ItemStack> inventory) {
+        this.stacks = inventory;
     }
 
     @Override

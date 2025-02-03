@@ -215,21 +215,15 @@ public class PathNavigateDeathWormLand extends EntityNavigation {
                     double d1 = (double) l + 0.5D - vec31.z;
 
                     if (d0 * p_179683_8_ + d1 * p_179683_10_ >= 0.0D) {
-                        PathNodeType pathnodetype = this.nodeMaker.getNodeType(this.world, k, y - 1, l, this.entity);
-                        if (pathnodetype == PathNodeType.LAVA) {
-                            return false;
-                        }
+                        PathNodeType pathnodetype = this.nodeMaker.getNodeType(new PathContext(this.world, this.entity), k, y - 1, l, this.entity);
+                        if (pathnodetype == PathNodeType.LAVA) return false;
 
-                        pathnodetype = this.nodeMaker.getNodeType(this.world, k, y, l, this.entity);
+                        pathnodetype = this.nodeMaker.getNodeType(new PathContext(this.world, this.entity), k, y, l, this.entity);
                         float f = this.entity.getPathfindingPenalty(pathnodetype);
 
-                        if (f < 0.0F || f >= 8.0F) {
+                        if (f < 0.0F || f >= 8.0F) return false;
+                        if (pathnodetype == PathNodeType.DAMAGE_FIRE || pathnodetype == PathNodeType.DANGER_FIRE || pathnodetype == PathNodeType.DAMAGE_OTHER)
                             return false;
-                        }
-
-                        if (pathnodetype == PathNodeType.DAMAGE_FIRE || pathnodetype == PathNodeType.DANGER_FIRE || pathnodetype == PathNodeType.DAMAGE_OTHER) {
-                            return false;
-                        }
                     }
                 }
             }

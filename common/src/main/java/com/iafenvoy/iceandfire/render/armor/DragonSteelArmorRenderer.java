@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.render.armor;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.registry.IafItems;
+import com.iafenvoy.iceandfire.registry.IafArmorMaterials;
 import com.iafenvoy.iceandfire.render.model.armor.ModelDragonSteelFireArmor;
 import com.iafenvoy.iceandfire.render.model.armor.ModelDragonSteelIceArmor;
 import com.iafenvoy.iceandfire.render.model.armor.ModelDragonSteelLightningArmor;
@@ -20,12 +20,12 @@ public class DragonSteelArmorRenderer implements IArmorRendererBase<LivingEntity
     public BipedEntityModel<LivingEntity> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot armorSlot, BipedEntityModel<LivingEntity> bipedEntityModel) {
         boolean inner = armorSlot == EquipmentSlot.LEGS || armorSlot == EquipmentSlot.HEAD;
         if (itemStack.getItem() instanceof ArmorItem armorItem) {
-            ArmorMaterial armorMaterial = armorItem.getMaterial();
-            if (IafItems.DRAGONSTEEL_FIRE_ARMOR_MATERIAL.equals(armorMaterial))
+            ArmorMaterial armorMaterial = armorItem.getMaterial().value();
+            if (IafArmorMaterials.DRAGONSTEEL_FIRE_ARMOR_MATERIAL.equals(armorMaterial))
                 return new ModelDragonSteelFireArmor(inner);
-            if (IafItems.DRAGONSTEEL_ICE_ARMOR_MATERIAL.equals(armorMaterial))
+            if (IafArmorMaterials.DRAGONSTEEL_ICE_ARMOR_MATERIAL.equals(armorMaterial))
                 return new ModelDragonSteelIceArmor(inner);
-            if (IafItems.DRAGONSTEEL_LIGHTNING_ARMOR_MATERIAL.equals(armorMaterial))
+            if (IafArmorMaterials.DRAGONSTEEL_LIGHTNING_ARMOR_MATERIAL.equals(armorMaterial))
                 return new ModelDragonSteelLightningArmor(inner);
         }
         return null;
@@ -33,10 +33,10 @@ public class DragonSteelArmorRenderer implements IArmorRendererBase<LivingEntity
 
     @Override
     public Identifier getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot) {
-        ArmorMaterial material = ((ArmorItem) stack.getItem()).getMaterial();
-        if (material == IafItems.DRAGONSTEEL_FIRE_ARMOR_MATERIAL)
+        ArmorMaterial material = ((ArmorItem) stack.getItem()).getMaterial().value();
+        if (material == IafArmorMaterials.DRAGONSTEEL_FIRE_ARMOR_MATERIAL.value())
             return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/armor_dragonsteel_fire" + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
-        else if (material == IafItems.DRAGONSTEEL_ICE_ARMOR_MATERIAL)
+        else if (material == IafArmorMaterials.DRAGONSTEEL_ICE_ARMOR_MATERIAL.value())
             return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/armor_dragonsteel_ice" + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
         else
             return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/armor_dragonsteel_lightning" + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));

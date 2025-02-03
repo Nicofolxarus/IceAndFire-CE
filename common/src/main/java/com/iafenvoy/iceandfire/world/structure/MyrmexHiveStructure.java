@@ -15,13 +15,17 @@ import com.iafenvoy.iceandfire.util.RestrictWorldAccess;
 import com.iafenvoy.iceandfire.world.GenerationConstants;
 import com.iafenvoy.iceandfire.world.MyrmexWorldData;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.structure.StructureContext;
 import net.minecraft.structure.StructurePiece;
@@ -46,10 +50,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class MyrmexHiveStructure extends Structure {
-    public static final Codec<MyrmexHiveStructure> CODEC = RecordCodecBuilder.<MyrmexHiveStructure>mapCodec(instance -> instance.group(
+    public static final MapCodec<MyrmexHiveStructure> CODEC = RecordCodecBuilder.<MyrmexHiveStructure>mapCodec(instance -> instance.group(
             configCodecBuilder(instance),
             Codec.BOOL.fieldOf("jungle").forGetter(structure -> structure.jungle)
-    ).apply(instance, MyrmexHiveStructure::new)).codec();
+    ).apply(instance, MyrmexHiveStructure::new));
     private final boolean jungle;
 
     protected MyrmexHiveStructure(Config config, boolean jungle) {
@@ -167,7 +171,7 @@ public class MyrmexHiveStructure extends Structure {
             if (!this.small) {
                 EntityMyrmexQueen queen = new EntityMyrmexQueen(IafEntities.MYRMEX_QUEEN.get(), world.toServerWorld());
                 BlockPos ground = MyrmexHive.getGroundedPos(world, position);
-                queen.initialize(world, world.getLocalDifficulty(ground), SpawnReason.CHUNK_GENERATION, null, null);
+                queen.initialize(world, world.getLocalDifficulty(ground), SpawnReason.CHUNK_GENERATION, null);
                 queen.setHive(this.hive);
                 queen.setJungleVariant(this.jungle);
                 queen.updatePositionAndAngles(ground.getX() + 0.5D, ground.getY() + 1D, ground.getZ() + 0.5D, 0, 0);
@@ -175,7 +179,7 @@ public class MyrmexHiveStructure extends Structure {
 
                 for (int i = 0; i < 4 + rand.nextInt(3); i++) {
                     EntityMyrmexBase myrmex = new EntityMyrmexWorker(IafEntities.MYRMEX_WORKER.get(), world.toServerWorld());
-                    myrmex.initialize(world, world.getLocalDifficulty(ground), SpawnReason.CHUNK_GENERATION, null, null);
+                    myrmex.initialize(world, world.getLocalDifficulty(ground), SpawnReason.CHUNK_GENERATION, null);
                     myrmex.setHive(this.hive);
                     myrmex.updatePositionAndAngles(ground.getX() + 0.5D, ground.getY() + 1D, ground.getZ() + 0.5D, 0, 0);
                     myrmex.setJungleVariant(this.jungle);
@@ -183,7 +187,7 @@ public class MyrmexHiveStructure extends Structure {
                 }
                 for (int i = 0; i < 2 + rand.nextInt(2); i++) {
                     EntityMyrmexBase myrmex = new EntityMyrmexSoldier(IafEntities.MYRMEX_SOLDIER.get(), world.toServerWorld());
-                    myrmex.initialize(world, world.getLocalDifficulty(ground), SpawnReason.CHUNK_GENERATION, null, null);
+                    myrmex.initialize(world, world.getLocalDifficulty(ground), SpawnReason.CHUNK_GENERATION, null);
                     myrmex.setHive(this.hive);
                     myrmex.updatePositionAndAngles(ground.getX() + 0.5D, ground.getY() + 1D, ground.getZ() + 0.5D, 0, 0);
                     myrmex.setJungleVariant(this.jungle);
@@ -191,7 +195,7 @@ public class MyrmexHiveStructure extends Structure {
                 }
                 for (int i = 0; i < rand.nextInt(2); i++) {
                     EntityMyrmexBase myrmex = new EntityMyrmexSentinel(IafEntities.MYRMEX_SENTINEL.get(), world.toServerWorld());
-                    myrmex.initialize(world, world.getLocalDifficulty(ground), SpawnReason.CHUNK_GENERATION, null, null);
+                    myrmex.initialize(world, world.getLocalDifficulty(ground), SpawnReason.CHUNK_GENERATION, null);
                     myrmex.setHive(this.hive);
                     myrmex.updatePositionAndAngles(ground.getX() + 0.5D, ground.getY() + 1D, ground.getZ() + 0.5D, 0, 0);
                     myrmex.setJungleVariant(this.jungle);
@@ -435,7 +439,7 @@ public class MyrmexHiveStructure extends Structure {
                     if (random.nextInt(6) == 0)
                         generateMushrooms(world, blockpos, center, size, random);
                     if (random.nextInt(12) == 0)
-                        generateCocoon(world, blockpos, random, this.jungle, this.jungle ? JUNGLE_MYRMEX_FOOD_CHEST : DESERT_MYRMEX_FOOD_CHEST);
+                        generateCocoon(world, blockpos, random, this.jungle, RegistryKey.of(RegistryKeys.LOOT_TABLE, this.jungle ? JUNGLE_MYRMEX_FOOD_CHEST : DESERT_MYRMEX_FOOD_CHEST));
                 }
                 case SHINY -> {
                     if (random.nextInt(12) == 0)
@@ -447,7 +451,7 @@ public class MyrmexHiveStructure extends Structure {
                     if (random.nextBoolean())
                         generateTrashOre(world, blockpos, center, size, random);
                     if (random.nextInt(12) == 0)
-                        generateCocoon(world, blockpos, random, this.jungle, MYRMEX_TRASH_CHEST);
+                        generateCocoon(world, blockpos, random, this.jungle, RegistryKey.of(RegistryKeys.LOOT_TABLE, MYRMEX_TRASH_CHEST));
                 }
                 default -> {
                 }
@@ -520,7 +524,7 @@ public class MyrmexHiveStructure extends Structure {
                 worldIn.setBlockState(blockpos, jungle ? Blocks.MELON.getDefaultState() : Blocks.PUMPKIN.getDefaultState(), 2);
         }
 
-        public static void generateCocoon(WorldAccess worldIn, BlockPos blockpos, Random rand, boolean jungle, Identifier lootTable) {
+        public static void generateCocoon(WorldAccess worldIn, BlockPos blockpos, Random rand, boolean jungle, RegistryKey<LootTable> lootTable) {
             if (worldIn.getBlockState(blockpos.down()).isSideSolidFullSquare(worldIn, blockpos.down(), Direction.UP)) {
                 worldIn.setBlockState(blockpos, jungle ? IafBlocks.JUNGLE_MYRMEX_COCOON.get().getDefaultState() : IafBlocks.DESERT_MYRMEX_COCOON.get().getDefaultState(), 3);
 
@@ -553,7 +557,7 @@ public class MyrmexHiveStructure extends Structure {
                     if (worldIn.getBlockState(blockpos.up()).getBlock() instanceof ChestBlock) {
                         BlockEntity tileentity1 = worldIn.getBlockEntity(blockpos.up());
                         if (tileentity1 instanceof ChestBlockEntity chest)
-                            chest.setLootTable(MYRMEX_GOLD_CHEST, rand.nextLong());
+                            chest.setLootTable(RegistryKey.of(RegistryKeys.LOOT_TABLE, MYRMEX_GOLD_CHEST), rand.nextLong());
                     }
                 }
             }

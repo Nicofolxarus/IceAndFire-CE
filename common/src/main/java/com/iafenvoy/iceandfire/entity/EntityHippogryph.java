@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.entity;
 
+import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.HippogryphTypes;
 import com.iafenvoy.iceandfire.entity.ai.HippogryphAIMate;
@@ -19,6 +20,7 @@ import com.iafenvoy.uranus.animation.IAnimatedEntity;
 import com.iafenvoy.uranus.data.EntityPropertyDelegate;
 import com.iafenvoy.uranus.object.entity.pathfinding.raycoms.AdvancedPathNavigate;
 import net.minecraft.block.BlockState;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.control.MoveControl;
@@ -42,9 +44,11 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
@@ -61,6 +65,8 @@ import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.*;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class EntityHippogryph extends TameableEntity implements NamedScreenHandlerFactory, ISyncMount, IAnimatedEntity, IDragonFlute, IVillagerFear, IAnimalFear, IDropArmor, IFlyingMount, ICustomMoveController, IHasCustomizableAttributes {
     private static final int FLIGHT_CHANCE_PER_TICK = 1200;
@@ -105,7 +111,6 @@ public class EntityHippogryph extends TameableEntity implements NamedScreenHandl
         ANIMATION_SCRATCH = Animation.create(25);
         ANIMATION_BITE = Animation.create(20);
         this.initHippogryphInv();
-        this.setStepHeight(1);
     }
 
     public static int getIntFromArmor(ItemStack stack) {
@@ -123,7 +128,8 @@ public class EntityHippogryph extends TameableEntity implements NamedScreenHandl
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
                 .add(EntityAttributes.GENERIC_FLYING_SPEED, IafCommonConfig.INSTANCE.hippogryphs.fightSpeedMod.getValue())
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0D)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D);
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D)
+                .add(EntityAttributes.GENERIC_STEP_HEIGHT, 1);
     }
 
     @Override
@@ -142,6 +148,11 @@ public class EntityHippogryph extends TameableEntity implements NamedScreenHandl
     @Override
     public int getXpToDrop() {
         return 10;
+    }
+
+    @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return stack.isOf(Items.KELP);
     }
 
     @Override
@@ -165,16 +176,16 @@ public class EntityHippogryph extends TameableEntity implements NamedScreenHandl
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(VARIANT, HippogryphTypes.BLACK.getName());
-        this.dataTracker.startTracking(ARMOR, 0);
-        this.dataTracker.startTracking(SADDLE, Boolean.FALSE);
-        this.dataTracker.startTracking(CHESTED, Boolean.FALSE);
-        this.dataTracker.startTracking(HOVERING, Boolean.FALSE);
-        this.dataTracker.startTracking(FLYING, Boolean.FALSE);
-        this.dataTracker.startTracking(CONTROL_STATE, (byte) 0);
-        this.dataTracker.startTracking(COMMAND, 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(VARIANT, HippogryphTypes.BLACK.getName());
+        builder.add(ARMOR, 0);
+        builder.add(SADDLE, Boolean.FALSE);
+        builder.add(CHESTED, Boolean.FALSE);
+        builder.add(HOVERING, Boolean.FALSE);
+        builder.add(FLYING, Boolean.FALSE);
+        builder.add(CONTROL_STATE, (byte) 0);
+        builder.add(COMMAND, 0);
     }
 
     @Override
@@ -283,7 +294,7 @@ public class EntityHippogryph extends TameableEntity implements NamedScreenHandl
                     this.getWorld().addParticle(ParticleTypes.ENCHANT, this.getX() + (double) (this.random.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), this.getY() + (double) (this.random.nextFloat() * this.getHeight()), this.getZ() + (double) (this.random.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), 0, 0, 0);
                 return ActionResult.SUCCESS;
             }
-            if (itemstack.getItem().isFood() && itemstack.getItem().getFoodComponent() != null && itemstack.getItem().getFoodComponent().isMeat() && this.getHealth() < this.getMaxHealth()) {
+            if (itemstack.contains(DataComponentTypes.FOOD) && itemstack.isIn(ItemTags.MEAT) && this.getHealth() < this.getMaxHealth()) {
                 this.heal(5);
                 this.playSound(SoundEvents.ENTITY_GENERIC_EAT, 1, 1);
                 for (int i = 0; i < 3; i++)
@@ -385,19 +396,8 @@ public class EntityHippogryph extends TameableEntity implements NamedScreenHandl
         compound.putBoolean("Flying", this.isFlying());
         compound.putInt("Armor", this.getArmor());
         compound.putInt("Feedings", this.feedings);
-        if (this.hippogryphInventory != null) {
-            NbtList nbttaglist = new NbtList();
-            for (int i = 0; i < this.hippogryphInventory.size(); ++i) {
-                ItemStack itemstack = this.hippogryphInventory.getStack(i);
-                if (!itemstack.isEmpty()) {
-                    NbtCompound CompoundNBT = new NbtCompound();
-                    CompoundNBT.putByte("Slot", (byte) i);
-                    itemstack.writeNbt(CompoundNBT);
-                    nbttaglist.add(CompoundNBT);
-                }
-            }
-            compound.put("Items", nbttaglist);
-        }
+        if (this.hippogryphInventory != null)
+            compound.put("Items", ItemStack.CODEC.listOf().encodeStart(NbtOps.INSTANCE, this.hippogryphInventory.getHeldStacks()).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtList()));
         compound.putBoolean("HasHomePosition", this.hasHomePosition);
         if (this.homePos != null && this.hasHomePosition) {
             compound.putInt("HomeAreaX", this.homePos.getX());
@@ -421,37 +421,22 @@ public class EntityHippogryph extends TameableEntity implements NamedScreenHandl
         this.setFlying(compound.getBoolean("Flying"));
         this.setArmor(compound.getInt("Armor"));
         this.feedings = compound.getInt("Feedings");
-        if (this.hippogryphInventory != null) {
-            NbtList nbttaglist = compound.getList("Items", 10);
-            this.initHippogryphInv();
-            for (int i = 0; i < nbttaglist.size(); ++i) {
-                NbtCompound CompoundNBT = nbttaglist.getCompound(i);
-                int j = CompoundNBT.getByte("Slot") & 255;
-                this.hippogryphInventory.setStack(j, ItemStack.fromNbt(CompoundNBT));
-            }
-        } else {
-            NbtList nbttaglist = compound.getList("Items", 10);
-            this.initHippogryphInv();
-            for (int i = 0; i < nbttaglist.size(); ++i) {
-                NbtCompound CompoundNBT = nbttaglist.getCompound(i);
-                int j = CompoundNBT.getByte("Slot") & 255;
-                this.initHippogryphInv();
-                this.hippogryphInventory.setStack(j, ItemStack.fromNbt(CompoundNBT));
-                //this.setArmorInSlot(j, this.getIntFromArmor(ItemStack.loadItemStackFromNBT(CompoundNBT)));
-            }
-        }
+
+        this.initHippogryphInv();
+        List<ItemStack> inv = ItemStack.CODEC.listOf().parse(NbtOps.INSTANCE, compound.get("Items")).resultOrPartial(IceAndFire.LOGGER::error).orElse(List.of());
+        for (int i = 0; i < inv.size() && i < this.hippogryphInventory.size(); i++)
+            this.hippogryphInventory.setStack(i, inv.get(i));
+
         this.hasHomePosition = compound.getBoolean("HasHomePosition");
         if (this.hasHomePosition && compound.getInt("HomeAreaX") != 0 && compound.getInt("HomeAreaY") != 0 && compound.getInt("HomeAreaZ") != 0) {
             this.homePos = new BlockPos(compound.getInt("HomeAreaX"), compound.getInt("HomeAreaY"), compound.getInt("HomeAreaZ"));
         }
         this.setCommand(compound.getInt("Command"));
 
-        if (this.isSitting()) {
+        if (this.isSitting())
             this.sitProgress = 20.0F;
-        }
 
         this.setConfigurableAttributes();
-
     }
 
     public String getVariant() {
@@ -574,8 +559,8 @@ public class EntityHippogryph extends TameableEntity implements NamedScreenHandl
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        EntityData data = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        EntityData data = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setEnumVariant(HippogryphTypes.getBiomeType(worldIn.getBiome(this.getBlockPos())));
         return data;
     }
@@ -1048,11 +1033,6 @@ public class EntityHippogryph extends TameableEntity implements NamedScreenHandl
     @Override
     public boolean isPersistent() {
         return true;
-    }
-
-    @Override
-    public EntityView method_48926() {
-        return this.getWorld();
     }
 
     @Nullable

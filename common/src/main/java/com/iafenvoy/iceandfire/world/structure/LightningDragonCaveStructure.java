@@ -7,12 +7,15 @@ import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafStructurePieces;
 import com.iafenvoy.iceandfire.registry.IafStructureTypes;
 import com.iafenvoy.iceandfire.registry.tag.IafBlockTags;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.structure.StructureContext;
 import net.minecraft.util.Identifier;
@@ -22,8 +25,8 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.structure.StructureType;
 
 public class LightningDragonCaveStructure extends DragonCaveStructure {
-    public static final Codec<LightningDragonCaveStructure> CODEC = RecordCodecBuilder.<LightningDragonCaveStructure>mapCodec(instance ->
-            instance.group(configCodecBuilder(instance)).apply(instance, LightningDragonCaveStructure::new)).codec();
+    public static final MapCodec<LightningDragonCaveStructure> CODEC = RecordCodecBuilder.<LightningDragonCaveStructure>mapCodec(instance ->
+            instance.group(configCodecBuilder(instance)).apply(instance, LightningDragonCaveStructure::new));
 
     protected LightningDragonCaveStructure(Config config) {
         super(config);
@@ -72,8 +75,8 @@ public class LightningDragonCaveStructure extends DragonCaveStructure {
         }
 
         @Override
-        protected Identifier getChestTable(boolean male) {
-            return male ? LIGHTNING_DRAGON_CHEST_MALE : LIGHTNING_DRAGON_CHEST;
+        protected RegistryKey<LootTable> getChestTable(boolean male) {
+            return RegistryKey.of(RegistryKeys.LOOT_TABLE, male ? LIGHTNING_DRAGON_CHEST_MALE : LIGHTNING_DRAGON_CHEST);
         }
 
         @Override

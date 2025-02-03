@@ -20,6 +20,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -45,6 +48,7 @@ public class EntityIceDragon extends EntityDragonBase {
     public static final Identifier FEMALE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/dragon/ice_dragon_female");
     public static final Identifier MALE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/dragon/ice_dragon_male");
     public static final Identifier SKELETON_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/dragon/ice_dragon_skeleton");
+    private static final TrackedData<Boolean> SWIMMING = DataTracker.registerData(EntityIceDragon.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     public EntityIceDragon(EntityType<? extends EntityIceDragon> t, World worldIn) {
         super(t, worldIn, DragonType.ICE, 1, 1 + IafCommonConfig.INSTANCE.dragon.attackDamage.getValue(), IafCommonConfig.INSTANCE.dragon.maxHealth.getValue() * 0.04, IafCommonConfig.INSTANCE.dragon.maxHealth.getValue(), 0.15F, 0.4F);
@@ -67,9 +71,9 @@ public class EntityIceDragon extends EntityDragonBase {
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(SWIMMING, Boolean.FALSE);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(SWIMMING, false);
     }
 
     @Override
@@ -86,7 +90,6 @@ public class EntityIceDragon extends EntityDragonBase {
     public boolean isPushedByFluids() {
         return false;
     }
-
 
     @Override
     public void writeCustomDataToNbt(NbtCompound compound) {
@@ -592,8 +595,8 @@ public class EntityIceDragon extends EntityDragonBase {
     }
 
     @Override
-    public ItemStack getSkull() {
-        return new ItemStack(IafItems.DRAGON_SKULL_ICE.get());
+    public Item getSkull() {
+        return IafItems.DRAGON_SKULL_ICE.get();
     }
 
     @Override

@@ -2,14 +2,13 @@ package com.iafenvoy.iceandfire.screen.gui;
 
 import com.google.common.collect.Lists;
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.StaticVariables;
 import com.iafenvoy.iceandfire.entity.util.MyrmexHive;
+import com.iafenvoy.iceandfire.network.payload.MyrmexSyncPayload;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.screen.gui.bestiary.ChangePageButton;
 import com.iafenvoy.iceandfire.screen.handler.MyrmexStaffScreenHandler;
 import com.iafenvoy.iceandfire.world.MyrmexWorldData;
 import com.iafenvoy.iceandfire.world.structure.MyrmexHiveStructure;
-import com.iafenvoy.uranus.network.PacketBufferUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.client.MinecraftClient;
@@ -19,7 +18,6 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -106,7 +104,7 @@ public class MyrmexStaffScreen extends HandledScreen<MyrmexStaffScreenHandler> {
     @Override
     public void renderBackground(DrawContext ms, int mouseX, int mouseY, float partialTicks) {
         super.renderBackground(ms, mouseX, mouseY, partialTicks);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1, 1, 1, 1);
         int i = (this.width - 248) / 2;
         int j = (this.height - 166) / 2;
         ms.drawTexture(this.jungle ? JUNGLE_TEXTURE : DESERT_TEXTURE, i, j, 0, 0, 248, 166);
@@ -166,10 +164,7 @@ public class MyrmexStaffScreen extends HandledScreen<MyrmexStaffScreenHandler> {
     @Override
     public void removed() {
         MyrmexHive hive = MyrmexWorldData.get(MinecraftClient.getInstance().world).getHiveFromUUID(this.handler.getTargetId());
-        if (hive != null) {
-            PacketByteBuf buf = PacketBufferUtils.create().writeNbt(hive.toNBT());
-            NetworkManager.sendToServer(StaticVariables.MYRMEX_SYNC, buf);
-        }
+        if (hive != null) NetworkManager.sendToServer(new MyrmexSyncPayload(hive.toNBT()));
     }
 
     private void drawRoomInfo(DrawContext ms, String type, BlockPos pos, int i, int j, int color) {

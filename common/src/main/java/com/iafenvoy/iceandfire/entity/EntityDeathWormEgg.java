@@ -47,25 +47,21 @@ public class EntityDeathWormEgg extends ThrownItemEntity {
     @Override
     protected void onCollision(HitResult result) {
         Entity thrower = this.getOwner();
-        if (result.getType() == HitResult.Type.ENTITY) {
+        if (result.getType() == HitResult.Type.ENTITY)
             ((EntityHitResult) result).getEntity().damage(this.getWorld().getDamageSources().thrown(this, thrower), 0.0F);
-        }
 
         if (!this.getWorld().isClient) {
             float wormSize = 0.25F + (float) (Math.random() * 0.35F);
 
             EntityDeathWorm deathworm = new EntityDeathWorm(IafEntities.DEATH_WORM.get(), this.getWorld());
             deathworm.setVariant(this.random.nextInt(3));
-            deathworm.setTamed(true);
+            deathworm.setTamed(true, false);
             deathworm.setWormHome(this.getBlockPos());
             deathworm.setWormAge(1);
             deathworm.setDeathWormScale(this.giant ? (wormSize * 4) : wormSize);
             deathworm.refreshPositionAndAngles(this.getX(), this.getY(), this.getZ(), this.getYaw(), 0.0F);
-            if (thrower instanceof PlayerEntity) {
-                deathworm.setOwnerUuid(thrower.getUuid());
-            }
+            if (thrower instanceof PlayerEntity) deathworm.setOwnerUuid(thrower.getUuid());
             this.getWorld().spawnEntity(deathworm);
-
             this.getWorld().sendEntityStatus(this, (byte) 3);
             this.remove(RemovalReason.DISCARDED);
         }

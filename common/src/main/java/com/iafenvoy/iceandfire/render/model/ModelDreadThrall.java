@@ -7,7 +7,6 @@ import com.iafenvoy.uranus.client.model.util.HideableModelRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 
 public class ModelDreadThrall extends ModelDreadBase<EntityDreadThrall> {
-
     public ModelDreadThrall(float modelScale, boolean bodyArmorModel) {
         this.texHeight = 32;
         this.texWidth = 64;

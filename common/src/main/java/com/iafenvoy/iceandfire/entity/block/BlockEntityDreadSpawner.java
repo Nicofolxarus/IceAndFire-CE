@@ -10,6 +10,7 @@ import net.minecraft.block.spawner.MobSpawnerEntry;
 import net.minecraft.block.spawner.MobSpawnerLogic;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -37,15 +38,15 @@ public class BlockEntityDreadSpawner extends MobSpawnerBlockEntity {
     }
 
     @Override
-    public void readNbt(NbtCompound compound) {
-        super.readNbt(compound);
-        this.spawner.readNbt(this.world, this.pos, compound);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
+        this.spawner.readNbt(this.world, this.pos, nbt);
     }
 
-    public NbtCompound save(NbtCompound compound) {
-        super.writeNbt(compound);
-        this.spawner.writeNbt(compound);
-        return compound;
+    public NbtCompound save(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.writeNbt(nbt, registryLookup);
+        this.spawner.writeNbt(nbt);
+        return nbt;
     }
 
     @Override
@@ -54,8 +55,8 @@ public class BlockEntityDreadSpawner extends MobSpawnerBlockEntity {
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        NbtCompound compoundtag = this.save(new NbtCompound());
+    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+        NbtCompound compoundtag = this.save(new NbtCompound(), registryLookup);
         compoundtag.remove("SpawnPotentials");
         return compoundtag;
     }

@@ -11,6 +11,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.ServerConfigHandler;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -39,7 +40,7 @@ public class BlockEntityEggInIce extends BlockEntity {
                 dragon.setPosition(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
                 dragon.setVariant(entityEggInIce.type.name());
                 dragon.setGender(ThreadLocalRandom.current().nextBoolean());
-                dragon.setTamed(true);
+                dragon.setTamed(true, false);
                 dragon.setHunger(50);
                 dragon.setOwnerUuid(entityEggInIce.ownerUUID);
                 level.spawnEntity(dragon);
@@ -51,25 +52,26 @@ public class BlockEntityEggInIce extends BlockEntity {
     }
 
     @Override
-    public void writeNbt(NbtCompound tag) {
-        if (this.type != null) tag.putString("Color", this.type.name());
-        else tag.putByte("Color", (byte) 0);
-        tag.putInt("Age", this.age);
-        if (this.ownerUUID == null) tag.putString("OwnerUUID", "");
-        else tag.putUuid("OwnerUUID", this.ownerUUID);
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.writeNbt(nbt, registryLookup);
+        if (this.type != null) nbt.putString("Color", this.type.name());
+        else nbt.putByte("Color", (byte) 0);
+        nbt.putInt("Age", this.age);
+        if (this.ownerUUID == null) nbt.putString("OwnerUUID", "");
+        else nbt.putUuid("OwnerUUID", this.ownerUUID);
     }
 
     @Override
-    public void readNbt(NbtCompound tag) {
-        super.readNbt(tag);
-        this.type = DragonColor.getById(tag.getString("Color"));
-        this.age = tag.getInt("Age");
+    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
+        this.type = DragonColor.getById(nbt.getString("Color"));
+        this.age = nbt.getInt("Age");
         UUID s = null;
-        if (tag.containsUuid("OwnerUUID"))
-            s = tag.getUuid("OwnerUUID");
+        if (nbt.containsUuid("OwnerUUID"))
+            s = nbt.getUuid("OwnerUUID");
         else
             try {
-                String s1 = tag.getString("OwnerUUID");
+                String s1 = nbt.getString("OwnerUUID");
                 assert this.world != null;
                 s = ServerConfigHandler.getPlayerUuidByName(this.world.getServer(), s1);
             } catch (Exception ignored) {
@@ -78,16 +80,16 @@ public class BlockEntityEggInIce extends BlockEntity {
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt() {
+    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
         NbtCompound nbtTagCompound = new NbtCompound();
-        this.writeNbt(nbtTagCompound);
+        this.writeNbt(nbtTagCompound,registryLookup);
         return nbtTagCompound;
     }
 
     @Override
     public BlockEntityUpdateS2CPacket toUpdatePacket() {
         NbtCompound nbtTagCompound = new NbtCompound();
-        this.writeNbt(nbtTagCompound);
+        this.writeNbt(nbtTagCompound,null);
         return BlockEntityUpdateS2CPacket.create(this);
     }
 

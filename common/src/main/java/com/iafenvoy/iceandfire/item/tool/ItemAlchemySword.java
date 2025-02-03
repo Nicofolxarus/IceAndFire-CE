@@ -6,7 +6,6 @@ import com.iafenvoy.iceandfire.entity.EntityFireDragon;
 import com.iafenvoy.iceandfire.entity.EntityIceDragon;
 import com.iafenvoy.iceandfire.event.ServerEvents;
 import com.iafenvoy.iceandfire.registry.IafItems;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
@@ -16,15 +15,15 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.world.World;
 
 import java.util.List;
 
 public class ItemAlchemySword extends SwordItem {
     public ItemAlchemySword(ToolMaterial toolmaterial) {
-        super(toolmaterial, 3, -2.4F, new Settings());
+        super(toolmaterial, new Settings());
     }
 
     @Override
@@ -73,7 +72,8 @@ public class ItemAlchemySword extends SwordItem {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
         tooltip.add(Text.translatable("item.iceandfire.legendary_weapon.desc").formatted(Formatting.GRAY));
         if (this == IafItems.DRAGONBONE_SWORD_FIRE.get()) {
             tooltip.add(Text.translatable("dragon_sword_fire.hurt1").formatted(Formatting.GREEN));

@@ -3,7 +3,6 @@ package com.iafenvoy.iceandfire.entity.ai;
 import com.iafenvoy.iceandfire.entity.EntityDreadLich;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.Goal;
 
 import java.util.EnumSet;

@@ -6,6 +6,6 @@ import net.minecraft.item.ToolMaterial;
 
 public class DragonSteelToolMaterial {
     public static ToolMaterial createMaterialWithRepairItem(ItemConvertible ingredient, String name) {
-        return ToolMaterialUtil.of(4000, 4F, 10F, 21, 10, ingredient);
+        return ToolMaterialUtil.of(4000, 4F, 10F, 21, ingredient);
     }
 }

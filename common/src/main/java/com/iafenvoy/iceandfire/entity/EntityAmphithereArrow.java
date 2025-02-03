@@ -12,18 +12,13 @@ import net.minecraft.world.World;
 
 public class EntityAmphithereArrow extends PersistentProjectileEntity {
     public EntityAmphithereArrow(EntityType<? extends PersistentProjectileEntity> type, World worldIn) {
-        super(type, worldIn, new ItemStack(IafItems.AMPHITHERE_ARROW.get()));
+        super(type, worldIn);
         this.setDamage(2.5F);
     }
 
-    public EntityAmphithereArrow(EntityType<? extends PersistentProjectileEntity> type, World worldIn, double x, double y, double z) {
-        this(type, worldIn);
-        this.setPosition(x, y, z);
-        this.setDamage(2.5F);
-    }
-
-    public EntityAmphithereArrow(EntityType<? extends PersistentProjectileEntity> type, LivingEntity shooter, World worldIn) {
-        super(type, shooter, worldIn, new ItemStack(IafItems.AMPHITHERE_ARROW.get()));
+    public EntityAmphithereArrow(EntityType<? extends PersistentProjectileEntity> type, LivingEntity shooter, World worldIn, ItemStack from) {
+        super(type, shooter, worldIn, new ItemStack(IafItems.AMPHITHERE_ARROW.get()), from);
+        this.setOwner(shooter);
         this.setDamage(2.5F);
     }
 
@@ -52,6 +47,11 @@ public class EntityAmphithereArrow extends PersistentProjectileEntity {
         float f = MathHelper.sqrt((float) (xRatio * xRatio + zRatio * zRatio));
         living.setVelocity(living.getVelocity().multiply(0.5D, 1, 0.5D).subtract(xRatio / f * strength, 0, zRatio / f * strength).add(0, 0.6, 0));
         this.spawnExplosionParticle();
+    }
+
+    @Override
+    protected ItemStack getDefaultItemStack() {
+        return new ItemStack(IafItems.AMPHITHERE_ARROW.get());
     }
 
     public void spawnExplosionParticle() {

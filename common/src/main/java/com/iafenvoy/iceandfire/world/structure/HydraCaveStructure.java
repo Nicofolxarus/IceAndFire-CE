@@ -6,14 +6,16 @@ import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafStructurePieces;
 import com.iafenvoy.iceandfire.registry.IafStructureTypes;
 import com.iafenvoy.iceandfire.world.GenerationConstants;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.SkullBlock;
 import net.minecraft.block.entity.ChestBlockEntity;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.structure.StructureContext;
 import net.minecraft.structure.StructurePiece;
@@ -36,8 +38,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class HydraCaveStructure extends Structure {
-    public static final Codec<HydraCaveStructure> CODEC = RecordCodecBuilder.<HydraCaveStructure>mapCodec(instance ->
-            instance.group(configCodecBuilder(instance)).apply(instance, HydraCaveStructure::new)).codec();
+    public static final MapCodec<HydraCaveStructure> CODEC = RecordCodecBuilder.<HydraCaveStructure>mapCodec(instance ->
+            instance.group(configCodecBuilder(instance)).apply(instance, HydraCaveStructure::new));
 
     protected HydraCaveStructure(Config config) {
         super(config);
@@ -57,7 +59,7 @@ public class HydraCaveStructure extends Structure {
     }
 
     public static class HydraCavePiece extends StructurePiece {
-        public static final Identifier HYDRA_CHEST = Identifier.of(IceAndFire.MOD_ID, "chest/hydra_cave");
+        public static final RegistryKey<LootTable> HYDRA_CHEST = RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier.of(IceAndFire.MOD_ID, "chest/hydra_cave"));
 
         protected HydraCavePiece(int length, BlockBox boundingBox) {
             super(IafStructurePieces.HYDRA_CAVE.get(), length, boundingBox);

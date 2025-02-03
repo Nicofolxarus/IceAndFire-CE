@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.TransparentBlock;
-import net.minecraft.block.enums.Instrument;
+import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
@@ -23,7 +23,7 @@ public class BlockMyrmexConnectedResin extends TransparentBlock {
     public static final BooleanProperty WEST = BooleanProperty.of("west");
 
     public BlockMyrmexConnectedResin(boolean jungle, boolean glass) {
-        super(Settings.create().mapColor(MapColor.STONE_GRAY).instrument(Instrument.BASEDRUM).strength(glass ? 1.5F : 3.5F).nonOpaque().dynamicBounds().sounds(glass ? BlockSoundGroup.GLASS : BlockSoundGroup.STONE));
+        super(Settings.create().mapColor(MapColor.STONE_GRAY).instrument(NoteBlockInstrument.BASEDRUM).strength(glass ? 1.5F : 3.5F).nonOpaque().dynamicBounds().sounds(glass ? BlockSoundGroup.GLASS : BlockSoundGroup.STONE));
         this.setDefaultState(this.getStateManager().getDefaultState().with(UP, Boolean.FALSE).with(DOWN, Boolean.FALSE).with(NORTH, Boolean.FALSE).with(EAST, Boolean.FALSE).with(SOUTH, Boolean.FALSE).with(WEST, Boolean.FALSE));
     }
 

@@ -92,10 +92,10 @@ public class EntityDreadLich extends EntityDreadMob implements IAnimatedEntity, 
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(VARIANT, 0);
-        this.dataTracker.startTracking(MINION_COUNT, 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(VARIANT, 0);
+        builder.add(MINION_COUNT, 0);
     }
 
     @Override
@@ -137,8 +137,8 @@ public class EntityDreadLich extends EntityDreadMob implements IAnimatedEntity, 
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn, NbtCompound dataTag) {
-        EntityData data = super.initialize(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
+        EntityData data = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setAnimation(ANIMATION_SPAWN);
         this.initEquipment(worldIn.getRandom(), difficultyIn);
         this.setVariant(this.random.nextInt(5));
@@ -249,15 +249,12 @@ public class EntityDreadLich extends EntityDreadMob implements IAnimatedEntity, 
             minion.refreshPositionAndAngles(x + 0.5D, y, z + 0.5D, this.getYaw(), this.getPitch());
             minion.setTarget(target);
             World currentLevel = this.getWorld();
-            if (currentLevel instanceof ServerWorldAccess) {
-                minion.initialize((ServerWorldAccess) currentLevel, currentLevel.getLocalDifficulty(this.getBlockPos()), SpawnReason.MOB_SUMMONED, null, null);
-            }
-            if (minion instanceof EntityDreadMob) {
-                ((EntityDreadMob) minion).setCommanderId(this.getUuid());
-            }
-            if (!currentLevel.isClient) {
+            if (currentLevel instanceof ServerWorldAccess serverWorldAccess)
+                minion.initialize(serverWorldAccess, currentLevel.getLocalDifficulty(this.getBlockPos()), SpawnReason.MOB_SUMMONED, null);
+            if (minion instanceof EntityDreadMob mob)
+                mob.setCommanderId(this.getUuid());
+            if (!currentLevel.isClient)
                 currentLevel.spawnEntity(minion);
-            }
             this.minionCooldown = 100;
             this.setMinionCount(this.getMinionCount() + 1);
             flag = true;
@@ -265,8 +262,7 @@ public class EntityDreadLich extends EntityDreadMob implements IAnimatedEntity, 
         if (this.fireCooldown == 0 && !flag) {
             this.swingHand(Hand.MAIN_HAND);
             this.playSound(SoundEvents.ENTITY_ZOMBIE_INFECT, this.getSoundVolume(), this.getSoundPitch());
-            EntityDreadLichSkull skull = new EntityDreadLichSkull(IafEntities.DREAD_LICH_SKULL.get(), this.getWorld(), this,
-                    6);
+            EntityDreadLichSkull skull = new EntityDreadLichSkull(IafEntities.DREAD_LICH_SKULL.get(), this.getWorld(), this, 6);
             double d0 = target.getX() - this.getX();
             double d1 = target.getBoundingBox().minY + target.getHeight() * 2 - skull.getY();
             double d2 = target.getZ() - this.getZ();

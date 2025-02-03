@@ -4,12 +4,12 @@ import com.iafenvoy.iceandfire.data.component.IafEntityData;
 import com.iafenvoy.iceandfire.entity.EntityChainTie;
 import net.minecraft.block.Block;
 import net.minecraft.block.WallBlock;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
@@ -39,10 +39,8 @@ public class ItemChain extends Item {
             IafEntityData data = IafEntityData.get(livingEntity);
             if (data.chainData.isChainedTo(player)) {
                 EntityChainTie entityleashknot = EntityChainTie.getKnotForPosition(worldIn, fence);
-
                 if (entityleashknot == null)
                     entityleashknot = EntityChainTie.createTie(worldIn, fence);
-
                 data.chainData.removeChain(player);
                 data.chainData.attachChain(entityleashknot);
             }
@@ -50,7 +48,8 @@ public class ItemChain extends Item {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
         tooltip.add(Text.translatable("item.iceandfire.chain.desc_0").formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("item.iceandfire.chain.desc_1").formatted(Formatting.GRAY));
         if (this.sticky) {

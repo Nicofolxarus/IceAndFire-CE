@@ -27,7 +27,6 @@ public class RenderDragonLightningCharge extends EntityRenderer<EntityDragonLigh
         float f = (float) entity.age + partialTicks;
         float yaw = entity.prevYaw + (entity.getYaw() - entity.prevYaw) * partialTicks;
         VertexConsumer ivertexbuilder2 = bufferIn.getBuffer(RenderLayer.getEyes(TEXTURE_CORE));
-        assert TEXTURE != null;
         VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderLayer.getEnergySwirl(TEXTURE, f * 0.01F, f * 0.01F));
 
         matrixStackIn.push();
@@ -36,7 +35,7 @@ public class RenderDragonLightningCharge extends EntityRenderer<EntityDragonLigh
         matrixStackIn.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yaw - 180.0F));
         matrixStackIn.multiply(RotationAxis.POSITIVE_X.rotationDegrees(f * 20.0F));
         matrixStackIn.translate(0F, 0.25F, 0F);
-        MODEL_SPIRIT.render(matrixStackIn, ivertexbuilder2, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+        MODEL_SPIRIT.render(matrixStackIn, ivertexbuilder2, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
         matrixStackIn.pop();
 
         matrixStackIn.push();
@@ -46,7 +45,7 @@ public class RenderDragonLightningCharge extends EntityRenderer<EntityDragonLigh
         matrixStackIn.multiply(RotationAxis.POSITIVE_X.rotationDegrees(f * 15.0F));
         matrixStackIn.translate(0F, 0.25F, 0F);
         matrixStackIn.scale(1.5F, 1.5F, 1.5F);
-        MODEL_SPIRIT.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+        MODEL_SPIRIT.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
         matrixStackIn.pop();
 
         matrixStackIn.push();
@@ -56,7 +55,7 @@ public class RenderDragonLightningCharge extends EntityRenderer<EntityDragonLigh
         matrixStackIn.multiply(RotationAxis.POSITIVE_X.rotationDegrees(f * 10.0F));
         matrixStackIn.translate(0F, 0.75F, 0F);
         matrixStackIn.scale(2.5F, 2.5F, 2.5F);
-        MODEL_SPIRIT.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+        MODEL_SPIRIT.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
         matrixStackIn.pop();
 
         super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

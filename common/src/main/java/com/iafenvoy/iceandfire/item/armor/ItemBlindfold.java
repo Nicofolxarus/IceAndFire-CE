@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.item.armor;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.registry.IafItems;
+import com.iafenvoy.iceandfire.registry.IafArmorMaterials;
 import com.iafenvoy.uranus.client.render.armor.IArmorTextureProvider;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
@@ -9,13 +9,14 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class ItemBlindfold extends ArmorItem implements IArmorTextureProvider, IArmorFinder {
     public ItemBlindfold() {
-        super(IafItems.BLINDFOLD_ARMOR_MATERIAL, Type.HELMET, new Settings());
+        super(IafArmorMaterials.BLINDFOLD_ARMOR_MATERIAL, Type.HELMET, new Settings());
     }
 
     @Override
@@ -26,7 +27,7 @@ public class ItemBlindfold extends ArmorItem implements IArmorTextureProvider, I
     }
 
     @Override
-    public Identifier getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+    public Identifier getArmorTexture(ItemStack itemStack, Entity entity, EquipmentSlot equipmentSlot, ArmorMaterial.Layer layer, boolean b) {
         return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/blindfold_layer_1.png");
     }
 }
