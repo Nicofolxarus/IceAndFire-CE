@@ -32,16 +32,16 @@ public class ForgeRecipeHolder {
         registry.addCategory(this.category);
         registry.addWorkstation(this.category, this.workstation);
         List<RecipeEntry<DragonForgeRecipe>> forgeRecipeList = registry.getRecipeManager().listAllOfType(IafRecipes.DRAGON_FORGE_TYPE.get());
-        for (DragonForgeRecipe recipe : forgeRecipeList.stream().map(RecipeEntry::value).filter(item -> item.getDragonType().equals(this.dragonType)).toList())
-            registry.addRecipe(new DragonForgeEmiRecipe(recipe, this.category));
+        for (RecipeEntry<DragonForgeRecipe> recipeEntry : forgeRecipeList.stream().filter(entry -> entry.value().getDragonType().equals(this.dragonType)).toList())
+            registry.addRecipe(new DragonForgeEmiRecipe(recipeEntry, this.category));
     }
 
     public class DragonForgeEmiRecipe implements EmiRecipe {
-        private final DragonForgeRecipe recipe;
+        private final RecipeEntry<DragonForgeRecipe> entry;
         private final EmiRecipeCategory category;
 
-        public DragonForgeEmiRecipe(DragonForgeRecipe recipe, EmiRecipeCategory category) {
-            this.recipe = recipe;
+        public DragonForgeEmiRecipe(RecipeEntry<DragonForgeRecipe> entry, EmiRecipeCategory category) {
+            this.entry = entry;
             this.category = category;
         }
 
@@ -52,17 +52,17 @@ public class ForgeRecipeHolder {
 
         @Override
         public @Nullable Identifier getId() {
-            return this.recipe.getId();
+            return this.entry.id();
         }
 
         @Override
         public List<EmiIngredient> getInputs() {
-            return List.of(EmiIngredient.of(this.recipe.getInput()), EmiIngredient.of(this.recipe.getBlood()));
+            return List.of(EmiIngredient.of(this.entry.value().getInput()), EmiIngredient.of(this.entry.value().getBlood()));
         }
 
         @Override
         public List<EmiStack> getOutputs() {
-            return List.of(EmiStack.of(this.recipe.getResultItem()));
+            return List.of(EmiStack.of(this.entry.value().getResultItem()));
         }
 
         @Override
@@ -78,9 +78,9 @@ public class ForgeRecipeHolder {
         @Override
         public void addWidgets(WidgetHolder widgets) {
             widgets.addTexture(ForgeRecipeHolder.this.texture, 3, 4);
-            widgets.addSlot(EmiIngredient.of(this.recipe.getInput()), 67, 33);
-            widgets.addSlot(EmiIngredient.of(this.recipe.getBlood()), 85, 33);
-            widgets.addSlot(EmiStack.of(this.recipe.getResultItem()), 143, 30).large(true).recipeContext(this);
+            widgets.addSlot(EmiIngredient.of(this.entry.value().getInput()), 67, 33);
+            widgets.addSlot(EmiIngredient.of(this.entry.value().getBlood()), 85, 33);
+            widgets.addSlot(EmiStack.of(this.entry.value().getResultItem()), 143, 30).large(true).recipeContext(this);
         }
     }
 }

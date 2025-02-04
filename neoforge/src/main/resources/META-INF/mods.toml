@@ -17,14 +17,14 @@ logoFile = "logo.jpg"
 [[dependencies.iceandfire]]
 modId = "neoforge"
 type = "required"
-versionRange = "[20.4,)"
+versionRange = "[21,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.iceandfire]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.20.1,)"
+versionRange = "[1.21,1.21.2)"
 ordering = "NONE"
 side = "BOTH"
 

@@ -16,6 +16,7 @@
     "GameRendererMixin",
     "InGameHudMixin",
     "LivingEntityRendererMixin",
+    "ParticleManagerMixin",
     "PlayerEntityRendererMixin",
     "RotatingCubeMapRendererMixin",
     "TitleScreenMixin"

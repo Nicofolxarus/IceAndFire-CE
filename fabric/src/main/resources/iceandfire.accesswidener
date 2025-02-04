@@ -33,5 +33,7 @@ accessible method net/minecraft/block/Blocks createLeavesBlock (Lnet/minecraft/s
 accessible method net/minecraft/entity/SpawnRestriction register (Lnet/minecraft/entity/EntityType;Lnet/minecraft/entity/SpawnLocation;Lnet/minecraft/world/Heightmap$Type;Lnet/minecraft/entity/SpawnRestriction$SpawnPredicate;)V
 extendable method net/minecraft/entity/LivingEntity getDimensions (Lnet/minecraft/entity/EntityPose;)Lnet/minecraft/entity/EntityDimensions;
 accessible method net/minecraft/entity/LivingEntity getXpToDrop ()I
-extendable method com/iafenvoy/iceandfire/entity/EntityChainTie updateAttachmentPosition ()V
 accessible method net/minecraft/entity/projectile/PersistentProjectileEntity setPierceLevel (B)V
+accessible method net/minecraft/client/particle/ParticleManager registerFactory (Lnet/minecraft/particle/ParticleType;Lnet/minecraft/client/particle/ParticleFactory;)V
+accessible method net/minecraft/client/particle/ParticleManager registerFactory (Lnet/minecraft/particle/ParticleType;Lnet/minecraft/client/particle/ParticleManager$SpriteAwareFactory;)V
+accessible class net/minecraft/client/particle/ParticleManager$SpriteAwareFactory

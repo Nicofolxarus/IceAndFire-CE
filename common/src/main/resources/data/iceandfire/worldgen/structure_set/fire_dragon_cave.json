@@ -3,11 +3,7 @@
     "type": "minecraft:random_spread",
     "salt": 7824162,
     "separation": 14,
-    "spacing": 20,
-    "exclusion_zone": {
-      "chunk_count": 6,
-      "other_set": "iceandfire:lightning_dragon_cave"
-    }
+    "spacing": 20
   },
   "structures": [
     {

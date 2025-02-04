@@ -26,9 +26,8 @@ public class RenderDragonLightningCharge extends EntityRenderer<EntityDragonLigh
     public void render(EntityDragonLightningCharge entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn) {
         float f = (float) entity.age + partialTicks;
         float yaw = entity.prevYaw + (entity.getYaw() - entity.prevYaw) * partialTicks;
-        VertexConsumer ivertexbuilder2 = bufferIn.getBuffer(RenderLayer.getEyes(TEXTURE_CORE));
-        VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderLayer.getEnergySwirl(TEXTURE, f * 0.01F, f * 0.01F));
 
+        VertexConsumer ivertexbuilder2 = bufferIn.getBuffer(RenderLayer.getEyes(TEXTURE_CORE));
         matrixStackIn.push();
         matrixStackIn.translate(0F, 0.5F, 0F);
         matrixStackIn.translate(0F, -0.25F, 0F);
@@ -38,6 +37,7 @@ public class RenderDragonLightningCharge extends EntityRenderer<EntityDragonLigh
         MODEL_SPIRIT.render(matrixStackIn, ivertexbuilder2, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
         matrixStackIn.pop();
 
+        VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderLayer.getEnergySwirl(TEXTURE, f * 0.01F, f * 0.01F));
         matrixStackIn.push();
         matrixStackIn.translate(0F, 0.5F, 0F);
         matrixStackIn.translate(0F, -0.25F, 0F);

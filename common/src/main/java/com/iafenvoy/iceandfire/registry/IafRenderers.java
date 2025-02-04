@@ -20,12 +20,12 @@ import com.iafenvoy.uranus.client.render.DynamicItemRenderer;
 import com.iafenvoy.uranus.client.render.armor.IArmorRendererBase;
 import com.iafenvoy.uranus.util.function.MemorizeSupplier;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
-import dev.architectury.registry.client.particle.ParticleProviderRegistry;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import dev.architectury.registry.item.ItemPropertiesRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.util.Identifier;
@@ -99,18 +99,18 @@ public final class IafRenderers {
         EntityRendererRegistry.register(IafEntities.GHOST_SWORD, RenderGhostSword::new);
     }
 
-    public static void registerParticleRenderers() {
-        ParticleProviderRegistry.register(IafParticles.DRAGON_FLAME, ParticleDragonFlame::provider);
-        ParticleProviderRegistry.register(IafParticles.DRAGON_FROST, ParticleDragonFrost::provider);
-        ParticleProviderRegistry.register(IafParticles.BLOOD, (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleBlood(world, x, y, z));
-        ParticleProviderRegistry.register(IafParticles.DREAD_PORTAL, (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleDreadPortal(world, x, y, z, velocityX, velocityY, velocityZ));
-        ParticleProviderRegistry.register(IafParticles.DREAD_TORCH, (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleDreadTorch(world, x, y, z, velocityX, velocityY, velocityZ));
-        ParticleProviderRegistry.register(IafParticles.GHOST_APPEARANCE, (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleGhostAppearance(world, x, y, z, 1));
-        ParticleProviderRegistry.register(IafParticles.HYDRA_BREATH, (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleHydraBreath(world, x, y, z, 1, 1, 1));
-        ParticleProviderRegistry.register(IafParticles.PIXIE_DUST, (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticlePixieDust(world, x, y, z, 1, 1, 1, 1));
-        ParticleProviderRegistry.register(IafParticles.SERPENT_BUBBLE, (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleSerpentBubble(world, x, y, z, velocityX, velocityY, velocityZ, 1));
-        ParticleProviderRegistry.register(IafParticles.SIREN_APPEARANCE, (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleSirenAppearance(world, x, y, z, 1));
-        ParticleProviderRegistry.register(IafParticles.SIREN_MUSIC, (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleSirenMusic(world, x, y, z, velocityX, velocityY, velocityZ));
+    public static void registerParticleRenderers(ParticleManager manager) {
+        manager.registerFactory(IafParticles.DRAGON_FLAME.get(), ParticleDragonFlame::provider);
+        manager.registerFactory(IafParticles.DRAGON_FROST.get(), ParticleDragonFrost::provider);
+        manager.registerFactory(IafParticles.BLOOD.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleBlood(world, x, y, z));
+        manager.registerFactory(IafParticles.DREAD_PORTAL.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleDreadPortal(world, x, y, z, velocityX, velocityY, velocityZ));
+        manager.registerFactory(IafParticles.DREAD_TORCH.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleDreadTorch(world, x, y, z, velocityX, velocityY, velocityZ));
+        manager.registerFactory(IafParticles.GHOST_APPEARANCE.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleGhostAppearance(world, x, y, z, 1));
+        manager.registerFactory(IafParticles.HYDRA_BREATH.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleHydraBreath(world, x, y, z, 1, 1, 1));
+        manager.registerFactory(IafParticles.PIXIE_DUST.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticlePixieDust(world, x, y, z, 1, 1, 1, 1));
+        manager.registerFactory(IafParticles.SERPENT_BUBBLE.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleSerpentBubble(world, x, y, z, velocityX, velocityY, velocityZ, 1));
+        manager.registerFactory(IafParticles.SIREN_APPEARANCE.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleSirenAppearance(world, x, y, z, 1));
+        manager.registerFactory(IafParticles.SIREN_MUSIC.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleSirenMusic(world, x, y, z, velocityX, velocityY, velocityZ));
     }
 
     public static void registerBlockEntityRenderers() {

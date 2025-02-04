@@ -35,7 +35,7 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Optional;
 
-public class BlockEntityDragonForge extends LockableContainerBlockEntity implements SidedInventory, RecipeInput {
+public class BlockEntityDragonForge extends LockableContainerBlockEntity implements SidedInventory {
     private static final int[] SLOTS_TOP = new int[]{0, 1};
     private static final int[] SLOTS_BOTTOM = new int[]{2};
     private static final int[] SLOTS_SIDES = new int[]{0, 1};
@@ -102,16 +102,6 @@ public class BlockEntityDragonForge extends LockableContainerBlockEntity impleme
 
     @Override
     public int size() {
-        return this.forgeItemStacks.size();
-    }
-
-    @Override
-    public ItemStack getStackInSlot(int slot) {
-        return this.forgeItemStacks.get(slot);
-    }
-
-    @Override
-    public int getSize() {
         return this.forgeItemStacks.size();
     }
 
@@ -216,15 +206,6 @@ public class BlockEntityDragonForge extends LockableContainerBlockEntity impleme
         return 0;
     }
 
-    public String getTypeID() {
-        return switch (this.getFireType(this.getCachedState().getBlock())) {
-            case 0 -> "fire";
-            case 1 -> "ice";
-            case 2 -> "lightning";
-            default -> "";
-        };
-    }
-
     public int getMaxCookTime() {
         return this.getCurrentRecipe().map(DragonForgeRecipe::getCookTime).orElse(100);
     }
@@ -240,7 +221,7 @@ public class BlockEntityDragonForge extends LockableContainerBlockEntity impleme
 
     public Optional<DragonForgeRecipe> getCurrentRecipe() {
         assert this.world != null;
-        return this.world.getRecipeManager().getFirstMatch(IafRecipes.DRAGON_FORGE_TYPE.get(), this, this.world).map(RecipeEntry::value);
+        return this.world.getRecipeManager().getFirstMatch(IafRecipes.DRAGON_FORGE_TYPE.get(), new DragonForgeRecipeInput(this), this.world).map(RecipeEntry::value);
     }
 
     public List<DragonForgeRecipe> getRecipes() {
@@ -421,5 +402,36 @@ public class BlockEntityDragonForge extends LockableContainerBlockEntity impleme
 
     public DragonForgePropertyDelegate getPropertyDelegate() {
         return this.propertyDelegate;
+    }
+
+    public static class DragonForgeRecipeInput implements RecipeInput {
+        private final BlockEntityDragonForge owner;
+
+        public DragonForgeRecipeInput(BlockEntityDragonForge owner) {
+            this.owner = owner;
+        }
+
+        @Override
+        public ItemStack getStackInSlot(int slot) {
+            return this.owner.forgeItemStacks.get(slot);
+        }
+
+        @Override
+        public int getSize() {
+            return this.owner.forgeItemStacks.size();
+        }
+
+        public ItemStack getStack(int index) {
+            return this.owner.forgeItemStacks.get(index);
+        }
+
+        public String getTypeID() {
+            return switch (this.owner.getFireType(this.owner.getCachedState().getBlock())) {
+                case 0 -> "fire";
+                case 1 -> "ice";
+                case 2 -> "lightning";
+                default -> "";
+            };
+        }
     }
 }

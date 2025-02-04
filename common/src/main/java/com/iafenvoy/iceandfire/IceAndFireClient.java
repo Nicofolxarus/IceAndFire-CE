@@ -2,6 +2,7 @@ package com.iafenvoy.iceandfire;
 
 import com.iafenvoy.iceandfire.config.IafClientConfig;
 import com.iafenvoy.iceandfire.event.ClientEvents;
+import com.iafenvoy.iceandfire.event.RegistryEvents;
 import com.iafenvoy.iceandfire.network.ClientNetworkHelper;
 import com.iafenvoy.iceandfire.registry.IafKeybindings;
 import com.iafenvoy.iceandfire.registry.IafRenderers;
@@ -17,8 +18,8 @@ public class IceAndFireClient {
     public static void init() {
         ConfigManager.getInstance().registerConfigHandler(IafClientConfig.INSTANCE);
 
+        RegistryEvents.PARTICLE.register(IafRenderers::registerParticleRenderers);
         IafRenderers.registerEntityRenderers();
-        IafRenderers.registerParticleRenderers();
         IafKeybindings.init();
     }
 
