@@ -49,7 +49,7 @@ public class DeathwormAITargetItems<T extends ItemEntity> extends TrackTargetGoa
         if (list.isEmpty()) return false;
         else {
             list.sort(this.theNearestAttackableTargetSorter);
-            this.targetEntity = list.get(0);
+            this.targetEntity = list.getFirst();
             return true;
         }
     }

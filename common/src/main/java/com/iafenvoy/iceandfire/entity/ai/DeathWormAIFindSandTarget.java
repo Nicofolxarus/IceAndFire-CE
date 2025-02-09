@@ -57,7 +57,7 @@ public class DeathWormAIFindSandTarget extends Goal {
                         for (int z = this.mob.getWormHome().getZ() - this.range; z < this.mob.getWormHome().getZ() + this.range; z++) {
                             if (this.mob.getWorld().getBlockState(new BlockPos(x, y, z)).isIn(BlockTags.SAND)) {
                                 this.mob.getPos();
-                                if (true) sand.add(new BlockPos(x, y, z));
+                                sand.add(new BlockPos(x, y, z));
                             }
                         }
             } else
@@ -66,7 +66,7 @@ public class DeathWormAIFindSandTarget extends Goal {
                         for (int z = (int) this.mob.getZ() - this.range; z < (int) this.mob.getZ() + this.range; z++) {
                             if (this.mob.getWorld().getBlockState(new BlockPos(x, y, z)).isIn(BlockTags.SAND)) {
                                 this.mob.getPos();
-                                if (true) sand.add(new BlockPos(x, y, z));
+                                sand.add(new BlockPos(x, y, z));
                             }
                         }
 

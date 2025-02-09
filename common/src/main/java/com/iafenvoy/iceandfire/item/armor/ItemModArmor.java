@@ -20,8 +20,8 @@ import java.util.Date;
 import java.util.List;
 
 public class ItemModArmor extends ArmorItem implements IArmorTextureProvider {
-    public ItemModArmor(RegistryEntry<ArmorMaterial> material, Type slot) {
-        super(material, slot, new Settings());
+    public ItemModArmor(RegistryEntry<ArmorMaterial> material, Type slot,int maxDamage) {
+        super(material, slot, new Settings().maxDamage(maxDamage));
     }
 
     @Override

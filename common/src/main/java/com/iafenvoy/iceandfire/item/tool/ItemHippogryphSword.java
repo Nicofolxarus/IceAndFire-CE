@@ -2,6 +2,7 @@ package com.iafenvoy.iceandfire.item.tool;
 
 import com.iafenvoy.iceandfire.registry.IafToolMaterials;
 import com.iafenvoy.uranus.object.RegistryHelper;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class ItemHippogryphSword extends SwordItem {
     public ItemHippogryphSword() {
-        super(IafToolMaterials.HIPPOGRYPH_SWORD_TOOL_MATERIAL, new Settings());
+        super(IafToolMaterials.HIPPOGRYPH_SWORD_TOOL_MATERIAL, new Settings().component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(IafToolMaterials.HIPPOGRYPH_SWORD_TOOL_MATERIAL, 3, -2.4F)));
     }
 
     @Override

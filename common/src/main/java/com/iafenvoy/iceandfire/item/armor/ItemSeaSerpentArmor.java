@@ -21,7 +21,13 @@ public class ItemSeaSerpentArmor extends ArmorItem implements IArmorFinder {
     public final SeaSerpent armorType;
 
     public ItemSeaSerpentArmor(SeaSerpent armorType, RegistryEntry<ArmorMaterial> material, Type slot) {
-        super(material, slot, new Settings());
+        super(material, slot, new Settings().maxDamage(switch (slot) {
+            case HELMET -> 330;
+            case CHESTPLATE -> 480;
+            case LEGGINGS -> 450;
+            case BOOTS -> 390;
+            case BODY -> 0;
+        }));
         this.armorType = armorType;
     }
 

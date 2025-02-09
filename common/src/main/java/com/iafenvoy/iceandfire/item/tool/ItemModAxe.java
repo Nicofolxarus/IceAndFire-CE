@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -23,7 +23,7 @@ public class ItemModAxe extends AxeItem implements DragonSteelOverrides<ItemModA
     private Multimap<EntityAttribute, EntityAttributeModifier> dragonsteelModifiers;
 
     public ItemModAxe(ToolMaterial toolmaterial) {
-        super(toolmaterial, (new Settings()));
+        super(toolmaterial, new Settings().component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(toolmaterial, 5.0F, -3.0F)));
         this.tier = toolmaterial;
     }
 

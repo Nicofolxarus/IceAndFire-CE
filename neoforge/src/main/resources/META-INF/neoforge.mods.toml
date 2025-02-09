@@ -12,7 +12,7 @@ description = '''
 An unofficial fork of Ice And Fire.
 Dragons and other mythological creatures in minecraft.
 '''
-logoFile = "logo.jpg"
+logoFile = "logo.png"
 
 [[dependencies.iceandfire]]
 modId = "neoforge"

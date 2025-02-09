@@ -32,11 +32,11 @@ public class PortalData {
             this.teleported = true;
             MinecraftServer server = serverWorld.getServer();
             if (world.getRegistryKey().getValue().equals(IafWorld.DREAD_LAND.getValue()))
-                this.player.teleportTo(new TeleportTarget(serverWorld, this.player.getPos(), Vec3d.ZERO, this.player.headYaw, this.player.getPitch(), TeleportTarget.SEND_TRAVEL_THROUGH_PORTAL_PACKET));
+                this.player.teleportTo(new TeleportTarget(server.getOverworld(), this.player.getPos(), Vec3d.ZERO, this.player.headYaw, this.player.getPitch(), TeleportTarget.SEND_TRAVEL_THROUGH_PORTAL_PACKET));
             else {
                 ServerWorld dreadLand = server.getWorld(IafWorld.DREAD_LAND);
                 if (dreadLand == null) return;
-                this.player.teleportTo(new TeleportTarget(serverWorld, this.player.getPos(), Vec3d.ZERO, this.player.headYaw, this.player.getPitch(), TeleportTarget.SEND_TRAVEL_THROUGH_PORTAL_PACKET));
+                this.player.teleportTo(new TeleportTarget(server.getWorld(IafWorld.DREAD_LAND), this.player.getPos(), Vec3d.ZERO, this.player.headYaw, this.player.getPitch(), TeleportTarget.SEND_TRAVEL_THROUGH_PORTAL_PACKET));
                 if (!dreadLand.getBlockState(this.player.getBlockPos()).isOf(IafBlocks.DREAD_PORTAL.get()))
                     server.getStructureTemplateManager().getTemplate(Identifier.of(IceAndFire.MOD_ID, "dread_exit_portal")).ifPresent(structureTemplate -> structureTemplate.place(dreadLand, this.player.getBlockPos().subtract(new BlockPos(2, 1, 2)), BlockPos.ORIGIN, new StructurePlacementData().addProcessor(new DreadPortalProcessor()), dreadLand.random, 2));
                 this.player.sendMessage(Text.translatable("warning.iceandfire.dreadland.not_complete"));

@@ -2,10 +2,8 @@ package com.iafenvoy.iceandfire.mixin;
 
 import com.iafenvoy.iceandfire.config.IafClientConfig;
 import com.iafenvoy.iceandfire.screen.TitleScreenRenderManager;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.RotatingCubeMapRenderer;
-import net.minecraft.client.gui.screen.TitleScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,8 +24,6 @@ public abstract class RotatingCubeMapRendererMixin {
             TitleScreenRenderManager.tick();
         }
         TitleScreenRenderManager.renderBackground(context, width, height);
-        if (MinecraftClient.getInstance().currentScreen instanceof TitleScreen)
-            TitleScreenRenderManager.drawModName(context, width, height, 0xFF000000);
         ci.cancel();
     }
 }

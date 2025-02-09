@@ -70,7 +70,7 @@ public class PixieAISteal extends Goal {
                     slotlist.add(i);
             }
             if (!slotlist.isEmpty()) {
-                final int slot = slotlist.size() == 1 ? slotlist.get(0) : slotlist.get(ThreadLocalRandom.current().nextInt(slotlist.size()));
+                final int slot = slotlist.size() == 1 ? slotlist.getFirst() : slotlist.get(ThreadLocalRandom.current().nextInt(slotlist.size()));
                 ItemStack randomItem = this.temptingPlayer.getInventory().getStack(slot);
                 this.temptedEntity.setStackInHand(Hand.MAIN_HAND, randomItem);
                 this.temptingPlayer.getInventory().removeStack(slot);

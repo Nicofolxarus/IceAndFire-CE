@@ -85,7 +85,7 @@ public class ServerNetworkHelper {
                 }
             });
         });
-        NetworkManager.registerReceiver(NetworkManager.Side.C2S, PlayerHitMultipartPayload.ID,PlayerHitMultipartPayload.CODEC, (payload, ctx) -> {
+        NetworkManager.registerReceiver(NetworkManager.Side.C2S, PlayerHitMultipartPayload.ID, PlayerHitMultipartPayload.CODEC, (payload, ctx) -> {
             PlayerEntity player = ctx.getPlayer();
             if (player != null) {
                 Entity entity = player.getWorld().getEntityById(payload.entityId());
@@ -99,7 +99,7 @@ public class ServerNetworkHelper {
                 }
             }
         });
-        NetworkManager.registerReceiver(NetworkManager.Side.C2S, StartRidingMobPayload.ID, StartRidingMobPayload.CODEC, (payload, ctx) -> {
+        NetworkManager.registerReceiver(NetworkManager.Side.C2S, StartRidingMobC2SPayload.ID, StartRidingMobC2SPayload.CODEC, (payload, ctx) -> {
             PlayerEntity player = ctx.getPlayer();
             if (player != null) {
                 Entity entity = player.getWorld().getEntityById(payload.dragonId());

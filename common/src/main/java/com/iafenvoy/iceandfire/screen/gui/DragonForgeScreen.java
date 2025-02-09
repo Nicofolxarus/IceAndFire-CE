@@ -60,7 +60,7 @@ public class DragonForgeScreen extends HandledScreen<DragonForgeScreenHandler> {
         assert this.client != null;
         assert this.client.world != null;
         List<RecipeEntry<DragonForgeRecipe>> recipes = this.client.world.getRecipeManager().listAllOfType(IafRecipes.DRAGON_FORGE_TYPE.get()).stream().filter(item -> item.value().isValidInput(this.tileFurnace.getSlot(0).getStack()) && item.value().isValidBlood(this.tileFurnace.getSlot(1).getStack())).toList();
-        int maxCookTime = recipes.isEmpty() ? 100 : recipes.get(0).value().getCookTime();
+        int maxCookTime = recipes.isEmpty() ? 100 : recipes.getFirst().value().getCookTime();
         double scale = 125000.0 / maxCookTime;
         return (int) (scale * time / maxCookTime);
     }

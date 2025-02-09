@@ -1,6 +1,7 @@
 package com.iafenvoy.iceandfire.item.tool;
 
 import com.iafenvoy.iceandfire.registry.IafToolMaterials;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class ItemStymphalianDagger extends SwordItem {
     public ItemStymphalianDagger() {
-        super(IafToolMaterials.STYMHALIAN_SWORD_TOOL_MATERIAL, new Settings());
+        super(IafToolMaterials.STYMHALIAN_SWORD_TOOL_MATERIAL, new Settings().component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(IafToolMaterials.STYMHALIAN_SWORD_TOOL_MATERIAL, 3, -1.0F)));
     }
 
     @Override

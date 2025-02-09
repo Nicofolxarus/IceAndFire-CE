@@ -16,7 +16,7 @@ import com.iafenvoy.iceandfire.entity.util.dragon.*;
 import com.iafenvoy.iceandfire.item.ItemSummoningCrystal;
 import com.iafenvoy.iceandfire.item.block.util.IDragonProof;
 import com.iafenvoy.iceandfire.network.payload.DragonSetBurnBlockPayload;
-import com.iafenvoy.iceandfire.network.payload.StartRidingMobPayload;
+import com.iafenvoy.iceandfire.network.payload.StartRidingMobS2CPayload;
 import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafItems;
@@ -82,6 +82,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -1113,17 +1114,17 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                 if (stack.getItem() == IafItems.DRAGON_HORN.get())
                     return super.interactMob(player, hand);
                 if (stack.isEmpty() && !player.isSneaking()) {
-                    if (!this.getWorld().isClient) {
+                    if (!this.getWorld().isClient && player instanceof ServerPlayerEntity serverPlayer) {
                         final int dragonStage = this.getDragonStage();
                         if (dragonStage < 2) {
                             if (player.getPassengerList().size() >= 3)
                                 return ActionResult.FAIL;
                             this.startRiding(player, true);
-                            NetworkManager.sendToServer(new StartRidingMobPayload(this.getId(), true, true));
+                            NetworkManager.sendToPlayer(serverPlayer, new StartRidingMobS2CPayload(this.getId(), true, true));
                         } else if (dragonStage > 2 && !player.hasVehicle()) {
                             player.setSneaking(false);
                             player.startRiding(this, true);
-                            NetworkManager.sendToServer(new StartRidingMobPayload(this.getId(), true, false));
+                            NetworkManager.sendToPlayer(serverPlayer, new StartRidingMobS2CPayload(this.getId(), true, false));
                             this.setInSittingPose(false);
                         }
                         this.getNavigation().stop();
@@ -1774,7 +1775,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
             if ((this.getControlState() == 1 << 4 || player.isFallFlying()) && !riding.hasVehicle()) {
                 this.stopRiding();
                 if (this.getWorld().isClient)
-                    NetworkManager.sendToServer(new StartRidingMobPayload(this.getId(), false, true));
+                    NetworkManager.sendToServer(new StartRidingMobS2CPayload(this.getId(), false, true));
             }
         }
     }

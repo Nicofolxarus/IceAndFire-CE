@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.screen.slot;
 
 import com.iafenvoy.iceandfire.data.DragonArmorPart;
-import com.iafenvoy.iceandfire.item.armor.ItemDragonArmor;
+import com.iafenvoy.iceandfire.item.ItemDragonArmor;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;

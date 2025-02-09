@@ -41,7 +41,7 @@ public class PixieAIFlee<T extends Entity> extends Goal {
 
         if (this.list.isEmpty()) return false;
 
-        this.closestLivingEntity = this.list.get(0);
+        this.closestLivingEntity = this.list.getFirst();
         if (this.closestLivingEntity != null) {
             Vec3d Vector3d = NoPenaltyTargeting.findFrom(this.pixie, 16, 4, new Vec3d(this.closestLivingEntity.getX(), this.closestLivingEntity.getY(), this.closestLivingEntity.getZ()));
 

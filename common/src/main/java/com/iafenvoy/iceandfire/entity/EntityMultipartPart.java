@@ -19,12 +19,13 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public abstract class EntityMultipartPart extends Entity {
+public abstract class EntityMultipartPart extends Entity implements Tameable {
     private static final TrackedData<Optional<UUID>> PARENT_UUID = DataTracker.registerData(EntityMultipartPart.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
     private static final TrackedData<Float> SCALE_WIDTH = DataTracker.registerData(EntityMultipartPart.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Float> SCALE_HEIGHT = DataTracker.registerData(EntityMultipartPart.class, TrackedDataHandlerRegistry.FLOAT);
@@ -244,5 +245,10 @@ public abstract class EntityMultipartPart extends Entity {
     public void copyPositionAndRotation(Entity entity) {
         super.copyPositionAndRotation(entity);
         this.setVelocity(entity.getVelocity());
+    }
+
+    @Override
+    public @Nullable UUID getOwnerUuid() {
+        return this.getParent() instanceof Tameable tameable ? tameable.getOwnerUuid() : null;
     }
 }

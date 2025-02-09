@@ -16,7 +16,13 @@ public class ItemTrollArmor extends ArmorItem {
     public final TrollType troll;
 
     public ItemTrollArmor(TrollType troll, Type slot) {
-        super(troll.getMaterial(), slot, new Settings());
+        super(troll.getMaterial(), slot, new Settings().maxDamage(switch (slot) {
+            case HELMET -> 220;
+            case CHESTPLATE -> 320;
+            case LEGGINGS -> 300;
+            case BOOTS -> 260;
+            case BODY -> 0;
+        }));
         this.troll = troll;
     }
 

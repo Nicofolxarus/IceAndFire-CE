@@ -68,7 +68,7 @@ public class DragonAITargetItems<T extends ItemEntity> extends TrackTargetGoal {
         if (this.list.isEmpty()) return false;
         else {
             this.list.sort(this.theNearestAttackableTargetSorter);
-            this.targetEntity = this.list.get(0);
+            this.targetEntity = this.list.getFirst();
             return true;
         }
     }

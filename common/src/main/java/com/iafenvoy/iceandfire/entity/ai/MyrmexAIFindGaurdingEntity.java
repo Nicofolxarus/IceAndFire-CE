@@ -35,7 +35,7 @@ public class MyrmexAIFindGaurdingEntity<T extends EntityMyrmexBase> extends Trac
         if (list.isEmpty()) return false;
         else {
             list.sort(this.theNearestAttackableTargetSorter);
-            this.myrmex.guardingEntity = list.get(0);
+            this.myrmex.guardingEntity = list.getFirst();
             return true;
         }
     }

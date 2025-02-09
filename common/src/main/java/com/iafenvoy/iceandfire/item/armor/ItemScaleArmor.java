@@ -18,7 +18,13 @@ public class ItemScaleArmor extends ArmorItem implements IProtectAgainstDragonIt
     public final DragonColor eggType;
 
     public ItemScaleArmor(DragonColor eggType, DragonArmor armorType, RegistryEntry<ArmorMaterial> material, Type slot) {
-        super(material, slot, new Settings());
+        super(material, slot, new Settings().maxDamage(switch (slot){
+            case HELMET -> 397;
+            case CHESTPLATE -> 577;
+            case LEGGINGS -> 541;
+            case BOOTS -> 469;
+            case BODY -> 0;
+        }));
         this.armorType = armorType;
         this.eggType = eggType;
     }

@@ -37,7 +37,7 @@ public class AmphithereAIFleePlayer extends Goal {
                 this.list = this.entity.getWorld().getEntitiesByClass(PlayerEntity.class, this.entity.getBoundingBox().expand(this.avoidDistance, 6D, this.avoidDistance), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR);
             if (this.list.isEmpty()) return false;
 
-            this.closestLivingEntity = this.list.get(0);
+            this.closestLivingEntity = this.list.getFirst();
             Vec3d Vector3d = NoPenaltyTargeting.findFrom(this.entity, 20, 7, new Vec3d(this.closestLivingEntity.getX(), this.closestLivingEntity.getY(), this.closestLivingEntity.getZ()));
 
             if (Vector3d == null) return false;

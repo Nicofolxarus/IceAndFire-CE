@@ -6,6 +6,7 @@ import com.iafenvoy.iceandfire.entity.EntityFireDragon;
 import com.iafenvoy.iceandfire.entity.EntityIceDragon;
 import com.iafenvoy.iceandfire.event.ServerEvents;
 import com.iafenvoy.iceandfire.registry.IafItems;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class ItemAlchemySword extends SwordItem {
     public ItemAlchemySword(ToolMaterial toolmaterial) {
-        super(toolmaterial, new Settings());
+        super(toolmaterial, new Settings().component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(toolmaterial, 3, -2.4F)));
     }
 
     @Override

@@ -3,12 +3,10 @@ package com.iafenvoy.iceandfire.screen;
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.uranus.util.RandomHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.architectury.platform.Platform;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.SplashTextRenderer;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 import java.io.BufferedReader;
@@ -113,15 +111,6 @@ public class TitleScreenRenderManager {
             RenderSystem.setShaderColor(1, 1, 1, 1);
             RenderSystem.disableBlend();
         }
-    }
-
-    public static void drawModName(DrawContext ms, int width, int height, int alphaFormatted) {
-        int textColor = 0x00FFFFFF | alphaFormatted;
-        RenderSystem.setShaderColor(1, 1, 1, 1);
-        RenderSystem.enableBlend();
-        boolean b = Platform.isFabric();
-        ms.drawText(textRenderer, Formatting.GOLD + "Report if you meet any crash.", 2, height - (b ? 30 : 60), textColor, false);
-        ms.drawText(textRenderer, "Ice and Fire CE-" + Formatting.YELLOW + IceAndFire.VERSION, 2, height - (b ? 20 : 50), textColor, false);
     }
 
     private static class Picture {

@@ -25,6 +25,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class ItemDragonHorn extends Item {
@@ -34,9 +35,9 @@ public class ItemDragonHorn extends Item {
 
     public static int getDragonType(ItemStack stack) {
         if (stack.contains(IafDataComponents.DRAGON_HORN.get())) {
-            String id = stack.get(IafDataComponents.DRAGON_HORN.get()).entityType();
-            if (EntityType.get(id).isPresent()) {
-                EntityType<?> entityType = EntityType.get(id).get();
+            Optional<EntityType<?>> optional = Registries.ENTITY_TYPE.getOrEmpty(stack.get(IafDataComponents.DRAGON_HORN.get()).entityType());
+            if (optional.isPresent()) {
+                EntityType<?> entityType = optional.get();
                 if (entityType == IafEntities.FIRE_DRAGON.get()) return 1;
                 if (entityType == IafEntities.ICE_DRAGON.get()) return 2;
                 if (entityType == IafEntities.LIGHTNING_DRAGON.get()) return 3;
@@ -53,7 +54,7 @@ public class ItemDragonHorn extends Item {
             if (target instanceof EntityDragonBase dragon && dragon.isOwner(playerIn)) {
                 NbtCompound entityTag = new NbtCompound();
                 target.saveNbt(entityTag);
-                trueStack.set(IafDataComponents.DRAGON_HORN.get(), new DragonHornComponent(Registries.ENTITY_TYPE.getId(target.getType()).toString(), null, entityTag));
+                trueStack.set(IafDataComponents.DRAGON_HORN.get(), new DragonHornComponent(Registries.ENTITY_TYPE.getId(target.getType()), target.getUuid(), entityTag));
                 playerIn.swingHand(hand);
                 playerIn.getWorld().playSound(playerIn, playerIn.getBlockPos(), SoundEvents.ENTITY_ZOMBIE_VILLAGER_CONVERTED, SoundCategory.NEUTRAL, 3.0F, 0.75F);
                 target.remove(Entity.RemovalReason.DISCARDED);
@@ -72,7 +73,7 @@ public class ItemDragonHorn extends Item {
         if (stack.contains(IafDataComponents.DRAGON_HORN.get())) {
             DragonHornComponent component = stack.get(IafDataComponents.DRAGON_HORN.get());
             World world = context.getWorld();
-            EntityType<?> type = EntityType.get(component.entityType()).orElse(null);
+            EntityType<?> type = Registries.ENTITY_TYPE.getOrEmpty(component.entityType()).orElse(null);
             if (type != null) {
                 Entity entity = type.create(world);
                 if (entity instanceof EntityDragonBase dragon)
@@ -100,9 +101,9 @@ public class ItemDragonHorn extends Item {
             DragonHornComponent component = stack.get(IafDataComponents.DRAGON_HORN.get());
             NbtCompound entityTag = component.entityData();
             if (!entityTag.isEmpty()) {
-                String id = component.entityType();
-                if (EntityType.get(id).isPresent()) {
-                    EntityType<?> entityType = EntityType.get(id).get();
+                Optional<EntityType<?>> optional = Registries.ENTITY_TYPE.getOrEmpty(component.entityType());
+                if (optional.isPresent()) {
+                    EntityType<?> entityType = optional.get();
                     tooltip.add((Text.translatable(entityType.getTranslationKey())).formatted(this.getTextColorForEntityType(entityType)));
                     String name = (Text.translatable("dragon.unnamed")).getString();
                     if (!entityTag.getString("CustomName").isEmpty()) {

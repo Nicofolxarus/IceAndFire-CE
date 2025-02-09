@@ -196,7 +196,7 @@ public class EntityHippocampus extends TameableEntity implements NamedScreenHand
     public ItemStack tryEquip(ItemStack itemStackIn) {
         if (itemStackIn == null)
             return ItemStack.EMPTY;
-        EquipmentSlot equipmentSlot = getPreferredEquipmentSlot(itemStackIn);
+        EquipmentSlot equipmentSlot = this.getPreferredEquipmentSlot(itemStackIn);
         int j = equipmentSlot.getEntitySlotId() - 500 + 2;
         if (j >= 0 && j < this.inventory.size()) {
             this.inventory.setStack(j, itemStackIn);

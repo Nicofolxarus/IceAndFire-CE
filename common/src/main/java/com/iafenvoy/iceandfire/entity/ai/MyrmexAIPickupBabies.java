@@ -46,7 +46,7 @@ public class MyrmexAIPickupBabies<T extends ItemEntity> extends TrackTargetGoal 
         if (this.listBabies.isEmpty()) return false;
 
         this.listBabies.sort(this.theNearestAttackableTargetSorter);
-        this.targetEntity = this.listBabies.get(0);
+        this.targetEntity = this.listBabies.getFirst();
         return true;
     }
 

@@ -1,6 +1,7 @@
 package com.iafenvoy.iceandfire.item.tool;
 
 import com.iafenvoy.iceandfire.registry.IafToolMaterials;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class ItemHippocampusSlapper extends SwordItem {
     public ItemHippocampusSlapper() {
-        super(IafToolMaterials.HIPPOCAMPUS_SWORD_TOOL_MATERIAL, new Settings());
+        super(IafToolMaterials.HIPPOCAMPUS_SWORD_TOOL_MATERIAL, new Settings().component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(IafToolMaterials.HIPPOCAMPUS_SWORD_TOOL_MATERIAL, 3, -2.4F)));
     }
 
     @Override

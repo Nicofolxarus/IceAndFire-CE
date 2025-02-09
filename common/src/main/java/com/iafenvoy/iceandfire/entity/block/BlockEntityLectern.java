@@ -86,7 +86,7 @@ public class BlockEntityLectern extends LockableContainerBlockEntity implements 
     }
 
     private List<BestiaryPages> getPossiblePages() {
-        final List<BestiaryPages> list = BestiaryPages.possiblePages(this.stacks.get(0));
+        final List<BestiaryPages> list = BestiaryPages.possiblePages(this.stacks.getFirst());
         if (!list.isEmpty()) return list;
         return EMPTY_LIST;
     }

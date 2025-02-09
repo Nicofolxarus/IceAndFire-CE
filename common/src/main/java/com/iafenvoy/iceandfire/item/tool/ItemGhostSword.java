@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ItemGhostSword extends SwordItem {
     public ItemGhostSword() {
-        super(IafToolMaterials.GHOST_SWORD_TOOL_MATERIAL, new Settings());
+        super(IafToolMaterials.GHOST_SWORD_TOOL_MATERIAL, new Settings().component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(IafToolMaterials.GHOST_SWORD_TOOL_MATERIAL, 5, -1.0F)));
     }
 
     public static void spawnGhostSwordEntity(ItemStack stack, PlayerEntity playerEntity) {
@@ -31,10 +31,9 @@ public class ItemGhostSword extends SwordItem {
             return;
         final AttributeModifiersComponent dmg = stack.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
         double totalDmg = 0D;
-        for (AttributeModifiersComponent.Entry modifier : dmg.modifiers()) {
+        for (AttributeModifiersComponent.Entry modifier : dmg.modifiers())
             if (modifier.attribute().equals(EntityAttributes.GENERIC_ATTACK_DAMAGE))
                 totalDmg += modifier.modifier().value();
-        }
         playerEntity.playSound(SoundEvents.ENTITY_ZOMBIE_INFECT, 1, 1);
         EntityGhostSword shot = new EntityGhostSword(IafEntities.GHOST_SWORD.get(), playerEntity.getWorld(), playerEntity, totalDmg * 0.5F, stack);
         shot.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 1, 0.5f);

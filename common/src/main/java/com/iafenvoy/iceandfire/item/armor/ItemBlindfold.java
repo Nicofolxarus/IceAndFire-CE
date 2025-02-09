@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public class ItemBlindfold extends ArmorItem implements IArmorTextureProvider, IArmorFinder {
     public ItemBlindfold() {
-        super(IafArmorMaterials.BLINDFOLD_ARMOR_MATERIAL, Type.HELMET, new Settings());
+        super(IafArmorMaterials.BLINDFOLD_ARMOR_MATERIAL, Type.HELMET, new Settings().maxDamage(55));
     }
 
     @Override

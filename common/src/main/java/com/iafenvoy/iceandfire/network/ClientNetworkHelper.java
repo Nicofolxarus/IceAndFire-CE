@@ -31,7 +31,7 @@ public class ClientNetworkHelper {
                 }
             }
         });
-        NetworkManager.registerReceiver(NetworkManager.Side.S2C, StartRidingMobPayload.ID, StartRidingMobPayload.CODEC, (payload, ctx) -> {
+        NetworkManager.registerReceiver(NetworkManager.Side.S2C, StartRidingMobS2CPayload.ID, StartRidingMobS2CPayload.CODEC, (payload, ctx) -> {
             GameOptions options = MinecraftClient.getInstance().options;
             PlayerEntity player = ctx.getPlayer();
             if (player != null) {

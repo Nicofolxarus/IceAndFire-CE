@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -21,7 +22,7 @@ public class ItemModSword extends SwordItem implements DragonSteelOverrides<Item
     private Multimap<EntityAttribute, EntityAttributeModifier> dragonsteelModifiers;
 
     public ItemModSword(ToolMaterial toolmaterial) {
-        super(toolmaterial, new Settings());
+        super(toolmaterial, new Settings().component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(toolmaterial, 3, -2.4F)));
     }
 
     @Override

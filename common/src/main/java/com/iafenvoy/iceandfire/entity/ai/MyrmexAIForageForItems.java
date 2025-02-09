@@ -42,7 +42,7 @@ public class MyrmexAIForageForItems extends TrackTargetGoal {
         if (this.list.isEmpty()) return false;
 
         this.list.sort(this.theNearestAttackableTargetSorter);
-        this.targetEntity = this.list.get(0);
+        this.targetEntity = this.list.getFirst();
         return true;
     }
 

@@ -117,7 +117,7 @@ public class MyrmexHive {
                     ourQueens.add(queen);
         }
 
-        return ourQueens.isEmpty() ? null : ourQueens.get(0);
+        return ourQueens.isEmpty() ? null : ourQueens.getFirst();
     }
 
     public BlockPos getCenter() {

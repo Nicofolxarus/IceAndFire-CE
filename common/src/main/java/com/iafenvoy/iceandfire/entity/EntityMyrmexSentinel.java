@@ -92,7 +92,7 @@ public class EntityMyrmexSentinel extends EntityMyrmexBase {
     }
 
     public Entity getHeldEntity() {
-        return this.getPassengerList().isEmpty() ? null : this.getPassengerList().get(0);
+        return this.getPassengerList().isEmpty() ? null : this.getPassengerList().getFirst();
     }
 
     @Override

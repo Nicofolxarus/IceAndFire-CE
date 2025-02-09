@@ -230,7 +230,7 @@ public class BlockEntityDragonForge extends LockableContainerBlockEntity impleme
     }
 
     public boolean canSmelt() {
-        ItemStack cookStack = this.forgeItemStacks.get(0);
+        ItemStack cookStack = this.forgeItemStacks.getFirst();
         if (cookStack.isEmpty()) return false;
 
         ItemStack forgeRecipeOutput = this.getCurrentResult();

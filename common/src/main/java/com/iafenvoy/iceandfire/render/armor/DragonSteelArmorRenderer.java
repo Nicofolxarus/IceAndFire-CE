@@ -21,11 +21,11 @@ public class DragonSteelArmorRenderer implements IArmorRendererBase<LivingEntity
         boolean inner = armorSlot == EquipmentSlot.LEGS || armorSlot == EquipmentSlot.HEAD;
         if (itemStack.getItem() instanceof ArmorItem armorItem) {
             ArmorMaterial armorMaterial = armorItem.getMaterial().value();
-            if (IafArmorMaterials.DRAGONSTEEL_FIRE_ARMOR_MATERIAL.equals(armorMaterial))
+            if (IafArmorMaterials.DRAGONSTEEL_FIRE_ARMOR_MATERIAL.value().equals(armorMaterial))
                 return new ModelDragonSteelFireArmor(inner);
-            if (IafArmorMaterials.DRAGONSTEEL_ICE_ARMOR_MATERIAL.equals(armorMaterial))
+            if (IafArmorMaterials.DRAGONSTEEL_ICE_ARMOR_MATERIAL.value().equals(armorMaterial))
                 return new ModelDragonSteelIceArmor(inner);
-            if (IafArmorMaterials.DRAGONSTEEL_LIGHTNING_ARMOR_MATERIAL.equals(armorMaterial))
+            if (IafArmorMaterials.DRAGONSTEEL_LIGHTNING_ARMOR_MATERIAL.value().equals(armorMaterial))
                 return new ModelDragonSteelLightningArmor(inner);
         }
         return null;

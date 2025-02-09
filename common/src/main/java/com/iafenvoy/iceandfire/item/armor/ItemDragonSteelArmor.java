@@ -3,8 +3,6 @@ package com.iafenvoy.iceandfire.item.armor;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.iafenvoy.iceandfire.IceAndFire;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -29,8 +27,14 @@ public class ItemDragonSteelArmor extends ArmorItem implements IProtectAgainstDr
     private final ArmorMaterial material;
     private Multimap<EntityAttribute, EntityAttributeModifier> attributeModifierMultimap;
 
-    public ItemDragonSteelArmor(RegistryEntry<ArmorMaterial> material, int renderIndex, Type slot) {
-        super(material, slot, new Settings());
+    public ItemDragonSteelArmor(RegistryEntry<ArmorMaterial> material, Type slot) {
+        super(material, slot, new Settings().maxDamage(switch (slot){
+            case HELMET -> 1760;
+            case CHESTPLATE -> 2560;
+            case LEGGINGS -> 2400;
+            case BOOTS -> 2080;
+            case BODY -> 0;
+        }));
         this.material = material.value();
         this.attributeModifierMultimap = this.createAttributeMap();
     }

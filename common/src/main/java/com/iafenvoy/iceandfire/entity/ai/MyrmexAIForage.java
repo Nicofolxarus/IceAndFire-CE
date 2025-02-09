@@ -57,7 +57,7 @@ public class MyrmexAIForage extends Goal {
             return this.myrmex.getRandom().nextInt(this.chance) == 0 && this.increaseRadiusAndWander();
         // Set closest block as target
         edibleBlocks.sort(this.targetSorter);
-        this.targetBlock = edibleBlocks.get(0);
+        this.targetBlock = edibleBlocks.getFirst();
         this.path = ((AdvancedPathNavigate) this.myrmex.getNavigation()).moveToXYZ(this.targetBlock.getX(), this.targetBlock.getY(), this.targetBlock.getZ(), 1D);
         return this.myrmex.getRandom().nextInt(this.chance) == 0;
     }
@@ -85,7 +85,7 @@ public class MyrmexAIForage extends Goal {
                 if (!edibleBlocks.isEmpty()) {
                     this.myrmex.keepSearching = false;
                     edibleBlocks.sort(this.targetSorter);
-                    this.targetBlock = edibleBlocks.get(0);
+                    this.targetBlock = edibleBlocks.getFirst();
                     this.path = ((AdvancedPathNavigate) this.myrmex.getNavigation()).moveToXYZ(this.targetBlock.getX(), this.targetBlock.getY(), this.targetBlock.getZ(), 1D);
                 }
                 // If there are still no edible blocks nearby
@@ -106,9 +106,9 @@ public class MyrmexAIForage extends Goal {
                     // backward compatibility
                     if (!drops.isEmpty()) {
                         this.myrmex.getWorld().breakBlock(this.targetBlock, false);
-                        ItemStack heldStack = drops.get(0).copy();
+                        ItemStack heldStack = drops.getFirst().copy();
                         heldStack.setCount(1);
-                        drops.get(0).decrement(1);
+                        drops.getFirst().decrement(1);
                         this.myrmex.setStackInHand(Hand.MAIN_HAND, heldStack);
                         for (ItemStack stack : drops) {
                             ItemEntity itemEntity = new ItemEntity(this.myrmex.getWorld(),

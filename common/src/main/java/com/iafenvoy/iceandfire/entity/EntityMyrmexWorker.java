@@ -270,7 +270,7 @@ public class EntityMyrmexWorker extends EntityMyrmexBase {
     }
 
     public Entity getHeldEntity() {
-        return this.getPassengerList().isEmpty() ? null : this.getPassengerList().get(0);
+        return this.getPassengerList().isEmpty() ? null : this.getPassengerList().getFirst();
     }
 
     public void onPickupItem(ItemEntity itemEntity) {

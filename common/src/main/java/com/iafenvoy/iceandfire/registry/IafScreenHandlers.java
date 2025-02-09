@@ -7,6 +7,7 @@ import com.iafenvoy.iceandfire.screen.handler.*;
 import dev.architectury.registry.menu.MenuRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.screen.ScreenHandler;
@@ -32,14 +33,14 @@ public final class IafScreenHandlers {
     }
 
     public static void registerGui() {
-        MenuRegistry.registerScreenFactory(IafScreenHandlers.IAF_LECTERN_SCREEN.get(), LecternScreen::new);
-        MenuRegistry.registerScreenFactory(IafScreenHandlers.PODIUM_SCREEN.get(), PodiumScreen::new);
-        MenuRegistry.registerScreenFactory(IafScreenHandlers.DRAGON_SCREEN.get(), DragonScreen::new);
-        MenuRegistry.registerScreenFactory(IafScreenHandlers.HIPPOGRYPH_SCREEN.get(), HippogryphScreen::new);
-        MenuRegistry.registerScreenFactory(IafScreenHandlers.HIPPOCAMPUS_SCREEN.get(), HippocampusScreen::new);
-        MenuRegistry.registerScreenFactory(IafScreenHandlers.DRAGON_FORGE_SCREEN.get(), DragonForgeScreen::new);
-        MenuRegistry.registerScreenFactory(IafScreenHandlers.BESTIARY_SCREEN.get(), BestiaryScreen::new);
-        MenuRegistry.registerScreenFactory(IafScreenHandlers.MYRMEX_ADD_ROOM_SCREEN.get(), MyrmexAddRoomScreen::new);
-        MenuRegistry.registerScreenFactory(IafScreenHandlers.MYRMEX_STAFF_SCREEN.get(), MyrmexStaffScreen::new);
+         HandledScreens.register(IafScreenHandlers.IAF_LECTERN_SCREEN.get(), LecternScreen::new);
+         HandledScreens.register(IafScreenHandlers.PODIUM_SCREEN.get(), PodiumScreen::new);
+         HandledScreens.register(IafScreenHandlers.DRAGON_SCREEN.get(), DragonScreen::new);
+         HandledScreens.register(IafScreenHandlers.HIPPOGRYPH_SCREEN.get(), HippogryphScreen::new);
+         HandledScreens.register(IafScreenHandlers.HIPPOCAMPUS_SCREEN.get(), HippocampusScreen::new);
+         HandledScreens.register(IafScreenHandlers.DRAGON_FORGE_SCREEN.get(), DragonForgeScreen::new);
+         HandledScreens.register(IafScreenHandlers.BESTIARY_SCREEN.get(), BestiaryScreen::new);
+         HandledScreens.register(IafScreenHandlers.MYRMEX_ADD_ROOM_SCREEN.get(), MyrmexAddRoomScreen::new);
+         HandledScreens.register(IafScreenHandlers.MYRMEX_STAFF_SCREEN.get(), MyrmexStaffScreen::new);
     }
 }

@@ -80,7 +80,7 @@ public class BlockEntityPodium extends LockableContainerBlockEntity implements S
             stack.setCount(this.getMaxCountPerStack());
         assert this.world != null;
         if (!this.world.isClient)
-            ServerHelper.sendToAll(new UpdatePodiumPayload(this.getPos(), this.stacks.get(0)));
+            ServerHelper.sendToAll(new UpdatePodiumPayload(this.getPos(), this.stacks.getFirst()));
     }
 
     @Override

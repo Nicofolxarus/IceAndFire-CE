@@ -33,7 +33,7 @@ public class StymphalianBirdAIFlee extends Goal {
 
         if (list.isEmpty()) return false;
 
-        this.closestLivingEntity = list.get(0);
+        this.closestLivingEntity = list.getFirst();
         if (this.closestLivingEntity != null && this.stymphalianBird.getVictor() != null && this.closestLivingEntity.equals(this.stymphalianBird.getVictor())) {
             Vec3d Vector3d = NoPenaltyTargeting.findFrom(this.stymphalianBird, 32, 7, new Vec3d(this.closestLivingEntity.getX(), this.closestLivingEntity.getY(), this.closestLivingEntity.getZ()));
 

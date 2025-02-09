@@ -10,7 +10,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Direction;
 import org.joml.Matrix4f;
 
 public class RenderDreadPortal<T extends BlockEntityDreadPortal> implements BlockEntityRenderer<T> {
@@ -23,28 +22,42 @@ public class RenderDreadPortal<T extends BlockEntityDreadPortal> implements Bloc
     @Override
     public void render(T tileEntityIn, float partialTicks, MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int combinedLightIn, int combinedOverlayIn) {
         Matrix4f matrix4f = matrixStackIn.peek().getPositionMatrix();
-        this.renderCube(matrix4f, bufferIn.getBuffer(this.renderType()));
-    }
+        VertexConsumer consumer = bufferIn.getBuffer(this.renderType());
+        // z = 1
+        consumer.vertex(matrix4f, 0, 0, 1).color(-1);
+        consumer.vertex(matrix4f, 1, 0, 1).color(-1);
+        consumer.vertex(matrix4f, 1, 1, 1).color(-1);
+        consumer.vertex(matrix4f, 0, 1, 1).color(-1);
 
-    private void renderCube(Matrix4f matrix4f, VertexConsumer consumer) {
-        float f = 1.0F;
-        float f1 = 1.0F;
-        this.renderFace(matrix4f, consumer, 0.0F, 1.0F, 0.0F, -1, 1.0F, 0.0F, 0.0F, 0.0F, Direction.SOUTH);
-        this.renderFace(matrix4f, consumer, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, Direction.NORTH);
-        this.renderFace(matrix4f, consumer, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, Direction.EAST);
-        this.renderFace(matrix4f, consumer, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 0.0F, Direction.WEST);
-        this.renderFace(matrix4f, consumer, 0.0F, 1.0F, f, f, 0.0F, 0.0F, 1.0F, 1.0F, Direction.DOWN);
-        this.renderFace(matrix4f, consumer, 0.0F, 1.0F, f1, f1, 1.0F, 1.0F, 0.0F, 0.0F, Direction.UP);
-    }
+        // z = 0
+        consumer.vertex(matrix4f, 0, 0, 0).color(-1);
+        consumer.vertex(matrix4f, 0, 1, 0).color(-1);
+        consumer.vertex(matrix4f, 1, 1, 0).color(-1);
+        consumer.vertex(matrix4f, 1, 0, 0).color(-1);
 
-    private void renderFace(Matrix4f matrix4f, VertexConsumer consumer, float x1, float x2, float y1, float y2, float z1, float z2, float z3, float z4, Direction direction) {
-        float r = 1.0F;
-        float g = 1.0F;
-        float b = 1.0F;
-        consumer.vertex(matrix4f, x1, y1, z1).color(r, g, b, 1.0F);
-        consumer.vertex(matrix4f, x2, y1, z2).color(r, g, b, 1.0F);
-        consumer.vertex(matrix4f, x2, y2, z3).color(r, g, b, 1.0F);
-        consumer.vertex(matrix4f, x1, y2, z4).color(r, g, b, 1.0F);
+        // x = 0
+        consumer.vertex(matrix4f, 0, 0, 0).color(-1);
+        consumer.vertex(matrix4f, 0, 0, 1).color(-1);
+        consumer.vertex(matrix4f, 0, 1, 1).color(-1);
+        consumer.vertex(matrix4f, 0, 1, 0).color(-1);
+
+        // x = 1
+        consumer.vertex(matrix4f, 1, 0, 1).color(-1);
+        consumer.vertex(matrix4f, 1, 0, 0).color(-1);
+        consumer.vertex(matrix4f, 1, 1, 0).color(-1);
+        consumer.vertex(matrix4f, 1, 1, 1).color(-1);
+
+        // y = 1
+        consumer.vertex(matrix4f, 0, 1, 0).color(-1);
+        consumer.vertex(matrix4f, 0, 1, 1).color(-1);
+        consumer.vertex(matrix4f, 1, 1, 1).color(-1);
+        consumer.vertex(matrix4f, 1, 1, 0).color(-1);
+
+        // y = 0
+        consumer.vertex(matrix4f, 0, 0, 0).color(-1);
+        consumer.vertex(matrix4f, 1, 0, 0).color(-1);
+        consumer.vertex(matrix4f, 1, 0, 1).color(-1);
+        consumer.vertex(matrix4f, 0, 0, 1).color(-1);
     }
 
     protected RenderLayer renderType() {

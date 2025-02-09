@@ -118,7 +118,7 @@ public class EntityDreadKnight extends EntityDreadMob implements IAnimatedEntity
         super.initEquipment(pRandom, pDifficulty);
         this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(IafItems.DREAD_KNIGHT_SWORD.get()));
         if (this.random.nextBoolean())
-            this.equipStack(EquipmentSlot.OFFHAND, generateShield());
+            this.equipStack(EquipmentSlot.OFFHAND, this.generateShield());
         this.setArmorVariant(this.random.nextInt(3));
     }
 

@@ -31,7 +31,7 @@ public class DreadAIRideHorse extends Goal {
 
             if (this.list.isEmpty()) return false;
             else {
-                this.horse = this.list.get(0);
+                this.horse = this.list.getFirst();
                 return true;
             }
         }
