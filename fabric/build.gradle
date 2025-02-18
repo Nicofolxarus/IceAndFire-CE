@@ -47,9 +47,6 @@ dependencies {
     modImplementation(include("org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"))
     modImplementation(include("org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"))
 
-    //Remove Experimental Screen
-    modImplementation(include("maven.modrinth:here-be-no-dragons:Fi3C0IO5"))
-
     // Optional dependencies
     // ModMenu
     modApi "com.terraformersmc:modmenu:${modmenu_version}"

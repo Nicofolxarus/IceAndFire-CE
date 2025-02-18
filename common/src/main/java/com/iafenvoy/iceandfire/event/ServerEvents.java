@@ -356,17 +356,25 @@ public class ServerEvents {
             try {
                 if (mob.getType().isIn(IafEntityTags.SHEEP) && mob instanceof AnimalEntity animal)
                     animal.goalSelector.add(8, new EntitySheepAIFollowCyclops(animal, 1.2D));
-                if (mob.getType().isIn(IafEntityTags.VILLAGERS)) {
+                if (mob.getType().isIn(IafEntityTags.VILLAGERS))
                     if (IafCommonConfig.INSTANCE.dragon.villagersFear.getValue())
                         mob.goalSelector.add(1, new VillagerAIFearUntamed((PathAwareEntity) mob, LivingEntity.class, 8.0F, 0.8D, 0.8D, VILLAGER_FEAR));
-                }
-                if (mob.getType().isIn(IafEntityTags.FEAR_DRAGONS)) {
+                if (mob.getType().isIn(IafEntityTags.FEAR_DRAGONS))
                     if (IafCommonConfig.INSTANCE.dragon.animalsFear.getValue())
                         mob.goalSelector.add(1, new VillagerAIFearUntamed((PathAwareEntity) mob, LivingEntity.class, 30, 1.0D, 0.5D, e -> e instanceof IAnimalFear fear && fear.shouldAnimalsFear(mob)));
-                }
             } catch (Exception e) {
                 IceAndFire.LOGGER.warn("Tried to add unique behaviors to vanilla mobs and encountered an error");
             }
         return true;
+    }
+
+    public static EventResult onLivingHurt(LivingEntity entity, DamageSource source, float amount) {
+        if (source.isOf(DamageTypes.LIGHTNING_BOLT) &&
+                entity.getEquippedStack(EquipmentSlot.HEAD).isOf(IafItems.DRAGONSTEEL_LIGHTNING_HELMET.get()) &&
+                entity.getEquippedStack(EquipmentSlot.CHEST).isOf(IafItems.DRAGONSTEEL_LIGHTNING_CHESTPLATE.get()) &&
+                entity.getEquippedStack(EquipmentSlot.LEGS).isOf(IafItems.DRAGONSTEEL_LIGHTNING_LEGGINGS.get()) &&
+                entity.getEquippedStack(EquipmentSlot.FEET).isOf(IafItems.DRAGONSTEEL_LIGHTNING_BOOTS.get()))
+            return EventResult.interruptFalse();
+        return EventResult.pass();
     }
 }
