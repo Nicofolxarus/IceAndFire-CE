@@ -40,7 +40,7 @@ dependencies {
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 
-    modImplementation "maven.modrinth:uranus:EnGTsuoq"
+    modImplementation "maven.modrinth:uranus:1NJk1lLF"
     modImplementation "maven.modrinth:jupiter:yHfucqRJ"
 
     // CCA

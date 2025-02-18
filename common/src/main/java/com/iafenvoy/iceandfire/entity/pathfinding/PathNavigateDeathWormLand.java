@@ -25,8 +25,8 @@ public class PathNavigateDeathWormLand extends EntityNavigation {
     @Override
     protected PathNodeNavigator createPathNodeNavigator(int i) {
         this.nodeMaker = new LandPathNodeMaker();
-        Vec3i vec3i = new BlockPos(32, 32, 32);
-        this.nodeMaker.init(new ChunkCache(this.world, this.worm.getBlockPos().add(vec3i), this.worm.getBlockPos().subtract(vec3i)), this.entity);
+        Vec3i vec3i = new BlockPos(64, 64, 64);
+        this.nodeMaker.init(new ChunkCache(this.world, this.entity.getBlockPos().subtract(vec3i), this.entity.getBlockPos().add(vec3i)), this.entity);
         this.nodeMaker.setCanEnterOpenDoors(true);
         this.nodeMaker.setCanSwim(true);
         return new PathNodeNavigator(this.nodeMaker, i);

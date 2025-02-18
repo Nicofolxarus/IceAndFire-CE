@@ -20,12 +20,6 @@ public class ItemModSword extends SwordItem implements DragonSteelOverrides<Item
         return this.getMaterial().getDurability();
     }
 
-//    @Override
-//    @Deprecated
-//    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot equipmentSlot) {
-//        return equipmentSlot == EquipmentSlot.MAINHAND && this.isDragonSteel(this.getMaterial()) ? this.bakeDragonsteel() : super.getAttributeModifiers(equipmentSlot);
-//    }
-
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         this.hurtEnemy(this, stack, target, attacker);

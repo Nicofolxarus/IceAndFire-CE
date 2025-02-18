@@ -14,15 +14,9 @@ public class ItemModAxe extends AxeItem implements DragonSteelOverrides<ItemModA
     private final ToolMaterial tier;
 
     public ItemModAxe(ToolMaterial toolmaterial) {
-        super(toolmaterial, new Settings().component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(toolmaterial, 5.0F, -3.0F)));
+        super(toolmaterial, new Settings().component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(toolmaterial, DragonSteelOverrides.isDragonSteel(toolmaterial) ? 8 : 5, -3)));
         this.tier = toolmaterial;
     }
-
-//    @Override
-//    @Deprecated
-//    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot equipmentSlot) {
-//        return equipmentSlot == EquipmentSlot.MAINHAND && this.isDragonSteel(this.getMaterial()) ? this.bakeDragonsteel() : super.getAttributeModifiers(equipmentSlot);
-//    }
 
     @Override
     public int getMaxUseTime(ItemStack stack, LivingEntity user) {
