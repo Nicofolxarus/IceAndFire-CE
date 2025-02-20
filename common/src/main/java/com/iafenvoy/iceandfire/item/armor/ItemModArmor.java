@@ -44,7 +44,6 @@ public class ItemModArmor extends ArmorItem implements IArmorTextureProvider {
             if (calendar.get(Calendar.MONTH) + 1 == 4 && calendar.get(Calendar.DATE) == 1)
                 tooltip.add(Text.translatable("item.iceandfire.air_pods.desc").formatted(Formatting.GREEN));
         }
-        super.appendTooltip(stack, context, tooltip, type);
     }
 
     @Override

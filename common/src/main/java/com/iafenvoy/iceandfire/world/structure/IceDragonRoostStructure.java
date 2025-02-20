@@ -73,13 +73,13 @@ public class IceDragonRoostStructure extends DragonRoostStructure {
                 block = IafBlocks.FROZEN_GRASS.get();
             else if (state.isOf(Blocks.DIRT_PATH))
                 block = IafBlocks.FROZEN_DIRT_PATH.get();
-            else if (state.isIn(CommonTags.Blocks.GRAVEL))
+            else if (state.isIn(CommonTags.Blocks.GRAVELS))
                 block = IafBlocks.FROZEN_GRAVEL.get();
             else if (state.isIn(BlockTags.DIRT))
                 block = IafBlocks.FROZEN_DIRT.get();
-            else if (state.isIn(CommonTags.Blocks.STONE))
+            else if (state.isIn(CommonTags.Blocks.STONES))
                 block = IafBlocks.FROZEN_STONE.get();
-            else if (state.isIn(CommonTags.Blocks.COBBLESTONE))
+            else if (state.isIn(CommonTags.Blocks.COBBLESTONES))
                 block = IafBlocks.FROZEN_COBBLESTONE.get();
             else if (state.isIn(BlockTags.LOGS) || state.isIn(BlockTags.PLANKS))
                 block = IafBlocks.FROZEN_SPLINTERS.get();

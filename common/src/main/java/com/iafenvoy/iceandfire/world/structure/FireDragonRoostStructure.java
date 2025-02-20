@@ -73,13 +73,13 @@ public class FireDragonRoostStructure extends DragonRoostStructure {
                 block = IafBlocks.CHARRED_GRASS.get();
             else if (state.isOf(Blocks.DIRT_PATH))
                 block = IafBlocks.CHARRED_DIRT_PATH.get();
-            else if (state.isIn(CommonTags.Blocks.GRAVEL))
+            else if (state.isIn(CommonTags.Blocks.GRAVELS))
                 block = IafBlocks.CHARRED_GRAVEL.get();
             else if (state.isIn(BlockTags.DIRT))
                 block = IafBlocks.CHARRED_DIRT.get();
-            else if (state.isIn(CommonTags.Blocks.STONE))
+            else if (state.isIn(CommonTags.Blocks.STONES))
                 block = IafBlocks.CHARRED_STONE.get();
-            else if (state.isIn(CommonTags.Blocks.COBBLESTONE))
+            else if (state.isIn(CommonTags.Blocks.COBBLESTONES))
                 block = IafBlocks.CHARRED_COBBLESTONE.get();
             else if (state.isIn(BlockTags.LOGS) || state.isIn(BlockTags.PLANKS))
                 block = IafBlocks.ASH.get();
