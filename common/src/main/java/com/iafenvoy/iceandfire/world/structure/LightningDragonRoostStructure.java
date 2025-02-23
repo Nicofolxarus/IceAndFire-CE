@@ -78,13 +78,13 @@ public class LightningDragonRoostStructure extends DragonRoostStructure {
                 block = IafBlocks.CRACKLED_GRASS.get();
             else if (state.isOf(Blocks.DIRT_PATH))
                 block = IafBlocks.CRACKLED_DIRT_PATH.get();
-            else if (state.isIn(CommonTags.Blocks.GRAVEL))
+            else if (state.isIn(CommonTags.Blocks.GRAVELS))
                 block = IafBlocks.CRACKLED_GRAVEL.get();
             else if (state.isIn(BlockTags.DIRT))
                 block = IafBlocks.CRACKLED_DIRT.get();
-            else if (state.isIn(CommonTags.Blocks.STONE))
+            else if (state.isIn(CommonTags.Blocks.STONES))
                 block = IafBlocks.CRACKLED_STONE.get();
-            else if (state.isIn(CommonTags.Blocks.COBBLESTONE))
+            else if (state.isIn(CommonTags.Blocks.COBBLESTONES))
                 block = IafBlocks.CRACKLED_COBBLESTONE.get();
             else if (state.isIn(BlockTags.LOGS) || state.isIn(BlockTags.PLANKS))
                 block = IafBlocks.ASH.get();

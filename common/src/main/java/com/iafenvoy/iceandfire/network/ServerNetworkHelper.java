@@ -7,6 +7,8 @@ import com.iafenvoy.iceandfire.event.ServerEvents;
 import com.iafenvoy.iceandfire.network.payload.*;
 import com.iafenvoy.iceandfire.world.MyrmexWorldData;
 import dev.architectury.networking.NetworkManager;
+import dev.architectury.platform.Platform;
+import dev.architectury.utils.Env;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.TameableEntity;
@@ -18,6 +20,14 @@ import net.minecraft.util.math.BlockPos;
 
 public class ServerNetworkHelper {
     public static void registerReceivers() {
+        if (Platform.getEnvironment() == Env.SERVER) {
+            NetworkManager.registerS2CPayloadType(DragonSetBurnBlockPayload.ID, DragonSetBurnBlockPayload.CODEC);
+            NetworkManager.registerS2CPayloadType(StartRidingMobS2CPayload.ID, StartRidingMobS2CPayload.CODEC);
+            NetworkManager.registerS2CPayloadType(UpdatePixieHousePayload.ID, UpdatePixieHousePayload.CODEC);
+            NetworkManager.registerS2CPayloadType(UpdatePixieJarPayload.ID, UpdatePixieJarPayload.CODEC);
+            NetworkManager.registerS2CPayloadType(UpdatePodiumPayload.ID, UpdatePodiumPayload.CODEC);
+        }
+
         NetworkManager.registerReceiver(NetworkManager.Side.C2S, MyrmexSyncPayload.ID, MyrmexSyncPayload.CODEC, (payload, ctx) -> {
             MyrmexHive serverHive = MyrmexHive.fromNBT(payload.data());
             NbtCompound tag = new NbtCompound();

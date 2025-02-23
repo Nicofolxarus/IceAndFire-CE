@@ -83,6 +83,7 @@ public class IceAndFire {
         EntityEvents.START_TRACKING_TAIL.register(ServerEvents::onLivingSetTarget);
         LivingEntityEvents.DAMAGE.register(ServerEvents::onEntityDamage);
         LivingEntityEvents.FALL.register(ServerEvents::onEntityFall);
+        EntityEvent.LIVING_HURT.register(ServerEvents::onLivingHurt);
 
         ServerNetworkHelper.registerReceivers();
     }

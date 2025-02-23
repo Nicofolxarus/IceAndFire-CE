@@ -15,7 +15,7 @@ public class BlockElementalFlower extends PlantBlock {
     private static final MapCodec<? extends PlantBlock> CODEC = createCodec(s -> new BlockElementalFlower());
 
     public BlockElementalFlower() {
-        super(Settings.create().mapColor(MapColor.DARK_GREEN).replaceable().burnable().pistonBehavior(PistonBehavior.DESTROY).nonOpaque().noCollision().dynamicBounds().ticksRandomly().sounds(BlockSoundGroup.GRASS));
+        super(Settings.create().mapColor(MapColor.DARK_GREEN).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).offset(OffsetType.XZ).pistonBehavior(PistonBehavior.DESTROY));
     }
 
     @Override

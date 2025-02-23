@@ -9,20 +9,24 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.ChunkCache;
 
 public class PathNavigateDeathWormLand extends EntityNavigation {
     private final EntityDeathWorm worm;
     private boolean shouldAvoidSun;
 
-    public PathNavigateDeathWormLand(EntityDeathWorm worm, World worldIn) {
-        super(worm, worldIn);
+    public PathNavigateDeathWormLand(EntityDeathWorm worm, World world) {
+        super(worm, world);
         this.worm = worm;
     }
 
     @Override
     protected PathNodeNavigator createPathNodeNavigator(int i) {
         this.nodeMaker = new LandPathNodeMaker();
+        Vec3i vec3i = new BlockPos(64, 64, 64);
+        this.nodeMaker.init(new ChunkCache(this.world, this.entity.getBlockPos().subtract(vec3i), this.entity.getBlockPos().add(vec3i)), this.entity);
         this.nodeMaker.setCanEnterOpenDoors(true);
         this.nodeMaker.setCanSwim(true);
         return new PathNodeNavigator(this.nodeMaker, i);
@@ -48,29 +52,21 @@ public class PathNavigateDeathWormLand extends EntityNavigation {
     public Path findPathTo(BlockPos pos, int i) {
         if (this.world.getBlockState(pos).isAir()) {
             BlockPos blockpos;
-
-            for (blockpos = pos.down(); blockpos.getY() > 0 && this.world.getBlockState(blockpos).isAir(); blockpos = blockpos.down()) {
-            }
-
-            if (blockpos.getY() > 0) {
-                return super.findPathTo(blockpos.up(), i);
-            }
-
-            while (blockpos.getY() < this.world.getTopY() && this.world.getBlockState(blockpos).isAir()) {
+            blockpos = pos.down();
+            while (blockpos.getY() > 0 && this.world.getBlockState(blockpos).isAir())
+                blockpos = blockpos.down();
+            if (blockpos.getY() > 0) return super.findPathTo(blockpos.up(), i);
+            while (blockpos.getY() < this.world.getTopY() && this.world.getBlockState(blockpos).isAir())
                 blockpos = blockpos.up();
-            }
-
             pos = blockpos;
         }
 
-        if (!this.world.getBlockState(pos).isSolid()) {
+        if (!this.world.getBlockState(pos).isSolid())
             return super.findPathTo(pos, i);
-        } else {
-            BlockPos blockpos1;
-
-            for (blockpos1 = pos.up(); blockpos1.getY() < this.world.getTopY() && this.world.getBlockState(blockpos1).isSolid(); blockpos1 = blockpos1.up()) {
-            }
-
+        else {
+            BlockPos blockpos1 = pos.up();
+            while (blockpos1.getY() < this.world.getTopY() && this.world.getBlockState(blockpos1).isSolid())
+                blockpos1 = blockpos1.up();
             return super.findPathTo(blockpos1, i);
         }
     }
@@ -96,16 +92,10 @@ public class PathNavigateDeathWormLand extends EntityNavigation {
                 ++i;
                 blockstate = this.world.getBlockState(new BlockPos(this.entity.getBlockX(), i, this.entity.getBlockZ()));
                 ++j;
-
-                if (j > 16) {
-                    return (int) this.entity.getBoundingBox().minY;
-                }
+                if (j > 16) return (int) this.entity.getBoundingBox().minY;
             }
-
             return i;
-        } else {
-            return (int) (this.entity.getBoundingBox().minY + 0.5D);
-        }
+        } else return (int) (this.entity.getBoundingBox().minY + 0.5D);
     }
 
     protected void removeSunnyPath() {
@@ -161,13 +151,8 @@ public class PathNavigateDeathWormLand extends EntityNavigation {
                 double d6 = (double) i - posVec31.x;
                 double d7 = (double) j - posVec31.z;
 
-                if (d0 >= 0.0D) {
-                    ++d6;
-                }
-
-                if (d1 >= 0.0D) {
-                    ++d7;
-                }
+                if (d0 >= 0.0D) ++d6;
+                if (d1 >= 0.0D) ++d7;
 
                 d6 = d6 / d0;
                 d7 = d7 / d1;
@@ -189,9 +174,8 @@ public class PathNavigateDeathWormLand extends EntityNavigation {
                         l1 = j1 - j;
                     }
 
-                    if (!this.isSafeToStandAt(i, (int) posVec31.y, j, sizeX, sizeY, sizeZ, posVec31, d0, d1)) {
+                    if (!this.isSafeToStandAt(i, (int) posVec31.y, j, sizeX, sizeY, sizeZ, posVec31, d0, d1))
                         return false;
-                    }
                 }
 
                 return true;
@@ -205,10 +189,11 @@ public class PathNavigateDeathWormLand extends EntityNavigation {
     private boolean isSafeToStandAt(int x, int y, int z, int sizeX, int sizeY, int sizeZ, Vec3d vec31, double p_179683_8_, double p_179683_10_) {
         int i = x - sizeX / 2;
         int j = z - sizeZ / 2;
+        this.nodeMaker.entity = this.worm;
 
-        if (!this.isPositionClear(i, y, j, sizeX, sizeY, sizeZ, vec31, p_179683_8_, p_179683_10_)) {
+        if (!this.isPositionClear(i, y, j, sizeX, sizeY, sizeZ, vec31, p_179683_8_, p_179683_10_))
             return false;
-        } else {
+        else {
             for (int k = i; k < i + sizeX; ++k) {
                 for (int l = j; l < j + sizeZ; ++l) {
                     double d0 = (double) k + 0.5D - vec31.x;
