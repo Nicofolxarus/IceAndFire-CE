@@ -1797,9 +1797,8 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
     @Override
     public void playAmbientSound() {
         if (!this.isSleeping() && !this.isModelDead() && !this.getWorld().isClient) {
-            if (this.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
+            if (this.getAnimation() == IAnimatedEntity.NO_ANIMATION)
                 this.setAnimation(ANIMATION_SPEAK);
-            }
             super.playAmbientSound();
         }
     }
@@ -1807,9 +1806,8 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
     @Override
     protected void playHurtSound(DamageSource source) {
         if (!this.isModelDead()) {
-            if (this.getAnimation() == IAnimatedEntity.NO_ANIMATION && !this.getWorld().isClient) {
+            if (this.getAnimation() == IAnimatedEntity.NO_ANIMATION && !this.getWorld().isClient)
                 this.setAnimation(ANIMATION_SPEAK);
-            }
             super.playHurtSound(source);
         }
     }
@@ -1826,13 +1824,10 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
 
     @Override
     public boolean canBreedWith(AnimalEntity otherAnimal) {
-        if (otherAnimal instanceof EntityDragonBase dragon && otherAnimal != this && otherAnimal.getClass() == this.getClass()) {
-            return this.isMale() && !dragon.isMale() || !this.isMale() && dragon.isMale();
-        }
-        return false;
+        return otherAnimal instanceof EntityDragonBase dragon && otherAnimal != this && otherAnimal.getClass() == this.getClass() && (this.isMale() && !dragon.isMale() || !this.isMale() && dragon.isMale());
     }
 
-    public EntityDragonEgg createEgg(EntityDragonBase ageable) { // FIXME :: Unused parameter
+    public EntityDragonEgg createEgg() {
         EntityDragonEgg dragon = new EntityDragonEgg(IafEntities.DRAGON_EGG.get(), this.getWorld());
         dragon.setEggType(DragonColor.byMetadata(new Random().nextInt(4) + this.getStartMetaForType()));
         dragon.setPosition(MathHelper.floor(this.getX()) + 0.5, MathHelper.floor(this.getY()) + 1, MathHelper.floor(this.getZ()) + 0.5);
@@ -1847,9 +1842,8 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
         if (target != null) {
             final BlockHitResult rayTrace = this.getWorld().raycast(new RaycastContext(this.getPos().add(0, this.getStandingEyeHeight(), 0), target, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this));
             final BlockPos sidePos = rayTrace.getBlockPos();
-            if (!this.getWorld().isAir(sidePos)) {
+            if (!this.getWorld().isAir(sidePos))
                 return true;
-            }
             return rayTrace.getType() == HitResult.Type.BLOCK;
         }
         return false;
@@ -1951,15 +1945,14 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                     forward *= rider.forwardSpeed > 0 ? 1.0f : 0.5f;
                     // Slower on going sideways
                     strafing *= 0.4f;
-                    if (this.isGoingUp() && !this.isGoingDown()) {
+                    if (this.isGoingUp() && !this.isGoingDown())
                         vertical = 1f;
-                    } else if (this.isGoingDown() && !this.isGoingUp()) {
+                    else if (this.isGoingDown() && !this.isGoingUp())
                         vertical = -1f;
-                    }
-                    // Damp the vertical motion so the dragon's head is more responsive to the control
-                    else {
-                        this.isLogicalSideForUpdatingMovement();//                        this.setDeltaMovement(this.getDeltaMovement().multiply(1.0f, 0.8f, 1.0f));
-                    }
+                        // Damp the vertical motion so the dragon's head is more responsive to the control
+                    else
+                        this.isLogicalSideForUpdatingMovement();
+                    // this.setDeltaMovement(this.getDeltaMovement().multiply(1.0f, 0.8f, 1.0f));
                 } else {
                     // Mouse controlled yaw and pitch
                     speed *= 1.5f;
@@ -1972,21 +1965,21 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                     forward = MathHelper.abs(MathHelper.cos(this.getPitch() * ((float) Math.PI / 180F)));
                     vertical = MathHelper.abs(MathHelper.sin(this.getPitch() * ((float) Math.PI / 180F)));
                     // Pitch is still responsive to spacebar and x key
-                    if (this.isGoingUp() && !this.isGoingDown()) {
+                    if (this.isGoingUp() && !this.isGoingDown())
                         vertical = Math.max(vertical, 0.5);
-                    } else if (this.isGoingDown() && !this.isGoingUp()) {
+                    else if (this.isGoingDown() && !this.isGoingUp())
                         vertical = Math.min(vertical, -0.5);
-                    } else if (this.isGoingUp() && this.isGoingDown()) {
+                    else if (this.isGoingUp() && this.isGoingDown())
                         vertical = 0;
-                    }
-                    // X rotation takes minus on looking upward
-                    else if (this.getPitch() < 0) {
+                        // X rotation takes minus on looking upward
+                    else if (this.getPitch() < 0)
                         vertical *= 1;
-                    } else if (this.getPitch() > 0) {
+                    else if (this.getPitch() > 0)
                         vertical *= -1;
-                    } else {
-                        this.isLogicalSideForUpdatingMovement();//                        this.setDeltaMovement(this.getDeltaMovement().multiply(1.0f, 0.8f, 1.0f));
-                    }
+                    else
+                        this.isLogicalSideForUpdatingMovement();
+                    // this.setDeltaMovement(this.getDeltaMovement().multiply(1.0f, 0.8f, 1.0f));
+
                 }
                 // Speed bonus damping
                 this.glidingSpeedBonus -= (float) (this.glidingSpeedBonus * 0.01d);
@@ -2002,15 +1995,12 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                     this.setVelocity(this.getVelocity().multiply(new Vec3d(0.9, 0.9, 0.9)));
 
                     Vec3d currentMotion = this.getVelocity();
-                    if (this.horizontalCollision) {
+                    if (this.horizontalCollision)
                         currentMotion = new Vec3d(currentMotion.x, 0.1D, currentMotion.z);
-                    }
                     this.setVelocity(currentMotion);
-
                     this.updateLimbs(false);
-                } else {
+                } else
                     this.setVelocity(Vec3d.ZERO);
-                }
                 this.tryCheckBlockCollision();
                 this.updatePitch(this.lastRenderY - this.getY());
             }
@@ -2021,11 +2011,10 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                 double vertical = 0;
                 float speed = (float) this.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED);
 
-                if (this.isGoingUp() && !this.isGoingDown()) {
+                if (this.isGoingUp() && !this.isGoingDown())
                     vertical = 0.5f;
-                } else if (this.isGoingDown() && !this.isGoingUp()) {
+                else if (this.isGoingDown() && !this.isGoingUp())
                     vertical = -0.5f;
-                }
 
                 flyingSpeed = speed;
                 // Float in water for those can't swim is done in LivingEntity#aiStep on server side
