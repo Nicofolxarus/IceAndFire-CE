@@ -16,6 +16,7 @@ import com.iafenvoy.iceandfire.entity.util.dragon.*;
 import com.iafenvoy.iceandfire.item.ItemSummoningCrystal;
 import com.iafenvoy.iceandfire.item.block.util.IDragonProof;
 import com.iafenvoy.iceandfire.network.payload.DragonSetBurnBlockPayload;
+import com.iafenvoy.iceandfire.network.payload.StartRidingMobC2SPayload;
 import com.iafenvoy.iceandfire.network.payload.StartRidingMobS2CPayload;
 import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafEntities;
@@ -1766,7 +1767,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
             if ((this.getControlState() == 1 << 4 || player.isFallFlying()) && !riding.hasVehicle()) {
                 this.stopRiding();
                 if (this.getWorld().isClient)
-                    NetworkManager.sendToServer(new StartRidingMobS2CPayload(this.getId(), false, true));
+                    NetworkManager.sendToServer(new StartRidingMobC2SPayload(this.getId(), false, true));
             }
         }
     }
@@ -1783,17 +1784,13 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
 
     @Override
     public Animation getAnimation() {
-        if (this.isModelDead()) {
-            return NO_ANIMATION;
-        }
+        if (this.isModelDead()) return NO_ANIMATION;
         return this.currentAnimation;
     }
 
     @Override
     public void setAnimation(Animation animation) {
-        if (this.isModelDead()) {
-            return;
-        }
+        if (this.isModelDead()) return;
         this.currentAnimation = animation;
     }
 
