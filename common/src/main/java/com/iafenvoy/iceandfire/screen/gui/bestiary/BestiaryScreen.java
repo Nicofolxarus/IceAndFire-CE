@@ -119,8 +119,8 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
     }
 
     @Override
-    public void render(DrawContext ms, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(ms, mouseX, mouseY, partialTicks);
+    public void render(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(context, mouseX, mouseY, partialTicks);
         for (Drawable widget : this.drawables)
             if (widget instanceof IndexPageButton button) {
                 button.active = this.index;
@@ -129,28 +129,29 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
         for (int i = 0; i < this.indexButtons.size(); i++)
             this.indexButtons.get(i).active = i < 10 * (this.indexPages + 1) && i >= 10 * (this.indexPages) && this.index;
         RenderSystem.setShaderColor(1, 1, 1, 1);
+        super.render(context, mouseX, mouseY, partialTicks);
         int cornerX = (this.width - X) / 2;
         int cornerY = (this.height - Y) / 2;
-        ms.drawTexture(TEXTURE, cornerX, cornerY, 0, 0, X, Y, 390, 390);
+        context.getMatrices().push();
+        context.getMatrices().translate(cornerX, cornerY, 0.0F);
         RenderSystem.disableDepthTest();
-        super.render(ms, mouseX, mouseY, partialTicks);
-        ms.getMatrices().push();
-        ms.getMatrices().translate(cornerX, cornerY, 0.0F);
-        RenderSystem.setShaderColor(1, 1, 1, 1);
         if (!this.index) {
-            this.drawPerPage(ms, this.bookPages);
+            this.drawPerPage(context, this.bookPages);
             int pageLeft = this.bookPages * 2 + 1;
             int pageRight = pageLeft + 1;
-            ms.drawText(this.textRenderer, String.valueOf(pageLeft), X / 4, Y - 32, 0X303030, false);
-            ms.drawText(this.textRenderer, String.valueOf(pageRight), X * 3 / 4, Y - 32, 0X303030, false);
+            context.drawText(this.textRenderer, String.valueOf(pageLeft), X / 4, Y - 32, 0X303030, false);
+            context.drawText(this.textRenderer, String.valueOf(pageRight), X * 3 / 4, Y - 32, 0X303030, false);
         }
-        ms.getMatrices().pop();
-        this.drawables.forEach((widget -> widget.render(ms, mouseX, mouseY, partialTicks)));
+        context.getMatrices().pop();
+        this.drawables.forEach((widget -> widget.render(context, mouseX, mouseY, partialTicks)));
         RenderSystem.enableDepthTest();
     }
 
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
+        int cornerX = (this.width - X) / 2;
+        int cornerY = (this.height - Y) / 2;
+        context.drawTexture(TEXTURE, cornerX, cornerY, 0, 0, X, Y, 390, 390);
     }
 
     public void drawPerPage(DrawContext ms, int bookPages) {

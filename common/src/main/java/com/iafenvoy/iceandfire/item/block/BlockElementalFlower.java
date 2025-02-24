@@ -6,8 +6,10 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 
@@ -24,14 +26,18 @@ public class BlockElementalFlower extends PlantBlock {
     }
 
     @Override
+    protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        super.scheduledTick(state, world, pos, random);
+    }
+
+    @Override
     protected MapCodec<? extends PlantBlock> getCodec() {
         return CODEC;
     }
 
     @Override
     public boolean canPlantOnTop(BlockState state, BlockView world, BlockPos pos) {
-        Block block = state.getBlock();
-        return block == Blocks.GRASS_BLOCK || block == Blocks.DIRT || block == Blocks.COARSE_DIRT || block == Blocks.PODZOL || block == Blocks.FARMLAND || state.isIn(BlockTags.SAND) || this.canStay(world, pos);
+        return state.isOf(Blocks.GRASS_BLOCK) || state.isOf(Blocks.DIRT) || state.isOf(Blocks.COARSE_DIRT) || state.isOf(Blocks.PODZOL) || state.isOf(Blocks.FARMLAND) || state.isIn(BlockTags.SAND) || this.canStay(world, pos);
     }
 
     public boolean canStay(BlockView world, BlockPos pos) {

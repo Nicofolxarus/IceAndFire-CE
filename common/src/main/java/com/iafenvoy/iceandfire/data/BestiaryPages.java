@@ -74,8 +74,11 @@ public final class BestiaryPages {
         if (book.getItem() instanceof ItemBestiary) {
             List<String> already = book.get(IafDataComponents.BESTIARY_PAGES.get());
             if (already == null) return;
-            if (!already.contains(page.name)) already.add(page.name);
-            book.set(IafDataComponents.BESTIARY_PAGES.get(), already);
+            if (!already.contains(page.name)) {
+                already = new LinkedList<>(already);// mutable copy
+                already.add(page.name);
+                book.set(IafDataComponents.BESTIARY_PAGES.get(), already);
+            }
         }
     }
 

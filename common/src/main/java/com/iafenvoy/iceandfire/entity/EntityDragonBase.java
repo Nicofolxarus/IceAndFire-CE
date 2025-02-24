@@ -78,6 +78,7 @@ import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -1200,42 +1201,31 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                     }
                 }
             }
-        } else if (this.getDeathStage() < lastDeathStage && player.canModifyBlocks()) {
-            if (!this.getWorld().isClient && !stack.isEmpty() && stack.getItem() != null && stack.getItem() == Items.GLASS_BOTTLE && this.getDeathStage() < lastDeathStage / 2 && IafCommonConfig.INSTANCE.dragon.lootBlood.getValue()) {
-                if (!player.isCreative()) {
-                    stack.decrement(1);
-                }
+        } else if (!this.getWorld().isClient && this.getDeathStage() < lastDeathStage && player.canModifyBlocks()) {
+            if (!stack.isEmpty() && stack.getItem() != null && stack.getItem() == Items.GLASS_BOTTLE && this.getDeathStage() < lastDeathStage / 2 && IafCommonConfig.INSTANCE.dragon.lootBlood.getValue()) {
+                if (!player.isCreative()) stack.decrement(1);
                 this.setDeathStage(this.getDeathStage() + 1);
                 player.getInventory().insertStack(new ItemStack(this.getBloodItem(), 1));
                 return ActionResult.SUCCESS;
-            } else {
-                if (!this.getWorld().isClient && stack.isEmpty()) {
-                    if (IafCommonConfig.INSTANCE.dragon.lootSkull.getValue()) {
-                        if (this.getDeathStage() >= lastDeathStage - 1) {
-                            ItemStack skull = new ItemStack(this.getSkull());
-                            skull.set(IafDataComponents.DRAGON_SKULL.get(), new DragonSkullComponent(this.getDragonStage(), this.getAgeInDays()));
-                            this.setDeathStage(this.getDeathStage() + 1);
-                            if (!this.getWorld().isClient) this.dropStack(skull, 1);
-                            this.remove(RemovalReason.DISCARDED);
-                        } else if (this.getDeathStage() == (lastDeathStage / 2) - 1 && IafCommonConfig.INSTANCE.dragon.lootHeart.getValue()) {
-                            ItemStack heart = new ItemStack(this.getHeartItem(), 1);
-                            List<DragonColor> colors = DragonColor.getColorsByType(this.dragonType);
-                            ItemStack egg = new ItemStack(colors.get(this.random.nextInt(colors.size())).getEggItem(), 1);
-                            if (!this.getWorld().isClient) {
-                                this.dropStack(heart, 1);
-                                if (!this.isMale() && this.getDragonStage() > 3)
-                                    this.dropStack(egg, 1);
-                            }
-                            this.setDeathStage(this.getDeathStage() + 1);
-                        } else {
-                            this.setDeathStage(this.getDeathStage() + 1);
-                            ItemStack drop = this.getRandomDrop();
-                            if (!drop.isEmpty() && !this.getWorld().isClient)
-                                this.dropStack(drop, 1);
-                        }
-                    }
+            } else if (stack.isEmpty()) {
+                if (this.getDeathStage() >= lastDeathStage - 1 && IafCommonConfig.INSTANCE.dragon.lootSkull.getValue()) {
+                    ItemStack skull = new ItemStack(this.getSkull());
+                    skull.set(IafDataComponents.DRAGON_SKULL.get(), new DragonSkullComponent(this.getDragonStage(), this.getAgeInDays()));
+                    this.dropStack(skull, 1);
+                    this.remove(RemovalReason.DISCARDED);
+                } else if (this.getDeathStage() == (lastDeathStage / 2) - 1 && IafCommonConfig.INSTANCE.dragon.lootHeart.getValue()) {
+                    ItemStack heart = new ItemStack(this.getHeartItem(), 1);
+                    List<DragonColor> colors = DragonColor.getColorsByType(this.dragonType);
+                    ItemStack egg = new ItemStack(colors.get(this.random.nextInt(colors.size())).getEggItem(), 1);
+                    this.dropStack(heart, 1);
+                    if (!this.isMale() && this.getDragonStage() > 3)
+                        this.dropStack(egg, 1);
+                } else {
+                    ItemStack drop = this.getRandomDrop();
+                    if (!drop.isEmpty()) this.dropStack(drop, 1);
                 }
-            }
+                this.setDeathStage(this.getDeathStage() + 1);
+            } else return ActionResult.PASS;
             return ActionResult.SUCCESS;
         } else return super.interactMob(player, hand);
         return ActionResult.PASS;
@@ -1267,7 +1257,8 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
     public abstract Identifier getDeadLootTable();
 
     public ItemStack getItemFromLootTable() {
-        LootTable lootTable = this.getWorld().getRegistryManager().get(RegistryKeys.LOOT_TABLE).get(this.getDeadLootTable());
+        assert this.getServer() != null;
+        LootTable lootTable = this.getServer().getReloadableRegistries().getLootTable(RegistryKey.of(RegistryKeys.LOOT_TABLE, this.getDeadLootTable()));
         LootContextParameterSet.Builder lootparams$builder = (new LootContextParameterSet.Builder((ServerWorld) this.getWorld())).add(LootContextParameters.THIS_ENTITY, this).add(LootContextParameters.ORIGIN, this.getPos()).add(LootContextParameters.DAMAGE_SOURCE, this.getWorld().getDamageSources().generic());
         if (lootTable != null)
             for (ItemStack itemstack : lootTable.generateLoot(lootparams$builder.build(LootContextTypes.ENTITY)))
