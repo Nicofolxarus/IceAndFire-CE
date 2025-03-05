@@ -6,12 +6,14 @@ import com.iafenvoy.iceandfire.registry.IafItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.EggEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
@@ -49,16 +51,18 @@ public class EntityHippogryphEgg extends EggEntity {
     @Override
     protected void onCollision(HitResult result) {
         Entity thrower = this.getOwner();
-        if (result.getType() == HitResult.Type.ENTITY) {
-            ((EntityHitResult) result).getEntity().damage(this.getWorld().getDamageSources().thrown(this, thrower), 0.0F);
-        }
+        if (result instanceof EntityHitResult hitResult)
+            hitResult.getEntity().damage(this.getWorld().getDamageSources().thrown(this, thrower), 0.0F);
 
-        if (!this.getWorld().isClient) {
+        if (this.getWorld() instanceof ServerWorld serverWorld) {
             EntityHippogryph hippogryph = new EntityHippogryph(IafEntities.HIPPOGRYPH.get(), this.getWorld());
             hippogryph.setBreedingAge(-24000);
             hippogryph.refreshPositionAndAngles(this.getX(), this.getY(), this.getZ(), this.getYaw(), 0.0F);
-            if (this.itemstack != null)
-                hippogryph.setVariant(this.itemstack.get(IafDataComponents.STRING.get()));
+            hippogryph.initialize(serverWorld, serverWorld.getLocalDifficulty(this.getBlockPos()), SpawnReason.SPAWN_EGG, null);
+            if (this.itemstack != null) {
+                String variant = this.itemstack.get(IafDataComponents.STRING.get());
+                if (variant != null) hippogryph.setVariant(variant);
+            }
             if (thrower instanceof PlayerEntity player)
                 hippogryph.setOwner(player);
             this.getWorld().spawnEntity(hippogryph);

@@ -42,7 +42,6 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.particle.ItemStackParticleEffect;
@@ -410,11 +409,7 @@ public class EntityHippogryph extends TameableEntity implements NamedScreenHandl
     @Override
     public void readCustomDataFromNbt(NbtCompound compound) {
         super.readCustomDataFromNbt(compound);
-        //FIXME: Compat for old version should be removed in 0.7
-        if (compound.contains("Variant") && compound.get("Variant").getType() == NbtElement.STRING_TYPE)
-            this.setVariant(compound.getString("Variant"));
-        else
-            this.setVariant(HippogryphTypes.values().get(compound.getInt("Variant")).getName());
+        this.setVariant(compound.getString("Variant"));
         this.setChested(compound.getBoolean("Chested"));
         this.setSaddled(compound.getBoolean("Saddled"));
         this.setHovering(compound.getBoolean("Hovering"));
