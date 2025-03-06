@@ -96,7 +96,7 @@ public class IafCommonConfig extends AutoInitConfigContainer {
         public final IConfigEntry<Boolean> sleep = new BooleanEntry("iceandfire.dragon.sleep", true);
         public final IConfigEntry<Boolean> digWhenStuck = new BooleanEntry("iceandfire.dragon.digWhenStuck", true);
         public final IConfigEntry<Integer> breakBlockCooldown = new IntegerEntry("iceandfire.dragon.breakBlockCooldown", 5, 0, Integer.MAX_VALUE);
-        public final IConfigEntry<Integer> targetSearchLength = new IntegerEntry("iceandfire.dragon.breakBlockCooldown", 128, 0, 1024);
+        public final IConfigEntry<Integer> targetSearchLength = new IntegerEntry("iceandfire.dragon.targetSearchLength", 128, 0, 1024);
         public final IConfigEntry<Integer> wanderFromHomeDistance = new IntegerEntry("iceandfire.dragon.wanderFromHomeDistance", 40, 0, 1024);
         public final IConfigEntry<Integer> hungerTickRate = new IntegerEntry("iceandfire.dragon.hungerTickRate", 3000, 1, Integer.MAX_VALUE);
         public final IConfigEntry<Double> blockBreakingDropChance = new DoubleEntry("iceandfire.dragon.blockBreakingDropChance", 0.1, 0, 1);
@@ -158,7 +158,6 @@ public class IafCommonConfig extends AutoInitConfigContainer {
     }
 
     public static class GorgonConfig extends AutoInitConfigCategoryBase {
-        public final IConfigEntry<Boolean> generateTemple = new BooleanEntry("iceandfire.gorgon.generateTemple", true);
         public final IConfigEntry<Double> maxHealth = new DoubleEntry("iceandfire.gorgon.maxHealth", 100, 1, Integer.MAX_VALUE);
 
         public GorgonConfig() {
@@ -312,7 +311,21 @@ public class IafCommonConfig extends AutoInitConfigContainer {
 
     public static class WorldGenConfig extends AutoInitConfigCategoryBase {
         public final IConfigEntry<Double> dangerousDistanceLimit = new DoubleEntry("iceandfire.worldgen.dangerousDistanceLimit", 1000, 0, Integer.MAX_VALUE);
-        public final IConfigEntry<Boolean> generateMausoleums = new BooleanEntry("iceandfire.worldgen.generateMausoleums", true);
+        public final IConfigEntry<Double> generateFireDragonCaveChance = new DoubleEntry("iceandfire.worldgen.generateFireDragonCaveChance", 1, 0, 1);
+        public final IConfigEntry<Double> generateFireDragonRoostChance = new DoubleEntry("iceandfire.worldgen.generateFireDragonRoostChance", 1, 0, 1);
+        public final IConfigEntry<Double> generateIceDragonCaveChance = new DoubleEntry("iceandfire.worldgen.generateIceDragonCaveChance", 1, 0, 1);
+        public final IConfigEntry<Double> generateIceDragonRoostChance = new DoubleEntry("iceandfire.worldgen.generateIceDragonRoostChance", 1, 0, 1);
+        public final IConfigEntry<Double> generateLightningDragonCaveChance = new DoubleEntry("iceandfire.worldgen.generateLightningDragonCaveChance", 1, 0, 1);
+        public final IConfigEntry<Double> generateLightningDragonRoostChance = new DoubleEntry("iceandfire.worldgen.generateLightningDragonRoostChance", 1, 0, 1);
+        public final IConfigEntry<Double> generateCyclopsCaveChance = new DoubleEntry("iceandfire.worldgen.generateCyclopsCaveChance", 1, 0, 1);
+        public final IConfigEntry<Double> generateGorgonTempleChance = new DoubleEntry("iceandfire.worldgen.generateGorgonTempleChance", 1, 0, 1);
+        public final IConfigEntry<Double> generateGraveYardChance = new DoubleEntry("iceandfire.worldgen.generateGraveYardChance", 1, 0, 1);
+        public final IConfigEntry<Double> generateHydraCaveChance = new DoubleEntry("iceandfire.worldgen.generateHydraCaveChance", 1, 0, 1);
+        public final IConfigEntry<Double> generateMausoleumChance = new DoubleEntry("iceandfire.worldgen.generateMausoleumChance", 1, 0, 1);
+        public final IConfigEntry<Double> generateMyemexHiveDesertChance = new DoubleEntry("iceandfire.worldgen.generateMyemexHiveDesertChance", 1, 0, 1);
+        public final IConfigEntry<Double> generateMyemexHiveJungleChance = new DoubleEntry("iceandfire.worldgen.generateMyemexHiveJungleChance", 1, 0, 1);
+        public final IConfigEntry<Double> generatePixieVillageChance = new DoubleEntry("iceandfire.worldgen.generatePixieVillageChance", 1, 0, 1);
+        public final IConfigEntry<Double> generateSirenIslandChance = new DoubleEntry("iceandfire.worldgen.generateSirenIslandChance", 1, 0, 1);
 
         public WorldGenConfig() {
             super("worldgen", "iceandfire.category.worldgen");
