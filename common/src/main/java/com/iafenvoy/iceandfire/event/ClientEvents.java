@@ -72,9 +72,8 @@ public class ClientEvents {
                 controller.dismount(mc.options.sneakKey.isPressed());
                 controller.strike(IafKeybindings.DRAGON_BREATH.isPressed());
                 byte controlState = controller.getControlState();
-                if (controlState != previousState) {
+                if (controlState != previousState)
                     NetworkManager.sendToServer(new DragonControlPayload(vehicle.getId(), controlState, vehicle.getBlockPos()));
-                }
             }
             GameRenderer renderer = MinecraftClient.getInstance().gameRenderer;
             IafEntityData data = IafEntityData.get(player);

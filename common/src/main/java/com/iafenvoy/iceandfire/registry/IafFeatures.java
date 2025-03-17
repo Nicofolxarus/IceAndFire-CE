@@ -3,6 +3,7 @@ package com.iafenvoy.iceandfire.registry;
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.registry.tag.IafBiomeTags;
 import com.iafenvoy.iceandfire.world.feature.*;
+import dev.architectury.platform.Platform;
 import dev.architectury.registry.level.biome.BiomeModifications;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -59,6 +60,8 @@ public final class IafFeatures {
     }
 
     public static void init() {
+        if (Platform.isNeoForge()) return;
+
         addFeatureToBiome(IafBiomeTags.FIRE, PLACED_FIRE_LILY, GenerationStep.Feature.VEGETAL_DECORATION);
         addFeatureToBiome(IafBiomeTags.ICE, PLACED_FROST_LILY, GenerationStep.Feature.VEGETAL_DECORATION);
         addFeatureToBiome(IafBiomeTags.LIGHTNING, PLACED_LIGHTNING_LILY, GenerationStep.Feature.VEGETAL_DECORATION);

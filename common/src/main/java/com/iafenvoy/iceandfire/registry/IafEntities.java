@@ -4,6 +4,7 @@ import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.*;
 import com.iafenvoy.iceandfire.registry.tag.IafBiomeTags;
+import dev.architectury.platform.Platform;
 import dev.architectury.registry.level.biome.BiomeModifications;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
@@ -145,6 +146,8 @@ public final class IafEntities {
     }
 
     public static void addSpawners() {
+        if (Platform.isNeoForge()) return;
+
         if (IafCommonConfig.INSTANCE.hippogryphs.spawn.getValue())
             BiomeModifications.addProperties(context -> context.hasTag(IafBiomeTags.HIPPOGRYPH), (context, mutable) -> mutable.getSpawnProperties().addSpawn(SpawnGroup.CREATURE, new SpawnSettings.SpawnEntry(IafEntities.HIPPOGRYPH.get(), IafCommonConfig.INSTANCE.hippogryphs.spawnWeight.getValue(), 1, 1)));
         if (IafCommonConfig.INSTANCE.lich.spawn.getValue())

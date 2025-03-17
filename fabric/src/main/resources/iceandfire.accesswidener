@@ -40,3 +40,4 @@ accessible class net/minecraft/client/particle/ParticleManager$SpriteAwareFactor
 accessible method net/minecraft/client/gui/screen/ingame/HandledScreens register (Lnet/minecraft/screen/ScreenHandlerType;Lnet/minecraft/client/gui/screen/ingame/HandledScreens$Provider;)V
 accessible class net/minecraft/client/gui/screen/ingame/HandledScreens$Provider
 accessible field net/minecraft/entity/ai/pathing/PathNodeMaker entity Lnet/minecraft/entity/mob/MobEntity;
+accessible field net/minecraft/client/world/ClientWorld entityManager Lnet/minecraft/world/entity/ClientEntityManager;
