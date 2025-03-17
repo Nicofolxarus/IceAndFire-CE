@@ -15,7 +15,8 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -41,21 +42,20 @@ public class BlockDreadWoodLock extends Block implements IDragonProof, IDreadBlo
     }
 
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        ItemStack stack = player.getActiveItem();
-        if (stack.getItem() == IafItems.DREAD_KEY.get()) {
+    protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (stack.isOf(IafItems.DREAD_KEY.get())) {
             if (!player.isCreative())
                 stack.decrement(1);
             this.deleteNearbyWood(world, pos, pos);
             world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, SoundCategory.BLOCKS, 1, 1, false);
             world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 1, 2, false);
         }
-        return ActionResult.SUCCESS;
+        return ItemActionResult.SUCCESS;
     }
 
     private void deleteNearbyWood(World world, BlockPos pos, BlockPos startPos) {
         if (pos.getSquaredDistance(startPos) < 32)
-            if (world.getBlockState(pos).getBlock() == IafBlocks.DREADWOOD_PLANKS.get() || world.getBlockState(pos).getBlock() == IafBlocks.DREADWOOD_PLANKS_LOCK.get()) {
+            if (world.getBlockState(pos).isOf(IafBlocks.DREADWOOD_PLANKS.get()) || world.getBlockState(pos).isOf(IafBlocks.DREADWOOD_PLANKS_LOCK.get())) {
                 world.breakBlock(pos, false);
                 for (Direction facing : Direction.values())
                     this.deleteNearbyWood(world, pos.offset(facing), startPos);

@@ -28,8 +28,8 @@ public class EntityHydraArrow extends PersistentProjectileEntity {
     }
 
 
-    public EntityHydraArrow(EntityType<? extends EntityHydraArrow> t, World worldIn, LivingEntity shooter,ItemStack shotFrom) {
-        super(t, shooter, worldIn, new ItemStack(IafItems.HYDRA_ARROW.get()),shotFrom);
+    public EntityHydraArrow(EntityType<? extends EntityHydraArrow> t, World worldIn, LivingEntity shooter, ItemStack shotFrom) {
+        super(t, shooter, worldIn, new ItemStack(IafItems.HYDRA_ARROW.get()), shotFrom);
         this.setDamage(5F);
     }
 
@@ -63,14 +63,12 @@ public class EntityHydraArrow extends PersistentProjectileEntity {
 
     @Override
     protected void onHit(LivingEntity living) {
-        if (living instanceof PlayerEntity) {
-            this.damageShield((PlayerEntity) living, (float) this.getDamage());
-        }
+        if (living instanceof PlayerEntity player)
+            this.damageShield(player, (float) this.getDamage());
         living.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 300, 0));
         Entity shootingEntity = this.getOwner();
-        if (shootingEntity instanceof LivingEntity) {
-            ((LivingEntity) shootingEntity).heal((float) this.getDamage());
-        }
+        if (shootingEntity instanceof LivingEntity living1)
+            living1.heal((float) this.getDamage());
     }
 
     @Override

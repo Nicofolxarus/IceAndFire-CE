@@ -17,7 +17,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "iceandfire:dragon_armors"
+            "items": "#iceandfire:dragon_armors"
           }
         ]
       }
