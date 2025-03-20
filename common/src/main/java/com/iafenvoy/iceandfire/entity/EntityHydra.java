@@ -163,7 +163,7 @@ public class EntityHydra extends HostileEntity implements IAnimatedEntity, IMult
                     this.isBreathing[i] = false;
                     this.breathTicks[i] = 0;
                     this.breathCooldown = 15;
-                    this.getWorld().sendEntityStatus(this, (byte) (60 + i));
+                    this.getWorld().sendEntityStatus(this, (byte) (70 + i));
                 }
                 this.breathTicks[i]++;
             } else
@@ -415,8 +415,8 @@ public class EntityHydra extends HostileEntity implements IAnimatedEntity, IMult
         } else if (id >= 50 && id <= 58) {
             int index = id - 50;
             this.isBreathing[MathHelper.clamp(index, 0, 8)] = true;
-        } else if (id >= 60 && id <= 68) {
-            int index = id - 60;
+        } else if (id >= 70 && id <= 78) {//63 is for sniffer
+            int index = id - 70;
             this.isBreathing[MathHelper.clamp(index, 0, 8)] = false;
         } else {
             super.handleStatus(id);
