@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Util;
 
 import java.util.List;
 
@@ -28,6 +29,15 @@ public class ItemGeneric extends Item {
 
     public ItemGeneric(int textLength, int stacksize) {
         super(new Settings().maxCount(stacksize));
+        this.description = textLength;
+    }
+
+    public ItemGeneric(int textLength, int stacksize, boolean fireproof) {
+        super(Util.make(() -> {
+            Settings settings = new Settings().maxCount(stacksize);
+            if (fireproof) settings.fireproof();
+            return settings;
+        }));
         this.description = textLength;
     }
 

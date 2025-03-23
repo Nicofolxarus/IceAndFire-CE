@@ -22,7 +22,7 @@ public class ItemDragonArmor extends Item {
     private Pattern baseName = Pattern.compile("[a-z]+_[a-z]+");
 
     public ItemDragonArmor(DragonArmorMaterial type, DragonArmorPart dragonSlot) {
-        super(new Settings());
+        super(type == DragonArmorMaterial.NETHERITE ? new Settings().fireproof() : new Settings());
         this.type = type;
         this.dragonSlot = dragonSlot;
         if (type == DragonArmorMaterial.DRAGON_STEEL_FIRE || type == DragonArmorMaterial.DRAGON_STEEL_ICE || type == DragonArmorMaterial.DRAGON_STEEL_LIGHTNING)

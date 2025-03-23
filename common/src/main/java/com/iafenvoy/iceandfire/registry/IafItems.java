@@ -160,7 +160,7 @@ public final class IafItems {
     public static final RegistrySupplier<Item> IRON_HIPPOGRYPH_ARMOR = register("iron_hippogryph_armor", () -> new ItemGeneric(0, 1));
     public static final RegistrySupplier<Item> GOLD_HIPPOGRYPH_ARMOR = register("gold_hippogryph_armor", () -> new ItemGeneric(0, 1));
     public static final RegistrySupplier<Item> DIAMOND_HIPPOGRYPH_ARMOR = register("diamond_hippogryph_armor", () -> new ItemGeneric(0, 1));
-    public static final RegistrySupplier<Item> NETHERITE_HIPPOGRYPH_ARMOR = register("netherite_hippogryph_armor", () -> new ItemGeneric(0, 1));
+    public static final RegistrySupplier<Item> NETHERITE_HIPPOGRYPH_ARMOR = register("netherite_hippogryph_armor", () -> new ItemGeneric(0, 1, true));
     public static final RegistrySupplier<Item> HIPPOGRYPH_TALON = register("hippogryph_talon", () -> new ItemGeneric(1));
     public static final RegistrySupplier<Item> HIPPOGRYPH_SWORD = register("hippogryph_sword", ItemHippogryphSword::new);
     public static final RegistrySupplier<Item> GORGON_HEAD = register("gorgon_head", ItemGorgonHead::new);

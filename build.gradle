@@ -38,6 +38,14 @@ subprojects {
             name = 'Nucleoid'
             url = 'https://maven.nucleoid.xyz/'
         }
+        maven {
+            name = "Jared's maven"
+            url = "https://maven.blamejared.com/"
+        }
+        maven {
+            name = "ModMaven"
+            url = "https://modmaven.dev"
+        }
     }
 
     dependencies {
