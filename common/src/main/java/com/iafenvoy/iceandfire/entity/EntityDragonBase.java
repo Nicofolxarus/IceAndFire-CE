@@ -326,7 +326,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
         this.targetSelector.add(1, new AttackWithOwnerGoal(this));
         this.targetSelector.add(2, new TrackOwnerAttackerGoal(this));
         this.targetSelector.add(3, new RevengeGoal(this));
-        this.targetSelector.add(4, new DragonAITargetItems<>(this, 60, false, false, true));
+        this.targetSelector.add(4, new DragonAITargetItems(this, 60, false, false, true));
         this.targetSelector.add(5, new DragonAITargetNonTamed<>(this, LivingEntity.class, false, (Predicate<LivingEntity>) entity -> {
             if (entity instanceof PlayerEntity player) return !player.isCreative();
             if (this.getRandom().nextInt(100) > this.getHunger())
@@ -334,7 +334,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
             return false;
         }));
         this.targetSelector.add(6, new DragonAITarget<>(this, LivingEntity.class, true, (Predicate<LivingEntity>) entity -> DragonUtils.canHostilesTarget(entity) && entity.getType() != this.getType() && this.shouldTarget(entity) && DragonUtils.isAlive(entity)));
-        this.targetSelector.add(7, new DragonAITargetItems<>(this, false));
+        this.targetSelector.add(7, new DragonAITargetItems(this, false));
     }
 
     protected abstract boolean shouldTarget(Entity entity);

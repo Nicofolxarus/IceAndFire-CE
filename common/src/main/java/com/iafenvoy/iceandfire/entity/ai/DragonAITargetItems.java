@@ -7,6 +7,7 @@ import com.iafenvoy.uranus.object.item.FoodUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.ai.goal.TrackTargetGoal;
+import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Box;
 
@@ -15,7 +16,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class DragonAITargetItems<T extends ItemEntity> extends TrackTargetGoal {
+public class DragonAITargetItems extends TrackTargetGoal {
     protected final Sorter theNearestAttackableTargetSorter;
     protected final Predicate<? super ItemEntity> targetEntitySelector;
     private final int targetChance;
@@ -86,7 +87,8 @@ public class DragonAITargetItems<T extends ItemEntity> extends TrackTargetGoal {
     @Override
     public void tick() {
         super.tick();
-        if (this.targetEntity == null || !this.targetEntity.isAlive()) this.stop();
+        ItemStack stack = this.targetEntity.getStack();
+        if (this.targetEntity == null || !this.targetEntity.isAlive() || stack.isEmpty()) this.stop();
         else if (this.mob.squaredDistanceTo(this.targetEntity) < this.mob.getWidth() * 2 + this.mob.getHeight() / 2 || (this.mob instanceof EntityDragonBase dragon && dragon.getHeadPosition().squaredDistanceTo(this.targetEntity.getPos()) < this.mob.getHeight())) {
             this.mob.playSound(SoundEvents.ENTITY_GENERIC_EAT, 1, 1);
             final int hunger = FoodUtils.getFoodPoints(this.targetEntity.getStack(), true, this.isIce);
@@ -97,7 +99,7 @@ public class DragonAITargetItems<T extends ItemEntity> extends TrackTargetGoal {
             if (EntityDragonBase.ANIMATION_EAT != null)
                 dragon.setAnimation(EntityDragonBase.ANIMATION_EAT);
             for (int i = 0; i < 4; i++)
-                dragon.spawnItemCrackParticles(this.targetEntity.getStack().getItem());
+                dragon.spawnItemCrackParticles(stack.getItem());
             this.targetEntity.getStack().decrement(1);
             this.stop();
         } else this.updateList();

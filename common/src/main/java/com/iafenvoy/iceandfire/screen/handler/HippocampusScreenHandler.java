@@ -81,7 +81,6 @@ public class HippocampusScreenHandler extends ScreenHandler {
             }
         });
 
-
         // Create the slots for the inventory
         assert this.hippocampus != null;
         if (this.hippocampus.isChested())
