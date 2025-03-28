@@ -310,19 +310,19 @@ public class IafCommonConfig extends AutoInitConfigContainer {
             "iceandfire.armors.dragonsteelChestplateArmor", 12, 0, Integer.MAX_VALUE
         );
         public final IConfigEntry<Integer> dragonsteelChestplateDurability = new IntegerEntry(
-            "iceandfire.armors.dragonsteelChestplateDurability", 12, 0, Integer.MAX_VALUE
+            "iceandfire.armors.dragonsteelChestplateDurability", 2560, 0, Integer.MAX_VALUE
         );
         public final IConfigEntry<Integer> dragonsteelLeggingsArmor = new IntegerEntry(
             "iceandfire.armors.dragonsteelLeggingsArmor", 9, 0, Integer.MAX_VALUE
         );
         public final IConfigEntry<Integer> dragonsteelLeggingsDurability = new IntegerEntry(
-            "iceandfire.armors.dragonsteelLeggingsDurability", 9, 0, Integer.MAX_VALUE
+            "iceandfire.armors.dragonsteelLeggingsDurability", 2400, 0, Integer.MAX_VALUE
         );
         public final IConfigEntry<Integer> dragonsteelBootsArmor = new IntegerEntry(
             "iceandfire.armors.dragonsteelBootsArmor", 6, 0, Integer.MAX_VALUE
         );
         public final IConfigEntry<Integer> dragonsteelBootsDurability = new IntegerEntry(
-            "iceandfire.armors.dragonsteelBootsDurability", 6, 0, Integer.MAX_VALUE
+            "iceandfire.armors.dragonsteelBootsDurability", 2080, 0, Integer.MAX_VALUE
         );
         public final IConfigEntry<Integer> dragonsteelArmorEnchantability = new IntegerEntry(
             "iceandfire.armors.dragonsteelArmorEnchantability", 30, 0, Integer.MAX_VALUE
