@@ -48,7 +48,7 @@ public class DragonArmor {
     public static void initArmors() {
         for (int i = 0; i < ARMORS.size(); i++) {
             DragonArmor value = ARMORS.get(i);
-            value.armorMaterial = IafArmorMaterials.register("armor_dragon_scales_" + (i + 1), 36, new int[]{5, 7, 9, 5}, 15, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 2, new MemorizeSupplier<>(() -> Ingredient.ofItems(value.repairItem.get())));
+            value.armorMaterial = IafArmorMaterials.register("armor_dragon_scales_" + (i + 1), new int[]{5, 7, 9, 5}, 15, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 2, new MemorizeSupplier<>(() -> Ingredient.ofItems(value.repairItem.get())));
             String sub = "armor_" + value.color.name().toLowerCase(Locale.ROOT);
 
             value.helmet = IafItems.register(sub + "_helmet", () -> new ItemScaleArmor(value.color, value, value.armorMaterial, ArmorItem.Type.HELMET));

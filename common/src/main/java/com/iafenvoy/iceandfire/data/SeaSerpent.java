@@ -65,7 +65,7 @@ public class SeaSerpent {
 
     public static void initArmors() {
         for (SeaSerpent color : SeaSerpent.values()) {
-            color.armorMaterial = IafArmorMaterials.register("sea_serpent_scales_" + color.name, 30, new int[]{4, 7, 8, 4}, 25, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 2.5F, new MemorizeSupplier<>(() -> Ingredient.ofItems(color.scale.get())));
+            color.armorMaterial = IafArmorMaterials.register("sea_serpent_scales_" + color.name, new int[]{4, 7, 8, 4}, 25, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 2.5F, new MemorizeSupplier<>(() -> Ingredient.ofItems(color.scale.get())));
             color.scaleBlock = IafBlocks.register("sea_serpent_scale_block_" + color.name, () -> new BlockSeaSerpentScales(color.name, color.color));
             color.scale = IafItems.register("sea_serpent_scales_" + color.name, () -> new ItemSeaSerpentScales(color.name, color.color));
             color.helmet = IafItems.register("tide_" + color.name + "_helmet", () -> new ItemSeaSerpentArmor(color, color.armorMaterial, ArmorItem.Type.HELMET));
