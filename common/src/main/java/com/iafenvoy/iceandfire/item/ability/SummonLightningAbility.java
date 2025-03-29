@@ -11,7 +11,7 @@ import net.minecraft.util.Formatting;
 
 import java.util.List;
 
-public interface DragonsteelLightningAbility extends Ability {
+public interface SummonLightningAbility extends Ability {
     @Override
     default void activeAbility(LivingEntity target, LivingEntity attacker) {
         if (IafCommonConfig.INSTANCE.armors.dragonLightningAbility.getValue()) {

@@ -1,6 +1,6 @@
-package com.iafenvoy.iceandfire.item.ability;
+package com.iafenvoy.iceandfire.item.tool;
 
-import com.iafenvoy.iceandfire.config.IafCommonConfig;
+import com.iafenvoy.iceandfire.item.ability.impl.AbilityImpl;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.Item;
@@ -11,24 +11,26 @@ import net.minecraft.text.Text;
 
 import java.util.List;
 
-public abstract class ActivePostHitAxeItem extends AxeItem implements Ability {
-    public ActivePostHitAxeItem(ToolMaterial toolMaterial, Settings settings) {
+public class ActivePostHitAxeItem extends AxeItem {
+    private final AbilityImpl ability;
+    public ActivePostHitAxeItem(ToolMaterial toolMaterial, Settings settings, AbilityImpl ability) {
         super(toolMaterial, settings);
+        this.ability = ability;
     }
 
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (IafCommonConfig.INSTANCE.armors.dragonIceAbility.getValue()) {
-            activeAbility(target, attacker);
+        if (ability.isEnable()) {
+            ability.activeAbility(target, attacker);
         }
         return super.postHit(stack, target, attacker);
     }
 
     @Override
     public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
-        if (IafCommonConfig.INSTANCE.armors.dragonIceAbility.getValue()) {
-            super.appendTooltip(stack, context, tooltip, type);
+        super.appendTooltip(stack, context, tooltip, type);
+        if (ability.isEnable()) {
+            ability.addAbilityDescription(tooltip);
         }
-        this.addAbilityDescription(tooltip);
     }
 }

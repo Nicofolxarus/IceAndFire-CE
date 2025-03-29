@@ -7,7 +7,7 @@ import net.minecraft.util.Formatting;
 
 import java.util.List;
 
-public interface DragonsteelFireAbility extends Ability {
+public interface IgniteEntityAbility extends Ability {
     @Override
     default void activeAbility(LivingEntity target, LivingEntity attacker) {
         if (IafCommonConfig.INSTANCE.armors.dragonFireAbility.getValue()) {

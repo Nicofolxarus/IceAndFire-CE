@@ -7,6 +7,7 @@ import com.iafenvoy.iceandfire.data.DragonArmorPart;
 import com.iafenvoy.iceandfire.data.DragonColor;
 import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.item.*;
+import com.iafenvoy.iceandfire.item.ability.impl.AbilityImpls;
 import com.iafenvoy.iceandfire.item.armor.ItemBlindfold;
 import com.iafenvoy.iceandfire.item.armor.ItemDragonSteelArmor;
 import com.iafenvoy.iceandfire.item.armor.ItemModArmor;
@@ -15,21 +16,22 @@ import com.iafenvoy.iceandfire.item.food.ItemCannoli;
 import com.iafenvoy.iceandfire.item.food.ItemDragonFlesh;
 import com.iafenvoy.iceandfire.item.food.ItemPixieDust;
 import com.iafenvoy.iceandfire.item.tool.*;
-import com.iafenvoy.iceandfire.item.tool.dragonsteel.*;
 import com.iafenvoy.iceandfire.registry.tag.BannerPatternTags;
 import dev.architectury.core.item.ArchitecturySpawnEggItem;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.BannerPatternItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.SwordItem;
 import net.minecraft.registry.RegistryKeys;
 
 import java.util.function.Supplier;
+
+import static net.minecraft.item.MiningToolItem.createAttributeModifiers;
 
 @SuppressWarnings("unused")
 public final class IafItems {
@@ -255,23 +257,73 @@ public final class IafItems {
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_INGOT = register("dragonsteel_fire_ingot", ItemGeneric::new);
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_SWORD = register(
         "dragonsteel_fire_sword",
-        ItemDragonsteelFireSword::new
+        () -> new ActivePostHitSwordItem(
+            IafToolMaterials.DRAGONSTEEL_FIRE,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONSTEEL_FIRE,
+                    3.0F, -2.4F
+                )
+            ),
+            AbilityImpls.dragonsteelFire
+        )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_PICKAXE = register(
         "dragonsteel_fire_pickaxe",
-        ItemDragonsteelFirePickaxe::new
+        () -> new ActivePostHitPickaxeItem(
+            IafToolMaterials.DRAGONSTEEL_FIRE,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONSTEEL_FIRE,
+                    1.0F, -2.8F
+                )
+            ),
+            AbilityImpls.dragonsteelFire
+        )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_AXE = register(
         "dragonsteel_fire_axe",
-        ItemDragonsteelFireAxe::new
+        () -> new ActivePostHitAxeItem(
+            IafToolMaterials.DRAGONSTEEL_FIRE,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONSTEEL_FIRE,
+                    5.0F, -3.0F
+                )
+            ),
+            AbilityImpls.dragonsteelFire
+        )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_SHOVEL = register(
         "dragonsteel_fire_shovel",
-        ItemDragonsteelFireShovel::new
+        () -> new ActivePostHitShovelItem(
+            IafToolMaterials.DRAGONSTEEL_FIRE,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONSTEEL_FIRE,
+                    1.5F, -3.0F
+                )
+            ),
+            AbilityImpls.dragonsteelFire
+        )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_HOE = register(
         "dragonsteel_fire_hoe",
-        ItemDragonsteelFireHoe::new
+        () -> new ActivePostHitHoeItem(
+            IafToolMaterials.DRAGONSTEEL_FIRE,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONSTEEL_FIRE,
+                    -4.0F, 0.0F
+                )
+            ),
+            AbilityImpls.dragonsteelFire
+        )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_HELMET = register("dragonsteel_fire_helmet", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_FIRE_ARMOR_MATERIAL, ArmorItem.Type.HELMET));
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_CHESTPLATE = register("dragonsteel_fire_chestplate", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_FIRE_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE));
@@ -280,23 +332,73 @@ public final class IafItems {
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_INGOT = register("dragonsteel_ice_ingot", ItemGeneric::new);
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_SWORD = register(
         "dragonsteel_ice_sword",
-        ItemDragonsteelIceSword::new
+        () -> new ActivePostHitSwordItem(
+            IafToolMaterials.DRAGONSTEEL_ICE,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONSTEEL_ICE,
+                    3.0F, -2.4F
+                )
+            ),
+            AbilityImpls.dragonsteelIce
+        )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_PICKAXE = register(
         "dragonsteel_ice_pickaxe",
-        ItemDragonsteelIcePickaxe::new
+        () -> new ActivePostHitPickaxeItem(
+            IafToolMaterials.DRAGONSTEEL_ICE,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONSTEEL_ICE,
+                    1.0F, -2.8F
+                )
+            ),
+            AbilityImpls.dragonsteelIce
+        )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_AXE = register(
         "dragonsteel_ice_axe",
-        ItemDragonsteelIceAxe::new
+        () -> new ActivePostHitAxeItem(
+            IafToolMaterials.DRAGONSTEEL_ICE,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONSTEEL_ICE,
+                    5.0F, -3.0F
+                )
+            ),
+            AbilityImpls.dragonsteelIce
+        )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_SHOVEL = register(
         "dragonsteel_ice_shovel",
-        ItemDragonsteelIceShovel::new
+        () -> new ActivePostHitShovelItem(
+            IafToolMaterials.DRAGONSTEEL_ICE,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONSTEEL_ICE,
+                    1.5F, -3.0F
+                )
+            ),
+            AbilityImpls.dragonsteelIce
+        )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_HOE = register(
         "dragonsteel_ice_hoe",
-        ItemDragonsteelIceHoe::new
+        () -> new ActivePostHitHoeItem(
+            IafToolMaterials.DRAGONSTEEL_ICE,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONSTEEL_ICE,
+                    -4.0F, 0.0F
+                )
+            ),
+            AbilityImpls.dragonsteelIce
+        )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_HELMET = register("dragonsteel_ice_helmet", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_ICE_ARMOR_MATERIAL, ArmorItem.Type.HELMET));
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_CHESTPLATE = register("dragonsteel_ice_chestplate", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_ICE_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE));
@@ -305,22 +407,73 @@ public final class IafItems {
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_INGOT = register("dragonsteel_lightning_ingot", ItemGeneric::new);
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_SWORD = register(
         "dragonsteel_lightning_sword",
-        ItemDragonsteelLightningSword::new
+        () -> new ActivePostHitSwordItem(
+            IafToolMaterials.DRAGONSTEEL_LIGHTNING,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONSTEEL_LIGHTNING,
+                    3.0F, -2.4F
+                )
+            ),
+            AbilityImpls.dragonsteelLightning
+        )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_PICKAXE = register(
         "dragonsteel_lightning_pickaxe",
-        ItemDragonsteelLightningPickaxe::new);
+        () -> new ActivePostHitPickaxeItem(
+            IafToolMaterials.DRAGONSTEEL_LIGHTNING,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONSTEEL_LIGHTNING,
+                    1.0F, -2.8F
+                )
+            ),
+            AbilityImpls.dragonsteelLightning
+        )
+    );
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_AXE = register(
         "dragonsteel_lightning_axe",
-        ItemDragonsteelLightningAxe::new
+        () -> new ActivePostHitAxeItem(
+            IafToolMaterials.DRAGONSTEEL_LIGHTNING,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONSTEEL_LIGHTNING,
+                    5.0F, -3.0F
+                )
+            ),
+            AbilityImpls.dragonsteelLightning
+        )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_SHOVEL = register(
         "dragonsteel_lightning_shovel",
-        ItemDragonsteelLightningShovel::new
+        () -> new ActivePostHitShovelItem(
+            IafToolMaterials.DRAGONSTEEL_LIGHTNING,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONSTEEL_LIGHTNING,
+                    1.5F, -3.0F
+                )
+            ),
+            AbilityImpls.dragonsteelLightning
+        )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_HOE = register(
         "dragonsteel_lightning_hoe",
-        ItemDragonsteelLightningHoe::new
+        () -> new ActivePostHitHoeItem(
+            IafToolMaterials.DRAGONSTEEL_LIGHTNING,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONSTEEL_LIGHTNING,
+                    -4.0F, 0.0F
+                )
+            ),
+            AbilityImpls.dragonsteelLightning
+        )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_HELMET = register("dragonsteel_lightning_helmet", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_LIGHTNING_ARMOR_MATERIAL, ArmorItem.Type.HELMET));
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_CHESTPLATE = register("dragonsteel_lightning_chestplate", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_LIGHTNING_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE));

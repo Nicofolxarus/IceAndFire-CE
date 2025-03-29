@@ -10,7 +10,7 @@ import net.minecraft.util.Formatting;
 
 import java.util.List;
 
-public interface DragonsteelIceAbility extends Ability {
+public interface FrozenEntityAbility extends Ability {
     @Override
     default void activeAbility(LivingEntity target, LivingEntity attacker) {
         if (IafCommonConfig.INSTANCE.armors.dragonIceAbility.getValue()) {
