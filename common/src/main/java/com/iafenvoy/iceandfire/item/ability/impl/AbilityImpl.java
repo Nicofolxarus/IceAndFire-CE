@@ -2,8 +2,4 @@ package com.iafenvoy.iceandfire.item.ability.impl;
 
 import com.iafenvoy.iceandfire.item.ability.Ability;
 
-public abstract class AbilityImpl implements Ability {
-    public boolean isEnable() {
-        return true;
-    }
-}
+public abstract class AbilityImpl implements Ability {}

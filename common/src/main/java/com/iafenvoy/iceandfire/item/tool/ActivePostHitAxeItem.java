@@ -21,7 +21,7 @@ public class ActivePostHitAxeItem extends AxeItem {
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (ability.isEnable()) {
-            ability.activeAbility(target, attacker);
+            ability.active(target, attacker);
         }
         return super.postHit(stack, target, attacker);
     }
@@ -30,7 +30,7 @@ public class ActivePostHitAxeItem extends AxeItem {
     public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
         super.appendTooltip(stack, context, tooltip, type);
         if (ability.isEnable()) {
-            ability.addAbilityDescription(tooltip);
+            ability.addDescription(tooltip);
         }
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface SummonLightningAbility extends Ability {
     @Override
-    default void activeAbility(LivingEntity target, LivingEntity attacker) {
+    default void active(LivingEntity target, LivingEntity attacker) {
         if (IafCommonConfig.INSTANCE.armors.dragonLightningAbility.getValue()) {
             boolean flag = true;
             if (attacker instanceof PlayerEntity)
@@ -35,7 +35,7 @@ public interface SummonLightningAbility extends Ability {
     }
 
     @Override
-    default void addAbilityDescription(List<Text> tooltip) {
+    default void addDescription(List<Text> tooltip) {
         if ((IafCommonConfig.INSTANCE.armors.dragonLightningAbility.getValue())) {
             tooltip.add(Text.translatable("dragon_sword_lightning.hurt2").formatted(Formatting.DARK_PURPLE));
         }

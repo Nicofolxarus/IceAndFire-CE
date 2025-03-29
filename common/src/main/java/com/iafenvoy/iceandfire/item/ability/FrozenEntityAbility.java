@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface FrozenEntityAbility extends Ability {
     @Override
-    default void activeAbility(LivingEntity target, LivingEntity attacker) {
+    default void active(LivingEntity target, LivingEntity attacker) {
         if (IafCommonConfig.INSTANCE.armors.dragonIceAbility.getValue()) {
             IafEntityData data = IafEntityData.get(target);
             data.frozenData.setFrozen(target, 300);
@@ -22,7 +22,7 @@ public interface FrozenEntityAbility extends Ability {
     };
 
     @Override
-    default void addAbilityDescription(List<Text> tooltip) {
+    default void addDescription(List<Text> tooltip) {
         if (IafCommonConfig.INSTANCE.armors.dragonIceAbility.getValue()) {
             tooltip.add(Text.translatable("dragon_sword_ice.hurt2").formatted(Formatting.AQUA));
         }

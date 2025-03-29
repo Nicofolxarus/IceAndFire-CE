@@ -1,6 +1,7 @@
 package com.iafenvoy.iceandfire.mixin;
 
 import com.iafenvoy.iceandfire.event.ClientEvents;
+import com.iafenvoy.iceandfire.item.ability.SummonGhostSwordEntityAbility;
 import com.iafenvoy.iceandfire.item.tool.ItemGhostSword;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -31,7 +32,8 @@ public abstract class LivingEntityMixin {
         ItemStack stack = this.getStackInHand(hand);
         Item item = stack.getItem();
         LivingEntity self = (LivingEntity) (Object) this;
-        if (item instanceof ItemGhostSword && self instanceof PlayerEntity player)
-            ItemGhostSword.spawnGhostSwordEntity(stack, player);
+        if (item instanceof SummonGhostSwordEntityAbility abilityItem) {
+            abilityItem.active(null, self);
+        }
     }
 }

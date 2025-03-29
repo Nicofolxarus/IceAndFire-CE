@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IgniteEntityAbility extends Ability {
     @Override
-    default void activeAbility(LivingEntity target, LivingEntity attacker) {
+    default void active(LivingEntity target, LivingEntity attacker) {
         if (IafCommonConfig.INSTANCE.armors.dragonFireAbility.getValue()) {
             target.setOnFireFor(15);
             target.takeKnockback(1F, attacker.getX() - target.getX(), attacker.getZ() - target.getZ());
@@ -18,7 +18,7 @@ public interface IgniteEntityAbility extends Ability {
     }
 
     @Override
-    default void addAbilityDescription(List<Text> tooltip) {
+    default void addDescription(List<Text> tooltip) {
         if (IafCommonConfig.INSTANCE.armors.dragonFireAbility.getValue()) {
             tooltip.add(Text.translatable("dragon_sword_fire.hurt2").formatted(Formatting.DARK_RED));
         }
