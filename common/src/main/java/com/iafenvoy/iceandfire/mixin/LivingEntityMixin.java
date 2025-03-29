@@ -1,12 +1,11 @@
 package com.iafenvoy.iceandfire.mixin;
 
 import com.iafenvoy.iceandfire.event.ClientEvents;
-import com.iafenvoy.iceandfire.item.ability.SummonGhostSwordEntityAbility;
-import com.iafenvoy.iceandfire.item.tool.ItemGhostSword;
+import com.iafenvoy.iceandfire.item.ability.impl.AbilityImpls;
+import com.iafenvoy.iceandfire.registry.tag.IafItemTags;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
@@ -32,8 +31,8 @@ public abstract class LivingEntityMixin {
         ItemStack stack = this.getStackInHand(hand);
         Item item = stack.getItem();
         LivingEntity self = (LivingEntity) (Object) this;
-        if (item instanceof SummonGhostSwordEntityAbility abilityItem) {
-            abilityItem.active(null, self);
+        if (stack.isIn(IafItemTags.SUMMON_GHOST_SWORD)) {
+            AbilityImpls.SUMMON_GHOST_SWORD.active(self);
         }
     }
 }

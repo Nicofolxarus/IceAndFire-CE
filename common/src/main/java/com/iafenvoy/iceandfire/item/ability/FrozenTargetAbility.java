@@ -10,7 +10,7 @@ import net.minecraft.util.Formatting;
 
 import java.util.List;
 
-public interface FrozenEntityAbility extends Ability {
+public interface FrozenTargetAbility extends PostHitAbility {
     @Override
     default void active(LivingEntity target, LivingEntity attacker) {
         if (IafCommonConfig.INSTANCE.armors.dragonIceAbility.getValue()) {

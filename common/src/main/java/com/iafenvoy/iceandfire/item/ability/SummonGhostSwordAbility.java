@@ -13,16 +13,12 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.logging.Logger;
 
-import static com.iafenvoy.iceandfire.IceAndFire.LOGGER;
-
-public interface SummonGhostSwordEntityAbility extends Ability {
+public interface SummonGhostSwordAbility extends SwingHandAbility {
     @Override
-    default void active(@Nullable LivingEntity target, LivingEntity attacker) {
+    default void active(LivingEntity attacker) {
         if (attacker instanceof PlayerEntity playerEntity) {
             ItemStack stack = playerEntity.getStackInHand(Hand.MAIN_HAND);
             if (playerEntity.getItemCooldownManager().isCoolingDown(stack.getItem())) {

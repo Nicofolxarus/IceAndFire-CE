@@ -1,7 +1,6 @@
 package com.iafenvoy.iceandfire.entity;
 
 import com.google.common.collect.Lists;
-import com.iafenvoy.iceandfire.IceAndFire;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

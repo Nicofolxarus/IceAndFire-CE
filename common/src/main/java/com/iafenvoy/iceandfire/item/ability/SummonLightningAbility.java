@@ -11,7 +11,7 @@ import net.minecraft.util.Formatting;
 
 import java.util.List;
 
-public interface SummonLightningAbility extends Ability {
+public interface SummonLightningAbility extends PostHitAbility {
     @Override
     default void active(LivingEntity target, LivingEntity attacker) {
         if (IafCommonConfig.INSTANCE.armors.dragonLightningAbility.getValue()) {

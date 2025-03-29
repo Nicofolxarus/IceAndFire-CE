@@ -7,7 +7,7 @@ import net.minecraft.util.Formatting;
 
 import java.util.List;
 
-public interface IgniteEntityAbility extends Ability {
+public interface IgniteTargetAbility extends PostHitAbility {
     @Override
     default void active(LivingEntity target, LivingEntity attacker) {
         if (IafCommonConfig.INSTANCE.armors.dragonFireAbility.getValue()) {

@@ -48,11 +48,76 @@ public final class IafItems {
     public static final RegistrySupplier<Item> SILVER_CHESTPLATE = register("armor_silver_metal_chestplate", () -> new ArmorItem(IafArmorMaterials.SILVER_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxDamage(240)));
     public static final RegistrySupplier<Item> SILVER_LEGGINGS = register("armor_silver_metal_leggings", () -> new ArmorItem(IafArmorMaterials.SILVER_ARMOR_MATERIAL, ArmorItem.Type.LEGGINGS, new Item.Settings().maxDamage(225)));
     public static final RegistrySupplier<Item> SILVER_BOOTS = register("armor_silver_metal_boots", () -> new ArmorItem(IafArmorMaterials.SILVER_ARMOR_MATERIAL, ArmorItem.Type.BOOTS, new Item.Settings().maxDamage(195)));
-    public static final RegistrySupplier<Item> SILVER_SWORD = register("silver_sword", () -> new ItemModSword(IafToolMaterials.SILVER_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> SILVER_SHOVEL = register("silver_shovel", () -> new ItemModShovel(IafToolMaterials.SILVER_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> SILVER_PICKAXE = register("silver_pickaxe", () -> new ItemModPickaxe(IafToolMaterials.SILVER_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> SILVER_AXE = register("silver_axe", () -> new ItemModAxe(IafToolMaterials.SILVER_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> SILVER_HOE = register("silver_hoe", () -> new ItemModHoe(IafToolMaterials.SILVER_TOOL_MATERIAL));
+    public static final RegistrySupplier<Item> SILVER_SWORD = register(
+        "silver_sword",
+        () -> new ActivePostHitSwordItem(
+            IafToolMaterials.SILVER_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.SILVER_TOOL_MATERIAL,
+                    3.0F, -2.4F
+                )
+            ),
+            AbilityImpls.UNDEAD_DAMAGE_BONUS
+        )
+    );
+    public static final RegistrySupplier<Item> SILVER_SHOVEL = register(
+        "silver_shovel",
+        () -> new ActivePostHitShovelItem(
+            IafToolMaterials.SILVER_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.SILVER_TOOL_MATERIAL,
+                    1.5F, -3.0F
+                )
+            ),
+            AbilityImpls.UNDEAD_DAMAGE_BONUS
+        )
+    );
+    public static final RegistrySupplier<Item> SILVER_PICKAXE = register(
+        "silver_pickaxe",
+        () -> new ActivePostHitPickaxeItem(
+            IafToolMaterials.SILVER_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.SILVER_TOOL_MATERIAL,
+                    1.0F, -2.8F
+                )
+            ),
+            AbilityImpls.UNDEAD_DAMAGE_BONUS
+        )
+    );
+    public static final RegistrySupplier<Item> SILVER_AXE = register(
+        "silver_axe",
+        () -> new ActivePostHitAxeItem(
+            IafToolMaterials.SILVER_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.SILVER_TOOL_MATERIAL,
+                    6.0F, -3.0F
+                )
+            ),
+            AbilityImpls.UNDEAD_DAMAGE_BONUS
+        )
+    );
+    public static final RegistrySupplier<Item> SILVER_HOE = register(
+        "silver_hoe",
+        () -> new ActivePostHitHoeItem(
+            IafToolMaterials.SILVER_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.SILVER_TOOL_MATERIAL,
+                    0.0F, -3.0F
+                )
+            ),
+            AbilityImpls.UNDEAD_DAMAGE_BONUS
+        )
+    );
     public static final RegistrySupplier<Item> COPPER_HELMET = register("armor_copper_metal_helmet", () -> new ArmorItem(IafArmorMaterials.COPPER_ARMOR_MATERIAL, ArmorItem.Type.HELMET, new Item.Settings().maxDamage(111)));
     public static final RegistrySupplier<Item> COPPER_CHESTPLATE = register("armor_copper_metal_chestplate", () -> new ArmorItem(IafArmorMaterials.COPPER_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxDamage(161)));
     public static final RegistrySupplier<Item> COPPER_LEGGINGS = register("armor_copper_metal_leggings", () -> new ArmorItem(IafArmorMaterials.COPPER_ARMOR_MATERIAL, ArmorItem.Type.LEGGINGS, new Item.Settings().maxDamage(151)));
@@ -266,7 +331,7 @@ public final class IafItems {
                     3.0F, -2.4F
                 )
             ),
-            AbilityImpls.dragonsteelFire
+            AbilityImpls.IGNITE_TARGET
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_PICKAXE = register(
@@ -280,7 +345,7 @@ public final class IafItems {
                     1.0F, -2.8F
                 )
             ),
-            AbilityImpls.dragonsteelFire
+            AbilityImpls.IGNITE_TARGET
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_AXE = register(
@@ -294,7 +359,7 @@ public final class IafItems {
                     5.0F, -3.0F
                 )
             ),
-            AbilityImpls.dragonsteelFire
+            AbilityImpls.IGNITE_TARGET
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_SHOVEL = register(
@@ -308,7 +373,7 @@ public final class IafItems {
                     1.5F, -3.0F
                 )
             ),
-            AbilityImpls.dragonsteelFire
+            AbilityImpls.IGNITE_TARGET
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_HOE = register(
@@ -322,7 +387,7 @@ public final class IafItems {
                     -4.0F, 0.0F
                 )
             ),
-            AbilityImpls.dragonsteelFire
+            AbilityImpls.IGNITE_TARGET
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_HELMET = register("dragonsteel_fire_helmet", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_FIRE_ARMOR_MATERIAL, ArmorItem.Type.HELMET));
@@ -341,7 +406,7 @@ public final class IafItems {
                     3.0F, -2.4F
                 )
             ),
-            AbilityImpls.dragonsteelIce
+            AbilityImpls.FROZEN_TARGET
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_PICKAXE = register(
@@ -355,7 +420,7 @@ public final class IafItems {
                     1.0F, -2.8F
                 )
             ),
-            AbilityImpls.dragonsteelIce
+            AbilityImpls.FROZEN_TARGET
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_AXE = register(
@@ -369,7 +434,7 @@ public final class IafItems {
                     5.0F, -3.0F
                 )
             ),
-            AbilityImpls.dragonsteelIce
+            AbilityImpls.FROZEN_TARGET
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_SHOVEL = register(
@@ -383,7 +448,7 @@ public final class IafItems {
                     1.5F, -3.0F
                 )
             ),
-            AbilityImpls.dragonsteelIce
+            AbilityImpls.FROZEN_TARGET
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_HOE = register(
@@ -397,7 +462,7 @@ public final class IafItems {
                     -4.0F, 0.0F
                 )
             ),
-            AbilityImpls.dragonsteelIce
+            AbilityImpls.FROZEN_TARGET
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_HELMET = register("dragonsteel_ice_helmet", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_ICE_ARMOR_MATERIAL, ArmorItem.Type.HELMET));
@@ -416,7 +481,7 @@ public final class IafItems {
                     3.0F, -2.4F
                 )
             ),
-            AbilityImpls.dragonsteelLightning
+            AbilityImpls.SUMMON_LIGHTNING
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_PICKAXE = register(
@@ -430,7 +495,7 @@ public final class IafItems {
                     1.0F, -2.8F
                 )
             ),
-            AbilityImpls.dragonsteelLightning
+            AbilityImpls.SUMMON_LIGHTNING
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_AXE = register(
@@ -444,7 +509,7 @@ public final class IafItems {
                     5.0F, -3.0F
                 )
             ),
-            AbilityImpls.dragonsteelLightning
+            AbilityImpls.SUMMON_LIGHTNING
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_SHOVEL = register(
@@ -458,7 +523,7 @@ public final class IafItems {
                     1.5F, -3.0F
                 )
             ),
-            AbilityImpls.dragonsteelLightning
+            AbilityImpls.SUMMON_LIGHTNING
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_HOE = register(
@@ -472,7 +537,7 @@ public final class IafItems {
                     -4.0F, 0.0F
                 )
             ),
-            AbilityImpls.dragonsteelLightning
+            AbilityImpls.SUMMON_LIGHTNING
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_HELMET = register("dragonsteel_lightning_helmet", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_LIGHTNING_ARMOR_MATERIAL, ArmorItem.Type.HELMET));

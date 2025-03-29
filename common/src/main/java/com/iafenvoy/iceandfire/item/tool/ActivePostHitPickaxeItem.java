@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.item.tool;
 
-import com.iafenvoy.iceandfire.item.ability.impl.AbilityImpl;
+import com.iafenvoy.iceandfire.item.ability.PostHitAbility;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,8 +12,8 @@ import net.minecraft.text.Text;
 import java.util.List;
 
 public class ActivePostHitPickaxeItem extends PickaxeItem {
-    private final AbilityImpl ability;
-    public ActivePostHitPickaxeItem(ToolMaterial material, Settings settings, AbilityImpl ability) {
+    private final PostHitAbility ability;
+    public ActivePostHitPickaxeItem(ToolMaterial material, Settings settings, PostHitAbility ability) {
         super(material, settings);
         this.ability = ability;
     }

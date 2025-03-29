@@ -1,16 +1,8 @@
 package com.iafenvoy.iceandfire.item.tool;
 
-import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.data.component.IafEntityData;
 import com.iafenvoy.iceandfire.entity.EntityDeathWorm;
-import com.iafenvoy.iceandfire.event.ServerEvents;
 import com.iafenvoy.iceandfire.registry.IafToolMaterials;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.text.Text;
@@ -45,9 +37,6 @@ public interface DragonSteelOverrides<T extends ToolItem> {
     }
 
     default void hurtEnemy(T item, ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (item.getMaterial() == IafToolMaterials.SILVER_TOOL_MATERIAL)
-            if (target.getType().isIn(EntityTypeTags.UNDEAD))
-                target.damage(attacker.getWorld().getDamageSources().magic(), this.getAttackDamage(item) + 3.0F);
 
         if (item.getMaterial() == IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL) {
             if (target.getType().isIn(EntityTypeTags.ARTHROPOD))
