@@ -9,7 +9,7 @@ import net.minecraft.text.Text;
 
 import java.util.List;
 
-public class ItemModShovel extends ShovelItem implements DragonSteelOverrides<ItemModShovel> {
+public class ItemModShovel extends ShovelItem {
     public ItemModShovel(ToolMaterial toolmaterial) {
         super(toolmaterial, new Settings());
     }
@@ -25,16 +25,4 @@ public class ItemModShovel extends ShovelItem implements DragonSteelOverrides<It
         return this.getMaterial().getDurability();
     }
 
-
-    @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        this.hurtEnemy(this, stack, target, attacker);
-        return super.postHit(stack, target, attacker);
-    }
-
-    @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        super.appendTooltip(stack, context, tooltip, type);
-        this.appendHoverText(this.getMaterial(), tooltip);
-    }
 }

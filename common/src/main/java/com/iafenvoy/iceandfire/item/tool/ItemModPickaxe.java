@@ -9,7 +9,7 @@ import net.minecraft.text.Text;
 
 import java.util.List;
 
-public class ItemModPickaxe extends PickaxeItem implements DragonSteelOverrides<ItemModPickaxe> {
+public class ItemModPickaxe extends PickaxeItem {
     public ItemModPickaxe(ToolMaterial toolmaterial) {
         super(toolmaterial, new Settings());
     }
@@ -23,17 +23,5 @@ public class ItemModPickaxe extends PickaxeItem implements DragonSteelOverrides<
     @Override
     public int getMaxUseTime(ItemStack stack, LivingEntity user) {
         return this.getMaterial().getDurability();
-    }
-
-    @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        this.hurtEnemy(this, stack, target, attacker);
-        return super.postHit(stack, target, attacker);
-    }
-
-    @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        super.appendTooltip(stack, context, tooltip, type);
-        this.appendHoverText(this.getMaterial(), tooltip);
     }
 }

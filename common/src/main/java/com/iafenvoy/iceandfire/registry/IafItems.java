@@ -286,18 +286,174 @@ public final class IafItems {
     public static final RegistrySupplier<Item> MYRMEX_DESERT_CHITIN = register("myrmex_desert_chitin", ItemGeneric::new);
     public static final RegistrySupplier<Item> MYRMEX_JUNGLE_CHITIN = register("myrmex_jungle_chitin", ItemGeneric::new);
     public static final RegistrySupplier<Item> MYRMEX_STINGER = register("myrmex_stinger", ItemGeneric::new);
-    public static final RegistrySupplier<Item> MYRMEX_DESERT_SWORD = register("myrmex_desert_sword", () -> new ItemModSword(IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> MYRMEX_DESERT_SWORD_VENOM = register("myrmex_desert_sword_venom", () -> new ItemModSword(IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> MYRMEX_DESERT_SHOVEL = register("myrmex_desert_shovel", () -> new ItemModShovel(IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> MYRMEX_DESERT_PICKAXE = register("myrmex_desert_pickaxe", () -> new ItemModPickaxe(IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> MYRMEX_DESERT_AXE = register("myrmex_desert_axe", () -> new ItemModAxe(IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> MYRMEX_DESERT_HOE = register("myrmex_desert_hoe", () -> new ItemModHoe(IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> MYRMEX_JUNGLE_SWORD = register("myrmex_jungle_sword", () -> new ItemModSword(IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> MYRMEX_JUNGLE_SWORD_VENOM = register("myrmex_jungle_sword_venom", () -> new ItemModSword(IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> MYRMEX_JUNGLE_SHOVEL = register("myrmex_jungle_shovel", () -> new ItemModShovel(IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> MYRMEX_JUNGLE_PICKAXE = register("myrmex_jungle_pickaxe", () -> new ItemModPickaxe(IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> MYRMEX_JUNGLE_AXE = register("myrmex_jungle_axe", () -> new ItemModAxe(IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> MYRMEX_JUNGLE_HOE = register("myrmex_jungle_hoe", () -> new ItemModHoe(IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL));
+    public static final RegistrySupplier<Item> MYRMEX_DESERT_SWORD = register(
+        "myrmex_desert_sword",
+        () -> new ActivePostHitSwordItem(
+            IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+                    3.0F, -2.4F
+                )
+            ),
+            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+        )
+    );
+    public static final RegistrySupplier<Item> MYRMEX_DESERT_SWORD_VENOM = register(
+        "myrmex_desert_sword_venom",
+        () -> new ActivePostHitSwordItem(
+            IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+                    3.0F, -2.4F
+                )
+            ),
+            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+        )
+    );
+    public static final RegistrySupplier<Item> MYRMEX_DESERT_SHOVEL = register(
+        "myrmex_desert_shovel",
+        () -> new ActivePostHitShovelItem(
+            IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+                    1.5F, -3.0F
+                )
+            ),
+            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+        )
+    );
+    public static final RegistrySupplier<Item> MYRMEX_DESERT_PICKAXE = register(
+        "myrmex_desert_pickaxe",
+        () -> new ActivePostHitPickaxeItem(
+            IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+                    1.0F, -2.8F
+                )
+            ),
+            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+        )
+    );
+    public static final RegistrySupplier<Item> MYRMEX_DESERT_AXE = register(
+        "myrmex_desert_axe",
+        () -> new ActivePostHitAxeItem(
+            IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+                    5.0F, -3.0F
+                )
+            ),
+            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+        )
+    );
+    public static final RegistrySupplier<Item> MYRMEX_DESERT_HOE = register(
+        "myrmex_desert_hoe",
+        () -> new ActivePostHitHoeItem(
+            IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+                    -1.0F, -3.0F
+                )
+            ),
+            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+        )
+    );
+    public static final RegistrySupplier<Item> MYRMEX_JUNGLE_SWORD = register(
+        "myrmex_jungle_sword",
+        () -> new ActivePostHitSwordItem(
+            IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+                    3.0F, -2.4F
+                )
+            ),
+            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+        )
+    );
+    public static final RegistrySupplier<Item> MYRMEX_JUNGLE_SWORD_VENOM = register(
+        "myrmex_jungle_sword_venom",
+        () -> new ActivePostHitSwordItem(
+            IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+                    3.0F, -2.4F
+                )
+            ),
+            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+        )
+    );
+    public static final RegistrySupplier<Item> MYRMEX_JUNGLE_SHOVEL = register(
+        "myrmex_jungle_shovel",
+        () -> new ActivePostHitShovelItem(
+            IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+                    1.5F, -3.0F
+                )
+            ),
+            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+        )
+    );
+    public static final RegistrySupplier<Item> MYRMEX_JUNGLE_PICKAXE = register(
+        "myrmex_jungle_pickaxe",
+        () -> new ActivePostHitPickaxeItem(
+            IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+                    1.0F, -2.8F
+                )
+            ),
+            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+        )
+    );
+    public static final RegistrySupplier<Item> MYRMEX_JUNGLE_AXE = register(
+        "myrmex_jungle_axe",
+        () -> new ActivePostHitAxeItem(
+            IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+                    5.0F, -3.0F
+                )
+            ),
+            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+        )
+    );
+    public static final RegistrySupplier<Item> MYRMEX_JUNGLE_HOE = register(
+        "myrmex_jungle_hoe",
+        () -> new ActivePostHitHoeItem(
+            IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.MYRMEX_CHITIN_TOOL_MATERIAL,
+                    -1.0F, -3.0F
+                )
+            ),
+            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+        )
+    );
     public static final RegistrySupplier<Item> MYRMEX_DESERT_STAFF = register("myrmex_desert_staff", () -> new ItemMyrmexStaff(false));
     public static final RegistrySupplier<Item> MYRMEX_JUNGLE_STAFF = register("myrmex_jungle_staff", () -> new ItemMyrmexStaff(true));
     public static final RegistrySupplier<Item> MYRMEX_DESERT_HELMET = register("myrmex_desert_helmet", () -> new ItemModArmor(IafArmorMaterials.MYRMEX_DESERT_ARMOR_MATERIAL, ArmorItem.Type.HELMET, 220));
