@@ -24,9 +24,7 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.BannerPatternItem;
-import net.minecraft.item.Item;
+import net.minecraft.item.*;
 import net.minecraft.registry.RegistryKeys;
 
 import java.util.function.Supplier;
@@ -122,11 +120,71 @@ public final class IafItems {
     public static final RegistrySupplier<Item> COPPER_CHESTPLATE = register("armor_copper_metal_chestplate", () -> new ArmorItem(IafArmorMaterials.COPPER_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxDamage(161)));
     public static final RegistrySupplier<Item> COPPER_LEGGINGS = register("armor_copper_metal_leggings", () -> new ArmorItem(IafArmorMaterials.COPPER_ARMOR_MATERIAL, ArmorItem.Type.LEGGINGS, new Item.Settings().maxDamage(151)));
     public static final RegistrySupplier<Item> COPPER_BOOTS = register("armor_copper_metal_boots", () -> new ArmorItem(IafArmorMaterials.COPPER_ARMOR_MATERIAL, ArmorItem.Type.BOOTS, new Item.Settings().maxDamage(131)));
-    public static final RegistrySupplier<Item> COPPER_SWORD = register("copper_sword", () -> new ItemModSword(IafToolMaterials.COPPER_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> COPPER_SHOVEL = register("copper_shovel", () -> new ItemModShovel(IafToolMaterials.COPPER_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> COPPER_PICKAXE = register("copper_pickaxe", () -> new ItemModPickaxe(IafToolMaterials.COPPER_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> COPPER_AXE = register("copper_axe", () -> new ItemModAxe(IafToolMaterials.COPPER_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> COPPER_HOE = register("copper_hoe", () -> new ItemModHoe(IafToolMaterials.COPPER_TOOL_MATERIAL));
+    public static final RegistrySupplier<Item> COPPER_SWORD = register(
+        "copper_sword",
+        () -> new SwordItem(
+            IafToolMaterials.COPPER_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.COPPER_TOOL_MATERIAL,
+                    3.0F, -2.4F
+                )
+            )
+        )
+    );
+    public static final RegistrySupplier<Item> COPPER_SHOVEL = register(
+        "copper_shovel",
+        () -> new ShovelItem(
+            IafToolMaterials.COPPER_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.COPPER_TOOL_MATERIAL,
+                    1.5F, -2.4F
+                )
+            )
+        )
+    );
+    public static final RegistrySupplier<Item> COPPER_PICKAXE = register(
+        "copper_pickaxe",
+        () -> new PickaxeItem(
+            IafToolMaterials.COPPER_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.COPPER_TOOL_MATERIAL,
+                    1.0F, -2.8F
+                )
+            )
+        )
+    );
+    public static final RegistrySupplier<Item> COPPER_AXE = register(
+        "copper_axe",
+        () -> new AxeItem(
+            IafToolMaterials.COPPER_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.COPPER_TOOL_MATERIAL,
+                    6.0F, -3.0F
+                )
+            )
+        )
+    );
+    public static final RegistrySupplier<Item> COPPER_HOE = register(
+        "copper_hoe",
+        () -> new HoeItem(
+            IafToolMaterials.COPPER_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.COPPER_TOOL_MATERIAL,
+                    0.0F, -1.0F
+                )
+            )
+        )
+    );
     public static final RegistrySupplier<Item> FIRE_STEW = register("fire_stew", ItemGeneric::new);
     public static final RegistrySupplier<Item> FROST_STEW = register("frost_stew", ItemGeneric::new);
     public static final RegistrySupplier<Item> LIGHTNING_STEW = register("lightning_stew", ItemGeneric::new);
@@ -158,11 +216,71 @@ public final class IafItems {
     public static final RegistrySupplier<Item> WITHERBONE = register("witherbone", ItemGeneric::new);
     public static final RegistrySupplier<Item> FISHING_SPEAR = register("fishing_spear", () -> new Item(new Item.Settings().maxDamage(64)));
     public static final RegistrySupplier<Item> WITHER_SHARD = register("wither_shard", ItemGeneric::new);
-    public static final RegistrySupplier<Item> DRAGONBONE_SWORD = register("dragonbone_sword", () -> new ItemModSword(IafToolMaterials.DRAGONBONE_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> DRAGONBONE_SHOVEL = register("dragonbone_shovel", () -> new ItemModShovel(IafToolMaterials.DRAGONBONE_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> DRAGONBONE_PICKAXE = register("dragonbone_pickaxe", () -> new ItemModPickaxe(IafToolMaterials.DRAGONBONE_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> DRAGONBONE_AXE = register("dragonbone_axe", () -> new ItemModAxe(IafToolMaterials.DRAGONBONE_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> DRAGONBONE_HOE = register("dragonbone_hoe", () -> new ItemModHoe(IafToolMaterials.DRAGONBONE_TOOL_MATERIAL));
+    public static final RegistrySupplier<Item> DRAGONBONE_SWORD = register(
+        "dragonbone_sword",
+        () -> new SwordItem(
+            IafToolMaterials.DRAGONBONE_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONBONE_TOOL_MATERIAL,
+                    3.0F, -2.4F
+                )
+            )
+        )
+    );
+    public static final RegistrySupplier<Item> DRAGONBONE_SHOVEL = register(
+        "dragonbone_shovel",
+        () -> new ShovelItem(
+            IafToolMaterials.DRAGONBONE_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONBONE_TOOL_MATERIAL,
+                    1.5F, -2.8F
+                )
+            )
+        )
+    );
+    public static final RegistrySupplier<Item> DRAGONBONE_PICKAXE = register(
+        "dragonbone_pickaxe",
+        () -> new PickaxeItem(
+            IafToolMaterials.DRAGONBONE_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONBONE_TOOL_MATERIAL,
+                    1.0F, -2.8F
+                )
+            )
+        )
+    );
+    public static final RegistrySupplier<Item> DRAGONBONE_AXE = register(
+        "dragonbone_axe",
+        () -> new AxeItem(
+            IafToolMaterials.DRAGONBONE_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONBONE_TOOL_MATERIAL,
+                    5.0F, -3.0F
+                )
+            )
+        )
+    );
+    public static final RegistrySupplier<Item> DRAGONBONE_HOE = register(
+        "dragonbone_hoe",
+        () -> new HoeItem(
+            IafToolMaterials.DRAGONBONE_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DRAGONBONE_TOOL_MATERIAL,
+                    -4.0F, 0.0F
+                )
+            )
+        )
+    );
     public static final RegistrySupplier<Item> DRAGONBONE_SWORD_FIRE = register("dragonbone_sword_fire", () -> new ItemAlchemySword(IafToolMaterials.FIRE_DRAGONBONE_TOOL_MATERIAL));
     public static final RegistrySupplier<Item> DRAGONBONE_SWORD_ICE = register("dragonbone_sword_ice", () -> new ItemAlchemySword(IafToolMaterials.ICE_DRAGONBONE_TOOL_MATERIAL));
     public static final RegistrySupplier<Item> DRAGONBONE_SWORD_LIGHTNING = register("dragonbone_sword_lightning", () -> new ItemAlchemySword(IafToolMaterials.LIGHTNING_DRAGONBONE_TOOL_MATERIAL));
@@ -702,10 +820,46 @@ public final class IafItems {
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_BOOTS = register("dragonsteel_lightning_boots", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_LIGHTNING_ARMOR_MATERIAL, ArmorItem.Type.BOOTS));
     public static final RegistrySupplier<Item> WEEZER_BLUE_ALBUM = register("weezer_blue_album", () -> new ItemGeneric(1, true));
     public static final RegistrySupplier<Item> DRAGON_DEBUG_STICK = register("dragon_debug_stick", () -> new ItemGeneric(1, true), false);
-    public static final RegistrySupplier<Item> DREAD_SWORD = register("dread_sword", () -> new ItemModSword(IafToolMaterials.DREAD_SWORD_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> DREAD_KNIGHT_SWORD = register("dread_knight_sword", () -> new ItemModSword(IafToolMaterials.DREAD_KNIGHT_TOOL_MATERIAL));
+    public static final RegistrySupplier<Item> DREAD_SWORD = register(
+        "dread_sword",
+        () -> new SwordItem(
+            IafToolMaterials.DREAD_SWORD_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DREAD_SWORD_TOOL_MATERIAL,
+                    3.0F, -2.4F
+                )
+            )
+        )
+    );
+    public static final RegistrySupplier<Item> DREAD_KNIGHT_SWORD = register(
+        "dread_knight_sword",
+        () -> new SwordItem(
+            IafToolMaterials.DREAD_KNIGHT_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DREAD_KNIGHT_TOOL_MATERIAL,
+                    3.0F, -2.4F
+                )
+            )
+        )
+    );
     public static final RegistrySupplier<Item> LICH_STAFF = register("lich_staff", ItemLichStaff::new);
-    public static final RegistrySupplier<Item> DREAD_QUEEN_SWORD = register("dread_queen_sword", () -> new ItemModSword(IafToolMaterials.DREAD_QUEEN));
+    public static final RegistrySupplier<Item> DREAD_QUEEN_SWORD = register(
+        "dread_queen_sword",
+        () -> new SwordItem(
+            IafToolMaterials.DREAD_QUEEN,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.DREAD_QUEEN,
+                    3.0F, -2.4F
+                )
+            )
+        )
+    );
     public static final RegistrySupplier<Item> DREAD_QUEEN_STAFF = register("dread_queen_staff", ItemDreadQueenStaff::new);
     public static final RegistrySupplier<Item> DREAD_SHARD = register("dread_shard", () -> new ItemGeneric(0));
     public static final RegistrySupplier<Item> DREAD_KEY = register("dread_key", () -> new ItemGeneric(0));
