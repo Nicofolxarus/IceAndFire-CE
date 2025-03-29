@@ -19,7 +19,6 @@ public class ItemModSword extends SwordItem implements DragonSteelOverrides<Item
     public int getMaxUseTime(ItemStack stack, LivingEntity user) {
         return this.getMaterial().getDurability();
     }
-
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         this.hurtEnemy(this, stack, target, attacker);

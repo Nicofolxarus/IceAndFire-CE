@@ -15,6 +15,7 @@ import com.iafenvoy.iceandfire.item.food.ItemCannoli;
 import com.iafenvoy.iceandfire.item.food.ItemDragonFlesh;
 import com.iafenvoy.iceandfire.item.food.ItemPixieDust;
 import com.iafenvoy.iceandfire.item.tool.*;
+import com.iafenvoy.iceandfire.item.tool.dragonsteel.*;
 import com.iafenvoy.iceandfire.registry.tag.BannerPatternTags;
 import dev.architectury.core.item.ArchitecturySpawnEggItem;
 import dev.architectury.registry.registries.DeferredRegister;
@@ -25,6 +26,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.BannerPatternItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.SwordItem;
 import net.minecraft.registry.RegistryKeys;
 
 import java.util.function.Supplier;
@@ -251,31 +253,75 @@ public final class IafItems {
     public static final RegistrySupplier<Item> CHAIN = register("chain", () -> new ItemChain(false));
     public static final RegistrySupplier<Item> CHAIN_STICKY = register("chain_sticky", () -> new ItemChain(true));
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_INGOT = register("dragonsteel_fire_ingot", ItemGeneric::new);
-    public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_SWORD = register("dragonsteel_fire_sword", () -> new ItemModSword(IafToolMaterials.DRAGON_STEEL_FIRE));
-    public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_PICKAXE = register("dragonsteel_fire_pickaxe", () -> new ItemModPickaxe(IafToolMaterials.DRAGON_STEEL_FIRE));
-    public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_AXE = register("dragonsteel_fire_axe", () -> new ItemModAxe(IafToolMaterials.DRAGON_STEEL_FIRE));
-    public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_SHOVEL = register("dragonsteel_fire_shovel", () -> new ItemModShovel(IafToolMaterials.DRAGON_STEEL_FIRE));
-    public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_HOE = register("dragonsteel_fire_hoe", () -> new ItemModHoe(IafToolMaterials.DRAGON_STEEL_FIRE));
+    public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_SWORD = register(
+        "dragonsteel_fire_sword",
+        ItemDragonsteelFireSword::new
+    );
+    public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_PICKAXE = register(
+        "dragonsteel_fire_pickaxe",
+        ItemDragonsteelFirePickaxe::new
+    );
+    public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_AXE = register(
+        "dragonsteel_fire_axe",
+        ItemDragonsteelFireAxe::new
+    );
+    public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_SHOVEL = register(
+        "dragonsteel_fire_shovel",
+        ItemDragonsteelFireShovel::new
+    );
+    public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_HOE = register(
+        "dragonsteel_fire_hoe",
+        ItemDragonsteelFireHoe::new
+    );
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_HELMET = register("dragonsteel_fire_helmet", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_FIRE_ARMOR_MATERIAL, ArmorItem.Type.HELMET));
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_CHESTPLATE = register("dragonsteel_fire_chestplate", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_FIRE_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE));
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_LEGGINGS = register("dragonsteel_fire_leggings", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_FIRE_ARMOR_MATERIAL, ArmorItem.Type.LEGGINGS));
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_BOOTS = register("dragonsteel_fire_boots", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_FIRE_ARMOR_MATERIAL, ArmorItem.Type.BOOTS));
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_INGOT = register("dragonsteel_ice_ingot", ItemGeneric::new);
-    public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_SWORD = register("dragonsteel_ice_sword", () -> new ItemModSword(IafToolMaterials.DRAGON_STEEL_ICE));
-    public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_PICKAXE = register("dragonsteel_ice_pickaxe", () -> new ItemModPickaxe(IafToolMaterials.DRAGON_STEEL_ICE));
-    public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_AXE = register("dragonsteel_ice_axe", () -> new ItemModAxe(IafToolMaterials.DRAGON_STEEL_ICE));
-    public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_SHOVEL = register("dragonsteel_ice_shovel", () -> new ItemModShovel(IafToolMaterials.DRAGON_STEEL_ICE));
-    public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_HOE = register("dragonsteel_ice_hoe", () -> new ItemModHoe(IafToolMaterials.DRAGON_STEEL_ICE));
+    public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_SWORD = register(
+        "dragonsteel_ice_sword",
+        ItemDragonsteelIceSword::new
+    );
+    public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_PICKAXE = register(
+        "dragonsteel_ice_pickaxe",
+        ItemDragonsteelIcePickaxe::new
+    );
+    public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_AXE = register(
+        "dragonsteel_ice_axe",
+        ItemDragonsteelIceAxe::new
+    );
+    public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_SHOVEL = register(
+        "dragonsteel_ice_shovel",
+        ItemDragonsteelIceShovel::new
+    );
+    public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_HOE = register(
+        "dragonsteel_ice_hoe",
+        ItemDragonsteelIceHoe::new
+    );
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_HELMET = register("dragonsteel_ice_helmet", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_ICE_ARMOR_MATERIAL, ArmorItem.Type.HELMET));
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_CHESTPLATE = register("dragonsteel_ice_chestplate", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_ICE_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE));
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_LEGGINGS = register("dragonsteel_ice_leggings", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_ICE_ARMOR_MATERIAL, ArmorItem.Type.LEGGINGS));
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_BOOTS = register("dragonsteel_ice_boots", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_ICE_ARMOR_MATERIAL, ArmorItem.Type.BOOTS));
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_INGOT = register("dragonsteel_lightning_ingot", ItemGeneric::new);
-    public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_SWORD = register("dragonsteel_lightning_sword", () -> new ItemModSword(IafToolMaterials.DRAGON_STEEL_LIGHTNING));
-    public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_PICKAXE = register("dragonsteel_lightning_pickaxe", () -> new ItemModPickaxe(IafToolMaterials.DRAGON_STEEL_LIGHTNING));
-    public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_AXE = register("dragonsteel_lightning_axe", () -> new ItemModAxe(IafToolMaterials.DRAGON_STEEL_LIGHTNING));
-    public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_SHOVEL = register("dragonsteel_lightning_shovel", () -> new ItemModShovel(IafToolMaterials.DRAGON_STEEL_LIGHTNING));
-    public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_HOE = register("dragonsteel_lightning_hoe", () -> new ItemModHoe(IafToolMaterials.DRAGON_STEEL_LIGHTNING));
+    public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_SWORD = register(
+        "dragonsteel_lightning_sword",
+        ItemDragonsteelLightningSword::new
+    );
+    public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_PICKAXE = register(
+        "dragonsteel_lightning_pickaxe",
+        ItemDragonsteelLightningPickaxe::new);
+    public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_AXE = register(
+        "dragonsteel_lightning_axe",
+        ItemDragonsteelLightningAxe::new
+    );
+    public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_SHOVEL = register(
+        "dragonsteel_lightning_shovel",
+        ItemDragonsteelLightningShovel::new
+    );
+    public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_HOE = register(
+        "dragonsteel_lightning_hoe",
+        ItemDragonsteelLightningHoe::new
+    );
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_HELMET = register("dragonsteel_lightning_helmet", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_LIGHTNING_ARMOR_MATERIAL, ArmorItem.Type.HELMET));
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_CHESTPLATE = register("dragonsteel_lightning_chestplate", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_LIGHTNING_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE));
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_LEGGINGS = register("dragonsteel_lightning_leggings", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_LIGHTNING_ARMOR_MATERIAL, ArmorItem.Type.LEGGINGS));
