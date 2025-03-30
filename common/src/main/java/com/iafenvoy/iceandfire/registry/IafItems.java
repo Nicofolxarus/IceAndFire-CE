@@ -719,7 +719,7 @@ public final class IafItems {
                     3.0F, -2.4F
                 )
             ),
-            AbilityImpls.FROZEN_TARGET
+            AbilityImpls.DRAGONSTEEL_ICE_TOOL
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_PICKAXE = register(
@@ -733,7 +733,7 @@ public final class IafItems {
                     1.0F, -2.8F
                 )
             ),
-            AbilityImpls.FROZEN_TARGET
+            AbilityImpls.DRAGONSTEEL_ICE_TOOL
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_AXE = register(
@@ -747,7 +747,7 @@ public final class IafItems {
                     5.0F, -3.0F
                 )
             ),
-            AbilityImpls.FROZEN_TARGET
+            AbilityImpls.DRAGONSTEEL_ICE_TOOL
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_SHOVEL = register(
@@ -761,7 +761,7 @@ public final class IafItems {
                     1.5F, -3.0F
                 )
             ),
-            AbilityImpls.FROZEN_TARGET
+            AbilityImpls.DRAGONSTEEL_ICE_TOOL
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_HOE = register(
@@ -775,7 +775,7 @@ public final class IafItems {
                     -4.0F, 0.0F
                 )
             ),
-            AbilityImpls.FROZEN_TARGET
+            AbilityImpls.DRAGONSTEEL_ICE_TOOL
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_ICE_HELMET = register("dragonsteel_ice_helmet", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_ICE_ARMOR_MATERIAL, ArmorItem.Type.HELMET));
@@ -794,7 +794,7 @@ public final class IafItems {
                     3.0F, -2.4F
                 )
             ),
-            AbilityImpls.SUMMON_LIGHTNING
+            AbilityImpls.DRAGONSTEEL_LIGHTNING_TOOL
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_PICKAXE = register(
@@ -808,7 +808,7 @@ public final class IafItems {
                     1.0F, -2.8F
                 )
             ),
-            AbilityImpls.SUMMON_LIGHTNING
+            AbilityImpls.DRAGONSTEEL_LIGHTNING_TOOL
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_AXE = register(
@@ -822,7 +822,7 @@ public final class IafItems {
                     5.0F, -3.0F
                 )
             ),
-            AbilityImpls.SUMMON_LIGHTNING
+            AbilityImpls.DRAGONSTEEL_LIGHTNING_TOOL
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_SHOVEL = register(
@@ -836,7 +836,7 @@ public final class IafItems {
                     1.5F, -3.0F
                 )
             ),
-            AbilityImpls.SUMMON_LIGHTNING
+            AbilityImpls.DRAGONSTEEL_LIGHTNING_TOOL
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_HOE = register(
@@ -850,7 +850,7 @@ public final class IafItems {
                     -4.0F, 0.0F
                 )
             ),
-            AbilityImpls.SUMMON_LIGHTNING
+            AbilityImpls.DRAGONSTEEL_LIGHTNING_TOOL
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_LIGHTNING_HELMET = register("dragonsteel_lightning_helmet", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_LIGHTNING_ARMOR_MATERIAL, ArmorItem.Type.HELMET));

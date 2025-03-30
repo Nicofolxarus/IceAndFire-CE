@@ -21,11 +21,6 @@ public record DamageBonusAbilityImpl(float bonus, TagKey<EntityType<?>> targetTy
     }
 
     @Override
-    public boolean isEnable() {
-        return true;
-    }
-
-    @Override
     public void addDescription(List<Text> tooltip) {
         if (this.tooltip != null) {
             tooltip.add(this.tooltip);

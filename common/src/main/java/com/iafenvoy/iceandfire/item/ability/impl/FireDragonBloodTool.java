@@ -12,18 +12,19 @@ import java.util.List;
 
 public class FireDragonBloodTool implements PostHitAbility {
     private final DamageBonusAbility damageBonus = new DamageBonusAbilityImpl(8.0F, IafEntityTags.FIRE_DRAGON, null);
+    private final PostHitAbility ignite = new IgniteTargetAbilityImpl(IafCommonConfig.INSTANCE.tools.dragonBloodFireDuration.getValue());
     @Override
     public void active(LivingEntity target, LivingEntity attacker) {
         damageBonus.active(target, attacker);
         if (isEnable()) {
-            AbilityImpls.IGNITE_TARGET.active(target, attacker);
+            ignite.active(target, attacker);
             AbilityImpls.TAKE_KNOCKBACK.active(target, attacker);
         }
     }
 
     @Override
     public boolean isEnable() {
-        return IafCommonConfig.INSTANCE.armors.dragonFireAbility.getValue();
+        return IafCommonConfig.INSTANCE.tools.dragonFireAbility.getValue();
     }
 
     @Override

@@ -32,7 +32,9 @@ public abstract class LivingEntityMixin {
         Item item = stack.getItem();
         LivingEntity self = (LivingEntity) (Object) this;
         if (stack.isIn(IafItemTags.SUMMON_GHOST_SWORD)) {
-            AbilityImpls.SUMMON_GHOST_SWORD.active(self);
+            if (AbilityImpls.SUMMON_GHOST_SWORD.isEnable()) {
+                AbilityImpls.SUMMON_GHOST_SWORD.active(self);
+            }
         }
     }
 }

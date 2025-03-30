@@ -8,25 +8,24 @@ import net.minecraft.util.Formatting;
 
 import java.util.List;
 
-public class DragonsteelFireTool implements PostHitAbility {
-    private final PostHitAbility ignite = new IgniteTargetAbilityImpl(IafCommonConfig.INSTANCE.tools.dragonsteelFireDuration.getValue());
+public class DragonsteelIceTool implements PostHitAbility {
+    private final PostHitAbility frozen = new FrozenTargetAbilityImpl(IafCommonConfig.INSTANCE.tools.dragonsteelFrozenDuration.getValue());
     @Override
     public void active(LivingEntity target, LivingEntity attacker) {
         if (isEnable()) {
-            ignite.active(target, attacker);
-            AbilityImpls.TAKE_KNOCKBACK.active(target, attacker);
+            frozen.active(target, attacker);
         }
     }
 
     @Override
     public boolean isEnable() {
-        return IafCommonConfig.INSTANCE.tools.dragonFireAbility.getValue();
+        return IafCommonConfig.INSTANCE.tools.dragonIceAbility.getValue();
     }
 
     @Override
     public void addDescription(List<Text> tooltip) {
         if (isEnable()) {
-            tooltip.add(Text.translatable("dragon_sword_fire.hurt2").formatted(Formatting.DARK_RED));
+            tooltip.add(Text.translatable("dragon_sword_ice.hurt2").formatted(Formatting.AQUA));
         }
     }
 }

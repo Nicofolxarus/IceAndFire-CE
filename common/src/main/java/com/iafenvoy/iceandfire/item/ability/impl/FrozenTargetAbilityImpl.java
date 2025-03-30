@@ -2,10 +2,13 @@ package com.iafenvoy.iceandfire.item.ability.impl;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.item.ability.FrozenTargetAbility;
+import net.minecraft.text.Text;
 
-public class FrozenTargetAbilityImpl implements FrozenTargetAbility {
+import java.util.List;
+
+public record FrozenTargetAbilityImpl(int duration) implements FrozenTargetAbility {
     @Override
-    public boolean isEnable() {
-        return IafCommonConfig.INSTANCE.armors.dragonIceAbility.getValue();
+    public int getDuration() {
+        return duration;
     }
 }

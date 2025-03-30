@@ -9,16 +9,18 @@ import net.minecraft.util.Formatting;
 
 public abstract class AbilityImpls {
     public static final PostHitAbility TAKE_KNOCKBACK = new TakeKnockbackAbilityImpl();
-    public static final PostHitAbility IGNITE_TARGET = new IgniteTargetAbilityImpl(15);
-    public static final PostHitAbility FROZEN_TARGET = new FrozenTargetAbilityImpl();
     public static final PostHitAbility SUMMON_LIGHTNING = new SummonLightningAbilityImpl();
     public static final SwingHandAbility SUMMON_GHOST_SWORD = new SummonGhostSwordImpl();
     public static final PostHitAbility UNDEAD_DAMAGE_BONUS = new DamageBonusAbilityImpl(2.0F, EntityTypeTags.UNDEAD, Text.translatable("silvertools.hurt").formatted(Formatting.GREEN));
     public static final PostHitAbility ARTHROPOD_DAMAGE_BONUS = new DamageBonusAbilityImpl(4.0F, EntityTypeTags.ARTHROPOD, null);
     public static final PostHitAbility DEATHWORM_DAMAGE_BONUS = new DamageBonusAbilityImpl(4.0F, IafEntityTags.DEATHWORM, null);
+
     public static final PostHitAbility MYRMEX_TOOL = new MyrmexTool();
     public static final PostHitAbility ICE_DRAGON_BLOOD_TOOL = new IceDragonBloodTool();
     public static final PostHitAbility FIRE_DRAGON_BLOOD_TOOL = new FireDragonBloodTool();
     public static final PostHitAbility DRAGONSTEEL_FIRE_TOOL = new DragonsteelFireTool();
+    public static final PostHitAbility DRAGONSTEEL_ICE_TOOL = new DragonsteelIceTool();
+    public static final PostHitAbility DRAGONSTEEL_LIGHTNING_TOOL = new DragonsteelLightningTool();
     public static final PostHitAbility LIGHTNING_DRAGON_BLOOD_TOOL = new LightningDragonBloodTool();
+
 }

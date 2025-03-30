@@ -38,6 +38,7 @@ public class IafCommonConfig extends AutoInitConfigContainer {
     public HydraConfig hydra = new HydraConfig();
     public HippocampusConfig hippocampus = new HippocampusConfig();
     public GhostConfig ghost = new GhostConfig();
+    public ToolsConfig tools = new ToolsConfig();
     public ArmorsConfig armors = new ArmorsConfig();
     public WorldGenConfig worldGen = new WorldGenConfig();
     public Misc misc = new Misc();
@@ -292,11 +293,39 @@ public class IafCommonConfig extends AutoInitConfigContainer {
         }
     }
 
+    public static class ToolsConfig extends AutoInitConfigCategoryBase {
+        public final IConfigEntry<Boolean> dragonFireAbility = new BooleanEntry(
+            "iceandfire.tools.dragonFireAbility", true
+        );
+        public final IConfigEntry<Boolean> dragonIceAbility = new BooleanEntry(
+            "iceandfire.tools.dragonIceAbility", true
+        );
+        public final IConfigEntry<Boolean> dragonLightningAbility = new BooleanEntry(
+            "iceandfire.tools.dragonLightningAbility", true
+        );
+        public final IConfigEntry<Integer> dragonsteelFireDuration = new IntegerEntry(
+            "iceandfire.tools.dragonsteelFireDuration", 15, 0, Integer.MAX_VALUE
+        );
+        public final IConfigEntry<Integer> dragonBloodFireDuration = new IntegerEntry(
+            "iceandfire.tools.dragonBloodFireDuration", 5, 0, Integer.MAX_VALUE
+        );
+        public final IConfigEntry<Integer> dragonsteelFrozenDuration = new IntegerEntry(
+            "iceandfire.tools.dragonsteelFrozenDuration", 300, 0, Integer.MAX_VALUE
+        );
+        public final IConfigEntry<Integer> dragonBloodFrozenDuration = new IntegerEntry(
+            "iceandfire.tools.dragonBloodFrozenDuration", 100, 0, Integer.MAX_VALUE
+        );
+        public final IConfigEntry<Boolean> phantasmalBladeAbility = new BooleanEntry(
+            "iceandfire.tools.phantasmalBladeAbility", true
+        );
+
+        public ToolsConfig() {
+            super("tools", "iceandfire.category.tools");
+        }
+    }
+
     @SuppressWarnings("unused")
     public static class ArmorsConfig extends AutoInitConfigCategoryBase {
-        public final IConfigEntry<Boolean> dragonFireAbility = new BooleanEntry("iceandfire.armors.dragonFireAbility", true);
-        public final IConfigEntry<Boolean> dragonIceAbility = new BooleanEntry("iceandfire.armors.dragonIceAbility", true);
-        public final IConfigEntry<Boolean> dragonLightningAbility = new BooleanEntry("iceandfire.armors.dragonLightningAbility", true);
         public final IConfigEntry<Double> dragonSteelBaseDamage = new DoubleEntry("iceandfire.armors.dragonSteelBaseDamage", 25, 0, Integer.MAX_VALUE);
 
         public final IConfigEntry<Double> dragonsteelArmorToughness = new DoubleEntry("iceandfire.armors.dragonsteelArmorToughness", 6, 0, Integer.MAX_VALUE);

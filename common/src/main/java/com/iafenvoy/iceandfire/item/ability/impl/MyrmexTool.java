@@ -15,11 +15,6 @@ public class MyrmexTool implements PostHitAbility {
     }
 
     @Override
-    public boolean isEnable() {
-        return true;
-    }
-
-    @Override
     public void addDescription(List<Text> tooltip) {
         tooltip.add(Text.translatable("myrmextools.hurt").formatted(Formatting.GREEN));
     }

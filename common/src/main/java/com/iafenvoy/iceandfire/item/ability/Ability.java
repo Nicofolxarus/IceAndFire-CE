@@ -5,6 +5,8 @@ import net.minecraft.text.Text;
 import java.util.List;
 
 public interface Ability {
-    boolean isEnable();
-    void addDescription(List<Text> tooltip);
+    default boolean isEnable() {
+        return true;
+    };
+    default void addDescription(List<Text> tooltip) {};
 }

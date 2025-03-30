@@ -2,6 +2,7 @@ package com.iafenvoy.iceandfire.item.ability.impl;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.item.ability.DamageBonusAbility;
+import com.iafenvoy.iceandfire.item.ability.FrozenTargetAbility;
 import com.iafenvoy.iceandfire.item.ability.PostHitAbility;
 import com.iafenvoy.iceandfire.registry.tag.IafEntityTags;
 import net.minecraft.entity.LivingEntity;
@@ -12,17 +13,19 @@ import java.util.List;
 
 public class IceDragonBloodTool implements PostHitAbility {
     private final DamageBonusAbility damageBonus = new DamageBonusAbilityImpl(8.0F, IafEntityTags.FIRE_DRAGON, null);
+    private final PostHitAbility frozen = new FrozenTargetAbilityImpl(IafCommonConfig.INSTANCE.tools.dragonBloodFrozenDuration.getValue());
+
     @Override
     public void active(LivingEntity target, LivingEntity attacker) {
         damageBonus.active(target, attacker);
         if (isEnable()) {
-            AbilityImpls.FROZEN_TARGET.active(target, attacker);
+           frozen.active(target, attacker);
         }
     }
 
     @Override
     public boolean isEnable() {
-        return IafCommonConfig.INSTANCE.armors.dragonIceAbility.getValue();
+        return IafCommonConfig.INSTANCE.tools.dragonIceAbility.getValue();
     }
 
     @Override
