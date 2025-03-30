@@ -7,7 +7,7 @@ import net.minecraft.util.Formatting;
 
 import java.util.List;
 
-public class MyrmexToolDamageBonus implements PostHitAbility {
+public class MyrmexTool implements PostHitAbility {
     @Override
     public void active(LivingEntity target, LivingEntity attacker) {
         AbilityImpls.ARTHROPOD_DAMAGE_BONUS.active(target, attacker);

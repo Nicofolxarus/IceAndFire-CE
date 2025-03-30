@@ -281,9 +281,48 @@ public final class IafItems {
             )
         )
     );
-    public static final RegistrySupplier<Item> DRAGONBONE_SWORD_FIRE = register("dragonbone_sword_fire", () -> new ItemAlchemySword(IafToolMaterials.FIRE_DRAGONBONE_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> DRAGONBONE_SWORD_ICE = register("dragonbone_sword_ice", () -> new ItemAlchemySword(IafToolMaterials.ICE_DRAGONBONE_TOOL_MATERIAL));
-    public static final RegistrySupplier<Item> DRAGONBONE_SWORD_LIGHTNING = register("dragonbone_sword_lightning", () -> new ItemAlchemySword(IafToolMaterials.LIGHTNING_DRAGONBONE_TOOL_MATERIAL));
+    public static final RegistrySupplier<Item> DRAGONBONE_SWORD_FIRE = register(
+        "dragonbone_sword_fire",
+        () -> new ActivePostHitSwordItem(
+            IafToolMaterials.FIRE_DRAGONBONE_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.FIRE_DRAGONBONE_TOOL_MATERIAL,
+                    3.0F, -2.4F
+                )
+            ),
+            AbilityImpls.FIRE_DRAGON_BLOOD_TOOL
+        )
+    );
+    public static final RegistrySupplier<Item> DRAGONBONE_SWORD_ICE = register(
+        "dragonbone_sword_ice",
+        () -> new ActivePostHitSwordItem(
+            IafToolMaterials.ICE_DRAGONBONE_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.ICE_DRAGONBONE_TOOL_MATERIAL,
+                    3.0F, -2.4F
+                )
+            ),
+            AbilityImpls.ICE_DRAGON_BLOOD_TOOL
+        )
+    );
+    public static final RegistrySupplier<Item> DRAGONBONE_SWORD_LIGHTNING = register(
+        "dragonbone_sword_lightning",
+        () -> new ActivePostHitSwordItem(
+            IafToolMaterials.LIGHTNING_DRAGONBONE_TOOL_MATERIAL,
+            new Item.Settings().component(
+                DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                createAttributeModifiers(
+                    IafToolMaterials.LIGHTNING_DRAGONBONE_TOOL_MATERIAL,
+                    3.0F, -2.4F
+                )
+            ),
+            AbilityImpls.LIGHTNING_DRAGON_BLOOD_TOOL
+        )
+    );
     public static final RegistrySupplier<Item> DRAGONBONE_ARROW = register("dragonbone_arrow", ItemDragonArrow::new);
     public static final RegistrySupplier<Item> DRAGON_BOW = register("dragonbone_bow", ItemDragonBow::new);
     public static final RegistrySupplier<Item> DRAGON_SKULL_FIRE = register("dragon_skull_fire", () -> new ItemDragonSkull(DragonType.FIRE));
@@ -415,7 +454,7 @@ public final class IafItems {
                     3.0F, -2.4F
                 )
             ),
-            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+            AbilityImpls.MYRMEX_TOOL
         )
     );
     public static final RegistrySupplier<Item> MYRMEX_DESERT_SWORD_VENOM = register(
@@ -429,7 +468,7 @@ public final class IafItems {
                     3.0F, -2.4F
                 )
             ),
-            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+            AbilityImpls.MYRMEX_TOOL
         )
     );
     public static final RegistrySupplier<Item> MYRMEX_DESERT_SHOVEL = register(
@@ -443,7 +482,7 @@ public final class IafItems {
                     1.5F, -3.0F
                 )
             ),
-            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+            AbilityImpls.MYRMEX_TOOL
         )
     );
     public static final RegistrySupplier<Item> MYRMEX_DESERT_PICKAXE = register(
@@ -457,7 +496,7 @@ public final class IafItems {
                     1.0F, -2.8F
                 )
             ),
-            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+            AbilityImpls.MYRMEX_TOOL
         )
     );
     public static final RegistrySupplier<Item> MYRMEX_DESERT_AXE = register(
@@ -471,7 +510,7 @@ public final class IafItems {
                     5.0F, -3.0F
                 )
             ),
-            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+            AbilityImpls.MYRMEX_TOOL
         )
     );
     public static final RegistrySupplier<Item> MYRMEX_DESERT_HOE = register(
@@ -485,7 +524,7 @@ public final class IafItems {
                     -1.0F, -3.0F
                 )
             ),
-            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+            AbilityImpls.MYRMEX_TOOL
         )
     );
     public static final RegistrySupplier<Item> MYRMEX_JUNGLE_SWORD = register(
@@ -499,7 +538,7 @@ public final class IafItems {
                     3.0F, -2.4F
                 )
             ),
-            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+            AbilityImpls.MYRMEX_TOOL
         )
     );
     public static final RegistrySupplier<Item> MYRMEX_JUNGLE_SWORD_VENOM = register(
@@ -513,7 +552,7 @@ public final class IafItems {
                     3.0F, -2.4F
                 )
             ),
-            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+            AbilityImpls.MYRMEX_TOOL
         )
     );
     public static final RegistrySupplier<Item> MYRMEX_JUNGLE_SHOVEL = register(
@@ -527,7 +566,7 @@ public final class IafItems {
                     1.5F, -3.0F
                 )
             ),
-            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+            AbilityImpls.MYRMEX_TOOL
         )
     );
     public static final RegistrySupplier<Item> MYRMEX_JUNGLE_PICKAXE = register(
@@ -541,7 +580,7 @@ public final class IafItems {
                     1.0F, -2.8F
                 )
             ),
-            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+            AbilityImpls.MYRMEX_TOOL
         )
     );
     public static final RegistrySupplier<Item> MYRMEX_JUNGLE_AXE = register(
@@ -555,7 +594,7 @@ public final class IafItems {
                     5.0F, -3.0F
                 )
             ),
-            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+            AbilityImpls.MYRMEX_TOOL
         )
     );
     public static final RegistrySupplier<Item> MYRMEX_JUNGLE_HOE = register(
@@ -569,7 +608,7 @@ public final class IafItems {
                     -1.0F, -3.0F
                 )
             ),
-            AbilityImpls.MYRMEX_TOOL_DAMAGE_BONUS
+            AbilityImpls.MYRMEX_TOOL
         )
     );
     public static final RegistrySupplier<Item> MYRMEX_DESERT_STAFF = register("myrmex_desert_staff", () -> new ItemMyrmexStaff(false));
@@ -605,7 +644,7 @@ public final class IafItems {
                     3.0F, -2.4F
                 )
             ),
-            AbilityImpls.IGNITE_TARGET
+            AbilityImpls.DRAGONSTEEL_FIRE_TOOL
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_PICKAXE = register(
@@ -619,7 +658,7 @@ public final class IafItems {
                     1.0F, -2.8F
                 )
             ),
-            AbilityImpls.IGNITE_TARGET
+            AbilityImpls.DRAGONSTEEL_FIRE_TOOL
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_AXE = register(
@@ -633,7 +672,7 @@ public final class IafItems {
                     5.0F, -3.0F
                 )
             ),
-            AbilityImpls.IGNITE_TARGET
+            AbilityImpls.DRAGONSTEEL_FIRE_TOOL
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_SHOVEL = register(
@@ -647,7 +686,7 @@ public final class IafItems {
                     1.5F, -3.0F
                 )
             ),
-            AbilityImpls.IGNITE_TARGET
+            AbilityImpls.DRAGONSTEEL_FIRE_TOOL
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_HOE = register(
@@ -661,7 +700,7 @@ public final class IafItems {
                     -4.0F, 0.0F
                 )
             ),
-            AbilityImpls.IGNITE_TARGET
+            AbilityImpls.DRAGONSTEEL_FIRE_TOOL
         )
     );
     public static final RegistrySupplier<Item> DRAGONSTEEL_FIRE_HELMET = register("dragonsteel_fire_helmet", () -> new ItemDragonSteelArmor(IafArmorMaterials.DRAGONSTEEL_FIRE_ARMOR_MATERIAL, ArmorItem.Type.HELMET));

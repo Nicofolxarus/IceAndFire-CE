@@ -2,13 +2,9 @@ package com.iafenvoy.iceandfire.item.ability;
 
 import net.minecraft.entity.LivingEntity;
 
-public interface IgniteTargetAbility extends PostHitAbility {
-    int getFireTime();
-
+public interface TakeKnockbackAbility extends PostHitAbility {
     @Override
     default void active(LivingEntity target, LivingEntity attacker) {
-        if (isEnable()) {
-            target.setOnFireFor(getFireTime());
-        }
+        target.takeKnockback(1F, attacker.getX() - target.getX(), attacker.getZ() - target.getZ());
     }
 }

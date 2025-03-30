@@ -2,7 +2,6 @@ package com.iafenvoy.iceandfire.registry.tag;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import net.minecraft.entity.EntityType;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
@@ -11,6 +10,18 @@ public final class IafEntityTags {
     public static final TagKey<EntityType<?>> DEATHWORM  = TagKey.of(
         RegistryKeys.ENTITY_TYPE,
         Identifier.of(IceAndFire.MOD_ID, "deathworm")
+    );
+    public static final TagKey<EntityType<?>> FIRE_DRAGON  = TagKey.of(
+        RegistryKeys.ENTITY_TYPE,
+        Identifier.of(IceAndFire.MOD_ID, "fire_dragon")
+    );
+    public static final TagKey<EntityType<?>> ICE_DRAGON  = TagKey.of(
+        RegistryKeys.ENTITY_TYPE,
+        Identifier.of(IceAndFire.MOD_ID, "ice_dragon")
+    );
+    public static final TagKey<EntityType<?>> LIGHTNING_DRAGON  = TagKey.of(
+        RegistryKeys.ENTITY_TYPE,
+        Identifier.of(IceAndFire.MOD_ID, "lightning_dragon")
     );
     public static final TagKey<EntityType<?>> IMMUNE_TO_GORGON_STONE = createKey();
     public static final TagKey<EntityType<?>> CHICKENS = TagKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(IceAndFire.MOD_ID, "chickens"));

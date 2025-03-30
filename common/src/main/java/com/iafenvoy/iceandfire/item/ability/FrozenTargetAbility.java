@@ -17,7 +17,7 @@ public interface FrozenTargetAbility extends PostHitAbility {
             IafEntityData data = IafEntityData.get(target);
             data.frozenData.setFrozen(target, 300);
             target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 300, 2));
-            target.takeKnockback(1F, attacker.getX() - target.getX(), attacker.getZ() - target.getZ());
+            target.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 100, 2));
         }
     };
 

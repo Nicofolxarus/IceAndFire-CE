@@ -15,12 +15,10 @@ public interface SummonLightningAbility extends PostHitAbility {
     @Override
     default void active(LivingEntity target, LivingEntity attacker) {
         if (IafCommonConfig.INSTANCE.armors.dragonLightningAbility.getValue()) {
-            boolean flag = true;
-            if (attacker instanceof PlayerEntity)
-                if (attacker.handSwingProgress > 0.2) {
-                    flag = false;
-                }
-            if (!attacker.getWorld().isClient && flag) {
+            if (attacker instanceof PlayerEntity && attacker.handSwingProgress > 0.2) {
+                return;
+            }
+            if (!attacker.getWorld().isClient) {
                 LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(target.getWorld());
                 assert lightningEntity != null;
                 lightningEntity.getCommandTags().add(ServerEvents.BOLT_DONT_DESTROY_LOOT);
@@ -30,7 +28,6 @@ public interface SummonLightningAbility extends PostHitAbility {
                     target.getWorld().spawnEntity(lightningEntity);
                 }
             }
-            target.takeKnockback(1F, attacker.getX() - target.getX(), attacker.getZ() - target.getZ());
         }
     }
 
