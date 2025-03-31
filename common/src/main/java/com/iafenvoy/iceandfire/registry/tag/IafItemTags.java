@@ -7,6 +7,10 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
 public final class IafItemTags {
+    public static final TagKey<Item> SUMMON_GHOST_SWORD = createKey("summon_ghost_sword");
+    public static final TagKey<Item> IGNITE_TARGET = createKey("ignite_target");
+    public static final TagKey<Item> FROZEN_TARGET = createKey("frozen_target");
+    public static final TagKey<Item> SUMMON_LIGHTNING = createKey("frozen_target");
     public static final TagKey<Item> DRAGON_ARROWS = createKey("dragon_arrows");
     public static final TagKey<Item> DRAGON_BLOODS = createKey("dragon_bloods");
     public static final TagKey<Item> DRAGON_HEARTS = createKey("dragon_hearts");

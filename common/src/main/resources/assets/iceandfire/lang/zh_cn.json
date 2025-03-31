@@ -1449,6 +1449,17 @@
   "iceandfire.ghost.maxHealth": "最大生命值",
   "iceandfire.ghost.attackDamage": "攻击伤害",
   "iceandfire.ghost.fromPlayerDeaths": "玩家死亡时生成",
+
+  "iceandfire.category.tools": "工具",
+  "iceandfire.tools.dragonFireAbility": "火龙相关能力",
+  "iceandfire.tools.dragonIceAbility": "冰龙相关能力",
+  "iceandfire.tools.dragonLightningAbility": "电龙相关能力",
+  "iceandfire.tools.dragonsteelFireDuration": "龙钢火焰持续时间",
+  "iceandfire.tools.dragonBloodFireDuration": "龙血火焰持续时间",
+  "iceandfire.tools.dragonsteelFrozenDuration": "龙钢冰冻持续时间",
+  "iceandfire.tools.dragonsBloodFrozenDuration": "龙血冰冻持续时间",
+  "iceandfire.tools.phantasmalBladeAbility": "幻灵剑能力",
+
   "iceandfire.category.armors": "装备",
   "iceandfire.armors.dragonFireAbility": "龙炎骨血剑能力",
   "iceandfire.armors.dragonIceAbility": "龙霜骨血剑能力",

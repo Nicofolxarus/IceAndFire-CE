@@ -29,18 +29,18 @@ public class EntityGhostSword extends PersistentProjectileEntity {
     private List<Entity> hitEntities;
     private int knockbackStrength;
 
-    public EntityGhostSword(EntityType<? extends PersistentProjectileEntity> type, World worldIn) {
+    public EntityGhostSword(EntityType<? extends EntityGhostSword> type, World worldIn) {
         super(type, worldIn);
         this.setDamage(9F);
     }
 
-    public EntityGhostSword(EntityType<? extends PersistentProjectileEntity> type, World worldIn, double x, double y, double z, float r, float g, float b) {
+    public EntityGhostSword(EntityType<? extends EntityGhostSword> type, World worldIn, double x, double y, double z, float r, float g, float b) {
         this(type, worldIn);
         this.setPosition(x, y, z);
         this.setDamage(9F);
     }
 
-    public EntityGhostSword(EntityType<? extends PersistentProjectileEntity> type, World worldIn, LivingEntity shooter, double dmg, ItemStack from) {
+    public EntityGhostSword(EntityType<? extends EntityGhostSword> type, World worldIn, LivingEntity shooter, double dmg, ItemStack from) {
         super(type, shooter, worldIn, ItemStack.EMPTY, from);
         this.setDamage(dmg);
     }
