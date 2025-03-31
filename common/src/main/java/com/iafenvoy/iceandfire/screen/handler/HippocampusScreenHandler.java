@@ -2,7 +2,6 @@ package com.iafenvoy.iceandfire.screen.handler;
 
 import com.iafenvoy.iceandfire.entity.EntityHippocampus;
 import com.iafenvoy.iceandfire.registry.IafScreenHandlers;
-import com.iafenvoy.uranus.data.EntityPropertyDelegate;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,29 +10,22 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
 public class HippocampusScreenHandler extends ScreenHandler {
     private final Inventory hippocampusInventory;
     private final EntityHippocampus hippocampus;
-    private final EntityPropertyDelegate propertyDelegate;
 
-    public HippocampusScreenHandler(int i, PlayerInventory playerInventory) {
-        this(i, new SimpleInventory(18), playerInventory, null, new EntityPropertyDelegate());
+    public HippocampusScreenHandler(int i, PlayerInventory playerInventory, PacketByteBuf buf) {
+        this(i, new SimpleInventory(18), playerInventory, (EntityHippocampus) MinecraftClient.getInstance().world.getEntityById(buf.readInt()));
     }
 
-    public HippocampusScreenHandler(int id, Inventory hippoInventory, PlayerInventory playerInventory, EntityHippocampus hippocampus, EntityPropertyDelegate propertyDelegate) {
+    public HippocampusScreenHandler(int id, Inventory hippoInventory, PlayerInventory playerInventory, EntityHippocampus hippocampus) {
         super(IafScreenHandlers.HIPPOCAMPUS_SCREEN.get(), id);
         this.hippocampusInventory = hippoInventory;
-        if (hippocampus != null)
-            this.hippocampus = hippocampus;
-        else {
-            assert MinecraftClient.getInstance().world != null;
-            this.hippocampus = (EntityHippocampus) MinecraftClient.getInstance().world.getEntityById(propertyDelegate.entityId);
-        }
-        this.propertyDelegate = propertyDelegate;
-        this.addProperties(this.propertyDelegate);
+        this.hippocampus = hippocampus;
         PlayerEntity player = playerInventory.player;
         this.hippocampusInventory.onOpen(player);
 
@@ -82,8 +74,7 @@ public class HippocampusScreenHandler extends ScreenHandler {
         });
 
         // Create the slots for the inventory
-        assert this.hippocampus != null;
-        if (this.hippocampus.isChested())
+        if (this.hippocampus != null && this.hippocampus.isChested())
             for (int k = 0; k < 3; ++k)
                 for (int l = 0; l < this.hippocampus.getInventoryColumns(); ++l)
                     this.addSlot(new Slot(hippoInventory, 3 + l + k * this.hippocampus.getInventoryColumns(), 80 + l * 18, 18 + k * 18));
@@ -146,7 +137,7 @@ public class HippocampusScreenHandler extends ScreenHandler {
         this.hippocampusInventory.onClose(playerIn);
     }
 
-    public int getHippocampusId() {
-        return this.propertyDelegate.entityId;
+    public EntityHippocampus getHippocampus() {
+        return this.hippocampus;
     }
 }

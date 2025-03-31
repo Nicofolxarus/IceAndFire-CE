@@ -27,18 +27,15 @@ import java.util.UUID;
 
 public class ItemSummoningCrystal extends Item {
     public ItemSummoningCrystal() {
-        super(new Settings().maxCount(1).component(IafDataComponents.NBT_COMPOUND.get(), new NbtCompound()));
+        super(new Settings().maxCount(1));
     }
 
     public static boolean hasDragon(ItemStack stack) {
         NbtCompound nbt = stack.get(IafDataComponents.NBT_COMPOUND.get());
-        if (stack.getItem() instanceof ItemSummoningCrystal && nbt != null) {
-            for (String tagInfo : nbt.getKeys()) {
-                if (tagInfo.contains("Dragon")) {
+        if (stack.getItem() instanceof ItemSummoningCrystal && nbt != null)
+            for (String tagInfo : nbt.getKeys())
+                if (tagInfo.contains("Dragon"))
                     return true;
-                }
-            }
-        }
         return false;
     }
 
@@ -52,8 +49,8 @@ public class ItemSummoningCrystal extends Item {
         if (stack.getItem() == IafItems.SUMMONING_CRYSTAL_LIGHTNING.get())
             desc = "entity.iceandfire.lightning_dragon";
         NbtCompound nbt = stack.get(IafDataComponents.NBT_COMPOUND.get());
-        if (nbt != null) {
-            for (String tagInfo : nbt.getKeys()) {
+        if (nbt != null)
+            for (String tagInfo : nbt.getKeys())
                 if (tagInfo.contains("Dragon")) {
                     NbtCompound dragonTag = nbt.getCompound(tagInfo);
                     String dragonName = I18n.translate(desc);
@@ -62,8 +59,6 @@ public class ItemSummoningCrystal extends Item {
                     tooltip.add(Text.translatable("item.iceandfire.summoning_crystal.bound", dragonName).formatted(Formatting.GRAY));
                     flag = true;
                 }
-            }
-        }
         if (!flag) {
             tooltip.add(Text.translatable("item.iceandfire.summoning_crystal.desc_0").formatted(Formatting.GRAY));
             tooltip.add(Text.translatable("item.iceandfire.summoning_crystal.desc_1").formatted(Formatting.GRAY));
@@ -79,7 +74,7 @@ public class ItemSummoningCrystal extends Item {
         float yaw = context.getPlayer().getYaw();
         boolean displayError = false;
         NbtCompound nbt = stack.get(IafDataComponents.NBT_COMPOUND.get());
-        if (stack.getItem() == this && hasDragon(stack) && nbt != null) {
+        if (nbt != null && stack.getItem() == this && hasDragon(stack)) {
             for (String tagInfo : nbt.getKeys()) {
                 if (tagInfo.contains("Dragon")) {
                     NbtCompound dragonTag = nbt.getCompound(tagInfo);

@@ -1101,13 +1101,13 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
             if (this.isOwner(player)) {
                 if (stack.getItem() == this.dragonType.getCrystalItem() && !ItemSummoningCrystal.hasDragon(stack)) {
                     this.setCrystalBound(true);
-                    NbtCompound compound = stack.get(IafDataComponents.NBT_COMPOUND.get());
-                    NbtCompound dragonTag = new NbtCompound();
+                    NbtCompound compound = new NbtCompound(), dragonTag = new NbtCompound();
                     dragonTag.putUuid("DragonUUID", this.getUuid());
                     if (this.getCustomName() != null) {
                         dragonTag.putString("CustomName", this.getCustomName().getString());
                     }
                     compound.put("Dragon", dragonTag);
+                    stack.set(IafDataComponents.NBT_COMPOUND.get(), compound);
                     this.playSound(SoundEvents.ITEM_BOTTLE_FILL_DRAGONBREATH, 1, 1);
                     player.swingHand(hand);
                     return ActionResult.SUCCESS;

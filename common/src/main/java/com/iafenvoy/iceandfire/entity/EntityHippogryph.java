@@ -17,8 +17,9 @@ import com.iafenvoy.iceandfire.screen.handler.HippogryphScreenHandler;
 import com.iafenvoy.uranus.animation.Animation;
 import com.iafenvoy.uranus.animation.AnimationHandler;
 import com.iafenvoy.uranus.animation.IAnimatedEntity;
-import com.iafenvoy.uranus.data.EntityPropertyDelegate;
 import com.iafenvoy.uranus.object.entity.pathfinding.raycoms.AdvancedPathNavigate;
+import dev.architectury.registry.menu.ExtendedMenuProvider;
+import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.*;
@@ -44,12 +45,13 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -67,7 +69,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class EntityHippogryph extends TameableEntity implements NamedScreenHandlerFactory, ISyncMount, IAnimatedEntity, IDragonFlute, IVillagerFear, IAnimalFear, IDropArmor, IFlyingMount, ICustomMoveController, IHasCustomizableAttributes {
+public class EntityHippogryph extends TameableEntity implements ExtendedMenuProvider, ISyncMount, IAnimatedEntity, IDragonFlute, IVillagerFear, IAnimalFear, IDropArmor, IFlyingMount, ICustomMoveController, IHasCustomizableAttributes {
     private static final int FLIGHT_CHANCE_PER_TICK = 1200;
     private static final TrackedData<String> VARIANT = DataTracker.registerData(EntityHippogryph.class, TrackedDataHandlerRegistry.STRING);
     private static final TrackedData<Boolean> SADDLE = DataTracker.registerData(EntityHippogryph.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -314,8 +316,9 @@ public class EntityHippogryph extends TameableEntity implements NamedScreenHandl
         return super.interactMob(player, hand);
     }
 
-    public void openGUI(PlayerEntity playerEntity) {
-        playerEntity.openHandledScreen(this);
+    public void openGUI(PlayerEntity player) {
+        if (player instanceof ServerPlayerEntity serverPlayer)
+            MenuRegistry.openExtendedMenu(serverPlayer, this);
     }
 
     @Override
@@ -1033,6 +1036,11 @@ public class EntityHippogryph extends TameableEntity implements NamedScreenHandl
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new HippogryphScreenHandler(syncId, this.hippogryphInventory, playerInventory, new EntityPropertyDelegate(this.getId()));
+        return new HippogryphScreenHandler(syncId, this.hippogryphInventory, playerInventory, this);
+    }
+
+    @Override
+    public void saveExtraData(PacketByteBuf buf) {
+        buf.writeInt(this.getId());
     }
 }

@@ -15,8 +15,9 @@ import com.iafenvoy.iceandfire.screen.handler.HippocampusScreenHandler;
 import com.iafenvoy.uranus.animation.Animation;
 import com.iafenvoy.uranus.animation.AnimationHandler;
 import com.iafenvoy.uranus.animation.IAnimatedEntity;
-import com.iafenvoy.uranus.data.EntityPropertyDelegate;
 import com.iafenvoy.uranus.object.RegistryHelper;
+import dev.architectury.registry.menu.ExtendedMenuProvider;
+import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -48,11 +49,12 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -71,7 +73,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class EntityHippocampus extends TameableEntity implements NamedScreenHandlerFactory, ISyncMount, IAnimatedEntity, ICustomMoveController, InventoryChangedListener, Saddleable {
+public class EntityHippocampus extends TameableEntity implements ExtendedMenuProvider, ISyncMount, IAnimatedEntity, ICustomMoveController, InventoryChangedListener, Saddleable {
     public static final int INV_SLOT_SADDLE = 0;
     public static final int INV_SLOT_CHEST = 1;
     public static final int INV_SLOT_ARMOR = 2;
@@ -588,11 +590,12 @@ public class EntityHippocampus extends TameableEntity implements NamedScreenHand
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new HippocampusScreenHandler(syncId, this.inventory, inv, this, new EntityPropertyDelegate(this.getId()));
+        return new HippocampusScreenHandler(syncId, this.inventory, inv, this);
     }
 
     public void openInventory(PlayerEntity player) {
-        player.openHandledScreen(this);
+        if (player instanceof ServerPlayerEntity serverPlayer)
+            MenuRegistry.openExtendedMenu(serverPlayer, this);
     }
 
     @Override
@@ -662,6 +665,11 @@ public class EntityHippocampus extends TameableEntity implements NamedScreenHand
     public void tick() {
         super.tick();
         this.setAir(this.getMaxAir());
+    }
+
+    @Override
+    public void saveExtraData(PacketByteBuf buf) {
+        buf.writeInt(this.getId());
     }
 
     /**

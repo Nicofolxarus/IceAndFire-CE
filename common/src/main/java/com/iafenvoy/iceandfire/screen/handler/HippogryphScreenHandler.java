@@ -2,33 +2,31 @@ package com.iafenvoy.iceandfire.screen.handler;
 
 import com.iafenvoy.iceandfire.entity.EntityHippogryph;
 import com.iafenvoy.iceandfire.registry.IafScreenHandlers;
-import com.iafenvoy.uranus.data.EntityPropertyDelegate;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
 public class HippogryphScreenHandler extends ScreenHandler {
     private final Inventory hippogryphInventory;
-    private EntityHippogryph hippogryph;
-    private final EntityPropertyDelegate propertyDelegate;
+    private final EntityHippogryph hippogryph;
 
-    public HippogryphScreenHandler(int i, PlayerInventory playerInventory) {
-        this(i, new SimpleInventory(18), playerInventory, new EntityPropertyDelegate());
+    public HippogryphScreenHandler(int i, PlayerInventory playerInventory, PacketByteBuf buf) {
+        this(i, new SimpleInventory(18), playerInventory, (EntityHippogryph) MinecraftClient.getInstance().world.getEntityById(buf.readInt()));
     }
 
-    public HippogryphScreenHandler(int id, Inventory hippogryphInventory, PlayerInventory playerInventory, EntityPropertyDelegate propertyDelegate) {
+    public HippogryphScreenHandler(int id, Inventory hippogryphInventory, PlayerInventory playerInventory, EntityHippogryph hippogryph) {
         super(IafScreenHandlers.HIPPOGRYPH_SCREEN.get(), id);
         this.hippogryphInventory = hippogryphInventory;
-        this.propertyDelegate = propertyDelegate;
-        this.addProperties(this.propertyDelegate);
+        this.hippogryph = hippogryph;
         PlayerEntity player = playerInventory.player;
         this.hippogryphInventory.onOpen(player);
-        this.hippogryph = (EntityHippogryph) player.getWorld().getEntityById(propertyDelegate.entityId);
         this.addSlot(new Slot(this.hippogryphInventory, 0, 8, 18) {
             @Override
             public boolean canInsert(ItemStack stack) {
@@ -94,7 +92,6 @@ public class HippogryphScreenHandler extends ScreenHandler {
                 this.addSlot(new Slot(this.hippogryphInventory, 3 + l + k * 5, 80 + l * 18, 18 + k * 18) {
                     @Override
                     public boolean isEnabled() {
-                        HippogryphScreenHandler.this.refreshEntity(player);
                         return HippogryphScreenHandler.this.hippogryph != null && HippogryphScreenHandler.this.hippogryph.isChested();
                     }
 
@@ -144,7 +141,6 @@ public class HippogryphScreenHandler extends ScreenHandler {
 
     @Override
     public boolean canUse(PlayerEntity playerIn) {
-        this.refreshEntity(playerIn);
         return this.hippogryphInventory.canPlayerUse(playerIn) && this.hippogryph.isAlive() && this.hippogryph.distanceTo(playerIn) < 8.0F;
     }
 
@@ -154,12 +150,7 @@ public class HippogryphScreenHandler extends ScreenHandler {
         this.hippogryphInventory.onClose(playerIn);
     }
 
-    public int getHippogryphId() {
-        return this.propertyDelegate.entityId;
-    }
-
-    private void refreshEntity(PlayerEntity player) {
-        if (player.getWorld().getEntityById(this.getHippogryphId()) instanceof EntityHippogryph h)
-            this.hippogryph = h;
+    public EntityHippogryph getHippogryph() {
+        return this.hippogryph;
     }
 }
