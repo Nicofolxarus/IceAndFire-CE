@@ -5,7 +5,7 @@ import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.api.IafEvents;
 import com.iafenvoy.iceandfire.component.DragonSkullComponent;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.data.DragonArmor;
+import com.iafenvoy.iceandfire.data.DragonArmorMaterial;
 import com.iafenvoy.iceandfire.data.DragonColor;
 import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.data.component.IafEntityData;
@@ -13,6 +13,7 @@ import com.iafenvoy.iceandfire.entity.ai.*;
 import com.iafenvoy.iceandfire.entity.block.BlockEntityDragonForgeInput;
 import com.iafenvoy.iceandfire.entity.util.*;
 import com.iafenvoy.iceandfire.entity.util.dragon.*;
+import com.iafenvoy.iceandfire.item.ItemDragonArmor;
 import com.iafenvoy.iceandfire.item.ItemSummoningCrystal;
 import com.iafenvoy.iceandfire.item.block.util.IDragonProof;
 import com.iafenvoy.iceandfire.network.payload.DragonSetBurnBlockPayload;
@@ -1024,15 +1025,9 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
     private double calculateArmorModifier() {
         double val = 1D;
         final EquipmentSlot[] slots = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
-        for (EquipmentSlot slot : slots) {
-            switch (DragonArmor.getArmorOrdinal(this.getEquippedStack(slot))) {
-                case 1 -> val += 2D;
-                case 2, 4 -> val += 3D;
-                case 3 -> val += 5D;
-                case 5, 6, 8 -> val += 10D;
-                case 7 -> val += 1.5D;
-            }
-        }
+        for (EquipmentSlot slot : slots)
+            if(this.getEquippedStack(slot).getItem() instanceof ItemDragonArmor dragonArmor)
+                val+=dragonArmor.type.getProtection();
         return val;
     }
 

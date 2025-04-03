@@ -1,7 +1,6 @@
 package com.iafenvoy.iceandfire.data;
 
 import com.google.common.collect.ImmutableList;
-import com.iafenvoy.iceandfire.item.ItemDragonArmor;
 import com.iafenvoy.iceandfire.item.armor.ItemScaleArmor;
 import com.iafenvoy.iceandfire.registry.IafArmorMaterials;
 import com.iafenvoy.iceandfire.registry.IafItems;
@@ -10,7 +9,6 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvents;
 
@@ -56,12 +54,6 @@ public class DragonArmor {
             value.leggings = IafItems.register(sub + "_leggings", () -> new ItemScaleArmor(value.color, value, value.armorMaterial, ArmorItem.Type.LEGGINGS));
             value.boots = IafItems.register(sub + "_boots", () -> new ItemScaleArmor(value.color, value, value.armorMaterial, ArmorItem.Type.BOOTS));
         }
-    }
-
-    public static int getArmorOrdinal(ItemStack stack) {
-        if (!stack.isEmpty() && stack.getItem() instanceof ItemDragonArmor armorItem)
-            return DragonArmorMaterial.values().indexOf(armorItem.type) + 1;
-        return 0;
     }
 
     public static List<DragonArmor> values() {

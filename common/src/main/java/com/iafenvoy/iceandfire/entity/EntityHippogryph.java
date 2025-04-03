@@ -547,6 +547,7 @@ public class EntityHippogryph extends TameableEntity implements ExtendedMenuProv
             case 1 -> 10;
             case 2 -> 20;
             case 3 -> 30;
+            case 4 -> 35;
             default -> 0;
         };
         this.getAttributeInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(armorValue);
@@ -944,14 +945,12 @@ public class EntityHippogryph extends TameableEntity implements ExtendedMenuProv
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        if (this.hippogryphInventory != null && !this.getWorld().isClient) {
+        if (this.hippogryphInventory != null && !this.getWorld().isClient)
             for (int i = 0; i < this.hippogryphInventory.size(); ++i) {
                 ItemStack itemstack = this.hippogryphInventory.getStack(i);
-                if (!itemstack.isEmpty()) {
+                if (!itemstack.isEmpty())
                     this.dropStack(itemstack, 0.0F);
-                }
             }
-        }
     }
 
     protected void switchNavigator(boolean onLand) {
@@ -987,28 +986,20 @@ public class EntityHippogryph extends TameableEntity implements ExtendedMenuProv
     public boolean isTeammate(Entity entityIn) {
         if (this.isTamed()) {
             LivingEntity livingentity = this.getOwner();
-            if (entityIn == livingentity) {
-                return true;
-            }
-            if (entityIn instanceof TameableEntity) {
-                return ((TameableEntity) entityIn).isOwner(livingentity);
-            }
-            if (livingentity != null) {
-                return livingentity.isTeammate(entityIn);
-            }
+            if (entityIn == livingentity) return true;
+            if (entityIn instanceof TameableEntity tameable) return tameable.isOwner(livingentity);
+            if (livingentity != null) return livingentity.isTeammate(entityIn);
         }
-
         return super.isTeammate(entityIn);
     }
 
     @Override
     public void onHearFlute(PlayerEntity player) {
-        if (this.isTamed() && this.isOwner(player)) {
+        if (this.isTamed() && this.isOwner(player))
             if (this.isFlying() || this.isHovering()) {
                 this.setFlying(false);
                 this.setHovering(false);
             }
-        }
     }
 
     @Override
