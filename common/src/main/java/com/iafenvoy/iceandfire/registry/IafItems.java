@@ -628,7 +628,7 @@ public final class IafItems {
     public static final RegistrySupplier<Item> AMPHITHERE_MACUAHUITL = register("amphithere_macuahuitl", ItemAmphithereMacuahuitl::new);
     public static final RegistrySupplier<Item> SERPENT_FANG = register("sea_serpent_fang", ItemGeneric::new);
     public static final RegistrySupplier<Item> SEA_SERPENT_ARROW = register("sea_serpent_arrow", ItemSeaSerpentArrow::new);
-    public static final RegistrySupplier<Item> TIDE_TRIDENT_INVENTORY = register("tide_trident_inventory", () -> new ItemGeneric(0, true));
+    public static final RegistrySupplier<Item> TIDE_TRIDENT_INVENTORY = register("tide_trident_inventory", () -> new ItemGeneric(0, true), false);
     public static final RegistrySupplier<Item> TIDE_TRIDENT = register("tide_trident", ItemTideTrident::new);
     public static final RegistrySupplier<Item> CHAIN = register("chain", () -> new ItemChain(false));
     public static final RegistrySupplier<Item> CHAIN_STICKY = register("chain_sticky", () -> new ItemChain(true));
