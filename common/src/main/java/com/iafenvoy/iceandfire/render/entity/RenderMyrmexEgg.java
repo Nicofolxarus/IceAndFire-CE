@@ -9,8 +9,8 @@ import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.util.Identifier;
 
 public class RenderMyrmexEgg extends LivingEntityRenderer<EntityMyrmexEgg, AdvancedEntityModel<EntityMyrmexEgg>> {
-    public static final Identifier EGG_JUNGLE = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_jungle_egg.png");
-    public static final Identifier EGG_DESERT = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_desert_egg.png");
+    public static final Identifier EGG_JUNGLE = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_jungle_egg.png");
+    public static final Identifier EGG_DESERT = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_desert_egg.png");
 
     public RenderMyrmexEgg(EntityRendererFactory.Context context) {
         super(context, new ModelDragonEgg<>(), 0.3F);

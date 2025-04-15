@@ -37,8 +37,8 @@ public class EntityMyrmexWorker extends EntityMyrmexBase {
     public static final Animation ANIMATION_STING = Animation.create(15);
     public static final Identifier DESERT_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/myrmex_worker_desert");
     public static final Identifier JUNGLE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/myrmex_worker_jungle");
-    private static final Identifier TEXTURE_DESERT = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_desert_worker.png");
-    private static final Identifier TEXTURE_JUNGLE = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_jungle_worker.png");
+    private static final Identifier TEXTURE_DESERT = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_desert_worker.png");
+    private static final Identifier TEXTURE_JUNGLE = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_jungle_worker.png");
     public boolean keepSearching = true;
 
     public EntityMyrmexWorker(EntityType<EntityMyrmexWorker> t, World worldIn) {

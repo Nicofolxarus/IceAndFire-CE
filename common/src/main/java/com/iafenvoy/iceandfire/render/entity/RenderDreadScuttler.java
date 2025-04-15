@@ -10,8 +10,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class RenderDreadScuttler extends MobEntityRenderer<EntityDreadScuttler, ModelDreadScuttler> {
-    public static final Identifier TEXTURE_EYES = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_scuttler_eyes.png");
-    public static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_scuttler.png");
+    public static final Identifier TEXTURE_EYES = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/dread_scuttler_eyes.png");
+    public static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/dread_scuttler.png");
 
     public RenderDreadScuttler(EntityRendererFactory.Context context) {
         super(context, new ModelDreadScuttler(), 0.75F);

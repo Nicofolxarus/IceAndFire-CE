@@ -17,7 +17,7 @@ import org.joml.Matrix4f;
 import java.util.List;
 
 public class RenderChain {
-    private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/models/misc/chain_link.png");
+    private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/entity/misc/chain_link.png");
 
     public static void render(LivingEntity entityLivingIn, MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int lightIn, List<Entity> chainedTo) {
         for (Entity chainTarget : chainedTo) {

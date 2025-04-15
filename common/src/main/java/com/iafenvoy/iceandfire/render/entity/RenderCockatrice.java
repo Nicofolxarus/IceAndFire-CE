@@ -19,10 +19,10 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
 public class RenderCockatrice extends MobEntityRenderer<EntityCockatrice, AdvancedEntityModel<EntityCockatrice>> {
-    public static final Identifier TEXTURE_ROOSTER = Identifier.of(IceAndFire.MOD_ID, "textures/models/cockatrice/cockatrice_0.png");
-    public static final Identifier TEXTURE_HEN = Identifier.of(IceAndFire.MOD_ID, "textures/models/cockatrice/cockatrice_1.png");
-    public static final Identifier TEXTURE_ROOSTER_CHICK = Identifier.of(IceAndFire.MOD_ID, "textures/models/cockatrice/cockatrice_0_chick.png");
-    public static final Identifier TEXTURE_HEN_CHICK = Identifier.of(IceAndFire.MOD_ID, "textures/models/cockatrice/cockatrice_1_chick.png");
+    public static final Identifier TEXTURE_ROOSTER = Identifier.of(IceAndFire.MOD_ID, "textures/entity/cockatrice/cockatrice_0.png");
+    public static final Identifier TEXTURE_HEN = Identifier.of(IceAndFire.MOD_ID, "textures/entity/cockatrice/cockatrice_1.png");
+    public static final Identifier TEXTURE_ROOSTER_CHICK = Identifier.of(IceAndFire.MOD_ID, "textures/entity/cockatrice/cockatrice_0_chick.png");
+    public static final Identifier TEXTURE_HEN_CHICK = Identifier.of(IceAndFire.MOD_ID, "textures/entity/cockatrice/cockatrice_1_chick.png");
     public static final ModelCockatrice ADULT_MODEL = new ModelCockatrice();
     public static final ModelCockatriceChick BABY_MODEL = new ModelCockatriceChick();
 

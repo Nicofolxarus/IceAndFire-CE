@@ -12,12 +12,12 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class RenderDreadLich extends MobEntityRenderer<EntityDreadLich, ModelDreadLich> {
-    public static final Identifier TEXTURE_EYES = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_lich_eyes.png");
-    public static final Identifier TEXTURE_0 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_lich_0.png");
-    public static final Identifier TEXTURE_1 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_lich_1.png");
-    public static final Identifier TEXTURE_2 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_lich_2.png");
-    public static final Identifier TEXTURE_3 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_lich_3.png");
-    public static final Identifier TEXTURE_4 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_lich_4.png");
+    public static final Identifier TEXTURE_EYES = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/dread_lich_eyes.png");
+    public static final Identifier TEXTURE_0 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/dread_lich_0.png");
+    public static final Identifier TEXTURE_1 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/dread_lich_1.png");
+    public static final Identifier TEXTURE_2 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/dread_lich_2.png");
+    public static final Identifier TEXTURE_3 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/dread_lich_3.png");
+    public static final Identifier TEXTURE_4 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/dread_lich_4.png");
     public final HideableLayer<EntityDreadLich, ModelDreadLich, HeldItemFeatureRenderer<EntityDreadLich, ModelDreadLich>> itemLayer;
 
     public RenderDreadLich(EntityRendererFactory.Context context) {

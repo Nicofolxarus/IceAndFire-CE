@@ -7,7 +7,7 @@ import net.minecraft.client.render.entity.ProjectileEntityRenderer;
 import net.minecraft.util.Identifier;
 
 public class RenderDragonArrow extends ProjectileEntityRenderer<EntityDragonArrow> {
-    private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/models/misc/dragonbone_arrow.png");
+    private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/entity/misc/dragonbone_arrow.png");
 
     public RenderDragonArrow(EntityRendererFactory.Context context) {
         super(context);

@@ -7,7 +7,7 @@ import net.minecraft.client.render.entity.ProjectileEntityRenderer;
 import net.minecraft.util.Identifier;
 
 public class RenderStymphalianArrow extends ProjectileEntityRenderer<EntityStymphalianArrow> {
-    private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/models/misc/stymphalian_arrow.png");
+    private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/entity/misc/stymphalian_arrow.png");
 
     public RenderStymphalianArrow(EntityRendererFactory.Context context) {
         super(context);

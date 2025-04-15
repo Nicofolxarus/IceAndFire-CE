@@ -53,13 +53,13 @@ public class DragonArmorMaterial {
         return switch (slot) {
             case MAINHAND, OFFHAND -> null;
             case FEET ->
-                    Identifier.of(IceAndFire.MOD_ID, "textures/models/dragon_armor/armor_tail_" + this.name + ".png");
+                    Identifier.of(IceAndFire.MOD_ID, "textures/entity/dragon_armor/armor_tail_" + this.name + ".png");
             case LEGS ->
-                    Identifier.of(IceAndFire.MOD_ID, "textures/models/dragon_armor/armor_body_" + this.name + ".png");
+                    Identifier.of(IceAndFire.MOD_ID, "textures/entity/dragon_armor/armor_body_" + this.name + ".png");
             case CHEST ->
-                    Identifier.of(IceAndFire.MOD_ID, "textures/models/dragon_armor/armor_neck_" + this.name + ".png");
+                    Identifier.of(IceAndFire.MOD_ID, "textures/entity/dragon_armor/armor_neck_" + this.name + ".png");
             case HEAD ->
-                    Identifier.of(IceAndFire.MOD_ID, "textures/models/dragon_armor/armor_head_" + this.name + ".png");
+                    Identifier.of(IceAndFire.MOD_ID, "textures/entity/dragon_armor/armor_head_" + this.name + ".png");
             case BODY -> Identifier.of("");
         };
     }

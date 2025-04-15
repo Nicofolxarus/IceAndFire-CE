@@ -38,10 +38,10 @@ public class EntityMyrmexSentinel extends EntityMyrmexBase {
     public static final Animation ANIMATION_SLASH = Animation.create(25);
     public static final Identifier DESERT_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/myrmex_sentinel_desert");
     public static final Identifier JUNGLE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/myrmex_sentinel_jungle");
-    private static final Identifier TEXTURE_DESERT = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_desert_sentinel.png");
-    private static final Identifier TEXTURE_JUNGLE = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_jungle_sentinel.png");
-    private static final Identifier TEXTURE_DESERT_HIDDEN = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_desert_sentinel_hidden.png");
-    private static final Identifier TEXTURE_JUNGLE_HIDDEN = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_jungle_sentinel_hidden.png");
+    private static final Identifier TEXTURE_DESERT = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_desert_sentinel.png");
+    private static final Identifier TEXTURE_JUNGLE = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_jungle_sentinel.png");
+    private static final Identifier TEXTURE_DESERT_HIDDEN = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_desert_sentinel_hidden.png");
+    private static final Identifier TEXTURE_JUNGLE_HIDDEN = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_jungle_sentinel_hidden.png");
     private static final TrackedData<Boolean> HIDING = DataTracker.registerData(EntityMyrmexSentinel.class, TrackedDataHandlerRegistry.BOOLEAN);
     public float holdingProgress;
     public float hidingProgress;

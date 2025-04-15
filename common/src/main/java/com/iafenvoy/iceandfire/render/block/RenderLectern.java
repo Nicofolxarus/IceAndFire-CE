@@ -16,7 +16,7 @@ import net.minecraft.util.math.RotationAxis;
 
 public class RenderLectern<T extends BlockEntityLectern> implements BlockEntityRenderer<T> {
 
-    private static final RenderLayer ENCHANTMENT_TABLE_BOOK_TEXTURE = RenderLayer.getEntityCutoutNoCull(Identifier.of(IceAndFire.MOD_ID, "textures/models/lectern_book.png"));
+    private static final RenderLayer ENCHANTMENT_TABLE_BOOK_TEXTURE = RenderLayer.getEntityCutoutNoCull(Identifier.of(IceAndFire.MOD_ID, "textures/entity/lectern_book.png"));
     private final BookModel bookModel;
 
     public RenderLectern(BlockEntityRendererFactory.Context context) {

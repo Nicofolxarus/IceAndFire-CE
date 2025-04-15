@@ -9,7 +9,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class RenderStymphalianBird extends MobEntityRenderer<EntityStymphalianBird, ModelStymphalianBird> {
-    public static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/models/stymphalianbird/stymphalian_bird.png");
+    public static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/entity/stymphalianbird/stymphalian_bird.png");
 
     public RenderStymphalianBird(EntityRendererFactory.Context context) {
         super(context, new ModelStymphalianBird(), 0.6F);

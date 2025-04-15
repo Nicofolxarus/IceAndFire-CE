@@ -72,10 +72,10 @@ public abstract class EntityMyrmexBase extends AnimalEntity implements IAnimated
     private static final TrackedData<Byte> CLIMBING = DataTracker.registerData(EntityMyrmexBase.class, TrackedDataHandlerRegistry.BYTE);
     private static final TrackedData<Integer> GROWTH_STAGE = DataTracker.registerData(EntityMyrmexBase.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Boolean> VARIANT = DataTracker.registerData(EntityMyrmexBase.class, TrackedDataHandlerRegistry.BOOLEAN);
-    private static final Identifier TEXTURE_DESERT_LARVA = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_desert_larva.png");
-    private static final Identifier TEXTURE_DESERT_PUPA = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_desert_pupa.png");
-    private static final Identifier TEXTURE_JUNGLE_LARVA = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_jungle_larva.png");
-    private static final Identifier TEXTURE_JUNGLE_PUPA = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_jungle_pupa.png");
+    private static final Identifier TEXTURE_DESERT_LARVA = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_desert_larva.png");
+    private static final Identifier TEXTURE_DESERT_PUPA = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_desert_pupa.png");
+    private static final Identifier TEXTURE_JUNGLE_LARVA = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_jungle_larva.png");
+    private static final Identifier TEXTURE_JUNGLE_PUPA = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_jungle_pupa.png");
     private final SimpleInventory villagerInventory = new SimpleInventory(8);
     public boolean isEnteringHive = false;
     public boolean isBeingGuarded = false;

@@ -15,17 +15,17 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.util.Identifier;
 
 public class RenderDreadThrall extends MobEntityRenderer<EntityDreadThrall, ModelDreadThrall> implements IHasArmorVariantResource {
-    public static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_thrall.png");
-    public static final Identifier TEXTURE_EYES = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_thrall_eyes.png");
-    public static final Identifier TEXTURE_LEG_ARMOR = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/thrall_legs.png");
-    public static final Identifier TEXTURE_ARMOR_0 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/thrall_chest_1.png");
-    public static final Identifier TEXTURE_ARMOR_1 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/thrall_chest_2.png");
-    public static final Identifier TEXTURE_ARMOR_2 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/thrall_chest_3.png");
-    public static final Identifier TEXTURE_ARMOR_3 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/thrall_chest_4.png");
-    public static final Identifier TEXTURE_ARMOR_4 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/thrall_chest_5.png");
-    public static final Identifier TEXTURE_ARMOR_5 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/thrall_chest_6.png");
-    public static final Identifier TEXTURE_ARMOR_6 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/thrall_chest_7.png");
-    public static final Identifier TEXTURE_ARMOR_7 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/thrall_chest_8.png");
+    public static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/dread_thrall.png");
+    public static final Identifier TEXTURE_EYES = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/dread_thrall_eyes.png");
+    public static final Identifier TEXTURE_LEG_ARMOR = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/thrall_legs.png");
+    public static final Identifier TEXTURE_ARMOR_0 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/thrall_chest_1.png");
+    public static final Identifier TEXTURE_ARMOR_1 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/thrall_chest_2.png");
+    public static final Identifier TEXTURE_ARMOR_2 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/thrall_chest_3.png");
+    public static final Identifier TEXTURE_ARMOR_3 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/thrall_chest_4.png");
+    public static final Identifier TEXTURE_ARMOR_4 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/thrall_chest_5.png");
+    public static final Identifier TEXTURE_ARMOR_5 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/thrall_chest_6.png");
+    public static final Identifier TEXTURE_ARMOR_6 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/thrall_chest_7.png");
+    public static final Identifier TEXTURE_ARMOR_7 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/thrall_chest_8.png");
     public final HideableLayer<EntityDreadThrall, ModelDreadThrall, HeldItemFeatureRenderer<EntityDreadThrall, ModelDreadThrall>> itemLayer;
 
     public RenderDreadThrall(EntityRendererFactory.Context context) {

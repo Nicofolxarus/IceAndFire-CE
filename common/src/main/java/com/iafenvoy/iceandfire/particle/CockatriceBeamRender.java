@@ -15,7 +15,7 @@ import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 
 public class CockatriceBeamRender {
-    public static final RenderLayer TEXTURE_BEAM = RenderLayer.getEntityCutoutNoCull(Identifier.of(IceAndFire.MOD_ID, "textures/models/cockatrice/beam.png"));
+    public static final RenderLayer TEXTURE_BEAM = RenderLayer.getEntityCutoutNoCull(Identifier.of(IceAndFire.MOD_ID, "textures/entity/cockatrice/beam.png"));
 
     private static void vertex(VertexConsumer consumer, Matrix4f matrix4f, MatrixStack.Entry entry, float x, float y, float z, int red, int green, int blue, float u, float v) {
         consumer.vertex(matrix4f, x, y, z).color(red, green, blue, 255).texture(u, v).overlay(OverlayTexture.DEFAULT_UV).light(15728880).normal(entry, 0.0F, 1.0F, 0.0F);

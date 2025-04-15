@@ -10,9 +10,9 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class RenderDreadBeast extends MobEntityRenderer<EntityDreadBeast, ModelDreadBeast> {
-    public static final Identifier TEXTURE_EYES = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_beast_eyes.png");
-    public static final Identifier TEXTURE_0 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_beast_1.png");
-    public static final Identifier TEXTURE_1 = Identifier.of(IceAndFire.MOD_ID, "textures/models/dread/dread_beast_2.png");
+    public static final Identifier TEXTURE_EYES = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/dread_beast_eyes.png");
+    public static final Identifier TEXTURE_0 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/dread_beast_1.png");
+    public static final Identifier TEXTURE_1 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/dread/dread_beast_2.png");
 
     public RenderDreadBeast(EntityRendererFactory.Context context) {
         super(context, new ModelDreadBeast(), 0.5F);

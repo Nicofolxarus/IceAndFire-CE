@@ -27,7 +27,7 @@ import java.util.Random;
 
 public class LecternScreen extends HandledScreen<LecternScreenHandler> {
     private static final Identifier ENCHANTMENT_TABLE_GUI_TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/gui/lectern.png");
-    private static final Identifier ENCHANTMENT_TABLE_BOOK_TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/models/lectern_book.png");
+    private static final Identifier ENCHANTMENT_TABLE_BOOK_TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/entity/lectern_book.png");
     private static BookModel bookModel;
     private final Random random = new Random();
     private final Text nameable;

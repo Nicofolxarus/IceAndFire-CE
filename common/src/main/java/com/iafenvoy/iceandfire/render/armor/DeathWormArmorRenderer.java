@@ -23,10 +23,10 @@ public class DeathWormArmorRenderer implements IArmorRendererBase<LivingEntity> 
     public Identifier getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot) {
         ArmorMaterial material = ((ArmorItem) stack.getItem()).getMaterial().value();
         if (material == IafArmorMaterials.DEATHWORM_2_ARMOR_MATERIAL.value())
-            return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/armor_deathworm_red" + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
+            return Identifier.of(IceAndFire.MOD_ID, "textures/entity/armor/armor_deathworm_red" + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
         else if (material == IafArmorMaterials.DEATHWORM_1_ARMOR_MATERIAL.value())
-            return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/armor_deathworm_white" + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
+            return Identifier.of(IceAndFire.MOD_ID, "textures/entity/armor/armor_deathworm_white" + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
         else
-            return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/armor_deathworm_yellow" + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
+            return Identifier.of(IceAndFire.MOD_ID, "textures/entity/armor/armor_deathworm_yellow" + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
     }
 }

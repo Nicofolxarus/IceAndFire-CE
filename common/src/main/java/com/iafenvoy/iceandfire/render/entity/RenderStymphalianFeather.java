@@ -7,7 +7,7 @@ import net.minecraft.client.render.entity.ProjectileEntityRenderer;
 import net.minecraft.util.Identifier;
 
 public class RenderStymphalianFeather extends ProjectileEntityRenderer<EntityStymphalianFeather> {
-    private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/models/stymphalianbird/feather.png");
+    private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/entity/stymphalianbird/feather.png");
 
     public RenderStymphalianFeather(EntityRendererFactory.Context context) {
         super(context);

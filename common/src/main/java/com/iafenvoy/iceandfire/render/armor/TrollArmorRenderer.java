@@ -21,6 +21,6 @@ public class TrollArmorRenderer implements IArmorRendererBase<LivingEntity> {
     @Override
     public Identifier getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot) {
         TrollType troll = ((ItemTrollArmor) stack.getItem()).troll;
-        return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/armor_troll_" + troll.getName() + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
+        return Identifier.of(IceAndFire.MOD_ID, "textures/entity/armor/armor_troll_" + troll.getName() + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
     }
 }

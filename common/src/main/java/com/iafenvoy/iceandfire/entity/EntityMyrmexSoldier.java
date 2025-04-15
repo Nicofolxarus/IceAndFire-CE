@@ -31,8 +31,8 @@ public class EntityMyrmexSoldier extends EntityMyrmexBase {
     public static final Animation ANIMATION_STING = Animation.create(15);
     public static final Identifier DESERT_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/myrmex_soldier_desert");
     public static final Identifier JUNGLE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/myrmex_soldier_jungle");
-    private static final Identifier TEXTURE_DESERT = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_desert_soldier.png");
-    private static final Identifier TEXTURE_JUNGLE = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_jungle_soldier.png");
+    private static final Identifier TEXTURE_DESERT = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_desert_soldier.png");
+    private static final Identifier TEXTURE_JUNGLE = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_jungle_soldier.png");
     public EntityMyrmexBase guardingEntity = null;
 
     public EntityMyrmexSoldier(EntityType<EntityMyrmexSoldier> t, World worldIn) {

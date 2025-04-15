@@ -10,9 +10,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
 public class RenderDeathWorm extends MobEntityRenderer<EntityDeathWorm, ModelDeathWorm> {
-    public static final Identifier TEXTURE_RED = Identifier.of(IceAndFire.MOD_ID, "textures/models/deathworm/deathworm_red.png");
-    public static final Identifier TEXTURE_WHITE = Identifier.of(IceAndFire.MOD_ID, "textures/models/deathworm/deathworm_white.png");
-    public static final Identifier TEXTURE_YELLOW = Identifier.of(IceAndFire.MOD_ID, "textures/models/deathworm/deathworm_yellow.png");
+    public static final Identifier TEXTURE_RED = Identifier.of(IceAndFire.MOD_ID, "textures/entity/deathworm/deathworm_red.png");
+    public static final Identifier TEXTURE_WHITE = Identifier.of(IceAndFire.MOD_ID, "textures/entity/deathworm/deathworm_white.png");
+    public static final Identifier TEXTURE_YELLOW = Identifier.of(IceAndFire.MOD_ID, "textures/entity/deathworm/deathworm_yellow.png");
 
     public RenderDeathWorm(EntityRendererFactory.Context context) {
         super(context, new ModelDeathWorm(), 0);

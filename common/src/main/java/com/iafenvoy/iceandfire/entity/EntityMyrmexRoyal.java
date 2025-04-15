@@ -50,8 +50,8 @@ public class EntityMyrmexRoyal extends EntityMyrmexBase {
     public static final Animation ANIMATION_STING = Animation.create(15);
     public static final Identifier DESERT_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/myrmex_royal_desert");
     public static final Identifier JUNGLE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/myrmex_royal_jungle");
-    private static final Identifier TEXTURE_DESERT = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_desert_royal.png");
-    private static final Identifier TEXTURE_JUNGLE = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_jungle_royal.png");
+    private static final Identifier TEXTURE_DESERT = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_desert_royal.png");
+    private static final Identifier TEXTURE_JUNGLE = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_jungle_royal.png");
     private static final TrackedData<Boolean> FLYING = DataTracker.registerData(EntityMyrmexRoyal.class, TrackedDataHandlerRegistry.BOOLEAN);
     public int releaseTicks = 0;
     public int daylightTicks = 0;

@@ -11,10 +11,10 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class RenderHydra extends MobEntityRenderer<EntityHydra, ModelHydraBody> {
-    public static final Identifier TEXUTURE_0 = Identifier.of(IceAndFire.MOD_ID, "textures/models/hydra/hydra_0.png");
-    public static final Identifier TEXUTURE_1 = Identifier.of(IceAndFire.MOD_ID, "textures/models/hydra/hydra_1.png");
-    public static final Identifier TEXUTURE_2 = Identifier.of(IceAndFire.MOD_ID, "textures/models/hydra/hydra_2.png");
-    public static final Identifier TEXUTURE_EYES = Identifier.of(IceAndFire.MOD_ID, "textures/models/hydra/hydra_eyes.png");
+    public static final Identifier TEXUTURE_0 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/hydra/hydra_0.png");
+    public static final Identifier TEXUTURE_1 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/hydra/hydra_1.png");
+    public static final Identifier TEXUTURE_2 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/hydra/hydra_2.png");
+    public static final Identifier TEXUTURE_EYES = Identifier.of(IceAndFire.MOD_ID, "textures/entity/hydra/hydra_eyes.png");
 
     public RenderHydra(EntityRendererFactory.Context context) {
         super(context, new ModelHydraBody(), 1.2F);

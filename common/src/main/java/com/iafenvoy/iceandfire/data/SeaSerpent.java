@@ -56,7 +56,7 @@ public class SeaSerpent {
     }
 
     public Identifier getTexture(boolean blink) {
-        return Identifier.of(IceAndFire.MOD_ID, String.format("textures/models/seaserpent/seaserpent_%s%s.png", this.name, blink ? "_blink" : ""));
+        return Identifier.of(IceAndFire.MOD_ID, String.format("textures/entity/seaserpent/seaserpent_%s%s.png", this.name, blink ? "_blink" : ""));
     }
 
     public static List<SeaSerpent> values() {

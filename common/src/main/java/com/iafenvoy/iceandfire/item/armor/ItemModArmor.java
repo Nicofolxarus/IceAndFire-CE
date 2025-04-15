@@ -49,13 +49,13 @@ public class ItemModArmor extends ArmorItem implements IArmorTextureProvider {
     @Override
     public Identifier getArmorTexture(ItemStack itemStack, Entity entity, EquipmentSlot equipmentSlot, ArmorMaterial.Layer layer, boolean b) {
         if (this.material.value() == IafArmorMaterials.MYRMEX_DESERT_ARMOR_MATERIAL.value())
-            return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/" + (equipmentSlot == EquipmentSlot.LEGS ? "myrmex_desert_layer_2" : "myrmex_desert_layer_1") + ".png");
+            return Identifier.of(IceAndFire.MOD_ID, "textures/entity/armor/" + (equipmentSlot == EquipmentSlot.LEGS ? "myrmex_desert_layer_2" : "myrmex_desert_layer_1") + ".png");
         if (this.material.value() == IafArmorMaterials.MYRMEX_JUNGLE_ARMOR_MATERIAL.value())
-            return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/" + (equipmentSlot == EquipmentSlot.LEGS ? "myrmex_jungle_layer_2" : "myrmex_jungle_layer_1") + ".png");
+            return Identifier.of(IceAndFire.MOD_ID, "textures/entity/armor/" + (equipmentSlot == EquipmentSlot.LEGS ? "myrmex_jungle_layer_2" : "myrmex_jungle_layer_1") + ".png");
         if (this.material.value() == IafArmorMaterials.SHEEP_ARMOR_MATERIAL.value())
-            return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/" + (equipmentSlot == EquipmentSlot.LEGS ? "sheep_disguise_layer_2" : "sheep_disguise_layer_1") + ".png");
+            return Identifier.of(IceAndFire.MOD_ID, "textures/entity/armor/" + (equipmentSlot == EquipmentSlot.LEGS ? "sheep_disguise_layer_2" : "sheep_disguise_layer_1") + ".png");
         if (this.material.value() == IafArmorMaterials.EARPLUGS_ARMOR_MATERIAL.value())
-            return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/earplugs_layer_1.png");
+            return Identifier.of(IceAndFire.MOD_ID, "textures/entity/armor/earplugs_layer_1.png");
         return null;
     }
 }

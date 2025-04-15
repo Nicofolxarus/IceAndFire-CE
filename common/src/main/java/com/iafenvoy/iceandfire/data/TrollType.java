@@ -85,15 +85,15 @@ public class TrollType {
     }
 
     public Identifier getTexture() {
-        return Identifier.of(IceAndFire.MOD_ID, "textures/models/troll/troll_" + this.name + ".png");
+        return Identifier.of(IceAndFire.MOD_ID, "textures/entity/troll/troll_" + this.name + ".png");
     }
 
     public Identifier getStatueTexture() {
-        return Identifier.of(IceAndFire.MOD_ID, "textures/models/troll/troll_" + this.name + "_stone.png");
+        return Identifier.of(IceAndFire.MOD_ID, "textures/entity/troll/troll_" + this.name + "_stone.png");
     }
 
     public Identifier getEyesTexture() {
-        return Identifier.of(IceAndFire.MOD_ID, "textures/models/troll/troll_" + this.name + "_eyes.png");
+        return Identifier.of(IceAndFire.MOD_ID, "textures/entity/troll/troll_" + this.name + "_eyes.png");
     }
 
     public boolean allowSpawn(RegistryEntry<Biome> biome) {
@@ -116,7 +116,7 @@ public class TrollType {
 
         @Override
         public Identifier getTexture() {
-            return Identifier.of(IceAndFire.MOD_ID, "textures/models/troll/weapon/weapon_" + this.name().toLowerCase(Locale.ROOT) + ".png");
+            return Identifier.of(IceAndFire.MOD_ID, "textures/entity/troll/weapon/weapon_" + this.name().toLowerCase(Locale.ROOT) + ".png");
         }
 
         @Override

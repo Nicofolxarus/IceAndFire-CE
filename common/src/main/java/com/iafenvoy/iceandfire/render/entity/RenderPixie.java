@@ -11,12 +11,12 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class RenderPixie extends MobEntityRenderer<EntityPixie, ModelPixie> {
-    public static final Identifier TEXTURE_0 = Identifier.of(IceAndFire.MOD_ID, "textures/models/pixie/pixie_0.png");
-    public static final Identifier TEXTURE_1 = Identifier.of(IceAndFire.MOD_ID, "textures/models/pixie/pixie_1.png");
-    public static final Identifier TEXTURE_2 = Identifier.of(IceAndFire.MOD_ID, "textures/models/pixie/pixie_2.png");
-    public static final Identifier TEXTURE_3 = Identifier.of(IceAndFire.MOD_ID, "textures/models/pixie/pixie_3.png");
-    public static final Identifier TEXTURE_4 = Identifier.of(IceAndFire.MOD_ID, "textures/models/pixie/pixie_4.png");
-    public static final Identifier TEXTURE_5 = Identifier.of(IceAndFire.MOD_ID, "textures/models/pixie/pixie_5.png");
+    public static final Identifier TEXTURE_0 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/pixie/pixie_0.png");
+    public static final Identifier TEXTURE_1 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/pixie/pixie_1.png");
+    public static final Identifier TEXTURE_2 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/pixie/pixie_2.png");
+    public static final Identifier TEXTURE_3 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/pixie/pixie_3.png");
+    public static final Identifier TEXTURE_4 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/pixie/pixie_4.png");
+    public static final Identifier TEXTURE_5 = Identifier.of(IceAndFire.MOD_ID, "textures/entity/pixie/pixie_5.png");
 
     public RenderPixie(EntityRendererFactory.Context context) {
         super(context, new ModelPixie(), 0.2F);

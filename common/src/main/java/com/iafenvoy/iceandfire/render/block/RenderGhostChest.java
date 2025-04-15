@@ -11,9 +11,9 @@ import net.minecraft.util.Identifier;
 import static net.minecraft.client.render.TexturedRenderLayers.CHEST_ATLAS_TEXTURE;
 
 public class RenderGhostChest extends ChestBlockEntityRenderer<BlockEntityGhostChest> {
-    private static final SpriteIdentifier GHOST_CHEST = new SpriteIdentifier(CHEST_ATLAS_TEXTURE, Identifier.of(IceAndFire.MOD_ID, "models/ghost/ghost_chest"));
-    private static final SpriteIdentifier GHOST_CHEST_LEFT = new SpriteIdentifier(CHEST_ATLAS_TEXTURE, Identifier.of(IceAndFire.MOD_ID, "models/ghost/ghost_chest_left"));
-    private static final SpriteIdentifier GHOST_CHEST_RIGHT = new SpriteIdentifier(CHEST_ATLAS_TEXTURE, Identifier.of(IceAndFire.MOD_ID, "models/ghost/ghost_chest_right"));
+    private static final SpriteIdentifier GHOST_CHEST = new SpriteIdentifier(CHEST_ATLAS_TEXTURE, Identifier.of(IceAndFire.MOD_ID, "entity/ghost/ghost_chest"));
+    private static final SpriteIdentifier GHOST_CHEST_LEFT = new SpriteIdentifier(CHEST_ATLAS_TEXTURE, Identifier.of(IceAndFire.MOD_ID, "entity/ghost/ghost_chest_left"));
+    private static final SpriteIdentifier GHOST_CHEST_RIGHT = new SpriteIdentifier(CHEST_ATLAS_TEXTURE, Identifier.of(IceAndFire.MOD_ID, "entity/ghost/ghost_chest_right"));
 
     public RenderGhostChest(BlockEntityRendererFactory.Context context) {
         super(context);

@@ -13,7 +13,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class RenderChainTie extends EntityRenderer<EntityChainTie> {
-    private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/models/misc/chain_tie.png");
+    private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/entity/misc/chain_tie.png");
     private final ModelChainTie leashKnotModel = new ModelChainTie();
 
     public RenderChainTie(EntityRendererFactory.Context context) {

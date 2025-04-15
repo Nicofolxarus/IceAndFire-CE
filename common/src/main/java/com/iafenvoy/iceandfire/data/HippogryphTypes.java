@@ -71,6 +71,6 @@ public class HippogryphTypes {
     }
 
     public Identifier getTexture(boolean blink) {
-        return Identifier.of(IceAndFire.MOD_ID, "textures/models/hippogryph/" + this.name.toLowerCase(Locale.ROOT) + (blink ? "_blink" : "") + ".png");
+        return Identifier.of(IceAndFire.MOD_ID, "textures/entity/hippogryph/" + this.name.toLowerCase(Locale.ROOT) + (blink ? "_blink" : "") + ".png");
     }
 }

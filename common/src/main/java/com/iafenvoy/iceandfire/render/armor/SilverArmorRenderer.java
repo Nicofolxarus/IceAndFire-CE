@@ -18,6 +18,6 @@ public class SilverArmorRenderer implements IArmorRendererBase<LivingEntity> {
 
     @Override
     public Identifier getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot) {
-        return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/" + (slot == EquipmentSlot.LEGS ? "armor_silver_metal_layer_2" : "armor_silver_metal_layer_1") + ".png");
+        return Identifier.of(IceAndFire.MOD_ID, "textures/entity/armor/" + (slot == EquipmentSlot.LEGS ? "armor_silver_metal_layer_2" : "armor_silver_metal_layer_1") + ".png");
     }
 }

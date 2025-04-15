@@ -50,8 +50,8 @@ public class EntityMyrmexQueen extends EntityMyrmexBase {
     public static final Animation ANIMATION_DIGNEST = Animation.create(45);
     public static final Identifier DESERT_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/myrmex_queen_desert");
     public static final Identifier JUNGLE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/myrmex_queen_jungle");
-    private static final Identifier TEXTURE_DESERT = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_desert_queen.png");
-    private static final Identifier TEXTURE_JUNGLE = Identifier.of(IceAndFire.MOD_ID, "textures/models/myrmex/myrmex_jungle_queen.png");
+    private static final Identifier TEXTURE_DESERT = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_desert_queen.png");
+    private static final Identifier TEXTURE_JUNGLE = Identifier.of(IceAndFire.MOD_ID, "textures/entity/myrmex/myrmex_jungle_queen.png");
     private static final TrackedData<Boolean> HASMADEHOME = DataTracker.registerData(EntityMyrmexQueen.class, TrackedDataHandlerRegistry.BOOLEAN);
     private int eggTicks = 0;
 

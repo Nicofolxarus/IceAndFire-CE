@@ -21,6 +21,6 @@ public class SeaSerpentArmorRenderer implements IArmorRendererBase<LivingEntity>
     @Override
     public Identifier getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot) {
         SeaSerpent armor_type = ((ItemSeaSerpentArmor) stack.getItem()).armorType;
-        return Identifier.of(IceAndFire.MOD_ID, "textures/models/armor/armor_tide_" + armor_type.getName() + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
+        return Identifier.of(IceAndFire.MOD_ID, "textures/entity/armor/armor_tide_" + armor_type.getName() + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
     }
 }
