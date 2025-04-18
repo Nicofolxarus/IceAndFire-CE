@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.iafenvoy.iceandfire.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BrewingRecipeRegistry$BuilderMixin",
     "ChunkRegionMixin",
@@ -14,13 +14,11 @@
     "GameRendererMixin",
     "InGameHudMixin",
     "LivingEntityRendererMixin",
-    "ParticleManagerMixin",
     "PlayerEntityRendererMixin",
     "RotatingCubeMapRendererMixin",
     "TitleScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  },
-  "refmap": "IceAndFireCE-common-common-refmap.json"
+  }
 }

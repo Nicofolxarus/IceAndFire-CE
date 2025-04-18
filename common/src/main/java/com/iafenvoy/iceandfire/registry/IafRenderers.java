@@ -4,6 +4,7 @@ import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.data.DragonArmor;
 import com.iafenvoy.iceandfire.data.SeaSerpent;
 import com.iafenvoy.iceandfire.data.TrollType;
+import com.iafenvoy.iceandfire.impl.ParticleProviderHolder;
 import com.iafenvoy.iceandfire.item.ItemDragonHorn;
 import com.iafenvoy.iceandfire.item.ItemSummoningCrystal;
 import com.iafenvoy.iceandfire.particle.*;
@@ -25,10 +26,11 @@ import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import dev.architectury.registry.item.ItemPropertiesRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.util.Identifier;
+
+import java.util.function.Consumer;
 
 @Environment(EnvType.CLIENT)
 public final class IafRenderers {
@@ -99,18 +101,19 @@ public final class IafRenderers {
         EntityRendererRegistry.register(IafEntities.GHOST_SWORD, RenderGhostSword::new);
     }
 
-    public static void registerParticleRenderers(ParticleManager manager) {
-        manager.registerFactory(IafParticles.DRAGON_FLAME.get(), ParticleDragonFlame::provider);
-        manager.registerFactory(IafParticles.DRAGON_FROST.get(), ParticleDragonFrost::provider);
-        manager.registerFactory(IafParticles.BLOOD.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleBlood(world, x, y, z));
-        manager.registerFactory(IafParticles.DREAD_PORTAL.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleDreadPortal(world, x, y, z, velocityX, velocityY, velocityZ));
-        manager.registerFactory(IafParticles.DREAD_TORCH.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleDreadTorch(world, x, y, z, velocityX, velocityY, velocityZ));
-        manager.registerFactory(IafParticles.GHOST_APPEARANCE.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleGhostAppearance(world, x, y, z, 1));
-        manager.registerFactory(IafParticles.HYDRA_BREATH.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleHydraBreath(world, x, y, z, 1, 1, 1));
-        manager.registerFactory(IafParticles.PIXIE_DUST.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticlePixieDust(world, x, y, z, 1, 1, 1, 1));
-        manager.registerFactory(IafParticles.SERPENT_BUBBLE.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleSerpentBubble(world, x, y, z, velocityX, velocityY, velocityZ, 1));
-        manager.registerFactory(IafParticles.SIREN_APPEARANCE.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleSirenAppearance(world, x, y, z, 1));
-        manager.registerFactory(IafParticles.SIREN_MUSIC.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleSirenMusic(world, x, y, z, velocityX, velocityY, velocityZ));
+    public static void registerParticleRenderers(Consumer<ParticleProviderHolder<?>> consumer) {
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.DRAGON_FLAME.get(), ParticleDragonFlame::provider));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.DRAGON_FLAME.get(), ParticleDragonFlame::provider));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.DRAGON_FROST.get(), ParticleDragonFrost::provider));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.BLOOD.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleBlood(world, x, y, z)));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.DREAD_PORTAL.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleDreadPortal(world, x, y, z, velocityX, velocityY, velocityZ)));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.DREAD_TORCH.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleDreadTorch(world, x, y, z, velocityX, velocityY, velocityZ)));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.GHOST_APPEARANCE.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleGhostAppearance(world, x, y, z, 1)));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.HYDRA_BREATH.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleHydraBreath(world, x, y, z, 1, 1, 1)));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.PIXIE_DUST.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticlePixieDust(world, x, y, z, 1, 1, 1, 1)));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.SERPENT_BUBBLE.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleSerpentBubble(world, x, y, z, velocityX, velocityY, velocityZ, 1)));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.SIREN_APPEARANCE.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleSirenAppearance(world, x, y, z, 1)));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.SIREN_MUSIC.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new ParticleSirenMusic(world, x, y, z, velocityX, velocityY, velocityZ)));
     }
 
     public static void registerBlockEntityRenderers() {
