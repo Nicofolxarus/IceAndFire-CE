@@ -2,7 +2,6 @@ package com.iafenvoy.iceandfire.item.ability.impl;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.item.ability.DamageBonusAbility;
-import com.iafenvoy.iceandfire.item.ability.FrozenTargetAbility;
 import com.iafenvoy.iceandfire.item.ability.PostHitAbility;
 import com.iafenvoy.iceandfire.registry.tag.IafEntityTags;
 import net.minecraft.entity.LivingEntity;

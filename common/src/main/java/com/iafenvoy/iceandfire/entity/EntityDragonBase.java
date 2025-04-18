@@ -5,7 +5,6 @@ import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.api.IafEvents;
 import com.iafenvoy.iceandfire.component.DragonSkullComponent;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.data.DragonArmorMaterial;
 import com.iafenvoy.iceandfire.data.DragonColor;
 import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.data.component.IafEntityData;

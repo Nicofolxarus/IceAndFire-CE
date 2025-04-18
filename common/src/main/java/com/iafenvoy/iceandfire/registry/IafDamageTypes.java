@@ -18,7 +18,7 @@ public final class IafDamageTypes {
     public static final RegistryKey<DamageType> DRAGON_ICE_TYPE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(IceAndFire.MOD_ID, "dragon_ice"));
     public static final RegistryKey<DamageType> DRAGON_LIGHTNING_TYPE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(IceAndFire.MOD_ID, "dragon_lightning"));
 
-    public static DamageSource BonusDamage(Entity attacker) {
+    public static DamageSource bonusDamage(Entity attacker) {
         RegistryEntry<DamageType> holder =
             attacker.getWorld().getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).getEntry(BONUS).get();
         return new DamageSource(holder, attacker);

@@ -8,6 +8,7 @@ import net.minecraft.registry.tag.TagKey;
 
 public interface DamageBonusAbility extends PostHitAbility {
     float bonus();
+
     TagKey<EntityType<?>> targetType();
 
     @Override
@@ -16,9 +17,7 @@ public interface DamageBonusAbility extends PostHitAbility {
             return;
         }
         if (target.getType().isIn(targetType())) {
-            target.damage(
-                IafDamageTypes.BonusDamage(attacker),
-                bonus()
+            target.damage(IafDamageTypes.bonusDamage(attacker), this.bonus()
             );
         }
     }
