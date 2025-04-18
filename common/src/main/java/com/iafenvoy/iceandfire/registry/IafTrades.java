@@ -41,6 +41,7 @@ public final class IafTrades {
         final float rareItemForEmeraldMultiplier = 0.2F;
         TradeOfferHelper.registerVillagerOffers(profession, 1,
                 new BuyWithPrice(new ItemStack(Items.EMERALD, 1), new ItemStack(IafItems.MANUSCRIPT.get(), 4), 25, 2, emeraldForItemsMultiplier),
+                new BuyWithPrice(new ItemStack(IafItems.MANUSCRIPT.get(), 6), new ItemStack(Items.EMERALD, 1), 10, 5, itemForEmeraldMultiplier),
                 new BuyWithPrice(new ItemStack(Items.BOOKSHELF, 3), new ItemStack(Items.EMERALD, 1), 8, 3, itemForEmeraldMultiplier),
                 new BuyWithPrice(new ItemStack(Items.PAPER, 15), new ItemStack(Items.EMERALD, 2), 4, 4, itemForEmeraldMultiplier),
                 new BuyWithPrice(new ItemStack(IafBlocks.ASH.get(), 10), new ItemStack(Items.EMERALD, 1), 8, 4, itemForEmeraldMultiplier));
