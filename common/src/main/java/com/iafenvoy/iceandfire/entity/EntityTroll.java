@@ -9,6 +9,7 @@ import com.iafenvoy.iceandfire.entity.util.IHumanoid;
 import com.iafenvoy.iceandfire.entity.util.IVillagerFear;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafSounds;
+import com.iafenvoy.iceandfire.world.GenerationConstants;
 import com.iafenvoy.uranus.animation.Animation;
 import com.iafenvoy.uranus.animation.AnimationHandler;
 import com.iafenvoy.uranus.animation.IAnimatedEntity;
@@ -63,7 +64,7 @@ public class EntityTroll extends HostileEntity implements IAnimatedEntity, IVill
     }
 
     public static boolean canTrollSpawnOn(EntityType<? extends MobEntity> typeIn, ServerWorldAccess worldIn, SpawnReason reason, BlockPos pos, Random randomIn) {
-        return worldIn.getDifficulty() != Difficulty.PEACEFUL && isSpawnDark(worldIn, pos, randomIn) && canMobSpawn(IafEntities.TROLL.get(), worldIn, reason, pos, randomIn);
+        return worldIn.getDifficulty() != Difficulty.PEACEFUL && GenerationConstants.isFarEnoughFromSpawn(pos) && isSpawnDark(worldIn, pos, randomIn) && canMobSpawn(IafEntities.TROLL.get(), worldIn, reason, pos, randomIn);
     }
 
     public static DefaultAttributeContainer.Builder bakeAttributes() {

@@ -11,6 +11,7 @@ import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import com.iafenvoy.iceandfire.registry.tag.IafEntityTags;
 import com.iafenvoy.iceandfire.registry.tag.IafItemTags;
+import com.iafenvoy.iceandfire.world.GenerationConstants;
 import com.iafenvoy.uranus.animation.Animation;
 import com.iafenvoy.uranus.animation.AnimationHandler;
 import com.iafenvoy.uranus.animation.IAnimatedEntity;
@@ -46,6 +47,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.*;
 
 import java.util.List;
@@ -84,6 +86,10 @@ public class EntityCockatrice extends TameableEntity implements IAnimatedEntity,
         this.lookControl = new IAFLookHelper(this);
         this.aiStare = new CockatriceAIStareAttack(this, 1.0D, 0, 15.0F);
         this.aiMelee = new EntityAIAttackMeleeNoCooldown(this, 1.5D, false);
+    }
+
+    public static boolean canCockatriceSpawn(EntityType<? extends MobEntity> type, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
+        return GenerationConstants.isFarEnoughFromSpawn(pos) && canMobSpawn(type, world, spawnReason, pos, random);
     }
 
     public static DefaultAttributeContainer.Builder bakeAttributes() {

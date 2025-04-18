@@ -141,7 +141,7 @@ public final class IafEntities {
         SpawnRestriction.register(HIPPOGRYPH.get(), SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityHippogryph::canMobSpawn);
         SpawnRestriction.register(TROLL.get(), SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityTroll::canTrollSpawnOn);
         SpawnRestriction.register(DREAD_LICH.get(), SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityDreadLich::canLichSpawnOn);
-        SpawnRestriction.register(COCKATRICE.get(), SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityCockatrice::canMobSpawn);
+        SpawnRestriction.register(COCKATRICE.get(), SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityCockatrice::canCockatriceSpawn);
         SpawnRestriction.register(AMPHITHERE.get(), SpawnLocationTypes.UNRESTRICTED, Heightmap.Type.MOTION_BLOCKING, EntityAmphithere::canAmphithereSpawnOn);
     }
 
