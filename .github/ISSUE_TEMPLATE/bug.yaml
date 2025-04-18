@@ -42,3 +42,4 @@ body:
         - label: I have removed Optifine.
           required: true
         - label: I have installed other mods
+        - label: This is a conflict with other mods and no issue occurred when running standalone.
