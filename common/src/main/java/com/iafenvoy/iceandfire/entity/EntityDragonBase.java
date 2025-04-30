@@ -115,6 +115,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
     public static final float[] growth_stage_3 = new float[]{7F, 12.5F};
     public static final float[] growth_stage_4 = new float[]{12.5F, 20F};
     public static final float[] growth_stage_5 = new float[]{20F, 30F};
+    public static final float[][] growth_stages = new float[][]{growth_stage_1, growth_stage_2, growth_stage_3, growth_stage_4, growth_stage_5};
     private static final Identifier ARMOR_MODIFIER = Identifier.of(IceAndFire.MOD_ID, "armor_modifier");
     private static final TrackedData<Integer> HUNGER = DataTracker.registerData(EntityDragonBase.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> AGE_TICKS = DataTracker.registerData(EntityDragonBase.class, TrackedDataHandlerRegistry.INTEGER);
@@ -152,7 +153,6 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
     public final double minimumArmor;
     public final double maximumArmor;
     public final float[] prevAnimationProgresses = new float[10];
-    public final float[][] growth_stages = new float[][]{growth_stage_1, growth_stage_2, growth_stage_3, growth_stage_4, growth_stage_5};
     public final LegSolverQuadruped legSolver;
     public final IafDragonLogic logic;
     public final IafDragonFlightManager flightManager;
@@ -1025,8 +1025,8 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
         double val = 1D;
         final EquipmentSlot[] slots = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
         for (EquipmentSlot slot : slots)
-            if(this.getEquippedStack(slot).getItem() instanceof ItemDragonArmor dragonArmor)
-                val+=dragonArmor.type.getProtection();
+            if (this.getEquippedStack(slot).getItem() instanceof ItemDragonArmor dragonArmor)
+                val += dragonArmor.type.getProtection();
         return val;
     }
 
@@ -1714,9 +1714,8 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
     public float getRenderSize() {
         final int stage = this.getDragonStage() - 1;
         final float step = (this.growth_stages[stage][1] - this.growth_stages[stage][0]) / 25;
-        if (this.getAgeInDays() > 125) {
+        if (this.getAgeInDays() > 125)
             return this.growth_stages[stage][0] + (step * 25);
-        }
         return this.growth_stages[stage][0] + (step * this.getAgeFactor());
     }
 
