@@ -43,8 +43,6 @@ dependencies {
     modImplementation "maven.modrinth:uranus:4mfB8LLj"
     modImplementation "maven.modrinth:jupiter:yHfucqRJ"
 
-    modImplementation "maven.modrinth:what-are-they-up-to:iHAQTK0N"
-
     // CCA
     modImplementation(include("org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"))
     modImplementation(include("org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"))

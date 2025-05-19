@@ -173,7 +173,7 @@ public class EntityGhostSword extends PersistentProjectileEntity {
 
                 this.onHit(livingentity);
                 if (livingentity != entity1 && livingentity instanceof PlayerEntity && entity1 instanceof ServerPlayerEntity player)
-                    player.networkHandler.sendPacket(new GameStateChangeS2CPacket(GameStateChangeS2CPacket.PROJECTILE_HIT_PLAYER, 0.0F));
+                    player.networkHandler.send(new GameStateChangeS2CPacket(GameStateChangeS2CPacket.PROJECTILE_HIT_PLAYER, 0.0F), null);
 
                 if (!entity.isAlive() && this.hitEntities != null)
                     this.hitEntities.add(livingentity);
