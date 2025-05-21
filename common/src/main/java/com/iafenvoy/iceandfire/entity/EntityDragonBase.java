@@ -2327,12 +2327,20 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
     }
 
     @Override
+    protected void removePassenger(Entity passenger) {
+        super.removePassenger(passenger);
+        if (passenger instanceof PlayerEntity player)
+            this.onHearFlute(player);
+    }
+
+    @Override
     public void onHearFlute(PlayerEntity player) {
         if (this.isTamed() && this.isOwner(player)) {
             if (this.isFlying() || this.isHovering()) {
                 this.setFlying(false);
                 this.setHovering(false);
             }
+            this.navigation.stop();
         }
     }
 
