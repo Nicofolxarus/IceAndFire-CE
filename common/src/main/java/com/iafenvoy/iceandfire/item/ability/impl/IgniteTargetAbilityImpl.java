@@ -5,6 +5,6 @@ import com.iafenvoy.iceandfire.item.ability.IgniteTargetAbility;
 public record IgniteTargetAbilityImpl(int fireTime) implements IgniteTargetAbility {
     @Override
     public int getFireTime() {
-        return fireTime;
+        return this.fireTime;
     }
 }

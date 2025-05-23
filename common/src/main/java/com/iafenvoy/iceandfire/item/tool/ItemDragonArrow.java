@@ -25,7 +25,7 @@ public class ItemDragonArrow extends ArrowItem {
 
     @Override
     public ProjectileEntity createEntity(World world, Position pos, ItemStack stack, Direction direction) {
-        EntityDragonArrow arrowEntity = new EntityDragonArrow(IafEntities.DRAGON_ARROW.get(), pos.getX(), pos.getY(), pos.getZ(), world, stack.copyWithCount(1), (ItemStack) null);
+        EntityDragonArrow arrowEntity = new EntityDragonArrow(IafEntities.DRAGON_ARROW.get(), pos.getX(), pos.getY(), pos.getZ(), world, stack.copyWithCount(1), null);
         arrowEntity.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
         return arrowEntity;
     }

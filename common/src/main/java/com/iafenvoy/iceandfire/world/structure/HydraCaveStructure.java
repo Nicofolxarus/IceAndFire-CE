@@ -39,7 +39,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class HydraCaveStructure extends Structure {
-    public static final MapCodec<HydraCaveStructure> CODEC = RecordCodecBuilder.<HydraCaveStructure>mapCodec(instance ->
+    public static final MapCodec<HydraCaveStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(configCodecBuilder(instance)).apply(instance, HydraCaveStructure::new));
 
     protected HydraCaveStructure(Config config) {

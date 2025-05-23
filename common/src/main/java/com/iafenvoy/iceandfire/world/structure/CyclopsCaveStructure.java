@@ -42,7 +42,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CyclopsCaveStructure extends Structure {
-    public static final MapCodec<CyclopsCaveStructure> CODEC = RecordCodecBuilder.<CyclopsCaveStructure>mapCodec(instance ->
+    public static final MapCodec<CyclopsCaveStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(configCodecBuilder(instance)).apply(instance, CyclopsCaveStructure::new));
 
     protected CyclopsCaveStructure(Config config) {

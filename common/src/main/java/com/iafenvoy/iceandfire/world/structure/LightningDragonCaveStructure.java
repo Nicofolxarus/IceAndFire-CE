@@ -26,7 +26,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.structure.StructureType;
 
 public class LightningDragonCaveStructure extends DragonCaveStructure {
-    public static final MapCodec<LightningDragonCaveStructure> CODEC = RecordCodecBuilder.<LightningDragonCaveStructure>mapCodec(instance ->
+    public static final MapCodec<LightningDragonCaveStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(configCodecBuilder(instance)).apply(instance, LightningDragonCaveStructure::new));
 
     protected LightningDragonCaveStructure(Config config) {

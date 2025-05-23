@@ -11,8 +11,8 @@ public interface FrozenTargetAbility extends PostHitAbility {
     @Override
     default void active(LivingEntity target, LivingEntity attacker) {
         IafEntityData data = IafEntityData.get(target);
-        data.frozenData.setFrozen(target, getDuration());
-        target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, getDuration(), 2));
-        target.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, getDuration(), 2));
-    };
+        data.frozenData.setFrozen(target, this.getDuration());
+        target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, this.getDuration(), 2));
+        target.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, this.getDuration(), 2));
+    }
 }

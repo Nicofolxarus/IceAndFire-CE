@@ -7,8 +7,8 @@ public interface IgniteTargetAbility extends PostHitAbility {
 
     @Override
     default void active(LivingEntity target, LivingEntity attacker) {
-        if (isEnable()) {
-            target.setOnFireFor(getFireTime());
+        if (this.isEnable()) {
+            target.setOnFireFor(this.getFireTime());
         }
     }
 }

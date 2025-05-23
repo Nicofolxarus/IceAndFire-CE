@@ -31,7 +31,7 @@ import net.minecraft.world.gen.structure.StructureType;
 import java.util.Optional;
 
 public class PixieVillageStructure extends Structure {
-    public static final MapCodec<PixieVillageStructure> CODEC = RecordCodecBuilder.<PixieVillageStructure>mapCodec(instance ->
+    public static final MapCodec<PixieVillageStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(configCodecBuilder(instance)).apply(instance, PixieVillageStructure::new));
 
     protected PixieVillageStructure(Config config) {

@@ -115,7 +115,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
     public static final float[] growth_stage_3 = new float[]{7F, 12.5F};
     public static final float[] growth_stage_4 = new float[]{12.5F, 20F};
     public static final float[] growth_stage_5 = new float[]{20F, 30F};
-    public static final float[][] growth_stages = new float[][]{growth_stage_1, growth_stage_2, growth_stage_3, growth_stage_4, growth_stage_5};
+    public static final float[][] GROWTH_STAGES = new float[][]{growth_stage_1, growth_stage_2, growth_stage_3, growth_stage_4, growth_stage_5};
     private static final Identifier ARMOR_MODIFIER = Identifier.of(IceAndFire.MOD_ID, "armor_modifier");
     private static final TrackedData<Integer> HUNGER = DataTracker.registerData(EntityDragonBase.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> AGE_TICKS = DataTracker.registerData(EntityDragonBase.class, TrackedDataHandlerRegistry.INTEGER);
@@ -1713,10 +1713,10 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
 
     public float getRenderSize() {
         final int stage = this.getDragonStage() - 1;
-        final float step = (this.growth_stages[stage][1] - this.growth_stages[stage][0]) / 25;
+        final float step = (GROWTH_STAGES[stage][1] - GROWTH_STAGES[stage][0]) / 25;
         if (this.getAgeInDays() > 125)
-            return this.growth_stages[stage][0] + (step * 25);
-        return this.growth_stages[stage][0] + (step * this.getAgeFactor());
+            return GROWTH_STAGES[stage][0] + (step * 25);
+        return GROWTH_STAGES[stage][0] + (step * this.getAgeFactor());
     }
 
     private int getAgeFactor() {
@@ -1727,9 +1727,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
     public boolean tryAttack(Entity entityIn) {
         this.getLookControl().lookAt(entityIn, 30.0F, 30.0F);
         if (this.isTackling() || this.isModelDead()) return false;
-        boolean flag = entityIn.damage(this.getWorld().getDamageSources().mobAttack(this), ((int) this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).getValue()));
-//        if (flag) this.applyDamageEffects(this, entityIn);
-        return flag;
+        return entityIn.damage(this.getWorld().getDamageSources().mobAttack(this), ((int) this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).getValue()));
     }
 
     @Override

@@ -34,7 +34,7 @@ import net.minecraft.world.gen.structure.StructureType;
 import java.util.stream.Collectors;
 
 public class LightningDragonRoostStructure extends DragonRoostStructure {
-    public static final MapCodec<LightningDragonRoostStructure> CODEC = RecordCodecBuilder.<LightningDragonRoostStructure>mapCodec(instance ->
+    public static final MapCodec<LightningDragonRoostStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(configCodecBuilder(instance)).apply(instance, LightningDragonRoostStructure::new));
 
     protected LightningDragonRoostStructure(Config config) {

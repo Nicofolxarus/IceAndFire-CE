@@ -16,7 +16,7 @@ public interface DamageBonusAbility extends PostHitAbility {
         if (attacker instanceof PlayerEntity player && player.getAttackCooldownProgress(0) != 1.0F) {
             return;
         }
-        if (target.getType().isIn(targetType())) {
+        if (target.getType().isIn(this.targetType())) {
             target.damage(IafDamageTypes.bonusDamage(attacker), this.bonus()
             );
         }

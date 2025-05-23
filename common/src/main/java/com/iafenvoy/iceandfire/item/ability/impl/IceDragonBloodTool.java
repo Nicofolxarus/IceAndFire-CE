@@ -16,9 +16,9 @@ public class IceDragonBloodTool implements PostHitAbility {
 
     @Override
     public void active(LivingEntity target, LivingEntity attacker) {
-        damageBonus.active(target, attacker);
-        if (isEnable()) {
-           frozen.active(target, attacker);
+        this.damageBonus.active(target, attacker);
+        if (this.isEnable()) {
+            this.frozen.active(target, attacker);
         }
     }
 
@@ -31,7 +31,7 @@ public class IceDragonBloodTool implements PostHitAbility {
     public void addDescription(List<Text> tooltip) {
         tooltip.add(Text.translatable("item.iceandfire.legendary_weapon.desc").formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("dragon_sword_ice.hurt1").formatted(Formatting.GREEN));
-        if (isEnable()) {
+        if (this.isEnable()) {
             tooltip.add(Text.translatable("dragon_sword_ice.hurt2").formatted(Formatting.AQUA));
         }
     }

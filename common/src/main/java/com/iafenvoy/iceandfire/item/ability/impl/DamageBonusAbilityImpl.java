@@ -12,12 +12,12 @@ public record DamageBonusAbilityImpl(float bonus, TagKey<EntityType<?>> targetTy
 
     @Override
     public float bonus() {
-        return bonus;
+        return this.bonus;
     }
 
     @Override
     public TagKey<EntityType<?>> targetType() {
-        return targetType;
+        return this.targetType;
     }
 
     @Override

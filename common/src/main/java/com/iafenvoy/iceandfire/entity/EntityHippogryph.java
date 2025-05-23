@@ -926,6 +926,7 @@ public class EntityHippogryph extends TameableEntity implements ExtendedMenuProv
         }
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isTargetBlocked(Vec3d target) {
         if (target != null) {
             BlockHitResult rayTrace = this.getWorld().raycast(new RaycastContext(this.getCameraPosVec(1.0F), target, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this));

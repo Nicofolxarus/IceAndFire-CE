@@ -186,6 +186,7 @@ public class PathNavigateDeathWormLand extends EntityNavigation {
     /**
      * Returns true when an entity could stand at a position, including solid blocks under the entire entity.
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private boolean isSafeToStandAt(int x, int y, int z, int sizeX, int sizeY, int sizeZ, Vec3d vec31, double p_179683_8_, double p_179683_10_) {
         int i = x - sizeX / 2;
         int j = z - sizeZ / 2;

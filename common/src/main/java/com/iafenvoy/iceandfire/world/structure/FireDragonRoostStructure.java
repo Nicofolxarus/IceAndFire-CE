@@ -29,7 +29,7 @@ import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.structure.StructureType;
 
 public class FireDragonRoostStructure extends DragonRoostStructure {
-    public static final MapCodec<FireDragonRoostStructure> CODEC = RecordCodecBuilder.<FireDragonRoostStructure>mapCodec(instance ->
+    public static final MapCodec<FireDragonRoostStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(configCodecBuilder(instance)).apply(instance, FireDragonRoostStructure::new));
 
     protected FireDragonRoostStructure(Config config) {

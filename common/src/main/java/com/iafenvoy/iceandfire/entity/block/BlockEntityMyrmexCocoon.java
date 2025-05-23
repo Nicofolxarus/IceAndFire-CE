@@ -104,6 +104,7 @@ public class BlockEntityMyrmexCocoon extends LootableContainerBlockEntity {
         return this.createNbtWithIdentifyingData(registryLookup);
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isFull(ItemStack heldStack) {
         for (ItemStack itemstack : this.chestContents)
             if (itemstack.isEmpty() || heldStack != null && !heldStack.isEmpty() && ItemStack.areItemsEqual(itemstack, heldStack) && itemstack.getCount() + heldStack.getCount() < itemstack.getMaxCount())
