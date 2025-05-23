@@ -4,7 +4,6 @@ import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.TrollType;
 import com.iafenvoy.iceandfire.registry.tag.CommonTags;
-import com.iafenvoy.iceandfire.registry.tag.IafItemTags;
 import com.iafenvoy.uranus.util.function.MemorizeSupplier;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -28,7 +27,7 @@ public final class IafArmorMaterials {
     public static final DeferredRegister<ArmorMaterial> REGISTRY = DeferredRegister.create(IceAndFire.MOD_ID, RegistryKeys.ARMOR_MATERIAL);
 
     public static final RegistrySupplier<ArmorMaterial> COPPER_ARMOR_MATERIAL = register("copper", new int[]{1, 3, 4, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0, new MemorizeSupplier<>(() -> Ingredient.ofItems(Items.COPPER_INGOT)));
-    public static final RegistrySupplier<ArmorMaterial> SILVER_ARMOR_MATERIAL = register("silver", new int[]{1, 4, 5, 2}, 20, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 0, new MemorizeSupplier<>(() -> Ingredient.fromTag(IafItemTags.INGOTS_SILVER)));
+    public static final RegistrySupplier<ArmorMaterial> SILVER_ARMOR_MATERIAL = register("silver", new int[]{1, 4, 5, 2}, 20, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 0, new MemorizeSupplier<>(() -> Ingredient.fromTag(CommonTags.Items.INGOTS_SILVER)));
     public static final RegistrySupplier<ArmorMaterial> BLINDFOLD_ARMOR_MATERIAL = register("blindfold", new int[]{1, 1, 1, 1}, 10, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0, new MemorizeSupplier<>(() -> Ingredient.fromTag(CommonTags.Items.STRINGS)));
     public static final RegistrySupplier<ArmorMaterial> SHEEP_ARMOR_MATERIAL = register("sheep", new int[]{1, 3, 2, 1}, 15, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0, new MemorizeSupplier<>(() -> Ingredient.ofItems(Blocks.WHITE_WOOL)));
     public static final RegistrySupplier<ArmorMaterial> MYRMEX_DESERT_ARMOR_MATERIAL = register("myrmex_desert", new int[]{3, 5, 8, 4}, 15, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0, new MemorizeSupplier<>(() -> Ingredient.ofItems(IafItems.MYRMEX_DESERT_CHITIN.get())));

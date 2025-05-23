@@ -8,19 +8,20 @@ import net.minecraft.util.Identifier;
 
 public final class CommonTags {
     public static class Blocks {
-        public static final TagKey<Block> COBBLESTONES = tag("cobblestones");
-        public static final TagKey<Block> GRAVELS = tag("gravels");
-        public static final TagKey<Block> STONES = tag("stones");
+        public static final TagKey<Block> COBBLESTONES = create("cobblestones");
+        public static final TagKey<Block> GRAVELS = create("gravels");
+        public static final TagKey<Block> STONES = create("stones");
 
-        private static TagKey<Block> tag(String name) {
+        private static TagKey<Block> create(String name) {
             return TagKey.of(RegistryKeys.BLOCK, Identifier.of("c", name));
         }
     }
 
     public static class Items {
-        public static final TagKey<Item> STRINGS = tag("strings");
+        public static final TagKey<Item> STRINGS = create("strings");
+        public static final TagKey<Item> INGOTS_SILVER = create("ingots/silver");
 
-        private static TagKey<Item> tag(String name) {
+        private static TagKey<Item> create(String name) {
             return TagKey.of(RegistryKeys.ITEM, Identifier.of("c", name));
         }
     }

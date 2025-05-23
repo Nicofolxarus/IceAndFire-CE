@@ -173,9 +173,6 @@ public class EntityPixie extends TameableEntity {
             this.setStackInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
         }
         super.onDeath(cause);
-        //if (cause.getTrueSource() instanceof PlayerEntity) {
-        //	((PlayerEntity) cause.getTrueSource()).addStat(ModAchievements.killPixie);
-        //}
     }
 
     @Override
@@ -199,26 +196,18 @@ public class EntityPixie extends TameableEntity {
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
         if (this.isOwner(player)) {
-
             if (player.getStackInHand(hand).isIn(IafItemTags.HEAL_PIXIE) && this.getHealth() < this.getMaxHealth()) {
                 this.heal(5);
                 player.getStackInHand(hand).decrement(1);
                 this.playSound(IafSounds.PIXIE_TAUNT.get(), 1F, 1F);
                 return ActionResult.SUCCESS;
             } else {
-
-                // make pixie sit via a check in livingTick() like Hippogryphs work
                 this.setCommand(this.getCommand() + 1);
-                if (this.getCommand() > 1) {
-                    this.setCommand(0);
-                }
-
+                if (this.getCommand() > 1) this.setCommand(0);
                 return ActionResult.SUCCESS;
             }
         } else if (player.getStackInHand(hand).getItem() == IafBlocks.JAR_EMPTY.get().asItem() && !this.isTamed()) {
-            if (!player.isCreative()) {
-                player.getStackInHand(hand).decrement(1);
-            }
+            if (!player.isCreative()) player.getStackInHand(hand).decrement(1);
             Block jar = switch (this.getColor()) {
                 case 0 -> IafBlocks.JAR_PIXIE_0.get();
                 case 1 -> IafBlocks.JAR_PIXIE_1.get();
@@ -236,7 +225,6 @@ public class EntityPixie extends TameableEntity {
 
                 this.dropStack(stack, 0.0F);
             }
-            //player.addStat(ModAchievements.jarPixie);
             this.remove(RemovalReason.DISCARDED);
         }
         return super.interactMob(player, hand);
@@ -248,7 +236,7 @@ public class EntityPixie extends TameableEntity {
         this.goalSelector.add(1, new PixieAIFollowOwner(this, 1.0D, 2.0F, 4.0F));
         this.goalSelector.add(2, new PixieAIPickupItem<>(this, false));
         this.goalSelector.add(2, new PixieAIFlee<>(this, PlayerEntity.class, 10, (Predicate<PlayerEntity>) entity -> true));
-        this.goalSelector.add(2, new PixieAISteal(this, 1.0D));
+        this.goalSelector.add(2, new PixieAISteal(this));
         this.goalSelector.add(3, new PixieAIMoveRandom(this));
         this.goalSelector.add(4, new PixieAIEnterHouse(this));
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
@@ -264,9 +252,7 @@ public class EntityPixie extends TameableEntity {
     }
 
     private boolean isBeyondHeight() {
-        if (this.getY() > this.getWorld().getTopY()) {
-            return true;
-        }
+        if (this.getY() > this.getWorld().getTopY()) return true;
         BlockPos height = this.getWorld().getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, this.getBlockPos());
         int maxY = 20 + height.getY();
         return this.getY() > maxY;
@@ -281,49 +267,35 @@ public class EntityPixie extends TameableEntity {
         this.setPixieSitting(command == 1);
     }
 
-
     @Override
     public void tickMovement() {
         super.tickMovement();
-
         if (!this.getWorld().isClient) {
-
             // NOTE: This code was taken from EntityHippogryph basically same idea
-            if (this.isPixieSitting() && this.getCommand() != 1) {
+            if (this.isPixieSitting() && this.getCommand() != 1)
                 this.setPixieSitting(false);
-            }
-            if (!this.isPixieSitting() && this.getCommand() == 1) {
+            if (!this.isPixieSitting() && this.getCommand() == 1)
                 this.setPixieSitting(true);
-            }
-            if (this.isPixieSitting()) {
+            if (this.isPixieSitting())
                 this.getNavigation().stop();
-            }
         }
-
-        if (this.stealCooldown > 0) {
+        if (this.stealCooldown > 0)
             this.stealCooldown--;
-        }
-        if (!this.getMainHandStack().isEmpty() && !this.isTamed()) {
+        if (!this.getMainHandStack().isEmpty() && !this.isTamed())
             this.ticksHeldItemFor++;
-        } else {
+        else
             this.ticksHeldItemFor = 0;
-        }
 
-
-        if (!this.isPixieSitting() && !this.isBeyondHeight()) {
+        if (!this.isPixieSitting() && !this.isBeyondHeight())
             this.setVelocity(this.getVelocity().add(0, 0.08, 0));
-        }
-        if (this.getWorld().isClient) {
+        if (this.getWorld().isClient)
             this.getWorld().addParticle(IafParticles.PIXIE_DUST.get(), this.getX() + (double) (this.random.nextFloat() * this.getWidth() * 2F) - (double) this.getWidth(), this.getY() + (double) (this.random.nextFloat() * this.getHeight()), this.getZ() + (double) (this.random.nextFloat() * this.getWidth() * 2F) - (double) this.getWidth(), PARTICLE_RGB[this.getColor()][0], PARTICLE_RGB[this.getColor()][1], PARTICLE_RGB[this.getColor()][2]);
-        }
-        if (this.ticksUntilHouseAI > 0) {
+        if (this.ticksUntilHouseAI > 0)
             this.ticksUntilHouseAI--;
-        }
         if (!this.getWorld().isClient) {
             if (this.housePos != null && this.squaredDistanceTo(Vec3d.ofCenter(this.housePos)) < 1.5F && this.getWorld().getBlockEntity(this.housePos) != null && this.getWorld().getBlockEntity(this.housePos) instanceof BlockEntityPixieHouse house) {
-                if (house.hasPixie) {
-                    this.housePos = null;
-                } else {
+                if (house.hasPixie) this.housePos = null;
+                else {
                     house.hasPixie = true;
                     house.pixieType = this.getColor();
                     house.pixieItems.set(0, this.getStackInHand(Hand.MAIN_HAND));
@@ -337,10 +309,6 @@ public class EntityPixie extends TameableEntity {
         if (this.getOwner() != null && this.isOwnerClose() && this.age % 80 == 0) {
             this.getOwner().addStatusEffect(new StatusEffectInstance(this.positivePotions[this.getColor()], 100, 0, false, false));
         }
-        //PlayerEntity player = world.getClosestPlayerToEntity(this, 25);
-        //if (player != null) {
-        //	player.addStat(ModAchievements.findPixie);
-        //}
     }
 
     public int getColor() {
@@ -350,7 +318,6 @@ public class EntityPixie extends TameableEntity {
     public void setColor(int color) {
         this.getDataTracker().set(COLOR, color);
     }
-
 
     @Override
     public void readCustomDataFromNbt(NbtCompound compound) {
@@ -411,17 +378,13 @@ public class EntityPixie extends TameableEntity {
     public boolean isTeammate(Entity entityIn) {
         if (this.isTamed()) {
             LivingEntity livingentity = this.getOwner();
-            if (entityIn == livingentity) {
+            if (entityIn == livingentity)
                 return true;
-            }
-            if (entityIn instanceof TameableEntity) {
-                return ((TameableEntity) entityIn).isOwner(livingentity);
-            }
-            if (livingentity != null) {
+            if (entityIn instanceof TameableEntity tameable)
+                return tameable.isOwner(livingentity);
+            if (livingentity != null)
                 return livingentity.isTeammate(entityIn);
-            }
         }
-
         return super.isTeammate(entityIn);
     }
 
@@ -433,9 +396,7 @@ public class EntityPixie extends TameableEntity {
         @Override
         public void tick() {
             float speedMod = 1;
-            if (EntityPixie.this.slowSpeed) {
-                speedMod = 2F;
-            }
+            if (EntityPixie.this.slowSpeed) speedMod = 2F;
             if (this.state == State.MOVE_TO) {
                 if (EntityPixie.this.horizontalCollision) {
                     EntityPixie.this.setYaw(this.entity.getYaw() + 180.0F);
