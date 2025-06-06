@@ -100,8 +100,6 @@ public class LecternScreen extends HandledScreen<LecternScreenHandler> {
         RenderSystem.viewport((this.width - 320) / 2 * k, (this.height - 240) / 2 * k, 320 * k, 240 * k);
         Matrix4f matrix4f = new Matrix4f().m03(-0.34F).m13(0.23F);
         matrix4f.mul(new Matrix4f().perspective(90.0F, 1.3333334F, 9.0F, 80.0F));
-        RenderSystem.backupProjectionMatrix();
-        RenderSystem.setProjectionMatrix(matrix4f, null);
         ms.getMatrices().push();
         ms.getMatrices().loadIdentity();
         ms.getMatrices().translate(0.0D, 3.3F, 1984.0D);
@@ -121,14 +119,12 @@ public class LecternScreen extends HandledScreen<LecternScreenHandler> {
         if (f4 < 0.0F) f4 = 0.0F;
         if (f3 > 1.0F) f3 = 1.0F;
         if (f4 > 1.0F) f4 = 1.0F;
-
         bookModel.setPageAngles(0, f3, f4, f1);
         VertexConsumer vertexconsumer = ms.getVertexConsumers().getBuffer(bookModel.getLayer(ENCHANTMENT_TABLE_BOOK_TEXTURE));
         bookModel.render(ms.getMatrices(), vertexconsumer, 15728880, OverlayTexture.DEFAULT_UV, -1);
-        ms.getVertexConsumers().draw();
+        ms.draw();
         ms.getMatrices().pop();
         RenderSystem.viewport(0, 0, this.client.getWindow().getFramebufferWidth(), this.client.getWindow().getFramebufferHeight());
-        RenderSystem.restoreProjectionMatrix();
         DiffuseLighting.enableGuiDepthLighting();
         RenderSystem.setShaderColor(1, 1, 1, 1);
 

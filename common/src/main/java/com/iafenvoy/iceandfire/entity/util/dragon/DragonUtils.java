@@ -265,6 +265,7 @@ public class DragonUtils {
         return entity instanceof VillagerEntity;
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isAnimaniaMob(Entity entity) {
         return false;
     }
@@ -287,6 +288,7 @@ public class DragonUtils {
         return block.getBlastResistance() < 1200 && !state.isIn(IafBlockTags.DRAGON_BLOCK_BREAK_BLACKLIST);
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean hasSameOwner(TameableEntity cockatrice, Entity entity) {
         if (entity instanceof TameableEntity tameable)
             return tameable.getOwnerUuid() != null && cockatrice.getOwnerUuid() != null && tameable.getOwnerUuid().equals(cockatrice.getOwnerUuid());

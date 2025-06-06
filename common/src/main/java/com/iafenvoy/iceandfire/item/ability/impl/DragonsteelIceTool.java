@@ -12,8 +12,8 @@ public class DragonsteelIceTool implements PostHitAbility {
     private final PostHitAbility frozen = new FrozenTargetAbilityImpl(IafCommonConfig.INSTANCE.tools.dragonsteelFrozenDuration.getValue());
     @Override
     public void active(LivingEntity target, LivingEntity attacker) {
-        if (isEnable()) {
-            frozen.active(target, attacker);
+        if (this.isEnable()) {
+            this.frozen.active(target, attacker);
         }
     }
 
@@ -24,7 +24,7 @@ public class DragonsteelIceTool implements PostHitAbility {
 
     @Override
     public void addDescription(List<Text> tooltip) {
-        if (isEnable()) {
+        if (this.isEnable()) {
             tooltip.add(Text.translatable("dragon_sword_ice.hurt2").formatted(Formatting.AQUA));
         }
     }

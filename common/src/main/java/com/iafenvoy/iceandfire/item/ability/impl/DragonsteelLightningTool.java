@@ -11,7 +11,7 @@ import java.util.List;
 public class DragonsteelLightningTool implements PostHitAbility {
     @Override
     public void active(LivingEntity target, LivingEntity attacker) {
-        if (isEnable()) {
+        if (this.isEnable()) {
             AbilityImpls.SUMMON_LIGHTNING.active(target, attacker);
         }
     }
@@ -23,7 +23,7 @@ public class DragonsteelLightningTool implements PostHitAbility {
 
     @Override
     public void addDescription(List<Text> tooltip) {
-        if (isEnable()) {
+        if (this.isEnable()) {
             tooltip.add(Text.translatable("dragon_sword_lightning.hurt2").formatted(Formatting.DARK_PURPLE));
         }
     }

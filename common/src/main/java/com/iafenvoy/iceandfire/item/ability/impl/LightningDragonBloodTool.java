@@ -15,9 +15,9 @@ public class LightningDragonBloodTool implements PostHitAbility {
     private final DamageBonusAbility damageBonusIce = new DamageBonusAbilityImpl(4.0F, IafEntityTags.ICE_DRAGON, null);
     @Override
     public void active(LivingEntity target, LivingEntity attacker) {
-        damageBonusFire.active(target, attacker);
-        damageBonusIce.active(target, attacker);
-        if (isEnable()) {
+        this.damageBonusFire.active(target, attacker);
+        this.damageBonusIce.active(target, attacker);
+        if (this.isEnable()) {
             AbilityImpls.SUMMON_LIGHTNING.active(target, attacker);
         }
     }
@@ -30,7 +30,7 @@ public class LightningDragonBloodTool implements PostHitAbility {
     @Override
     public void addDescription(List<Text> tooltip) {
         tooltip.add(Text.translatable("dragon_sword_lightning.hurt1").formatted(Formatting.GREEN));
-        if (isEnable()) {
+        if (this.isEnable()) {
             tooltip.add(Text.translatable("dragon_sword_lightning.hurt2").formatted(Formatting.DARK_PURPLE));
         }
     }

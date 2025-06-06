@@ -7,7 +7,6 @@ import com.iafenvoy.uranus.client.model.AdvancedModelBox;
 import com.iafenvoy.uranus.client.model.TabulaModel;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LayerDragonRider extends FeatureRenderer<EntityDragonBase, TabulaModel<EntityDragonBase>> {
-    public static final List<Entity> renderingRiders = new ArrayList<>();
+    public static final List<Entity> RENDERING_RIDERS = new ArrayList<>();
     private final MobEntityRenderer<EntityDragonBase, TabulaModel<EntityDragonBase>> render;
     private final boolean excludeDreadQueenMob;
 
@@ -74,9 +73,9 @@ public class LayerDragonRider extends FeatureRenderer<EntityDragonBase, TabulaMo
                 matrixStackIn.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(riderRot + 180));
                 matrixStackIn.scale(1 / dragonScale, 1 / dragonScale, 1 / dragonScale);
                 matrixStackIn.translate(0, -0.25F, 0);
-                renderingRiders.add(passenger);
+                RENDERING_RIDERS.add(passenger);
                 this.renderEntity(passenger, 0, 0, 0, 0.0F, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-                renderingRiders.remove(passenger);
+                RENDERING_RIDERS.remove(passenger);
                 matrixStackIn.pop();
             }
         }
@@ -115,22 +114,13 @@ public class LayerDragonRider extends FeatureRenderer<EntityDragonBase, TabulaMo
     }
 
     public <E extends Entity> void renderEntity(E entityIn, int x, int y, int z, float yaw, float partialTicks, MatrixStack matrixStack, VertexConsumerProvider bufferIn, int packedLight) {
-        EntityRenderer<? super E> render = null;
-        EntityRenderDispatcher manager = MinecraftClient.getInstance().getEntityRenderDispatcher();
         try {
-            render = manager.getRenderer(entityIn);
-            if (render != null)
-                try {
-                    render.render(entityIn, 0, partialTicks, matrixStack, bufferIn, packedLight);
-                } catch (Throwable throwable1) {
-                    throw new CrashException(CrashReport.create(throwable1, "Rendering entity in world"));
-                }
+            MinecraftClient.getInstance().getEntityRenderDispatcher().render(entityIn, x, y, z, yaw, partialTicks, matrixStack, bufferIn, packedLight);
         } catch (Throwable throwable3) {
             CrashReport crashreport = CrashReport.create(throwable3, "Rendering entity in world");
             CrashReportSection crashreportcategory = crashreport.addElement("Entity being rendered");
             entityIn.populateCrashReport(crashreportcategory);
             CrashReportSection crashreportcategory1 = crashreport.addElement("Renderer details");
-            crashreportcategory1.add("Assigned renderer", render);
             crashreportcategory1.add("Location", new BlockPos(x, y, z));
             crashreportcategory1.add("Rotation", yaw);
             crashreportcategory1.add("Delta", partialTicks);

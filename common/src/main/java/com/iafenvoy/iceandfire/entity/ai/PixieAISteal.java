@@ -3,6 +3,7 @@ package com.iafenvoy.iceandfire.entity.ai;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.EntityPixie;
 import com.iafenvoy.iceandfire.registry.IafSounds;
+import com.iafenvoy.iceandfire.registry.tag.IafItemTags;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,7 +20,7 @@ public class PixieAISteal extends Goal {
     private int delayTemptCounter = 0;
     private boolean isRunning;
 
-    public PixieAISteal(EntityPixie temptedEntityIn, double speedIn) {
+    public PixieAISteal(EntityPixie temptedEntityIn) {
         this.temptedEntity = temptedEntityIn;
     }
 
@@ -27,10 +28,8 @@ public class PixieAISteal extends Goal {
     public boolean canStart() {
         if (!IafCommonConfig.INSTANCE.pixie.stealItems.getValue() || !this.temptedEntity.getMainHandStack().isEmpty() || this.temptedEntity.stealCooldown > 0)
             return false;
-        if (this.temptedEntity.getRandom().nextInt(200) == 0)
-            return false;
-        if (this.temptedEntity.isTamed())
-            return false;
+        if (this.temptedEntity.getRandom().nextInt(200) == 0) return false;
+        if (this.temptedEntity.isTamed()) return false;
         if (this.delayTemptCounter > 0) {
             --this.delayTemptCounter;
             return false;
@@ -66,7 +65,7 @@ public class PixieAISteal extends Goal {
 
             for (int i = 0; i < this.temptingPlayer.getInventory().size(); i++) {
                 ItemStack targetStack = this.temptingPlayer.getInventory().getStack(i);
-                if (!PlayerInventory.isValidHotbarIndex(i) && !targetStack.isEmpty() && targetStack.isStackable())
+                if (!PlayerInventory.isValidHotbarIndex(i) && !targetStack.isEmpty() && targetStack.isStackable() && !targetStack.isIn(IafItemTags.PIXIE_STOLEN_BLACKLIST))
                     slotlist.add(i);
             }
             if (!slotlist.isEmpty()) {
@@ -80,10 +79,8 @@ public class PixieAISteal extends Goal {
                     pixie.stealCooldown = 1000 + pixie.getRandom().nextInt(3000);
                 if (this.temptingPlayer != null)
                     this.temptingPlayer.addStatusEffect(new StatusEffectInstance(this.temptedEntity.negativePotions[this.temptedEntity.getColor()], 100));
-            } else {
-                //If the pixie couldn't steal anything
+            } else//If the pixie couldn't steal anything
                 this.delayTemptCounter = 10 * 20;
-            }
         } else
             this.temptedEntity.getMoveControl().moveTo(this.temptingPlayer.getX(), this.temptingPlayer.getY() + 1.5F, this.temptingPlayer.getZ(), 1D);
     }

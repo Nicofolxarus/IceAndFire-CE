@@ -30,7 +30,7 @@ import net.minecraft.world.gen.structure.StructureType;
 import java.util.Optional;
 
 public class SirenIslandStructure extends Structure {
-    public static final MapCodec<SirenIslandStructure> CODEC = RecordCodecBuilder.<SirenIslandStructure>mapCodec(instance ->
+    public static final MapCodec<SirenIslandStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(configCodecBuilder(instance)).apply(instance, SirenIslandStructure::new));
 
     protected SirenIslandStructure(Config config) {

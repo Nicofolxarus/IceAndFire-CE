@@ -51,7 +51,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class MyrmexHiveStructure extends Structure {
-    public static final MapCodec<MyrmexHiveStructure> CODEC = RecordCodecBuilder.<MyrmexHiveStructure>mapCodec(instance -> instance.group(
+    public static final MapCodec<MyrmexHiveStructure> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             configCodecBuilder(instance),
             Codec.BOOL.fieldOf("jungle").forGetter(structure -> structure.jungle)
     ).apply(instance, MyrmexHiveStructure::new));

@@ -12,8 +12,8 @@ public class DragonsteelFireTool implements PostHitAbility {
     private final PostHitAbility ignite = new IgniteTargetAbilityImpl(IafCommonConfig.INSTANCE.tools.dragonsteelFireDuration.getValue());
     @Override
     public void active(LivingEntity target, LivingEntity attacker) {
-        if (isEnable()) {
-            ignite.active(target, attacker);
+        if (this.isEnable()) {
+            this.ignite.active(target, attacker);
             AbilityImpls.TAKE_KNOCKBACK.active(target, attacker);
         }
     }
@@ -25,7 +25,7 @@ public class DragonsteelFireTool implements PostHitAbility {
 
     @Override
     public void addDescription(List<Text> tooltip) {
-        if (isEnable()) {
+        if (this.isEnable()) {
             tooltip.add(Text.translatable("dragon_sword_fire.hurt2").formatted(Formatting.DARK_RED));
         }
     }

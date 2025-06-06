@@ -15,9 +15,9 @@ public class FireDragonBloodTool implements PostHitAbility {
     private final PostHitAbility ignite = new IgniteTargetAbilityImpl(IafCommonConfig.INSTANCE.tools.dragonBloodFireDuration.getValue());
     @Override
     public void active(LivingEntity target, LivingEntity attacker) {
-        damageBonus.active(target, attacker);
-        if (isEnable()) {
-            ignite.active(target, attacker);
+        this.damageBonus.active(target, attacker);
+        if (this.isEnable()) {
+            this.ignite.active(target, attacker);
             AbilityImpls.TAKE_KNOCKBACK.active(target, attacker);
         }
     }
@@ -31,7 +31,7 @@ public class FireDragonBloodTool implements PostHitAbility {
     public void addDescription(List<Text> tooltip) {
         tooltip.add(Text.translatable("item.iceandfire.legendary_weapon.desc").formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("dragon_sword_fire.hurt1").formatted(Formatting.GREEN));
-        if (isEnable()) {
+        if (this.isEnable()) {
             tooltip.add(Text.translatable("dragon_sword_fire.hurt2").formatted(Formatting.DARK_RED));
         }
     }

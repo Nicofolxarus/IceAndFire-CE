@@ -245,6 +245,7 @@ public class MyrmexHive {
         this.playerReputation.put(playerName, j);
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isPlayerReputationTooLowToTrade(UUID uuid) {
         return this.getPlayerReputation(uuid) < 50;
     }

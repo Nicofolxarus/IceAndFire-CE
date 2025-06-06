@@ -19,7 +19,7 @@
     "id": "iceandfire:cooked_rice_with_fire_dragon_meat"
   },
   "container": {
-    "item": "minecraft:bowl"
+    "id": "minecraft:bowl"
   },
   "cookingtime": 200
 }

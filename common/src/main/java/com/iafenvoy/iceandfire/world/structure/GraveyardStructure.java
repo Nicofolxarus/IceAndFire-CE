@@ -21,7 +21,7 @@ import net.minecraft.world.gen.structure.StructureType;
 import java.util.Optional;
 
 public class GraveyardStructure extends IafJigsawStructure {
-    public static final MapCodec<GraveyardStructure> CODEC = RecordCodecBuilder.<GraveyardStructure>mapCodec(instance ->
+    public static final MapCodec<GraveyardStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(GraveyardStructure.configCodecBuilder(instance),
                     StructurePool.REGISTRY_CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
                     Identifier.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),

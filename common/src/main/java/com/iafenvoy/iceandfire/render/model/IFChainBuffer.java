@@ -28,6 +28,7 @@ public class IFChainBuffer {
         this.prevPitchVariation = 0.0F;
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private boolean compareDouble(double a, double b) {
         double c = a - b;
         return Math.abs(c - 1.0) <= 0.01D;

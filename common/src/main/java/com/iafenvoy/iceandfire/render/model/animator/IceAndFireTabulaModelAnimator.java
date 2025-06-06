@@ -26,6 +26,7 @@ public class IceAndFireTabulaModelAnimator<T extends Entity> {
         model.rotateAngleZ += Math.min(limbSwingAmount * 2, 1) * this.distance(model.defaultRotationZ, z);
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isRotationEqual(AdvancedModelBox original, AdvancedModelBox pose) {
         return pose != null && pose.rotateAngleX == original.defaultRotationX && pose.rotateAngleY == original.defaultRotationY && pose.rotateAngleZ == original.defaultRotationZ;
     }

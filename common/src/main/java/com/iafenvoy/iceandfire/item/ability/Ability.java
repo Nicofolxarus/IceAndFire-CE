@@ -7,6 +7,7 @@ import java.util.List;
 public interface Ability {
     default boolean isEnable() {
         return true;
-    };
-    default void addDescription(List<Text> tooltip) {};
+    }
+
+    default void addDescription(List<Text> tooltip) {}
 }

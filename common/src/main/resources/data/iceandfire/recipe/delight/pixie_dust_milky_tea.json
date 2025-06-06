@@ -19,7 +19,7 @@
     "id": "iceandfire:pixie_dust_milky_tea"
   },
   "container": {
-    "item": "minecraft:glass_bottle"
+    "id": "minecraft:glass_bottle"
   },
   "cookingtime": 200
 }

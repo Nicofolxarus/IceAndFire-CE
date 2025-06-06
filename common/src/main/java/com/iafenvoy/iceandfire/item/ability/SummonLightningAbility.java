@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 public interface SummonLightningAbility extends PostHitAbility {
     @Override
     default void active(LivingEntity target, LivingEntity attacker) {
-        if (isEnable()) {
+        if (this.isEnable()) {
             if (attacker instanceof PlayerEntity && attacker.handSwingProgress > 0.2) {
                 return;
             }

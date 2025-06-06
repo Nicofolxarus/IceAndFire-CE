@@ -22,6 +22,7 @@ public class CockatriceAIStareAttack extends Goal {
         this.setControls(EnumSet.of(Control.MOVE));
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isEntityLookingAt(LivingEntity looker, LivingEntity seen, double degree) {
         Vec3d Vector3d = looker.getRotationVec(1.0F).normalize();
         Vec3d Vector3d1 = new Vec3d(seen.getX() - looker.getX(), seen.getBoundingBox().minY + seen.getStandingEyeHeight() - (looker.getY() + looker.getStandingEyeHeight()), seen.getZ() - looker.getZ());
