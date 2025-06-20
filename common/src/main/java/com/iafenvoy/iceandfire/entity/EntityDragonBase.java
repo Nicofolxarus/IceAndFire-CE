@@ -1086,7 +1086,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                     stack.decrement(1);
                 return ActionResult.SUCCESS;
             }
-            if (this.isBreedingItem(stack) && this.shouldDropLoot()) {
+            if (this.isBreedingItem(stack) && this.isMature()) {
                 this.setBreedingAge(0);
                 this.eat(player, Hand.MAIN_HAND, stack);
                 this.lovePlayer(player);
@@ -1224,6 +1224,11 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
             return ActionResult.SUCCESS;
         } else return super.interactMob(player, hand);
         return ActionResult.PASS;
+    }
+
+    @Override
+    public boolean canEat() {
+        return this.isMature() && super.canEat();
     }
 
     public abstract ItemConvertible getHeartItem();
@@ -1535,9 +1540,13 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
         return this.getDragonStage() == 3;
     }
 
+    public boolean isMature() {
+        return this.getDragonStage() >= 4;
+    }
+
     @Override
     public boolean shouldDropLoot() {
-        return this.getDragonStage() >= 4;
+        return this.isMature();
     }
 
     @Override

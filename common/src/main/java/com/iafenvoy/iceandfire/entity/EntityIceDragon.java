@@ -227,7 +227,8 @@ public class EntityIceDragon extends EntityDragonBase {
                 d4 = d4 + this.random.nextGaussian() * 0.007499999832361937D * inaccuracy;
                 EntityDragonIceCharge entitylargefireball = new EntityDragonIceCharge(
                         IafEntities.ICE_DRAGON_CHARGE.get(), this.getWorld(), this, d2, d3, d4);
-                float size = this.isBaby() ? 0.4F : this.shouldDropLoot() ? 1.3F : 0.8F;
+                float size;
+                size = this.isBaby() ? 0.4F : this.isMature() ? 1.3F : 0.8F;
                 entitylargefireball.setPosition(headVec.x, headVec.y, headVec.z);
                 if (!this.getWorld().isClient) {
                     this.getWorld().spawnEntity(entitylargefireball);
@@ -401,7 +402,8 @@ public class EntityIceDragon extends EntityDragonBase {
                     this.playSound(IafSounds.ICEDRAGON_BREATH.get(), 4, 1);
                     EntityDragonIceCharge entitylargefireball = new EntityDragonIceCharge(
                             IafEntities.ICE_DRAGON_CHARGE.get(), this.getWorld(), this, d2, d3, d4);
-                    float size = this.isBaby() ? 0.4F : this.shouldDropLoot() ? 1.3F : 0.8F;
+                    float size;
+                    size = this.isBaby() ? 0.4F : this.isMature() ? 1.3F : 0.8F;
                     entitylargefireball.setPosition(headVec.x, headVec.y, headVec.z);
                     if (!this.getWorld().isClient) {
                         this.getWorld().spawnEntity(entitylargefireball);
@@ -518,22 +520,22 @@ public class EntityIceDragon extends EntityDragonBase {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isTeen() ? IafSounds.ICEDRAGON_TEEN_IDLE.get() : this.shouldDropLoot() ? IafSounds.ICEDRAGON_ADULT_IDLE.get() : IafSounds.ICEDRAGON_CHILD_IDLE.get();
+        return this.isTeen() ? IafSounds.ICEDRAGON_TEEN_IDLE.get() : this.isMature() ? IafSounds.ICEDRAGON_ADULT_IDLE.get() : IafSounds.ICEDRAGON_CHILD_IDLE.get();
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return this.isTeen() ? IafSounds.ICEDRAGON_TEEN_HURT.get() : this.shouldDropLoot() ? IafSounds.ICEDRAGON_ADULT_HURT.get() : IafSounds.ICEDRAGON_CHILD_HURT.get();
+        return this.isTeen() ? IafSounds.ICEDRAGON_TEEN_HURT.get() : this.isMature() ? IafSounds.ICEDRAGON_ADULT_HURT.get() : IafSounds.ICEDRAGON_CHILD_HURT.get();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return this.isTeen() ? IafSounds.ICEDRAGON_TEEN_DEATH.get() : this.shouldDropLoot() ? IafSounds.ICEDRAGON_ADULT_DEATH.get() : IafSounds.ICEDRAGON_CHILD_DEATH.get();
+        return this.isTeen() ? IafSounds.ICEDRAGON_TEEN_DEATH.get() : this.isMature() ? IafSounds.ICEDRAGON_ADULT_DEATH.get() : IafSounds.ICEDRAGON_CHILD_DEATH.get();
     }
 
     @Override
     public SoundEvent getRoarSound() {
-        return this.isTeen() ? IafSounds.ICEDRAGON_TEEN_ROAR.get() : this.shouldDropLoot() ? IafSounds.ICEDRAGON_ADULT_ROAR.get() : IafSounds.ICEDRAGON_CHILD_ROAR.get();
+        return this.isTeen() ? IafSounds.ICEDRAGON_TEEN_ROAR.get() : this.isMature() ? IafSounds.ICEDRAGON_ADULT_ROAR.get() : IafSounds.ICEDRAGON_CHILD_ROAR.get();
     }
 
     @Override

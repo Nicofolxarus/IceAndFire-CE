@@ -16,7 +16,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
@@ -105,12 +104,9 @@ public class ItemDragonHorn extends Item {
                 if (optional.isPresent()) {
                     EntityType<?> entityType = optional.get();
                     tooltip.add((Text.translatable(entityType.getTranslationKey())).formatted(this.getTextColorForEntityType(entityType)));
-                    String name = (Text.translatable("dragon.unnamed")).getString();
-                    if (!entityTag.getString("CustomName").isEmpty()) {
-                        MutableText text = Text.Serialization.fromJson(entityTag.getString("CustomName"), context.getRegistryLookup());
-                        if (text != null)
-                            name = text.getString();
-                    }
+                    String name = Text.translatable("dragon.unnamed").getString();
+                    if (!entityTag.getString("CustomName").isEmpty())
+                        name = entityTag.getString("CustomName");
 
                     tooltip.add((Text.literal(name)).formatted(Formatting.GRAY));
                     String gender = (Text.translatable("dragon.gender")).getString() + " " + (Text.translatable(entityTag.getBoolean("Gender") ? "dragon.gender.male" : "dragon.gender.female")).getString();

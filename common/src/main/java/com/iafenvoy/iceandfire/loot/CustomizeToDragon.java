@@ -37,7 +37,7 @@ public class CustomizeToDragon extends ConditionalLootFunction {
                 stack.setCount(dragon.getAgeInDays() / 25 + dragon.getRandom().nextInt(1 + (dragon.getAgeInDays() / 5)));
                 return new ItemStack(DragonColor.getById(dragon.getVariant()).getScaleItem(), stack.getCount());
             } else if (stack.getItem() instanceof ItemDragonEgg) {
-                if (dragon.shouldDropLoot())
+                if (dragon.isMature())
                     return new ItemStack(DragonColor.getById(dragon.getVariant()).getEggItem(), stack.getCount());
                 else {
                     stack.setCount(1 + dragon.getRandom().nextInt(1 + (dragon.getAgeInDays() / 5)));

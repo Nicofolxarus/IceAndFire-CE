@@ -377,22 +377,22 @@ public class EntityLightningDragon extends EntityDragonBase {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isTeen() ? IafSounds.LIGHTNINGDRAGON_TEEN_IDLE.get() : this.shouldDropLoot() ? IafSounds.LIGHTNINGDRAGON_ADULT_IDLE.get() : IafSounds.LIGHTNINGDRAGON_CHILD_IDLE.get();
+        return this.isTeen() ? IafSounds.LIGHTNINGDRAGON_TEEN_IDLE.get() : this.isMature() ? IafSounds.LIGHTNINGDRAGON_ADULT_IDLE.get() : IafSounds.LIGHTNINGDRAGON_CHILD_IDLE.get();
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return this.isTeen() ? IafSounds.LIGHTNINGDRAGON_TEEN_HURT.get() : this.shouldDropLoot() ? IafSounds.LIGHTNINGDRAGON_ADULT_HURT.get() : IafSounds.LIGHTNINGDRAGON_CHILD_HURT.get();
+        return this.isTeen() ? IafSounds.LIGHTNINGDRAGON_TEEN_HURT.get() : this.isMature() ? IafSounds.LIGHTNINGDRAGON_ADULT_HURT.get() : IafSounds.LIGHTNINGDRAGON_CHILD_HURT.get();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return this.isTeen() ? IafSounds.LIGHTNINGDRAGON_TEEN_DEATH.get() : this.shouldDropLoot() ? IafSounds.LIGHTNINGDRAGON_ADULT_DEATH.get() : IafSounds.LIGHTNINGDRAGON_CHILD_DEATH.get();
+        return this.isTeen() ? IafSounds.LIGHTNINGDRAGON_TEEN_DEATH.get() : this.isMature() ? IafSounds.LIGHTNINGDRAGON_ADULT_DEATH.get() : IafSounds.LIGHTNINGDRAGON_CHILD_DEATH.get();
     }
 
     @Override
     public SoundEvent getRoarSound() {
-        return this.isTeen() ? IafSounds.LIGHTNINGDRAGON_TEEN_ROAR.get() : this.shouldDropLoot() ? IafSounds.LIGHTNINGDRAGON_ADULT_ROAR.get() : IafSounds.LIGHTNINGDRAGON_CHILD_ROAR.get();
+        return this.isTeen() ? IafSounds.LIGHTNINGDRAGON_TEEN_ROAR.get() : this.isMature() ? IafSounds.LIGHTNINGDRAGON_ADULT_ROAR.get() : IafSounds.LIGHTNINGDRAGON_CHILD_ROAR.get();
     }
 
     @Override
