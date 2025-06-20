@@ -823,6 +823,7 @@
   "iceandfire.dragon.maxTamedDragonAge": "已驯服龙最大年龄（天）",
   "iceandfire.dragon.movedWronglyFix": "错误移动修复",
   "iceandfire.dragon.movedWronglyFix.comment": "未使用",
+  "iceandfire.dragon.neutralToPlayer": "默认对玩家中立",
   "iceandfire.dragon.sleep": "睡觉",
   "iceandfire.dragon.tamedGriefing": "驯服生物方块破坏",
   "iceandfire.dragon.targetSearchLength": "目标搜寻范围",

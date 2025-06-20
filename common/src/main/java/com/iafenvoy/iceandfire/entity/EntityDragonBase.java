@@ -328,12 +328,13 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
         this.targetSelector.add(3, new RevengeGoal(this));
         this.targetSelector.add(4, new DragonAITargetItems(this, 60, false, false, true));
         this.targetSelector.add(5, new DragonAITargetNonTamed<>(this, LivingEntity.class, false, (Predicate<LivingEntity>) entity -> {
-            if (entity instanceof PlayerEntity player) return !player.isCreative();
+            if (entity instanceof PlayerEntity player)
+                return !player.isCreative() && !IafCommonConfig.INSTANCE.dragon.neutralToPlayer.getValue();
             if (this.getRandom().nextInt(100) > this.getHunger())
                 return entity.getType() != this.getType() && DragonUtils.canHostilesTarget(entity) && DragonUtils.isAlive(entity) && this.shouldTarget(entity);
             return false;
         }));
-        this.targetSelector.add(6, new DragonAITarget<>(this, LivingEntity.class, true, (Predicate<LivingEntity>) entity -> DragonUtils.canHostilesTarget(entity) && entity.getType() != this.getType() && this.shouldTarget(entity) && DragonUtils.isAlive(entity)));
+        this.targetSelector.add(6, new DragonAITarget<>(this, LivingEntity.class, true, (Predicate<LivingEntity>) entity -> entity instanceof PlayerEntity ? !IafCommonConfig.INSTANCE.dragon.neutralToPlayer.getValue() : DragonUtils.canHostilesTarget(entity) && entity.getType() != this.getType() && this.shouldTarget(entity) && DragonUtils.isAlive(entity)));
         this.targetSelector.add(7, new DragonAITargetItems(this, false));
     }
 
