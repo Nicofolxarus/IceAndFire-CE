@@ -1,6 +1,7 @@
 {
   "values": [
     "#c:bosses",
+    "#neoforge:bosses",
     "minecraft:warden"
   ]
 }
