@@ -1,6 +1,7 @@
 package com.iafenvoy.iceandfire.entity;
 
 import com.google.common.collect.Lists;
+import com.iafenvoy.iceandfire.registry.IafItems;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -32,6 +33,7 @@ public class EntityGhostSword extends PersistentProjectileEntity {
     public EntityGhostSword(EntityType<? extends EntityGhostSword> type, World worldIn) {
         super(type, worldIn);
         this.setDamage(9F);
+        this.pickupType = PickupPermission.DISALLOWED;
     }
 
     public EntityGhostSword(EntityType<? extends EntityGhostSword> type, World worldIn, double x, double y, double z, float r, float g, float b) {
@@ -41,8 +43,9 @@ public class EntityGhostSword extends PersistentProjectileEntity {
     }
 
     public EntityGhostSword(EntityType<? extends EntityGhostSword> type, World worldIn, LivingEntity shooter, double dmg, ItemStack from) {
-        super(type, shooter, worldIn, ItemStack.EMPTY, from);
+        super(type, shooter, worldIn, new ItemStack(IafItems.GHOST_SWORD.get()), from);
         this.setDamage(dmg);
+        this.pickupType = PickupPermission.DISALLOWED;
     }
 
     @Override
@@ -192,6 +195,6 @@ public class EntityGhostSword extends PersistentProjectileEntity {
 
     @Override
     protected ItemStack getDefaultItemStack() {
-        return ItemStack.EMPTY;
+        return new ItemStack(IafItems.GHOST_SWORD.get());
     }
 }
