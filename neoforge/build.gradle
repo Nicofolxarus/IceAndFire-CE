@@ -46,6 +46,9 @@ dependencies {
     modLocalRuntime "dev.emi:emi-neoforge:${emi_version}"
 
     modImplementation "maven.modrinth:jade:JkFFfEao"
+
+    //ProjectE
+    modApi "curse.maven:projecte-226410:6611984"
 }
 
 processResources {

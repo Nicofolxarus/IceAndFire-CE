@@ -17,7 +17,6 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 public final class IceAndFireNeoForge {
     public IceAndFireNeoForge(IEventBus modBus) {
         IafAttachments.REGISTRY.register(modBus);
-
         IceAndFire.init();
         if (Platform.getEnv() == Dist.CLIENT)
             IceAndFireClient.init();
