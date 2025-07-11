@@ -47,8 +47,7 @@ public class ItemPixieWand extends Item {
             d2 = d2 + user.getRandom().nextGaussian() * 0.007499999832361937D * inaccuracy;
             d3 = d3 + user.getRandom().nextGaussian() * 0.007499999832361937D * inaccuracy;
             d4 = d4 + user.getRandom().nextGaussian() * 0.007499999832361937D * inaccuracy;
-            EntityPixieCharge charge = new EntityPixieCharge(IafEntities.PIXIE_CHARGE.get(), world, user,
-                    d2, d3, d4);
+            EntityPixieCharge charge = new EntityPixieCharge(IafEntities.PIXIE_CHARGE.get(), world, user, d2, d3, d4);
             charge.setPosition(user.getX(), user.getY() + 1, user.getZ());
             if (!world.isClient)
                 world.spawnEntity(charge);
@@ -56,7 +55,7 @@ public class ItemPixieWand extends Item {
             itemstack.damage(1, user, LivingEntity.getSlotForHand(user.getActiveHand()));
             user.getItemCooldownManager().set(this, 5);
         }
-        return new TypedActionResult<>(ActionResult.PASS, itemStackIn);
+        return new TypedActionResult<>(ActionResult.SUCCESS, itemStackIn);
     }
 
     public boolean isInfinite(ItemStack stack, ItemStack bow, PlayerEntity player) {
