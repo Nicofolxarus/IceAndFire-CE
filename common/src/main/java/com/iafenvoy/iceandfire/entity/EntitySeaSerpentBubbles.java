@@ -79,14 +79,6 @@ public class EntitySeaSerpentBubbles extends AbstractFireballEntity implements I
         if (this.getWorld().isClient) {
             Entity shootingEntity = this.getOwner();
             if (shootingEntity instanceof EntitySeaSerpent && ((EntitySeaSerpent) shootingEntity).getTarget() != null) {
-//                Entity target = ((EntitySeaSerpent) shootingEntity).getTarget();
-//                double d2 = target.getX() - this.getX();
-//                double d3 = target.getY() - this.getY();
-//                double d4 = target.getZ() - this.getZ();
-//                double d0 = Math.sqrt(d2 * d2 + d3 * d3 + d4 * d4);
-//                this.powerX = d2 / d0 * 0.1D;
-//                this.powerY = d3 / d0 * 0.1D;
-//                this.powerZ = d4 / d0 * 0.1D;
             } else if (this.age > 20)
                 this.remove(RemovalReason.DISCARDED);
         }

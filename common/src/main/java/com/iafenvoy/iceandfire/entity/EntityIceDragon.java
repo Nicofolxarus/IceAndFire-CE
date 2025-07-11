@@ -105,11 +105,6 @@ public class EntityIceDragon extends EntityDragonBase {
         this.ticksSwiming = compound.getInt("SwimmingTicks");
     }
 
-/*    @Override
-    public boolean canBeControlledByRider() {
-        return true;
-    }*/
-
     @Override
     public boolean tryAttack(Entity entityIn) {
         this.getLookControl().lookAt(entityIn, 30.0F, 30.0F);
@@ -228,7 +223,9 @@ public class EntityIceDragon extends EntityDragonBase {
                 EntityDragonIceCharge entitylargefireball = new EntityDragonIceCharge(
                         IafEntities.ICE_DRAGON_CHARGE.get(), this.getWorld(), this, d2, d3, d4);
                 float size;
-                size = this.isBaby() ? 0.4F : this.isMature() ? 1.3F : 0.8F;
+                if (!this.isBaby()) {
+                    this.isMature();
+                }
                 entitylargefireball.setPosition(headVec.x, headVec.y, headVec.z);
                 if (!this.getWorld().isClient) {
                     this.getWorld().spawnEntity(entitylargefireball);
@@ -403,7 +400,9 @@ public class EntityIceDragon extends EntityDragonBase {
                     EntityDragonIceCharge entitylargefireball = new EntityDragonIceCharge(
                             IafEntities.ICE_DRAGON_CHARGE.get(), this.getWorld(), this, d2, d3, d4);
                     float size;
-                    size = this.isBaby() ? 0.4F : this.isMature() ? 1.3F : 0.8F;
+                    if (!this.isBaby()) {
+                        this.isMature();
+                    }
                     entitylargefireball.setPosition(headVec.x, headVec.y, headVec.z);
                     if (!this.getWorld().isClient) {
                         this.getWorld().spawnEntity(entitylargefireball);

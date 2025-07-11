@@ -65,15 +65,15 @@ public class EntityStymphalianBird extends HostileEntity implements IAnimatedEnt
     public static DefaultAttributeContainer.Builder bakeAttributes() {
         return MobEntity.createMobAttributes()
                 //HEALTH
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 24.0D)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 24.0)
                 //SPEED
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3)
                 //ATTACK
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, IafCommonConfig.INSTANCE.myrmex.baseAttackDamage.getValue() * 2D)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6)
                 //FOLLOW RANGE
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, Math.min(2048, IafCommonConfig.INSTANCE.stymphalianBird.targetSearchLength.getValue()))
                 //ARMOR
-                .add(EntityAttributes.GENERIC_ARMOR, 4.0D);
+                .add(EntityAttributes.GENERIC_ARMOR, 4.0);
     }
 
     @Override

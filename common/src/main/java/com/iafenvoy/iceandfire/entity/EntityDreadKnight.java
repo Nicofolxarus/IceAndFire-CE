@@ -180,11 +180,6 @@ public class EntityDreadKnight extends EntityDreadMob implements IAnimatedEntity
         return true;
     }
 
-//    @Override
-//    protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
-//        return -0.6F;//TODO: RECHECK
-//    }
-
     @Override
     protected SoundEvent getAmbientSound() {
         return SoundEvents.ENTITY_STRAY_AMBIENT;

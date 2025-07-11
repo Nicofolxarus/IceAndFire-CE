@@ -38,11 +38,6 @@
       },
       {
         "type": "projecte:item",
-        "emc_value": 32,
-        "tag": "iceandfire:myrmex_harvestables"
-      },
-      {
-        "type": "projecte:item",
         "emc_value": 96,
         "id": "iceandfire:cyclops_eye"
       },

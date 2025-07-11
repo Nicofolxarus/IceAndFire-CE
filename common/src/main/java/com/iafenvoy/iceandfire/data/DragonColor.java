@@ -7,6 +7,7 @@ import com.iafenvoy.iceandfire.registry.IafItems;
 import net.minecraft.item.Item;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,7 +75,7 @@ public record DragonColor(String name, Formatting color, DragonType dragonType, 
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "EnumDragonColor[" +
                 "name=" + this.name + ", " +
                 "color=" + this.color + ", " +

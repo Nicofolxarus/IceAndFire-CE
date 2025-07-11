@@ -80,16 +80,6 @@ public class ItemTideTrident extends TridentItem {
         }
     }
 
-//    @Override
-//    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot equipmentSlot) {
-//        ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
-//        if (equipmentSlot == EquipmentSlot.MAINHAND) {
-//            builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", 12.0D, EntityAttributeModifier.Operation.ADDITION));
-//            builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", -2.9F, EntityAttributeModifier.Operation.ADDITION));
-//        }
-//        return builder.build();
-//    }
-
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         super.appendTooltip(stack, context, tooltip, type);

@@ -84,6 +84,7 @@ public class BlockEntityDreadSpawner extends BlockEntity implements Spawner {
         blockEntity.spawner.serverTick((ServerWorld) world, pos);
     }
 
+    @Override
     public void setEntityType(EntityType<?> type, Random random) {
         this.spawner.setEntityId(type, this.world, random, this.pos);
         this.markDirty();

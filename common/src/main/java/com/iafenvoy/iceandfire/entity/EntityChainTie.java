@@ -76,16 +76,6 @@ public class EntityChainTie extends AbstractDecorationEntity {
         return false;
     }
 
-//    @Override
-//    public int getWidthPixels() {
-//        return 9;
-//    }
-//
-//    @Override
-//    public int getHeightPixels() {
-//        return 9;
-//    }
-
     @Override
     public void writeCustomDataToNbt(NbtCompound compound) {
         BlockPos blockpos = this.getAttachedBlockPos();

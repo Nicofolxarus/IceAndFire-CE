@@ -15,7 +15,6 @@ public abstract class AbilityImpls {
     public static final PostHitAbility ARTHROPOD_DAMAGE_BONUS = new DamageBonusAbilityImpl(4.0F, EntityTypeTags.ARTHROPOD, null);
     public static final PostHitAbility DEATHWORM_DAMAGE_BONUS = new DamageBonusAbilityImpl(4.0F, IafEntityTags.DEATHWORM, null);
 
-    public static final PostHitAbility MYRMEX_TOOL = new MyrmexTool();
     public static final PostHitAbility ICE_DRAGON_BLOOD_TOOL = new IceDragonBloodTool();
     public static final PostHitAbility FIRE_DRAGON_BLOOD_TOOL = new FireDragonBloodTool();
     public static final PostHitAbility DRAGONSTEEL_FIRE_TOOL = new DragonsteelFireTool();

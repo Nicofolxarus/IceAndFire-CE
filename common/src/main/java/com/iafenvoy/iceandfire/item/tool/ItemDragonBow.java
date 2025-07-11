@@ -51,8 +51,6 @@ public class ItemDragonBow extends BowItem {
                         int j = EnchantmentHelper.getLevel(RegistryHelper.getEnchantment(world.getRegistryManager(), Enchantments.POWER), stack);
                         if (j > 0)
                             persistentProjectileEntity.setDamage(persistentProjectileEntity.getDamage() + (double) j * 0.5 + 0.5);
-//                        int k = EnchantmentHelper.getLevel(RegistryHelper.getEnchantment(world.getRegistryManager(), Enchantments.PUNCH), stack);
-//                        if (k > 0) persistentProjectileEntity.setPunch(k);
                         if (EnchantmentHelper.getLevel(RegistryHelper.getEnchantment(world.getRegistryManager(), Enchantments.FLAME), stack) > 0)
                             persistentProjectileEntity.setOnFireFor(100);
                         stack.damage(1, playerEntity, LivingEntity.getSlotForHand(user.getActiveHand()));

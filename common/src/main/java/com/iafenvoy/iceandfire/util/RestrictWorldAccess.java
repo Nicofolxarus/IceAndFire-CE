@@ -242,6 +242,7 @@ public class RestrictWorldAccess implements ServerWorldAccess {
         return this.origin.getEnabledFeatures();
     }
 
+    @Override
     public boolean spawnEntity(Entity entity) {
         if (!this.checker.test(entity.getBlockPos())) return false;
         return this.origin.spawnEntity(entity);

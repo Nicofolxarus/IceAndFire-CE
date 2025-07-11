@@ -2,10 +2,8 @@ package com.iafenvoy.iceandfire.network;
 
 import com.iafenvoy.iceandfire.entity.*;
 import com.iafenvoy.iceandfire.entity.util.ISyncMount;
-import com.iafenvoy.iceandfire.entity.util.MyrmexHive;
 import com.iafenvoy.iceandfire.event.ServerEvents;
 import com.iafenvoy.iceandfire.network.payload.*;
-import com.iafenvoy.iceandfire.world.MyrmexWorldData;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.platform.Platform;
 import dev.architectury.utils.Env;
@@ -13,7 +11,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -28,17 +25,6 @@ public class ServerNetworkHelper {
             NetworkManager.registerS2CPayloadType(UpdatePodiumPayload.ID, UpdatePodiumPayload.CODEC);
         }
 
-        NetworkManager.registerReceiver(NetworkManager.Side.C2S, MyrmexSyncPayload.ID, MyrmexSyncPayload.CODEC, (payload, ctx) -> {
-            MyrmexHive serverHive = MyrmexHive.fromNBT(payload.data());
-            NbtCompound tag = new NbtCompound();
-            serverHive.writeVillageDataToNBT(tag);
-            serverHive.readVillageDataFromNBT(tag);
-            PlayerEntity player = ctx.getPlayer();
-            if (player != null) {
-                MyrmexHive realHive = MyrmexWorldData.get(player.getWorld()).getHiveFromUUID(serverHive.hiveUUID);
-                realHive.readVillageDataFromNBT(serverHive.toNBT());
-            }
-        });
         NetworkManager.registerReceiver(NetworkManager.Side.C2S, DragonControlPayload.ID, DragonControlPayload.CODEC, (payload, ctx) -> {
             PlayerEntity player = ctx.getPlayer();
             if (player != null) {

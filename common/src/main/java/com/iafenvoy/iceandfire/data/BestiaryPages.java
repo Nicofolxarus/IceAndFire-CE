@@ -33,7 +33,6 @@ public final class BestiaryPages {
     public static final BestiaryPages COCKATRICE = new BestiaryPages("cockatrice", 2);
     public static final BestiaryPages STYMPHALIAN_BIRD = new BestiaryPages("stymphalianbird", 1);
     public static final BestiaryPages TROLL = new BestiaryPages("troll", 2);
-    public static final BestiaryPages MYRMEX = new BestiaryPages("myrmex", 4);
     public static final BestiaryPages AMPHITHERE = new BestiaryPages("amphithere", 2);
     public static final BestiaryPages SEA_SERPENT = new BestiaryPages("seaserpent", 2);
     public static final BestiaryPages DREAD_MOBS = new BestiaryPages("dread_mobs", 1);
@@ -51,7 +50,7 @@ public final class BestiaryPages {
     }
 
     public static Set<BestiaryPages> containedPages(Collection<String> pages) {
-        return pages.stream().map(x -> BY_NAME.getOrDefault(x, INTRODUCTION)).collect(Collectors.toSet());
+        return pages.stream().map(BY_NAME::get).filter(Objects::nonNull).collect(Collectors.toSet());
     }
 
     public static BestiaryPages getRand() {

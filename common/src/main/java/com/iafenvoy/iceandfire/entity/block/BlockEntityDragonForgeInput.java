@@ -101,8 +101,7 @@ public class BlockEntityDragonForgeInput extends BlockEntity {
             assert this.world != null;
             HitResult rayTrace = this.world.raycast(new RaycastContext(dragon.getHeadPosition(), target, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, dragon));
             double distance = dragon.getHeadPosition().distanceTo(rayTrace.getPos());
-
-            return distance < 10.0F + dragon.getWidth();
+            return distance < 10 + dragon.getWidth() * 2;
         }
 
         return false;

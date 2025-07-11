@@ -17,7 +17,6 @@ public enum IafToolMaterials implements ToolMaterial {
     ICE_DRAGONBONE_TOOL_MATERIAL("ice_dragon_bone", 2000, 5.5F, 10F, 22, BlockTags.INCORRECT_FOR_IRON_TOOL),
     LIGHTNING_DRAGONBONE_TOOL_MATERIAL("lightning_dragon_bone", 2000, 5.5F, 10F, 22, BlockTags.INCORRECT_FOR_IRON_TOOL),
     TROLL_WEAPON_TOOL_MATERIAL("troll_weapon", 300, 1F, 10F, 1, BlockTags.INCORRECT_FOR_WOODEN_TOOL),
-    MYRMEX_CHITIN_TOOL_MATERIAL("myrmex_chitin", 600, 1.0F, 6.0F, 8, BlockTags.INCORRECT_FOR_WOODEN_TOOL),
     HIPPOGRYPH_SWORD_TOOL_MATERIAL("hippogryph_sword", 500, 2.5F, 10F, 10, BlockTags.INCORRECT_FOR_WOODEN_TOOL),
     STYMHALIAN_SWORD_TOOL_MATERIAL("stymphalian_sword", 500, 2, 10.0F, 10, BlockTags.INCORRECT_FOR_WOODEN_TOOL),
     AMPHITHERE_SWORD_TOOL_MATERIAL("amphithere_sword", 500, 1F, 10F, 10, BlockTags.INCORRECT_FOR_WOODEN_TOOL),
@@ -96,7 +95,6 @@ public enum IafToolMaterials implements ToolMaterial {
         HIPPOCAMPUS_SWORD_TOOL_MATERIAL.setRepairMaterial(Ingredient.ofItems(IafItems.SHINY_SCALES.get()));
         AMPHITHERE_SWORD_TOOL_MATERIAL.setRepairMaterial(Ingredient.ofItems(IafItems.AMPHITHERE_FEATHER.get()));
         STYMHALIAN_SWORD_TOOL_MATERIAL.setRepairMaterial(Ingredient.ofItems(IafItems.STYMPHALIAN_BIRD_FEATHER.get()));
-        MYRMEX_CHITIN_TOOL_MATERIAL.setRepairMaterial(Ingredient.ofItems(IafItems.MYRMEX_DESERT_CHITIN.get()));
         DREAD_SWORD_TOOL_MATERIAL.setRepairMaterial(Ingredient.ofItems(IafItems.DREAD_SHARD.get()));
         DREAD_KNIGHT_TOOL_MATERIAL.setRepairMaterial(Ingredient.ofItems(IafItems.DREAD_SHARD.get()));
         COPPER_TOOL_MATERIAL.setRepairMaterial(Ingredient.ofItems(Items.COPPER_INGOT));

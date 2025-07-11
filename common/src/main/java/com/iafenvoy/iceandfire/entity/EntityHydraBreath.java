@@ -79,12 +79,6 @@ public class EntityHydraBreath extends AbstractFireballEntity implements IDragon
                 for (int i = 0; i < 15; ++i)
                     this.getWorld().addParticle(IafParticles.HYDRA_BREATH.get(), this.getX() + (double) (this.random.nextFloat() * this.getWidth()) - (double) this.getWidth() * 0.5F, this.getY() - 0.5D, this.getZ() + (double) (this.random.nextFloat() * this.getWidth()) - (double) this.getWidth() * 0.5F, 0.1D, 1.0D, 0.1D);
 
-//            this.setVelocity(Vector3d.add(this.powerX, this.powerY, this.powerZ).multiply(f));
-//            this.powerX *= 0.95F;
-//            this.powerY *= 0.95F;
-//            this.powerZ *= 0.95F;
-//            this.addVelocity(this.powerX, this.powerY, this.powerZ);
-
             Vec3d vec3d = this.getVelocity();
             this.setVelocity(vec3d.add(vec3d.normalize().multiply(this.accelerationPower)).multiply(this.getDrag()));
 

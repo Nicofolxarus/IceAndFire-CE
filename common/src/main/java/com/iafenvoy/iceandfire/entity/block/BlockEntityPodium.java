@@ -1,7 +1,6 @@
 package com.iafenvoy.iceandfire.entity.block;
 
 import com.iafenvoy.iceandfire.item.ItemDragonEgg;
-import com.iafenvoy.iceandfire.item.ItemMyrmexEgg;
 import com.iafenvoy.iceandfire.network.payload.UpdatePodiumPayload;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
 import com.iafenvoy.iceandfire.screen.handler.PodiumScreenHandler;
@@ -105,7 +104,7 @@ public class BlockEntityPodium extends LockableContainerBlockEntity implements S
 
     @Override
     public boolean canInsert(int index, ItemStack stack, Direction direction) {
-        return index != 0 || (stack.getItem() instanceof ItemDragonEgg || stack.getItem() instanceof ItemMyrmexEgg);
+        return index != 0 || (stack.getItem() instanceof ItemDragonEgg);
     }
 
     @Override

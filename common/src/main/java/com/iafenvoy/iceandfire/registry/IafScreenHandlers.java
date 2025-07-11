@@ -25,22 +25,18 @@ public final class IafScreenHandlers {
     public static final RegistrySupplier<ScreenHandlerType<PodiumScreenHandler>> PODIUM_SCREEN = register("podium", () -> new ScreenHandlerType<>(PodiumScreenHandler::new, FeatureFlags.VANILLA_FEATURES));
     public static final RegistrySupplier<ScreenHandlerType<LecternScreenHandler>> IAF_LECTERN_SCREEN = register("iaf_lectern", () -> new ScreenHandlerType<>(LecternScreenHandler::new, FeatureFlags.VANILLA_FEATURES));
     public static final RegistrySupplier<ScreenHandlerType<BestiaryScreenHandler>> BESTIARY_SCREEN = register("bestiary", () -> MenuRegistry.ofExtended(BestiaryScreenHandler::new));
-    public static final RegistrySupplier<ScreenHandlerType<MyrmexAddRoomScreenHandler>> MYRMEX_ADD_ROOM_SCREEN = register("myrmex_add_room", () -> MenuRegistry.ofExtended(MyrmexAddRoomScreenHandler::new));
-    public static final RegistrySupplier<ScreenHandlerType<MyrmexStaffScreenHandler>> MYRMEX_STAFF_SCREEN = register("myrmex_staff", () -> MenuRegistry.ofExtended(MyrmexStaffScreenHandler::new));
 
     private static <C extends ScreenHandler> RegistrySupplier<ScreenHandlerType<C>> register(String name, Supplier<ScreenHandlerType<C>> type) {
         return REGISTRY.register(name, type);
     }
 
     public static void registerGui() {
-         HandledScreens.register(IafScreenHandlers.IAF_LECTERN_SCREEN.get(), LecternScreen::new);
-         HandledScreens.register(IafScreenHandlers.PODIUM_SCREEN.get(), PodiumScreen::new);
-         HandledScreens.register(IafScreenHandlers.DRAGON_SCREEN.get(), DragonScreen::new);
-         HandledScreens.register(IafScreenHandlers.HIPPOGRYPH_SCREEN.get(), HippogryphScreen::new);
-         HandledScreens.register(IafScreenHandlers.HIPPOCAMPUS_SCREEN.get(), HippocampusScreen::new);
-         HandledScreens.register(IafScreenHandlers.DRAGON_FORGE_SCREEN.get(), DragonForgeScreen::new);
-         HandledScreens.register(IafScreenHandlers.BESTIARY_SCREEN.get(), BestiaryScreen::new);
-         HandledScreens.register(IafScreenHandlers.MYRMEX_ADD_ROOM_SCREEN.get(), MyrmexAddRoomScreen::new);
-         HandledScreens.register(IafScreenHandlers.MYRMEX_STAFF_SCREEN.get(), MyrmexStaffScreen::new);
+        HandledScreens.register(IafScreenHandlers.IAF_LECTERN_SCREEN.get(), LecternScreen::new);
+        HandledScreens.register(IafScreenHandlers.PODIUM_SCREEN.get(), PodiumScreen::new);
+        HandledScreens.register(IafScreenHandlers.DRAGON_SCREEN.get(), DragonScreen::new);
+        HandledScreens.register(IafScreenHandlers.HIPPOGRYPH_SCREEN.get(), HippogryphScreen::new);
+        HandledScreens.register(IafScreenHandlers.HIPPOCAMPUS_SCREEN.get(), HippocampusScreen::new);
+        HandledScreens.register(IafScreenHandlers.DRAGON_FORGE_SCREEN.get(), DragonForgeScreen::new);
+        HandledScreens.register(IafScreenHandlers.BESTIARY_SCREEN.get(), BestiaryScreen::new);
     }
 }
