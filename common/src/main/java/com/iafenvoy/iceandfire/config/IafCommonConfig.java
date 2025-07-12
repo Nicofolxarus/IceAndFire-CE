@@ -106,6 +106,9 @@ public class IafCommonConfig extends AutoInitConfigContainer {
         public final IConfigEntry<Integer> maxTamedDragonAge = new IntegerEntry("iceandfire.dragon.maxTamedDragonAge", 128, 0, 128);
         public final IConfigEntry<Double> maxBreathTimeMul = new DoubleEntry("iceandfire.dragon.maxBreathTimeMul", 2, 0, Integer.MAX_VALUE);
         public final IConfigEntry<Boolean> neutralToPlayer = new BooleanEntry("iceandfire.dragon.neutralToPlayer", false);
+        public final IConfigEntry<Boolean> enableBrushDragonScales = new BooleanEntry("iceandfire.dragon.enableBrushDragonScales", true);
+        public final IConfigEntry<Integer> maxBrushScalesDropPerTime = new IntegerEntry("iceandfire.dragon.maxBrushScalesDropPerTime", 2,1,Integer.MAX_VALUE);
+        public final IConfigEntry<Double> brushTimesMul = new DoubleEntry("iceandfire.dragon.brushTimesMul", 1,0,Integer.MAX_VALUE);
         public final SeparatorEntry s3 = new SeparatorEntry();
         public final IConfigEntry<Boolean> lootSkull = new BooleanEntry("iceandfire.dragon.loot.skull", true);
         public final IConfigEntry<Boolean> lootHeart = new BooleanEntry("iceandfire.dragon.loot.heart", true);

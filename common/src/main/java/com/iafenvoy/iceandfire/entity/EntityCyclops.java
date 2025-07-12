@@ -301,7 +301,7 @@ public class EntityCyclops extends HostileEntity implements IAnimatedEntity, IBl
             this.getWorld().spawnEntity(this.eyeEntity);
         }
         if (!this.isRemoved())
-            EntityUtil.updatePart(this.eyeEntity, this);
+            IafEntityUtil.updatePart(this.eyeEntity, this);
         this.breakBlock();
     }
 

@@ -211,7 +211,7 @@ public class EntitySeaSerpent extends AnimalEntity implements IAnimatedEntity, I
         if (this.isRemoved()) return;
         for (EntityMultipartPart entity : this.segments) {
             entity.copyPositionAndRotation(this);
-            EntityUtil.updatePart(entity, this);
+            IafEntityUtil.updatePart(entity, this);
         }
     }
 

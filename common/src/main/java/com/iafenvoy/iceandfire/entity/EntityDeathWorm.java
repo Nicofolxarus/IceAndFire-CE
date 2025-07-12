@@ -183,7 +183,7 @@ public class EntityDeathWorm extends TameableEntity implements ISyncMount, ICust
             this.getWorld().spawnEntity(this.segments[i]);
         }
         for (EntityMultipartPart entity : this.segments)
-            EntityUtil.updatePart(entity, this);
+            IafEntityUtil.updatePart(entity, this);
     }
 
     public void updateScale(float scale) {

@@ -239,10 +239,10 @@ public class EntityHydra extends HostileEntity implements IAnimatedEntity, IMult
 
         for (int i = 0; i < this.getHeadCount(); i++) {
             this.headBoxes[i].setPosition(this.headBoxes[i].getX(), this.getY() + partY, this.headBoxes[i].getZ());
-            EntityUtil.updatePart(this.headBoxes[i], this);
+            IafEntityUtil.updatePart(this.headBoxes[i], this);
 
             this.headBoxes[HEADS + i].setPosition(this.headBoxes[HEADS + i].getX(), this.getY() + partY, this.headBoxes[HEADS + i].getZ());
-            EntityUtil.updatePart(this.headBoxes[HEADS + 1], this);
+            IafEntityUtil.updatePart(this.headBoxes[HEADS + 1], this);
         }
 
         if (this.getHeadCount() > 1 && !this.isOnFire())

@@ -33,6 +33,7 @@ import com.iafenvoy.uranus.animation.Animation;
 import com.iafenvoy.uranus.animation.AnimationHandler;
 import com.iafenvoy.uranus.animation.IAnimatedEntity;
 import com.iafenvoy.uranus.data.EntityPropertyDelegate;
+import com.iafenvoy.uranus.object.EntityUtil;
 import com.iafenvoy.uranus.object.entity.pathfinding.raycoms.AdvancedPathNavigate;
 import com.iafenvoy.uranus.object.entity.pathfinding.raycoms.IPassabilityNavigator;
 import com.iafenvoy.uranus.object.entity.pathfinding.raycoms.PathingStuckHandler;
@@ -241,6 +242,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
     private EntityDragonPart tail3Part;
     private EntityDragonPart tail4Part;
     private boolean isOverAir;
+    private int brushedTime;
 
     public EntityDragonBase(EntityType<? extends EntityDragonBase> t, World world, DragonType type, double minimumDamage, double maximumDamage, double minimumHealth, double maximumHealth, double minimumSpeed, double maximumSpeed) {
         super(t, world);
@@ -458,16 +460,16 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
         this.tail3Part.copyPositionAndRotation(this);
         this.tail4Part.copyPositionAndRotation(this);
 
-        EntityUtil.updatePart(this.headPart, this);
-        EntityUtil.updatePart(this.neckPart, this);
-        EntityUtil.updatePart(this.rightWingUpperPart, this);
-        EntityUtil.updatePart(this.rightWingLowerPart, this);
-        EntityUtil.updatePart(this.leftWingUpperPart, this);
-        EntityUtil.updatePart(this.leftWingLowerPart, this);
-        EntityUtil.updatePart(this.tail1Part, this);
-        EntityUtil.updatePart(this.tail2Part, this);
-        EntityUtil.updatePart(this.tail3Part, this);
-        EntityUtil.updatePart(this.tail4Part, this);
+        IafEntityUtil.updatePart(this.headPart, this);
+        IafEntityUtil.updatePart(this.neckPart, this);
+        IafEntityUtil.updatePart(this.rightWingUpperPart, this);
+        IafEntityUtil.updatePart(this.rightWingLowerPart, this);
+        IafEntityUtil.updatePart(this.leftWingUpperPart, this);
+        IafEntityUtil.updatePart(this.leftWingLowerPart, this);
+        IafEntityUtil.updatePart(this.tail1Part, this);
+        IafEntityUtil.updatePart(this.tail2Part, this);
+        IafEntityUtil.updatePart(this.tail3Part, this);
+        IafEntityUtil.updatePart(this.tail4Part, this);
     }
 
     public void updateBurnTarget() {
@@ -769,6 +771,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
             compound.put("CustomName", TextCodecs.CODEC.encodeStart(NbtOps.INSTANCE, this.getCustomName()).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtCompound()));
         this.removeParts();
         this.lastScale = 0;
+        compound.putInt("BrushedTime", this.brushedTime);
     }
 
     @Override
@@ -813,6 +816,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
 
         this.setConfigurableAttributes();
         this.updateAttributes();
+        this.brushedTime = compound.getInt("BrushedTime");
     }
 
     public int getContainerSize() {
@@ -1083,8 +1087,8 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                 this.spawnItemCrackParticles(stack.getItem());
                 this.spawnItemCrackParticles(Items.BONE);
                 this.spawnItemCrackParticles(Items.BONE_MEAL);
-                if (!player.isCreative())
-                    stack.decrement(1);
+                if (!player.isCreative()) stack.decrement(1);
+                this.brushedTime = 0;
                 return ActionResult.SUCCESS;
             }
             if (this.isBreedingItem(stack) && this.isMature()) {
@@ -1094,6 +1098,15 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                 return ActionResult.SUCCESS;
             }
             if (this.isOwner(player)) {
+                if (stack.isOf(Items.BRUSH) && IafCommonConfig.INSTANCE.dragon.enableBrushDragonScales.getValue() && this.getDragonStage() >= 3 && this.brushedTime < this.getDragonStage()*IafCommonConfig.INSTANCE.dragon.brushTimesMul.getValue()) {
+                    if (this.getWorld() instanceof ServerWorld serverWorld) {
+                        DragonColor color = DragonColor.getById(this.getVariant());
+                        Vec3d pos = this.getPos();
+                        EntityUtil.item(serverWorld, pos.x, pos.y, pos.z, new ItemStack(color.getScaleItem(), new Random().nextInt(IafCommonConfig.INSTANCE.dragon.maxBrushScalesDropPerTime.getValue()) + 1), 0);
+                    }
+                    this.brushedTime++;
+                    return ActionResult.SUCCESS;
+                }
                 if (stack.getItem() == this.dragonType.getCrystalItem() && !ItemSummoningCrystal.hasDragon(stack)) {
                     this.setCrystalBound(true);
                     NbtCompound compound = new NbtCompound(), dragonTag = new NbtCompound();
@@ -1143,6 +1156,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                     }
                     final Item stackItem = stack.getItem();
                     if (stackItem == IafItems.DRAGON_MEAL.get() && this.getAgeInDays() < (this.isTamed() ? IafCommonConfig.INSTANCE.dragon.maxTamedDragonAge.getValue() : 128)) {
+                        this.setAgingDisabled(false);
                         this.growDragon(1);
                         this.setHunger(this.getHunger() + 20);
                         this.heal(Math.min(this.getHealth(), (int) (this.getMaxHealth() / 2)));
@@ -1150,8 +1164,8 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                         this.spawnItemCrackParticles(stackItem);
                         this.spawnItemCrackParticles(Items.BONE);
                         this.spawnItemCrackParticles(Items.BONE_MEAL);
-                        if (!player.isCreative())
-                            stack.decrement(1);
+                        if (!player.isCreative()) stack.decrement(1);
+                        if (this.brushedTime > 0) this.brushedTime--;
                         return ActionResult.SUCCESS;
                     } else if (stackItem == IafItems.SICKLY_DRAGON_MEAL.get() && !this.isAgingDisabled()) {
                         this.setHunger(this.getHunger() + 20);

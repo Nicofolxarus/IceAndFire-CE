@@ -9,7 +9,7 @@ import net.minecraft.util.math.MathHelper;
 
 import java.util.UUID;
 
-public class EntityUtil {
+public class IafEntityUtil {
     public static void updatePart(final EntityMultipartPart part, final LivingEntity parent) {
         if (part == null || !(parent.getWorld() instanceof ServerWorld serverLevel) || parent.isRemoved())
             return;
