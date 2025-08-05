@@ -4,9 +4,12 @@ import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.block.BlockEntityDragonForge;
 import com.iafenvoy.iceandfire.entity.block.BlockEntityDragonForgeBrick;
 import com.iafenvoy.iceandfire.item.block.util.IDragonProof;
+import com.iafenvoy.iceandfire.registry.IafBlockEntities;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -18,12 +21,13 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-public class BlockDragonForgeBricks extends BlockWithEntity implements IDragonProof {
+public class BlockDragonForgeBrick extends BlockWithEntity implements IDragonProof {
     public static final BooleanProperty GRILL = BooleanProperty.of("grill");
     private final int isFire;
 
-    public BlockDragonForgeBricks(int isFire) {
+    public BlockDragonForgeBrick(int isFire) {
         super(Settings.create().mapColor(MapColor.STONE_GRAY).instrument(NoteBlockInstrument.BASEDRUM).dynamicBounds().strength(40, 500).sounds(BlockSoundGroup.METAL));
         this.isFire = isFire;
         this.setDefaultState(this.getStateManager().getDefaultState().with(GRILL, Boolean.FALSE));
@@ -75,5 +79,10 @@ public class BlockDragonForgeBricks extends BlockWithEntity implements IDragonPr
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new BlockEntityDragonForgeBrick(pos, state);
+    }
+
+    @Override
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return world.isClient ? null : validateTicker(type, IafBlockEntities.DRAGONFORGE_BRICK.get(), BlockEntityDragonForgeBrick::tick);
     }
 }

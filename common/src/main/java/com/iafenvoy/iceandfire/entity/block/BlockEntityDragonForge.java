@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.entity.block;
 
 import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.data.delegate.DragonForgePropertyDelegate;
-import com.iafenvoy.iceandfire.item.block.BlockDragonForgeBricks;
+import com.iafenvoy.iceandfire.item.block.BlockDragonForgeBrick;
 import com.iafenvoy.iceandfire.item.block.BlockDragonForgeCore;
 import com.iafenvoy.iceandfire.recipe.DragonForgeRecipe;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
@@ -36,9 +36,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class BlockEntityDragonForge extends LockableContainerBlockEntity implements SidedInventory {
-    private static final int[] SLOTS_TOP = new int[]{0, 1};
+    private static final int[] SLOTS_TOP = new int[]{0};
+    private static final int[] SLOTS_SIDES = new int[]{1};
     private static final int[] SLOTS_BOTTOM = new int[]{2};
-    private static final int[] SLOTS_SIDES = new int[]{0, 1};
     private static final Direction[] HORIZONTALS = new Direction[]{
             Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST
     };
@@ -118,7 +118,7 @@ public class BlockEntityDragonForge extends LockableContainerBlockEntity impleme
             BlockPos grillPos = this.getPos().offset(facing);
             assert this.world != null;
             if (this.grillMatches(this.world.getBlockState(grillPos).getBlock())) {
-                BlockState grillState = this.getGrillBlock().getDefaultState().with(BlockDragonForgeBricks.GRILL, grill);
+                BlockState grillState = this.getGrillBlock().getDefaultState().with(BlockDragonForgeBrick.GRILL, grill);
                 if (this.world.getBlockState(grillPos) != grillState)
                     this.world.setBlockState(grillPos, grillState);
             }

@@ -83,9 +83,9 @@ public final class IafBlocks {
 
     public static final RegistrySupplier<Block> DRAGON_BONE_BLOCK = register("dragon_bone_block", BlockDragonBone::new);
     public static final RegistrySupplier<Block> DRAGON_BONE_BLOCK_WALL = register("dragon_bone_wall", () -> new BlockDragonBoneWall(AbstractBlock.Settings.copy(IafBlocks.DRAGON_BONE_BLOCK.get())));
-    public static final RegistrySupplier<Block> DRAGONFORGE_FIRE_BRICK = register(BlockDragonForgeBricks.name(0), () -> new BlockDragonForgeBricks(0));
-    public static final RegistrySupplier<Block> DRAGONFORGE_ICE_BRICK = register(BlockDragonForgeBricks.name(1), () -> new BlockDragonForgeBricks(1));
-    public static final RegistrySupplier<Block> DRAGONFORGE_LIGHTNING_BRICK = register(BlockDragonForgeBricks.name(2), () -> new BlockDragonForgeBricks(2));
+    public static final RegistrySupplier<Block> DRAGONFORGE_FIRE_BRICK = register(BlockDragonForgeBrick.name(0), () -> new BlockDragonForgeBrick(0));
+    public static final RegistrySupplier<Block> DRAGONFORGE_ICE_BRICK = register(BlockDragonForgeBrick.name(1), () -> new BlockDragonForgeBrick(1));
+    public static final RegistrySupplier<Block> DRAGONFORGE_LIGHTNING_BRICK = register(BlockDragonForgeBrick.name(2), () -> new BlockDragonForgeBrick(2));
     public static final RegistrySupplier<Block> DRAGONFORGE_FIRE_INPUT = register(BlockDragonForgeInput.name(0), () -> new BlockDragonForgeInput(0));
     public static final RegistrySupplier<Block> DRAGONFORGE_ICE_INPUT = register(BlockDragonForgeInput.name(1), () -> new BlockDragonForgeInput(1));
     public static final RegistrySupplier<Block> DRAGONFORGE_LIGHTNING_INPUT = register(BlockDragonForgeInput.name(2), () -> new BlockDragonForgeInput(2));
