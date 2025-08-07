@@ -4,15 +4,19 @@ import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.recipe.DragonForgeRecipe;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafRecipes;
+import com.iafenvoy.iceandfire.screen.gui.bestiary.BestiaryScreen;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.gui.handlers.IGuiProperties;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.util.Identifier;
@@ -79,5 +83,45 @@ public class IceAndFireJeiPlugin implements IModPlugin {
         registration.addRecipes(FIRE, FIRE_RECIPES);
         registration.addRecipes(ICE, ICE_RECIPES);
         registration.addRecipes(LIGHTNING, LIGHTNING_RECIPES);
+    }
+
+    @Override
+    public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        registration.addGuiScreenHandler(BestiaryScreen.class, screen -> new IGuiProperties() {
+            @Override
+            public @NotNull Class<? extends Screen> screenClass() {
+                return BestiaryScreen.class;
+            }
+
+            @Override
+            public int guiLeft() {
+                return 0;
+            }
+
+            @Override
+            public int guiTop() {
+                return 0;
+            }
+
+            @Override
+            public int guiXSize() {
+                return screen.width;
+            }
+
+            @Override
+            public int guiYSize() {
+                return screen.height;
+            }
+
+            @Override
+            public int screenWidth() {
+                return screen.width;
+            }
+
+            @Override
+            public int screenHeight() {
+                return screen.height;
+            }
+        });
     }
 }
