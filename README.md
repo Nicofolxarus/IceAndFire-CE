@@ -18,7 +18,7 @@ Netherite Related things.
 
 (Planned) Complete Dread Land.
 
-(Planned) New myrmex series.
+(Planned) Rewrite myrmex series.
 
 ## Capability
 
@@ -26,7 +26,7 @@ Netherite Related things.
 🔗: Supported by another mod (See Notes)<br>
 🚧: Partly Support<br>
 🔲: Planned Support<br>
-❌: Never Support<br>
+❌: No Support Plan<br>
 
 | Mod                         | Content                               | Status | Notes                                                                                                                     |
 |-----------------------------|:--------------------------------------|:------:|---------------------------------------------------------------------------------------------------------------------------|
@@ -41,7 +41,6 @@ Netherite Related things.
 | Just Enough Items           | Recipe view                           |   ✅    | MC 1.21+ only                                                                                                             |
 | ProjectE                    | EMC & Dragon Forge Recipe Calculation |   ✅    |                                                                                                                           |
 | Roughly Enough Items        | Recipe view                           |   ❌    |                                                                                                                           |
-| Spartan Weaponry            | More weapons                          |   🔲   |                                                                                                                           |
 | Tinkers' Construct          | New materials                         |   🔲   |                                                                                                                           |
 | Thaumcraft 7                | New vis                               |   🔲   | TC7 not published yet but is planned so i add here lol                                                                    |
 
@@ -49,10 +48,6 @@ Also, there's a recipe extension pack for professional players:
 [Ice And Fire Smithing](https://modrinth.com/datapack/iceandfire_smithing)
 
 ## FAQ
-
-### Game Crash in 1.21.1 NeoForge?
-
-You need to use NeoForge 21.1.197 or later versions to load this mod.
 
 ### Other Minecraft Version?
 

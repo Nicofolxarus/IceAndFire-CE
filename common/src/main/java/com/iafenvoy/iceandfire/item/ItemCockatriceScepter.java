@@ -20,10 +20,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 public class ItemCockatriceScepter extends Item {
     private final Random rand = new Random();
@@ -60,7 +57,7 @@ public class ItemCockatriceScepter extends Item {
 
     @Override
     public int getMaxUseTime(ItemStack stack, LivingEntity user) {
-        return 1;
+        return 72000;
     }
 
     @Override
@@ -82,10 +79,10 @@ public class ItemCockatriceScepter extends Item {
             Vec3d playerEyePosition = player.getCameraPosVec(1.0F);
             Vec3d playerLook = player.getRotationVec(1.0F);
             Vec3d Vector3d2 = playerEyePosition.add(playerLook.x * dist, playerLook.y * dist, playerLook.z * dist);
-            Entity pointedEntity = null;
-            List<Entity> nearbyEntities = level.getOtherEntities(player, player.getBoundingBox().stretch(playerLook.x * dist, playerLook.y * dist, playerLook.z * dist).expand(1.0D, 1.0D, 1.0D), entity -> {
-                boolean blindness = entity instanceof LivingEntity && ((LivingEntity) entity).hasStatusEffect(StatusEffects.BLINDNESS) || (entity instanceof IBlacklistedFromStatues && !((IBlacklistedFromStatues) entity).canBeTurnedToStone());
-                return entity != null && entity.canHit() && !blindness && (entity instanceof PlayerEntity || (entity instanceof LivingEntity && DragonUtils.isAlive((LivingEntity) entity)));
+            List<Entity> pointedEntities = new LinkedList<>();
+            List<Entity> nearbyEntities = level.getOtherEntities(player, player.getBoundingBox().stretch(playerLook.x * dist, playerLook.y * dist, playerLook.z * dist).expand(1, 1, 1), entity -> {
+                boolean blindness = entity instanceof LivingEntity && ((LivingEntity) entity).hasStatusEffect(StatusEffects.BLINDNESS) || (entity instanceof IBlacklistedFromStatues blacklisted && !blacklisted.canBeTurnedToStone());
+                return entity != null && entity.canHit() && !blindness && (entity instanceof PlayerEntity || (entity instanceof LivingEntity living && DragonUtils.isAlive(living)));
             });
             double d2 = dist;
             for (Entity nearbyEntity : nearbyEntities) {
@@ -94,7 +91,7 @@ public class ItemCockatriceScepter extends Item {
 
                 if (axisalignedbb.contains(playerEyePosition)) {
                     if (d2 >= 0.0D) {
-                        pointedEntity = nearbyEntity;
+                        pointedEntities.add(nearbyEntity);
                         d2 = 0.0D;
                     }
                 } else if (optional.isPresent()) {
@@ -102,19 +99,20 @@ public class ItemCockatriceScepter extends Item {
                     if (d3 < d2 || d2 == 0.0D)
                         if (nearbyEntity.getRootVehicle() == player.getRootVehicle()) {
                             if (d2 == 0.0D)
-                                pointedEntity = nearbyEntity;
+                                pointedEntities.add(nearbyEntity);
                         } else {
-                            pointedEntity = nearbyEntity;
+                            pointedEntities.add(nearbyEntity);
                             d2 = d3;
                         }
                 }
 
             }
-            if (pointedEntity instanceof LivingEntity target) {
-                if (!target.isAlive()) return;
-                IafEntityData data = IafEntityData.get(player);
-                data.miscData.addScepterTarget(target);
-            }
+            for (Entity pointedEntity : pointedEntities)
+                if (pointedEntity instanceof LivingEntity target) {
+                    if (!target.isAlive()) return;
+                    IafEntityData data = IafEntityData.get(player);
+                    data.miscData.addScepterTarget(target);
+                }
 
             this.attackTargets(player);
         }
