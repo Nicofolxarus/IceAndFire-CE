@@ -278,8 +278,8 @@ public class ServerEvents {
         // Handle chain removal
         if (entity instanceof LivingEntity target && !player.isSpectator()) {
             IafEntityData data = IafEntityData.get(target);
-            if (data.chainData.isChainedTo(entity)) {
-                data.chainData.removeChain(entity);
+            if (data.chainData.isChainedTo(entity.getUuid())) {
+                data.chainData.removeChain(entity.getUuid());
                 if (!player.getWorld().isClient)
                     entity.dropItem(IafItems.CHAIN.get(), 1);
                 return EventResult.interruptTrue();

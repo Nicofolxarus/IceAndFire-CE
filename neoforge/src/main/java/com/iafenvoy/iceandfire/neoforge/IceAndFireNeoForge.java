@@ -25,7 +25,7 @@ public final class IceAndFireNeoForge {
     @SubscribeEvent
     public static void init(FMLCommonSetupEvent event) {
         event.enqueueWork(IceAndFire::process);
-        CapabilitySyncHelper.registerForLiving(IafAttachments.IAF_ENTITY_DATA.get());
-        CapabilitySyncHelper.registerForPlayer(Identifier.of(IceAndFire.MOD_ID, "portal_data"), IafAttachments.PORTAL_DATA.get());
+        CapabilitySyncHelper.registerForLiving(Identifier.of(IceAndFire.MOD_ID, "iaf_entity_data"), IafAttachments.IAF_ENTITY_DATA.get());
+        CapabilitySyncHelper.registerForLiving(Identifier.of(IceAndFire.MOD_ID, "portal_data"), IafAttachments.PORTAL_DATA.get());
     }
 }

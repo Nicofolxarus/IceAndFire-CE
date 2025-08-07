@@ -43,10 +43,9 @@ public class IafEntityData {
         this.isDirty = this.frozenData.doesClientNeedUpdate() || this.chainData.doesClientNeedUpdate() || this.sirenData.doesClientNeedUpdate() || this.miscData.doesClientNeedUpdate();
     }
 
+    //TODO: Implement later
     public boolean isDirty() {
-        boolean d = this.isDirty;
-        this.isDirty = false;
-        return d;
+        return this.isDirty;
     }
 
     public static IafEntityData get(LivingEntity living) {

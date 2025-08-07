@@ -41,3 +41,4 @@ accessible method net/minecraft/client/gui/screen/ingame/HandledScreens register
 accessible class net/minecraft/client/gui/screen/ingame/HandledScreens$Provider
 accessible field net/minecraft/entity/ai/pathing/PathNodeMaker entity Lnet/minecraft/entity/mob/MobEntity;
 accessible field net/minecraft/client/world/ClientWorld entityManager Lnet/minecraft/world/entity/ClientEntityManager;
+accessible method net/minecraft/client/world/ClientWorld getEntityLookup ()Lnet/minecraft/world/entity/EntityLookup;

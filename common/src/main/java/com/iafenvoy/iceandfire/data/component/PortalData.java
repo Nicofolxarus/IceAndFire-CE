@@ -5,6 +5,7 @@ import com.iafenvoy.iceandfire.impl.ComponentManager;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafWorld;
 import com.iafenvoy.iceandfire.world.processor.DreadPortalProcessor;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
@@ -18,31 +19,31 @@ import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 
 public class PortalData {
-    private final PlayerEntity player;
+    private final LivingEntity living;
     private boolean teleported = false;
     private int teleportTick = -1;
 
-    public PortalData(PlayerEntity player) {
-        this.player = player;
+    public PortalData(LivingEntity living) {
+        this.living = living;
     }
 
     public void tick() {
-        World world = this.player.getWorld();
+        World world = this.living.getWorld();
         if (!this.teleported && this.teleportTick == 0 && world instanceof ServerWorld serverWorld) {
             this.teleported = true;
             MinecraftServer server = serverWorld.getServer();
             if (world.getRegistryKey().getValue().equals(IafWorld.DREAD_LAND.getValue()))
-                this.player.teleportTo(new TeleportTarget(server.getOverworld(), this.player.getPos(), Vec3d.ZERO, this.player.headYaw, this.player.getPitch(), TeleportTarget.SEND_TRAVEL_THROUGH_PORTAL_PACKET));
+                this.living.teleportTo(new TeleportTarget(server.getOverworld(), this.living.getPos(), Vec3d.ZERO, this.living.headYaw, this.living.getPitch(), TeleportTarget.SEND_TRAVEL_THROUGH_PORTAL_PACKET));
             else {
                 ServerWorld dreadLand = server.getWorld(IafWorld.DREAD_LAND);
                 if (dreadLand == null) return;
-                this.player.teleportTo(new TeleportTarget(server.getWorld(IafWorld.DREAD_LAND), this.player.getPos(), Vec3d.ZERO, this.player.headYaw, this.player.getPitch(), TeleportTarget.SEND_TRAVEL_THROUGH_PORTAL_PACKET));
-                if (!dreadLand.getBlockState(this.player.getBlockPos()).isOf(IafBlocks.DREAD_PORTAL.get()))
-                    server.getStructureTemplateManager().getTemplate(Identifier.of(IceAndFire.MOD_ID, "dread_exit_portal")).ifPresent(structureTemplate -> structureTemplate.place(dreadLand, this.player.getBlockPos().subtract(new BlockPos(2, 1, 2)), BlockPos.ORIGIN, new StructurePlacementData().addProcessor(new DreadPortalProcessor()), dreadLand.random, 2));
-                this.player.sendMessage(Text.translatable("warning.iceandfire.dreadland.not_complete"));
+                this.living.teleportTo(new TeleportTarget(server.getWorld(IafWorld.DREAD_LAND), this.living.getPos(), Vec3d.ZERO, this.living.headYaw, this.living.getPitch(), TeleportTarget.SEND_TRAVEL_THROUGH_PORTAL_PACKET));
+                if (!dreadLand.getBlockState(this.living.getBlockPos()).isOf(IafBlocks.DREAD_PORTAL.get()))
+                    server.getStructureTemplateManager().getTemplate(Identifier.of(IceAndFire.MOD_ID, "dread_exit_portal")).ifPresent(structureTemplate -> structureTemplate.place(dreadLand, this.living.getBlockPos().subtract(new BlockPos(2, 1, 2)), BlockPos.ORIGIN, new StructurePlacementData().addProcessor(new DreadPortalProcessor()), dreadLand.random, 2));
+                this.living.sendMessage(Text.translatable("warning.iceandfire.dreadland.not_complete"));
             }
         }
-        if (world.getBlockState(this.player.getBlockPos()).isOf(IafBlocks.DREAD_PORTAL.get())) {
+        if (world.getBlockState(this.living.getBlockPos()).isOf(IafBlocks.DREAD_PORTAL.get())) {
             if (this.teleportTick > 0) this.teleportTick--;
             else if (this.teleportTick == -1) this.teleportTick = 100;
         } else {

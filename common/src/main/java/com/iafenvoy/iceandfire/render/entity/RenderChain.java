@@ -1,6 +1,9 @@
 package com.iafenvoy.iceandfire.render.entity;
 
 import com.iafenvoy.iceandfire.IceAndFire;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -15,16 +18,21 @@ import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 
 import java.util.List;
+import java.util.UUID;
 
+@Environment(EnvType.CLIENT)
 public class RenderChain {
     private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/entity/misc/chain_link.png");
 
-    public static void render(LivingEntity entityLivingIn, MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int lightIn, List<Entity> chainedTo) {
-        for (Entity chainTarget : chainedTo) {
-            if (chainTarget == null) {
+    public static void render(LivingEntity entityLivingIn, MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int lightIn, List<UUID> chainedTo) {
+        for (UUID uuid : chainedTo) {
+            if (uuid == null) {
                 IceAndFire.LOGGER.warn("Found null value in list of target entities");
                 continue;
             }
+            if (MinecraftClient.getInstance().world == null) continue;
+            Entity chainTarget = MinecraftClient.getInstance().world.getEntityLookup().get(uuid);
+            if (chainTarget == null) continue;
             try {
                 renderLink(entityLivingIn, matrixStackIn, bufferIn, lightIn, chainTarget);
             } catch (Exception e) {

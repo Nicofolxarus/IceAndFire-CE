@@ -38,7 +38,7 @@ public class EntityDataStorage implements ITickableAttachment, INBTSerializable<
 
     @Override
     public boolean isDirty() {
-        return this.data.isDirty();
+        return true;
     }
 
     @Override

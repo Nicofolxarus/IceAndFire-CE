@@ -37,12 +37,12 @@ public class ItemChain extends Item {
 
         for (LivingEntity livingEntity : worldIn.getNonSpectatingEntities(LivingEntity.class, new Box((double) i - d0, (double) j - d0, (double) k - d0, (double) i + d0, (double) j + d0, (double) k + d0))) {
             IafEntityData data = IafEntityData.get(livingEntity);
-            if (data.chainData.isChainedTo(player)) {
+            if (data.chainData.isChainedTo(player.getUuid())) {
                 EntityChainTie entityleashknot = EntityChainTie.getKnotForPosition(worldIn, fence);
                 if (entityleashknot == null)
                     entityleashknot = EntityChainTie.createTie(worldIn, fence);
-                data.chainData.removeChain(player);
-                data.chainData.attachChain(entityleashknot);
+                data.chainData.removeChain(player.getUuid());
+                data.chainData.attachChain(entityleashknot.getUuid());
             }
         }
     }
@@ -61,7 +61,7 @@ public class ItemChain extends Item {
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
         IafEntityData targetData = IafEntityData.get(target);
-        if (targetData.chainData.isChainedTo(playerIn))
+        if (targetData.chainData.isChainedTo(playerIn.getUuid()))
             return ActionResult.PASS;
 
         if (this.sticky) {
@@ -76,7 +76,7 @@ public class ItemChain extends Item {
 
                 for (LivingEntity livingEntity : nearbyEntities) {
                     IafEntityData nearbyData = IafEntityData.get(livingEntity);
-                    nearbyData.chainData.removeChain(target);
+                    nearbyData.chainData.removeChain(target.getUuid());
                 }
 
                 return ActionResult.SUCCESS;
@@ -86,19 +86,19 @@ public class ItemChain extends Item {
 
             for (LivingEntity livingEntity : nearbyEntities) {
                 IafEntityData nearbyData = IafEntityData.get(livingEntity);
-                if (nearbyData.chainData.isChainedTo(playerIn)) {
-                    targetData.chainData.removeChain(playerIn);
-                    nearbyData.chainData.removeChain(playerIn);
-                    nearbyData.chainData.attachChain(target);
+                if (nearbyData.chainData.isChainedTo(playerIn.getUuid())) {
+                    targetData.chainData.removeChain(playerIn.getUuid());
+                    nearbyData.chainData.removeChain(playerIn.getUuid());
+                    nearbyData.chainData.attachChain(target.getUuid());
 
                     flag.set(true);
                 }
             }
 
             if (!flag.get())
-                targetData.chainData.attachChain(playerIn);
+                targetData.chainData.attachChain(playerIn.getUuid());
         } else
-            targetData.chainData.attachChain(playerIn);
+            targetData.chainData.attachChain(playerIn.getUuid());
 
         if (!playerIn.isCreative())
             stack.decrement(1);

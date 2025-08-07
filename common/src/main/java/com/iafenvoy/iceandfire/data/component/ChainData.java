@@ -7,122 +7,63 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
 
 public class ChainData extends NeedUpdateData {
-    public List<Entity> chainedTo;
-
-    // These lists are only for the sync (and therefor are cleared once it happened)
-    private List<Integer> chainedToIds;
-    private List<UUID> chainedToUUIDs;
-
-    private boolean isInitialized;
+    @NotNull
+    private final List<UUID> chainedTo = new LinkedList<>();
 
     public void tickChain(final LivingEntity entity) {
-        if (!this.isInitialized)
-            this.initialize(entity.getWorld());
-        if (this.chainedTo == null) return;
-        for (Entity chain : this.chainedTo) {
-            double distance = chain.distanceTo(entity);
-            if (distance > 7) {
-                double x = (chain.getX() - entity.getX()) / distance;
-                double y = (chain.getY() - entity.getY()) / distance;
-                double z = (chain.getZ() - entity.getZ()) / distance;
-                entity.setVelocity(entity.getVelocity().add(x * Math.abs(x) * 0.4D, y * Math.abs(y) * 0.2D, z * Math.abs(z) * 0.4D));
+        if (entity.getWorld() instanceof ServerWorld world)
+            for (UUID uuid : this.chainedTo) {
+                Entity chain = world.getEntity(uuid);
+                if (chain == null) continue;
+                double distance = chain.distanceTo(entity);
+                if (distance > 7) {
+                    double x = (chain.getX() - entity.getX()) / distance;
+                    double y = (chain.getY() - entity.getY()) / distance;
+                    double z = (chain.getZ() - entity.getZ()) / distance;
+                    entity.setVelocity(entity.getVelocity().add(x * Math.abs(x) * 0.4D, y * Math.abs(y) * 0.2D, z * Math.abs(z) * 0.4D));
+                }
             }
-        }
     }
 
-    public List<Entity> getChainedTo() {
-        return Objects.requireNonNullElse(this.chainedTo, Collections.emptyList());
+    public @NotNull List<UUID> getChainedTo() {
+        return this.chainedTo;
     }
 
     public void clearChains() {
-        if (this.chainedTo == null) return;
-        this.chainedTo = null;
+        this.chainedTo.clear();
         this.triggerUpdate();
     }
 
-    public void attachChain(final Entity chain) {
-        if (this.chainedTo == null) {
-            this.chainedTo = new ArrayList<>();
-        } else if (this.chainedTo.contains(chain)) return;
+    public void attachChain(final UUID chain) {
+        if (this.chainedTo.contains(chain)) return;
         this.chainedTo.add(chain);
         this.triggerUpdate();
     }
 
-    public void removeChain(final Entity chain) {
-        if (this.chainedTo == null) return;
+    public void removeChain(final UUID chain) {
         this.chainedTo.remove(chain);
         this.triggerUpdate();
-        if (this.chainedTo.isEmpty())
-            this.chainedTo = null;
     }
 
-    public boolean isChainedTo(final Entity toCheck) {
-        if (this.chainedTo == null || this.chainedTo.isEmpty())
-            return false;
+    public boolean isChainedTo(final UUID toCheck) {
         return this.chainedTo.contains(toCheck);
     }
 
     public void serialize(final NbtCompound tag) {
-        NbtCompound chainedData = new NbtCompound();
         NbtList uuids = new NbtList();
-        if (this.chainedTo != null) {
-            int[] ids = new int[this.chainedTo.size()];
-            for (int i = 0; i < this.chainedTo.size(); i++) {
-                Entity entity = this.chainedTo.get(i);
-                ids[i] = entity.getId();
-                uuids.add(NbtHelper.fromUuid(entity.getUuid()));
-            }
-            chainedData.putIntArray("chainedToIds", ids);
-            chainedData.put("chainedToUUIDs", uuids);
-        }
-        tag.put("chainedData", chainedData);
+        for (UUID uuid : this.chainedTo) uuids.add(NbtHelper.fromUuid(uuid));
+        tag.put("chainedTo", uuids);
     }
 
     public void deserialize(final NbtCompound tag) {
-        NbtCompound chainedData = tag.getCompound("chainedData");
-        int[] loadedChainedToIds = chainedData.getIntArray("chainedToIds");
-        NbtList uuids = chainedData.getList("chainedToUUIDs", NbtList.INT_ARRAY_TYPE);
-        this.isInitialized = false;
-        if (loadedChainedToIds.length > 0) {
-            this.chainedToIds = new ArrayList<>();
-            for (int loadedChainedToId : loadedChainedToIds)
-                this.chainedToIds.add(loadedChainedToId);
-        } else
-            this.chainedToIds = null;
-        if (!uuids.isEmpty()) {
-            this.chainedToUUIDs = new ArrayList<>();
-            for (NbtElement uuid : uuids)
-                this.chainedToUUIDs.add(NbtHelper.toUuid(uuid));
-        } else
-            this.chainedToUUIDs = null;
-    }
-
-    private void initialize(final World level) {
-        List<Entity> entities = new ArrayList<>();
-
-        // Make sure server gets the new entity ids on re-join and syncs it to the client
-        if (this.chainedToUUIDs != null && level instanceof ServerWorld serverLevel) {
-            for (UUID uuid : this.chainedToUUIDs) {
-                Entity entity = serverLevel.getEntity(uuid);
-                if (entity != null)
-                    entities.add(entity);
-            }
-            this.triggerUpdate();
-        } else if (this.chainedToIds != null)
-            for (int id : this.chainedToIds) {
-                if (id == -1) continue;
-                Entity entity = level.getEntityById(id);
-                if (entity != null) entities.add(entity);
-            }
-
-        this.chainedTo = !entities.isEmpty() ? entities : null;
-        this.chainedToIds = null;
-        this.chainedToUUIDs = null;
-        this.isInitialized = true;
+        this.chainedTo.clear();
+        tag.getList("chainedTo", NbtElement.INT_ARRAY_TYPE).stream().map(NbtHelper::toUuid).forEach(this.chainedTo::add);
     }
 }

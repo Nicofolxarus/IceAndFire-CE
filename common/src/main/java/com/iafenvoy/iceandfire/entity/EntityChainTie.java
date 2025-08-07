@@ -113,8 +113,8 @@ public class EntityChainTie extends AbstractDecorationEntity {
 
         for (LivingEntity livingEntity : list) {
             IafEntityData data = IafEntityData.get(livingEntity);
-            if (data.chainData.isChainedTo(this)) {
-                data.chainData.removeChain(this);
+            if (data.chainData.isChainedTo(this.getUuid())) {
+                data.chainData.removeChain(this.getUuid());
                 ItemEntity entityitem = new ItemEntity(this.getWorld(), this.getX(), this.getY() + 1, this.getZ(), new ItemStack(IafItems.CHAIN.get()));
                 entityitem.resetPickupDelay();
                 this.getWorld().spawnEntity(entityitem);
@@ -133,9 +133,9 @@ public class EntityChainTie extends AbstractDecorationEntity {
 
             for (LivingEntity livingEntity : list) {
                 IafEntityData data = IafEntityData.get(livingEntity);
-                if (data.chainData.isChainedTo(player)) {
-                    data.chainData.removeChain(player);
-                    data.chainData.attachChain(this);
+                if (data.chainData.isChainedTo(player.getUuid())) {
+                    data.chainData.removeChain(player.getUuid());
+                    data.chainData.attachChain(this.getUuid());
                     flag.set(true);
                 }
             }

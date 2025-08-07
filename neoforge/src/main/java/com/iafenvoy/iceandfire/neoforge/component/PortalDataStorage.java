@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.neoforge.component;
 
 import com.iafenvoy.iceandfire.data.component.PortalData;
 import com.iafenvoy.uranus.neoforge.component.ITickableAttachment;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.neoforged.neoforge.common.util.INBTSerializable;
@@ -11,8 +11,8 @@ import org.jetbrains.annotations.NotNull;
 public class PortalDataStorage implements ITickableAttachment, INBTSerializable<NbtCompound> {
     private final PortalData data;
 
-    public PortalDataStorage(PlayerEntity player) {
-        this.data = new PortalData(player);
+    public PortalDataStorage(LivingEntity living) {
+        this.data = new PortalData(living);
     }
 
     @Override

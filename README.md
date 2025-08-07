@@ -31,13 +31,13 @@ Netherite Related things.
 | Mod                         | Content                               | Status | Notes                                                                                                                     |
 |-----------------------------|:--------------------------------------|:------:|---------------------------------------------------------------------------------------------------------------------------|
 | Better Combat               | Weapon use animation, etc.            |   🔗   | [Ice and Fire Dragons X Better Combat](https://www.curseforge.com/minecraft/mc-mods/ice-and-fire-dragons-x-better-combat) |
-| Dragon Survival             | Apply dragon things to playes         |   🔗   | [Dragon Survival: IAF Integration](https://www.curseforge.com/minecraft/mc-mods/dragon-survival-iaf-integration)          |
+| Dragon Survival             | Apply dragon things to players        |   🔗   | [Dragon Survival: IAF Integration](https://www.curseforge.com/minecraft/mc-mods/dragon-survival-iaf-integration)          |
 | EMF&ETF                     | Model adjust                          |   ✅    |                                                                                                                           |
 | EMI                         | Recipe view                           |   ✅    |                                                                                                                           |
 | Epic Fight                  | Weapon use animation, etc.            |   ❌    |                                                                                                                           |
 | Farmer's Delight            | Food based on IAF                     |   🚧   | Will be move to standalone mod.                                                                                           |
 | Iron's Spells 'n Spellbooks | IAF Spellbooks                        |   🔲   |                                                                                                                           |
-| Jade                        | Additional crosshair infomation       |   ✅    |                                                                                                                           |
+| Jade                        | Additional crosshair information      |   ✅    |                                                                                                                           |
 | Just Enough Items           | Recipe view                           |   ✅    | MC 1.21+ only                                                                                                             |
 | ProjectE                    | EMC & Dragon Forge Recipe Calculation |   ✅    |                                                                                                                           |
 | Roughly Enough Items        | Recipe view                           |   ❌    |                                                                                                                           |
@@ -50,18 +50,22 @@ Also, there's a recipe extension pack for professional players:
 
 ## FAQ
 
-#### Other Minecraft Version?
+### Game Crash in 1.21.1 NeoForge?
+
+You need to use NeoForge 21.1.197 or later versions to load this mod.
+
+### Other Minecraft Version?
 
 This mod is planned to port to the later Minecraft version after bugs resolved and some rewrite complete.
 
 Backport will not do, but anyone can port it.
 
-#### I cannot find config file
+### I cannot find config file
 
 As the config system is based on `Jupiter`, the config will only save needed data. You can change config by using client
 side gui through mod menu. (Require server operator permission.)
 
-#### How to change biome configs
+### How to change biome configs
 
 Change biome tags by using datapacks.
 
