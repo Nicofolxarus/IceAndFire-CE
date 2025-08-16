@@ -1,32 +1,32 @@
 # Ice And Fire Community Edition
 
-This is an unofficial fork of [Ice And Fire](https://github.com/AlexModGuy/Ice_And_Fire), contains optimizations, new
-contents and rewrites.
+This is an unofficial fork of [Ice And Fire](https://github.com/AlexModGuy/Ice_And_Fire). Contains optimizations, new
+content and rewrites.
 
 **Note: DO NOT directly replace mod, or your saves will be corrupted!**
 
 Related
 Links: [Origin CurseForge](https://www.curseforge.com/minecraft/mc-mods/ice-and-fire-dragons) | [Origin Modrinth](https://modrinth.com/mod/ice-and-fire-dragons)
 
-Join our [Discord](https://discord.gg/NDzz2upqAk) if you have any questions.
+Join our [Discord](https://discord.gg/NDzz2upqAk) and check [the wiki](https://docs.iafenvoy.com/docs/mod/ice-and-fire-ce/) if you have any questions.
 
-## What we have added
+## What have we have added
 
 **All the things from original mod except myrmex series.**
 
 Netherite Related things.
 
-(Planned) Complete Dread Land.
+(Planned) Complete the Dread Land.
 
 (Planned) Rewrite myrmex series.
 
 ## Capability
 
-✅: Fully Support<br>
-🔗: Supported by another mod (See Notes)<br>
-🚧: Partly Support<br>
+✅: Fully Supported<br>
+🔗: Supported by an addon (See Notes)<br>
+🚧: Partly Supported<br>
 🔲: Planned Support<br>
-❌: No Support Plan<br>
+❌: No Support Planned<br>
 
 | Mod                         | Content                               | Status | Notes                                                                                                                     |
 |-----------------------------|:--------------------------------------|:------:|---------------------------------------------------------------------------------------------------------------------------|
@@ -42,23 +42,23 @@ Netherite Related things.
 | ProjectE                    | EMC & Dragon Forge Recipe Calculation |   ✅    |                                                                                                                           |
 | Roughly Enough Items        | Recipe view                           |   ❌    |                                                                                                                           |
 | Tinkers' Construct          | New materials                         |   🔲   |                                                                                                                           |
-| Thaumcraft 7                | New vis                               |   🔲   | TC7 not published yet but is planned so i add here lol                                                                    |
+| Thaumcraft 7                | New vis                               |   🔲   | TC7 is not published yet but is planned so I added here lol                                                                    |
 
-Also, there's a recipe extension pack for professional players:
+Also, there's a recipe extension pack for updated and harder crafts using netherite:
 [Ice And Fire Smithing](https://modrinth.com/datapack/iceandfire_smithing)
 
 ## FAQ
 
 ### Other Minecraft Version?
 
-This mod is planned to port to the later Minecraft version after bugs resolved and some rewrite complete.
+This mod is planned to be updated to the later Minecraft version after bugs are resolved and some rewrites completed.
 
-Backport will not do, but anyone can port it.
+I'm not planning to backport the mod, but anyone can do it.
 
 ### I cannot find config file
 
 As the config system is based on `Jupiter`, the config will only save needed data. You can change config by using client
-side gui through mod menu. (Require server operator permission.)
+side GUI through mod menu. (Requires server operator permission.)
 
 ### How to change biome configs
 
