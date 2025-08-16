@@ -39,7 +39,9 @@ body:
       label: Check List
       description: These will provide extra information.
       options:
+        - label: I have updated Uranus and Jupiter (IAF dependencies) to latest version.
+          required: true
         - label: I have removed Optifine.
           required: true
-        - label: I have installed other mods
+        - label: I have installed other mods (Please also provide mod list)
         - label: This is a conflict with other mods and no issue occurred when running standalone.
