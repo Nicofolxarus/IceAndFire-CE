@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.render.model;
 
 import com.google.common.collect.ImmutableList;
-import com.iafenvoy.iceandfire.data.component.IafEntityData;
+import com.iafenvoy.iceandfire.data.component.MiscData;
 import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.uranus.client.model.AdvancedModelBox;
 import com.iafenvoy.uranus.client.model.basic.BasicModelPart;
@@ -108,14 +108,13 @@ public class ModelDeathWormGauntlet extends ModelDragonBase {
 
     public void animate(ItemStack stack, float partialTick) {
         this.resetToDefaultPose();
-        if(!stack.contains(IafDataComponents.INT.get())) return;
+        if (!stack.contains(IafDataComponents.INT.get())) return;
         assert MinecraftClient.getInstance().world != null;
         Entity holder = MinecraftClient.getInstance().world.getEntityById(stack.get(IafDataComponents.INT.get()));
 
         if (!(holder instanceof LivingEntity livingEntity)) return;
 
-        IafEntityData data = IafEntityData.get(livingEntity);
-        float lungeTicks = data.miscData.lungeTicks + partialTick;
+        float lungeTicks = MiscData.get(livingEntity).lungeTicks + partialTick;
         this.progressRotation(this.TopJaw, lungeTicks, (float) Math.toRadians(-30), 0, 0);
         this.progressRotation(this.BottomJaw, lungeTicks, (float) Math.toRadians(30), 0, 0);
         this.progressPosition(this.JawExtender, lungeTicks, 0, 0, -4);

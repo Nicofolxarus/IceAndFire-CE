@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.item;
 
-import com.iafenvoy.iceandfire.data.component.IafEntityData;
+import com.iafenvoy.iceandfire.data.component.MiscData;
 import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import net.minecraft.entity.Entity;
@@ -81,8 +81,8 @@ public class ItemDeathwormGauntlet extends Item {
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
         if (!(entity instanceof LivingEntity living)) return;
-        IafEntityData data = IafEntityData.get(living);
-        int tempLungeTicks = data.miscData.lungeTicks;
+        MiscData miscData = MiscData.get(living);
+        int tempLungeTicks = miscData.lungeTicks;
 
         if (this.deathwormReceded) {
             if (tempLungeTicks > 0) tempLungeTicks = tempLungeTicks - 4;
@@ -96,7 +96,7 @@ public class ItemDeathwormGauntlet extends Item {
             if (tempLungeTicks > 20) this.deathwormReceded = true;
         }
 
-        if (data.miscData.lungeTicks >= 20) {
+        if (miscData.lungeTicks >= 20) {
             tempLungeTicks = 0;
             if (entity instanceof PlayerEntity player) {
                 Vec3d Vector3d = player.getRotationVec(1.0F).normalize();
@@ -120,7 +120,7 @@ public class ItemDeathwormGauntlet extends Item {
                 }
             }
         }
-        data.miscData.setLungeTicks(tempLungeTicks);
+        miscData.setLungeTicks(tempLungeTicks);
     }
 
     @Override

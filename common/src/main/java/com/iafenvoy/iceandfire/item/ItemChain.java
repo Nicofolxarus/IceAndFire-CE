@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.item;
 
-import com.iafenvoy.iceandfire.data.component.IafEntityData;
+import com.iafenvoy.iceandfire.data.component.ChainData;
 import com.iafenvoy.iceandfire.entity.EntityChainTie;
 import net.minecraft.block.Block;
 import net.minecraft.block.WallBlock;
@@ -36,13 +36,13 @@ public class ItemChain extends Item {
         int k = fence.getZ();
 
         for (LivingEntity livingEntity : worldIn.getNonSpectatingEntities(LivingEntity.class, new Box((double) i - d0, (double) j - d0, (double) k - d0, (double) i + d0, (double) j + d0, (double) k + d0))) {
-            IafEntityData data = IafEntityData.get(livingEntity);
-            if (data.chainData.isChainedTo(player.getUuid())) {
+            ChainData chainData = ChainData.get(livingEntity);
+            if (chainData.isChainedTo(player.getUuid())) {
                 EntityChainTie entityleashknot = EntityChainTie.getKnotForPosition(worldIn, fence);
                 if (entityleashknot == null)
                     entityleashknot = EntityChainTie.createTie(worldIn, fence);
-                data.chainData.removeChain(player.getUuid());
-                data.chainData.attachChain(entityleashknot.getUuid());
+                chainData.removeChain(player.getUuid());
+                chainData.attachChain(entityleashknot.getUuid());
             }
         }
     }
@@ -60,8 +60,8 @@ public class ItemChain extends Item {
 
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-        IafEntityData targetData = IafEntityData.get(target);
-        if (targetData.chainData.isChainedTo(playerIn.getUuid()))
+        ChainData targetData = ChainData.get(target);
+        if (targetData.isChainedTo(playerIn.getUuid()))
             return ActionResult.PASS;
 
         if (this.sticky) {
@@ -72,33 +72,25 @@ public class ItemChain extends Item {
             List<LivingEntity> nearbyEntities = playerIn.getWorld().getEntitiesByClass(LivingEntity.class, new Box(i - d0, j - d0, k - d0, i + d0, j + d0, k + d0), livingEntity -> true);
 
             if (playerIn.isSneaking()) {
-                targetData.chainData.clearChains();
-
-                for (LivingEntity livingEntity : nearbyEntities) {
-                    IafEntityData nearbyData = IafEntityData.get(livingEntity);
-                    nearbyData.chainData.removeChain(target.getUuid());
-                }
-
+                targetData.clearChains();
+                for (LivingEntity livingEntity : nearbyEntities)
+                    ChainData.get(livingEntity).removeChain(target.getUuid());
                 return ActionResult.SUCCESS;
             }
 
             AtomicBoolean flag = new AtomicBoolean(false);
 
             for (LivingEntity livingEntity : nearbyEntities) {
-                IafEntityData nearbyData = IafEntityData.get(livingEntity);
-                if (nearbyData.chainData.isChainedTo(playerIn.getUuid())) {
-                    targetData.chainData.removeChain(playerIn.getUuid());
-                    nearbyData.chainData.removeChain(playerIn.getUuid());
-                    nearbyData.chainData.attachChain(target.getUuid());
-
+                ChainData nearbyData = ChainData.get(livingEntity);
+                if (nearbyData.isChainedTo(playerIn.getUuid())) {
+                    targetData.removeChain(playerIn.getUuid());
+                    nearbyData.removeChain(playerIn.getUuid());
+                    nearbyData.attachChain(target.getUuid());
                     flag.set(true);
                 }
             }
-
-            if (!flag.get())
-                targetData.chainData.attachChain(playerIn.getUuid());
-        } else
-            targetData.chainData.attachChain(playerIn.getUuid());
+            if (!flag.get()) targetData.attachChain(playerIn.getUuid());
+        } else targetData.attachChain(playerIn.getUuid());
 
         if (!playerIn.isCreative())
             stack.decrement(1);

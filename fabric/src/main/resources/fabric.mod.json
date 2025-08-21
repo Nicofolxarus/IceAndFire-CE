@@ -27,17 +27,8 @@
     "jade": [
       "com.iafenvoy.iceandfire.compat.jade.IceAndFireJadePlugin"
     ],
-    "cardinal-components-entity": [
-      "com.iafenvoy.iceandfire.fabric.component.ModComponentEntry"
-    ],
     "modmenu": [
       "com.iafenvoy.iceandfire.fabric.ModMenu"
-    ]
-  },
-  "custom": {
-    "cardinal-components": [
-      "iceandfire:entity_data",
-      "iceandfire:portal_data"
     ]
   },
   "mixins": [

@@ -8,5 +8,6 @@ public final class IceAndFireFabric implements ModInitializer {
     public void onInitialize() {
         IceAndFire.init();
         IceAndFire.process();
+        IafAttachments.init();
     }
 }

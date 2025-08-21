@@ -1,20 +1,40 @@
 package com.iafenvoy.iceandfire.data.component;
 
 import com.iafenvoy.iceandfire.entity.EntityIceDragon;
+import com.iafenvoy.iceandfire.impl.ComponentManager;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
+import com.iafenvoy.iceandfire.util.attachment.NeedUpdateData;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvents;
 
-public class FrozenData extends NeedUpdateData {
-    public int frozenTicks;
+public class FrozenData extends NeedUpdateData<LivingEntity> {
+    public static final Codec<FrozenData> CODEC = RecordCodecBuilder.create(i -> i.group(
+            Codec.BOOL.fieldOf("isFrozen").forGetter(FrozenData::isFrozen),
+            Codec.INT.fieldOf("frozenTicks").forGetter(FrozenData::getFrozenTicks)
+    ).apply(i, FrozenData::new));
+    public static final PacketCodec<RegistryByteBuf, FrozenData> PACKET_CODEC = PacketCodecs.registryCodec(CODEC);
     public boolean isFrozen;
+    public int frozenTicks;
 
-    public void tickFrozen(final LivingEntity entity) {
+    public FrozenData() {
+    }
+
+    private FrozenData(boolean isFrozen, int frozenTicks) {
+        this.isFrozen = isFrozen;
+        this.frozenTicks = frozenTicks;
+    }
+
+    @Override
+    public void tick(final LivingEntity entity) {
         if (!this.isFrozen) return;
 
         if (entity instanceof EntityIceDragon) {
@@ -52,7 +72,7 @@ public class FrozenData extends NeedUpdateData {
 
         this.frozenTicks = duration;
         this.isFrozen = true;
-        this.triggerUpdate();
+        this.markDirty();
     }
 
     private void clearFrozen(final LivingEntity entity) {
@@ -69,20 +89,18 @@ public class FrozenData extends NeedUpdateData {
 
         this.isFrozen = false;
         this.frozenTicks = 0;
-        this.triggerUpdate();
+        this.markDirty();
     }
 
-    public void serialize(final NbtCompound tag) {
-        NbtCompound frozenData = new NbtCompound();
-        frozenData.putInt("frozenTicks", this.frozenTicks);
-        frozenData.putBoolean("isFrozen", this.isFrozen);
-
-        tag.put("frozenData", frozenData);
+    public boolean isFrozen() {
+        return this.isFrozen;
     }
 
-    public void deserialize(final NbtCompound tag) {
-        NbtCompound frozenData = tag.getCompound("frozenData");
-        this.frozenTicks = frozenData.getInt("frozenTicks");
-        this.isFrozen = frozenData.getBoolean("isFrozen");
+    public int getFrozenTicks() {
+        return this.frozenTicks;
+    }
+
+    public static FrozenData get(LivingEntity living) {
+        return ComponentManager.getFrozenData(living);
     }
 }

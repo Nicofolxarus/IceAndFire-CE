@@ -7,7 +7,7 @@ import com.iafenvoy.iceandfire.component.DragonSkullComponent;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.DragonColor;
 import com.iafenvoy.iceandfire.data.DragonType;
-import com.iafenvoy.iceandfire.data.component.IafEntityData;
+import com.iafenvoy.iceandfire.data.component.ChainData;
 import com.iafenvoy.iceandfire.entity.ai.*;
 import com.iafenvoy.iceandfire.entity.block.BlockEntityDragonForgeInput;
 import com.iafenvoy.iceandfire.entity.util.*;
@@ -107,7 +107,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class EntityDragonBase extends TameableEntity implements NamedScreenHandlerFactory, IPassabilityNavigator, ISyncMount, IFlyingMount, IMultipartEntity, IAnimatedEntity, IDragonFlute, IDeadMob, IVillagerFear, IAnimalFear, IDropArmor, IHasCustomizableAttributes, ICustomSizeNavigator, ICustomMoveController, InventoryChangedListener {
     public static final int FLIGHT_CHANCE_PER_TICK = 1500;
@@ -1098,7 +1097,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                 return ActionResult.SUCCESS;
             }
             if (this.isOwner(player)) {
-                if (stack.isOf(Items.BRUSH) && IafCommonConfig.INSTANCE.dragon.enableBrushDragonScales.getValue() && this.getDragonStage() >= 3 && this.brushedTime < this.getDragonStage()*IafCommonConfig.INSTANCE.dragon.brushTimesMul.getValue()) {
+                if (stack.isOf(Items.BRUSH) && IafCommonConfig.INSTANCE.dragon.enableBrushDragonScales.getValue() && this.getDragonStage() >= 3 && this.brushedTime < this.getDragonStage() * IafCommonConfig.INSTANCE.dragon.brushTimesMul.getValue()) {
                     if (this.getWorld() instanceof ServerWorld serverWorld) {
                         DragonColor color = DragonColor.getById(this.getVariant());
                         Vec3d pos = this.getPos();
@@ -2212,11 +2211,8 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                 }
             }
             // Shift key to dismount
-            if (this.getControllingPassenger() != null && this.getControllingPassenger().isSneaking()) {
-                IafEntityData data = IafEntityData.get(this.getControllingPassenger());
-                data.miscData.setDismounted(true);
+            if (this.getControllingPassenger() != null && this.getControllingPassenger().isSneaking())
                 this.getControllingPassenger().stopRiding();
-            }
             // Reset attack target when being ridden
             if (this.getTarget() != null && !this.getPassengerList().isEmpty() && this.getOwner() != null && this.getPassengerList().contains(this.getOwner())) {
                 this.setTarget(null);
@@ -2259,11 +2255,8 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                     this.logic.attackTarget(target, ridingPlayer, (int) this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).getValue());
                 }
             }
-            if (this.getControllingPassenger() != null && this.getControllingPassenger().isSneaking()) {
-                IafEntityData data = IafEntityData.get(this.getControllingPassenger());
-                data.miscData.setDismounted(true);
+            if (this.getControllingPassenger() != null && this.getControllingPassenger().isSneaking())
                 this.getControllingPassenger().stopRiding();
-            }
             if (this.isFlying()) {
                 if (!this.isHovering() && this.getControllingPassenger() != null && !this.isOnGround() && Math.max(Math.abs(this.getVelocity().getX()), Math.abs(this.getVelocity().getZ())) < 0.1F) {
                     this.setHovering(true);
@@ -2424,14 +2417,10 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
 
     @Override
     public void dropArmor() {
-
     }
 
     public boolean isChained() {
-        AtomicBoolean isChained = new AtomicBoolean(false);
-        IafEntityData data = IafEntityData.get(this);
-        isChained.set(data.chainData.getChainedTo().isEmpty());
-        return isChained.get();
+        return ChainData.get(this).getChainedTo().isEmpty();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.entity;
 
-import com.iafenvoy.iceandfire.data.component.IafEntityData;
+import com.iafenvoy.iceandfire.data.component.ChainData;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import net.minecraft.block.WallBlock;
@@ -112,9 +112,9 @@ public class EntityChainTie extends AbstractDecorationEntity {
         List<LivingEntity> list = this.getWorld().getNonSpectatingEntities(LivingEntity.class, new Box(this.getX() - d0, this.getY() - d0, this.getZ() - d0, this.getX() + d0, this.getY() + d0, this.getZ() + d0));
 
         for (LivingEntity livingEntity : list) {
-            IafEntityData data = IafEntityData.get(livingEntity);
-            if (data.chainData.isChainedTo(this.getUuid())) {
-                data.chainData.removeChain(this.getUuid());
+            ChainData chainData = ChainData.get(livingEntity);
+            if (chainData.isChainedTo(this.getUuid())) {
+                chainData.removeChain(this.getUuid());
                 ItemEntity entityitem = new ItemEntity(this.getWorld(), this.getX(), this.getY() + 1, this.getZ(), new ItemStack(IafItems.CHAIN.get()));
                 entityitem.resetPickupDelay();
                 this.getWorld().spawnEntity(entityitem);
@@ -132,10 +132,10 @@ public class EntityChainTie extends AbstractDecorationEntity {
             List<LivingEntity> list = this.getWorld().getNonSpectatingEntities(LivingEntity.class, new Box(this.getX() - radius, this.getY() - radius, this.getZ() - radius, this.getX() + radius, this.getY() + radius, this.getZ() + radius));
 
             for (LivingEntity livingEntity : list) {
-                IafEntityData data = IafEntityData.get(livingEntity);
-                if (data.chainData.isChainedTo(player.getUuid())) {
-                    data.chainData.removeChain(player.getUuid());
-                    data.chainData.attachChain(this.getUuid());
+                ChainData chainData = ChainData.get(livingEntity);
+                if (chainData.isChainedTo(player.getUuid())) {
+                    chainData.removeChain(player.getUuid());
+                    chainData.attachChain(this.getUuid());
                     flag.set(true);
                 }
             }

@@ -2,18 +2,23 @@ package com.iafenvoy.iceandfire.neoforge;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.IceAndFireClient;
-import com.iafenvoy.uranus.neoforge.component.CapabilitySyncHelper;
+import com.iafenvoy.iceandfire.util.attachment.IafEntityAttachment;
 import dev.architectury.platform.Platform;
-import net.minecraft.util.Identifier;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
+
+import java.util.function.Supplier;
 
 @Mod(IceAndFire.MOD_ID)
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public final class IceAndFireNeoForge {
     public IceAndFireNeoForge(IEventBus modBus) {
         IafAttachments.REGISTRY.register(modBus);
@@ -25,7 +30,23 @@ public final class IceAndFireNeoForge {
     @SubscribeEvent
     public static void init(FMLCommonSetupEvent event) {
         event.enqueueWork(IceAndFire::process);
-        CapabilitySyncHelper.registerForLiving(Identifier.of(IceAndFire.MOD_ID, "iaf_entity_data"), IafAttachments.IAF_ENTITY_DATA.get());
-        CapabilitySyncHelper.registerForLiving(Identifier.of(IceAndFire.MOD_ID, "portal_data"), IafAttachments.PORTAL_DATA.get());
+    }
+
+    @SubscribeEvent
+    public static void onLivingTick(EntityTickEvent.Post event) {
+        if (event.getEntity() instanceof LivingEntity living) {
+            tickAndSync(IafAttachments.CHAIN_DATA, living);
+            tickAndSync(IafAttachments.CHICKEN_DATA, living);
+            tickAndSync(IafAttachments.FROZEN_DATA, living);
+            tickAndSync(IafAttachments.MISC_DATA, living);
+            tickAndSync(IafAttachments.PORTAL_DATA, living);
+            tickAndSync(IafAttachments.SIREN_DATA, living);
+        }
+    }
+
+    private static <T extends Entity, A extends IafEntityAttachment<T>> void tickAndSync(Supplier<AttachmentType<A>> type, T entity) {
+        A attachment = entity.getData(type);
+        attachment.tick(entity);
+        if (attachment.isDirty()) entity.syncData(type);
     }
 }

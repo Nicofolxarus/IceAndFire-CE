@@ -31,6 +31,7 @@ public class IceAndFireClient {
         PortalRenderTick.init();
 
         InteractionEvent.INTERACT_ENTITY.register(ClientEvents::onEntityInteract);
+        ClientEvents.LIVING_TICK.register(ClientEvents::onLivingUpdate);
 
         ClientNetworkHelper.registerReceivers();
     }

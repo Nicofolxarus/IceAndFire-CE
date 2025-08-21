@@ -1,23 +1,39 @@
 package com.iafenvoy.iceandfire.data.component;
 
+import com.iafenvoy.iceandfire.impl.ComponentManager;
+import com.iafenvoy.iceandfire.util.attachment.NeedUpdateData;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtHelper;
-import net.minecraft.nbt.NbtList;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Uuids;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-public class ChainData extends NeedUpdateData {
+public class ChainData extends NeedUpdateData<LivingEntity> {
+    public static final Codec<ChainData> CODEC = RecordCodecBuilder.create(i -> i.group(
+            Uuids.CODEC.listOf().fieldOf("chainedTo").forGetter(ChainData::getChainedTo)
+    ).apply(i, ChainData::new));
+    public static final PacketCodec<RegistryByteBuf, ChainData> PACKET_CODEC = PacketCodecs.registryCodec(CODEC);
     @NotNull
     private final List<UUID> chainedTo = new LinkedList<>();
 
-    public void tickChain(final LivingEntity entity) {
+    public ChainData() {
+    }
+
+    private ChainData(List<UUID> chainedTo) {
+        this.chainedTo.addAll(chainedTo);
+    }
+
+    @Override
+    public void tick(LivingEntity entity) {
         if (entity.getWorld() instanceof ServerWorld world)
             for (UUID uuid : this.chainedTo) {
                 Entity chain = world.getEntity(uuid);
@@ -38,32 +54,25 @@ public class ChainData extends NeedUpdateData {
 
     public void clearChains() {
         this.chainedTo.clear();
-        this.triggerUpdate();
+        this.markDirty();
     }
 
     public void attachChain(final UUID chain) {
         if (this.chainedTo.contains(chain)) return;
         this.chainedTo.add(chain);
-        this.triggerUpdate();
+        this.markDirty();
     }
 
     public void removeChain(final UUID chain) {
         this.chainedTo.remove(chain);
-        this.triggerUpdate();
+        this.markDirty();
     }
 
     public boolean isChainedTo(final UUID toCheck) {
         return this.chainedTo.contains(toCheck);
     }
 
-    public void serialize(final NbtCompound tag) {
-        NbtList uuids = new NbtList();
-        for (UUID uuid : this.chainedTo) uuids.add(NbtHelper.fromUuid(uuid));
-        tag.put("chainedTo", uuids);
-    }
-
-    public void deserialize(final NbtCompound tag) {
-        this.chainedTo.clear();
-        tag.getList("chainedTo", NbtElement.INT_ARRAY_TYPE).stream().map(NbtHelper::toUuid).forEach(this.chainedTo::add);
+    public static ChainData get(LivingEntity living) {
+        return ComponentManager.getChainData(living);
     }
 }

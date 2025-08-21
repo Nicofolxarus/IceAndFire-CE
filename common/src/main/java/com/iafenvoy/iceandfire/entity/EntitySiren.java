@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.entity;
 
 import com.google.common.base.Predicate;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.data.component.IafEntityData;
+import com.iafenvoy.iceandfire.data.component.SirenData;
 import com.iafenvoy.iceandfire.entity.ai.AquaticAIGetInWater;
 import com.iafenvoy.iceandfire.entity.ai.AquaticAIGetOutOfWater;
 import com.iafenvoy.iceandfire.entity.ai.SirenAIFindWaterTarget;
@@ -90,7 +90,7 @@ public class EntitySiren extends HostileEntity implements IAnimatedEntity, IVill
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
                 //ATTACK
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0D)
-                .add(EntityAttributes.GENERIC_STEP_HEIGHT,1);
+                .add(EntityAttributes.GENERIC_STEP_HEIGHT, 1);
     }
 
     public static float updateRotation(float angle, float targetAngle, float maxIncrease) {
@@ -304,11 +304,9 @@ public class EntitySiren extends HostileEntity implements IAnimatedEntity, IVill
         if (this.age % 20 == 0) {
             List<LivingEntity> entities = this.getWorld().getEntitiesByClass(LivingEntity.class, this.getBoundingBox().expand(50, 12, 50), SIREN_PREY);
             for (LivingEntity entity : entities) {
-                if (isWearingEarplugs(entity))
-                    continue;
-                IafEntityData data = IafEntityData.get(entity);
-                if (data.sirenData.isCharmed || data.sirenData.charmedBy == null)
-                    data.sirenData.setCharmed(this);
+                if (isWearingEarplugs(entity)) continue;
+                SirenData sirenData = SirenData.get(entity);
+                if (sirenData.isCharmed() || sirenData.getCharmedByUUID().isEmpty()) sirenData.setCharmed(this);
             }
         }
     }

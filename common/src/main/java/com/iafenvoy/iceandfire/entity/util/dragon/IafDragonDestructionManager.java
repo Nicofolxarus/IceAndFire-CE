@@ -3,7 +3,7 @@ package com.iafenvoy.iceandfire.entity.util.dragon;
 import com.iafenvoy.iceandfire.api.IafEvents;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.DragonType;
-import com.iafenvoy.iceandfire.data.component.IafEntityData;
+import com.iafenvoy.iceandfire.data.component.FrozenData;
 import com.iafenvoy.iceandfire.entity.EntityDragonBase;
 import com.iafenvoy.iceandfire.entity.block.BlockEntityDragonForgeInput;
 import com.iafenvoy.iceandfire.entity.util.BlockLaunchExplosion;
@@ -230,8 +230,8 @@ public class IafDragonDestructionManager {
         if (dragon.dragonType == DragonType.FIRE)
             target.setOnFireFor(statusDuration);
         else if (dragon.dragonType == DragonType.ICE) {
-            IafEntityData data = IafEntityData.get(target);
-            data.frozenData.setFrozen(target, statusDuration);
+            FrozenData frozenData = FrozenData.get(target);
+            frozenData.setFrozen(target, statusDuration);
         } else if (dragon.dragonType == DragonType.LIGHTNING) {
             double x = dragon.getX() - target.getX();
             double y = dragon.getZ() - target.getZ();

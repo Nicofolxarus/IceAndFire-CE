@@ -1,17 +1,31 @@
 package com.iafenvoy.iceandfire.data.component;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
+import com.iafenvoy.iceandfire.impl.ComponentManager;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.tag.IafEntityTags;
+import com.iafenvoy.iceandfire.util.attachment.IafEntityAttachment;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.random.Random;
 
-public class ChickenData {
-    public int timeUntilNextEgg = -1;
+public class ChickenData implements IafEntityAttachment<LivingEntity> {
+    public static final Codec<ChickenData> CODEC = RecordCodecBuilder.create(i -> i.group(
+            Codec.INT.fieldOf("timeUntilNextEgg").forGetter(ChickenData::getTimeUntilNextEgg)
+    ).apply(i, ChickenData::new));
+    private int timeUntilNextEgg = -1;
 
-    public void tickChicken(final LivingEntity entity) {
+    public ChickenData() {
+    }
+
+    private ChickenData(int timeUntilNextEgg) {
+        this.timeUntilNextEgg = timeUntilNextEgg;
+    }
+
+    @Override
+    public void tick(LivingEntity entity) {
         if (!IafCommonConfig.INSTANCE.cockatrice.chickensLayRottenEggs.getValue() || entity.getWorld().isClient() || !entity.getType().isIn(IafEntityTags.CHICKENS) || entity.isBaby())
             return;
 
@@ -35,18 +49,15 @@ public class ChickenData {
         this.timeUntilNextEgg = timeUntilNextEgg;
     }
 
-    public void serialize(final NbtCompound tag) {
-        NbtCompound chickenData = new NbtCompound();
-        chickenData.putInt("timeUntilNextEgg", this.timeUntilNextEgg);
-        tag.put("chickenData", chickenData);
-    }
-
-    public void deserialize(final NbtCompound tag) {
-        NbtCompound chickenData = tag.getCompound("chickenData");
-        this.timeUntilNextEgg = chickenData.getInt("timeUntilNextEgg");
+    public int getTimeUntilNextEgg() {
+        return this.timeUntilNextEgg;
     }
 
     private int createDefaultTime(final Random random) {
         return random.nextInt(6000) + 6000;
+    }
+
+    public static ChickenData get(LivingEntity living) {
+        return ComponentManager.getChickenData(living);
     }
 }

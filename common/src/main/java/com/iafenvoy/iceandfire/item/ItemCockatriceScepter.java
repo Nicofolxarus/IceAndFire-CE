@@ -1,9 +1,10 @@
 package com.iafenvoy.iceandfire.item;
 
-import com.iafenvoy.iceandfire.data.component.IafEntityData;
+import com.iafenvoy.iceandfire.data.component.MiscData;
 import com.iafenvoy.iceandfire.entity.EntityGorgon;
 import com.iafenvoy.iceandfire.entity.util.IBlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -14,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.particle.EntityEffectParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.math.Box;
@@ -44,8 +46,7 @@ public class ItemCockatriceScepter extends Item {
             stack.damage(this.specialWeaponDmg, livingEntity, LivingEntity.getSlotForHand(livingEntity.getActiveHand()));
             this.specialWeaponDmg = 0;
         }
-        IafEntityData data = IafEntityData.get(livingEntity);
-        data.miscData.getTargetedByScepter().clear();
+        MiscData.get(livingEntity).getTargetedByScepters().clear();
     }
 
     @Override
@@ -110,8 +111,7 @@ public class ItemCockatriceScepter extends Item {
             for (Entity pointedEntity : pointedEntities)
                 if (pointedEntity instanceof LivingEntity target) {
                     if (!target.isAlive()) return;
-                    IafEntityData data = IafEntityData.get(player);
-                    data.miscData.addScepterTarget(target);
+                    MiscData.get(player).addScepterTarget(target);
                 }
 
             this.attackTargets(player);
@@ -119,11 +119,16 @@ public class ItemCockatriceScepter extends Item {
     }
 
     private void attackTargets(final LivingEntity caster) {
-        IafEntityData data = IafEntityData.get(caster);
-        List<LivingEntity> targets = new ArrayList<>(data.miscData.getTargetedByScepter());
-        for (LivingEntity target : targets) {
+        MiscData miscData = MiscData.get(caster);
+        for (UUID uuid : miscData.getTargetedByScepters()) {
+            Entity entity = null;
+            if (caster.getWorld() instanceof ServerWorld serverWorld) entity = serverWorld.getEntity(uuid);
+            else if (caster.getWorld() instanceof ClientWorld clientWorld)
+                entity = clientWorld.getEntityLookup().get(uuid);
+            if (!(entity instanceof LivingEntity target)) continue;
+
             if (!EntityGorgon.isEntityLookingAt(caster, target, 0.2F) || caster.isRemoved() || target.isRemoved()) {
-                data.miscData.removeScepterTarget(target);
+                miscData.removeScepterTarget(target);
                 continue;
             }
 

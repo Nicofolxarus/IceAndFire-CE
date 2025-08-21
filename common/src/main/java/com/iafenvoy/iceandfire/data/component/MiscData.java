@@ -1,38 +1,51 @@
 package com.iafenvoy.iceandfire.data.component;
 
+import com.iafenvoy.iceandfire.impl.ComponentManager;
+import com.iafenvoy.iceandfire.util.attachment.NeedUpdateData;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.world.World;
+import net.minecraft.util.Uuids;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
+import java.util.UUID;
+import java.util.function.Function;
 
-public class MiscData extends NeedUpdateData {
+public class MiscData extends NeedUpdateData<LivingEntity> {
+    public static final Codec<MiscData> CODEC = RecordCodecBuilder.create(i -> i.group(
+            Codec.INT.fieldOf("loveTicks").forGetter(MiscData::getLoveTicks),
+            Codec.INT.fieldOf("lungeTicks").forGetter(MiscData::getLungeTicks),
+            Uuids.CODEC.listOf().fieldOf("targetedByScepters").forGetter(MiscData::getTargetedByScepters)
+    ).apply(i, MiscData::new));
+    public static final PacketCodec<RegistryByteBuf, MiscData> PACKET_CODEC = PacketCodecs.registryCodec(CODEC);
     public int loveTicks;
     public int lungeTicks;
-    public boolean hasDismounted;
+    private final List<UUID> targetedByScepters = new LinkedList<>();
 
-    // Transient data
-    public List<LivingEntity> targetedByScepter;
-    private List<Integer> targetedByScepterIds;
+    public MiscData() {
+    }
 
-    private boolean isInitialized;
+    private MiscData(int loveTicks, int lungeTicks, List<UUID> targetedByScepters) {
+        this.loveTicks = loveTicks;
+        this.lungeTicks = lungeTicks;
+        this.targetedByScepters.addAll(targetedByScepters);
+    }
 
-    public void tickMisc(final LivingEntity entity) {
-        if (!this.isInitialized)
-            this.initialize(entity.getWorld());
-
+    @Override
+    public void tick(LivingEntity entity) {
         if (this.loveTicks > 0) {
             this.loveTicks--;
 
             if (this.loveTicks == 0) {
-                this.triggerUpdate();
+                this.markDirty();
                 if (entity instanceof MobEntity mob)
                     mob.getNavigation().recalculatePath();
                 return;
@@ -50,76 +63,31 @@ public class MiscData extends NeedUpdateData {
         }
     }
 
-    public List<LivingEntity> getTargetedByScepter() {
-        return Objects.requireNonNullElse(this.targetedByScepter, Collections.emptyList());
-    }
-
     public void addScepterTarget(final LivingEntity target) {
-        if (this.targetedByScepter == null) {
-            this.targetedByScepter = new ArrayList<>();
-        } else if (this.targetedByScepter.contains(target))
-            return;
-
-        this.targetedByScepter.add(target);
-        this.triggerUpdate();
+        UUID uuid = target.getUuid();
+        if (!this.targetedByScepters.contains(uuid)) {
+            this.targetedByScepters.add(uuid);
+            this.markDirty();
+        }
     }
 
     public void removeScepterTarget(final LivingEntity target) {
-        if (this.targetedByScepter == null) return;
-        this.targetedByScepter.remove(target);
-        this.triggerUpdate();
+        this.targetedByScepters.remove(target.getUuid());
+        this.markDirty();
     }
 
-    public void checkScepterTarget() {
-        if (this.targetedByScepter == null) return;
-        this.targetedByScepter.removeIf(living -> living.isRemoved() || living.getStatusEffect(StatusEffects.WITHER) == null || living.getStatusEffect(StatusEffects.WITHER).getDuration() <= 0);
+    public void checkScepterTarget(Function<UUID, Entity> entityGetter) {
+        this.targetedByScepters.removeIf(uuid -> entityGetter.apply(uuid) instanceof LivingEntity living && (living.isRemoved() || living.getStatusEffect(StatusEffects.WITHER) == null || living.getStatusEffect(StatusEffects.WITHER).getDuration() <= 0));
     }
 
     public void setLoveTicks(int loveTicks) {
         this.loveTicks = loveTicks;
-        this.triggerUpdate();
+        this.markDirty();
     }
 
     public void setLungeTicks(int lungeTicks) {
         this.lungeTicks = lungeTicks;
-        this.triggerUpdate();
-    }
-
-    public void setDismounted(boolean hasDismounted) {
-        this.hasDismounted = hasDismounted;
-        this.triggerUpdate();
-    }
-
-    public void serialize(final NbtCompound tag) {
-        NbtCompound miscData = new NbtCompound();
-        miscData.putInt("loveTicks", this.loveTicks);
-        miscData.putInt("lungeTicks", this.lungeTicks);
-        miscData.putBoolean("hasDismounted", this.hasDismounted);
-
-        if (this.targetedByScepter != null) {
-            int[] ids = new int[this.targetedByScepter.size()];
-            for (int i = 0; i < this.targetedByScepter.size(); i++)
-                ids[i] = this.targetedByScepter.get(i).getId();
-            tag.putIntArray("targetedByScepterIds", ids);
-        }
-
-        tag.put("miscData", miscData);
-    }
-
-    public void deserialize(final NbtCompound tag) {
-        NbtCompound miscData = tag.getCompound("miscData");
-        this.loveTicks = miscData.getInt("loveTicks");
-        this.lungeTicks = miscData.getInt("lungeTicks");
-        this.hasDismounted = miscData.getBoolean("hasDismounted");
-        int[] loadedChainedToIds = miscData.getIntArray("targetedByScepterIds");
-
-        this.isInitialized = false;
-
-        if (loadedChainedToIds.length > 0) {
-            this.targetedByScepterIds = new ArrayList<>();
-            for (int loadedChainedToId : loadedChainedToIds)
-                this.targetedByScepterIds.add(loadedChainedToId);
-        }
+        this.markDirty();
     }
 
     private void createLoveParticles(final LivingEntity entity) {
@@ -133,20 +101,19 @@ public class MiscData extends NeedUpdateData {
         }
     }
 
-    private void initialize(final World level) {
-        List<LivingEntity> entities = new ArrayList<>();
+    public int getLoveTicks() {
+        return this.loveTicks;
+    }
 
-        if (this.targetedByScepterIds != null) {
-            for (int id : this.targetedByScepterIds) {
-                if (id == -1) continue;
-                Entity entity = level.getEntityById(id);
-                if (entity instanceof LivingEntity livingEntity)
-                    entities.add(livingEntity);
-            }
-        }
+    public int getLungeTicks() {
+        return this.lungeTicks;
+    }
 
-        this.targetedByScepter = !entities.isEmpty() ? entities : null;
-        this.targetedByScepterIds = null;
-        this.isInitialized = true;
+    public List<UUID> getTargetedByScepters() {
+        return this.targetedByScepters;
+    }
+
+    public static MiscData get(LivingEntity living) {
+        return ComponentManager.getMiscData(living);
     }
 }

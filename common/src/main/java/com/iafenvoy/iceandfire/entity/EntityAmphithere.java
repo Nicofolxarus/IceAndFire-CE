@@ -1,7 +1,6 @@
 package com.iafenvoy.iceandfire.entity;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.data.component.IafEntityData;
 import com.iafenvoy.iceandfire.entity.ai.*;
 import com.iafenvoy.iceandfire.entity.pathfinding.PathNavigateFlyingCreature;
 import com.iafenvoy.iceandfire.entity.util.*;
@@ -623,13 +622,8 @@ public class EntityAmphithere extends TameableEntity implements ISyncMount, IAni
             this.setFlying(false);
         if (this.dismountIAF() && this.isFlying() && this.isOnGround())
             this.setFlying(false);
-        if (this.getUntamedRider() != null && this.getUntamedRider().isSneaking()) {
-            if (this.getUntamedRider() instanceof LivingEntity rider) {
-                IafEntityData data = IafEntityData.get(rider);
-                data.miscData.setDismounted(true);
-            }
+        if (this.getUntamedRider() != null && this.getUntamedRider().isSneaking())
             this.getUntamedRider().stopRiding();
-        }
         if (this.attack() && this.getControllingPassenger() != null && this.getControllingPassenger() instanceof PlayerEntity) {
             LivingEntity riderTarget = DragonUtils.riderLookingAtEntity(this, this.getControllingPassenger(), 2.5D);
             if (this.getAnimation() != ANIMATION_BITE)

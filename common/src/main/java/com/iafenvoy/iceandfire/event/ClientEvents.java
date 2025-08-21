@@ -1,9 +1,13 @@
 package com.iafenvoy.iceandfire.event;
 
 import com.iafenvoy.iceandfire.config.IafClientConfig;
-import com.iafenvoy.iceandfire.data.component.IafEntityData;
+import com.iafenvoy.iceandfire.data.component.ChainData;
+import com.iafenvoy.iceandfire.data.component.FrozenData;
+import com.iafenvoy.iceandfire.data.component.MiscData;
+import com.iafenvoy.iceandfire.data.component.SirenData;
 import com.iafenvoy.iceandfire.entity.EntityDragonBase;
 import com.iafenvoy.iceandfire.entity.EntityMultipartPart;
+import com.iafenvoy.iceandfire.entity.EntitySiren;
 import com.iafenvoy.iceandfire.entity.util.ICustomMoveController;
 import com.iafenvoy.iceandfire.network.payload.DragonControlPayload;
 import com.iafenvoy.iceandfire.particle.CockatriceBeamRender;
@@ -11,6 +15,7 @@ import com.iafenvoy.iceandfire.registry.IafKeybindings;
 import com.iafenvoy.iceandfire.registry.IafParticles;
 import com.iafenvoy.iceandfire.render.block.RenderFrozenState;
 import com.iafenvoy.iceandfire.render.entity.RenderChain;
+import com.iafenvoy.uranus.event.Event;
 import dev.architectury.event.EventResult;
 import dev.architectury.networking.NetworkManager;
 import net.fabricmc.api.EnvType;
@@ -21,14 +26,19 @@ import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 
+import java.util.UUID;
+import java.util.function.Consumer;
+
 @Environment(EnvType.CLIENT)
 public class ClientEvents {
+    public static final Event<Consumer<LivingEntity>> LIVING_TICK = new Event<>(listeners -> living -> listeners.forEach(x -> x.accept(living)));
     private static final Identifier SIREN_SHADER = Identifier.of("iceandfire", "shaders/post/siren.json");
     public static int currentView = 0;
 
@@ -76,16 +86,19 @@ public class ClientEvents {
                     NetworkManager.sendToServer(new DragonControlPayload(vehicle.getId(), controlState, vehicle.getBlockPos()));
             }
             GameRenderer renderer = MinecraftClient.getInstance().gameRenderer;
-            IafEntityData data = IafEntityData.get(player);
-            if (IafClientConfig.INSTANCE.sirenShader.getValue() && data.sirenData.charmedBy == null && renderer.getPostProcessor() != null)
+            SirenData sirenData = SirenData.get(player);
+            if (IafClientConfig.INSTANCE.sirenShader.getValue() && sirenData.getCharmedByUUID().isEmpty() && renderer.getPostProcessor() != null)
                 if (SIREN_SHADER.toString().equals(renderer.getPostProcessor().getName()))
                     renderer.disablePostProcessor();
-            if (data.sirenData.charmedBy == null) return;
-            if (IafClientConfig.INSTANCE.sirenShader.getValue() && !data.sirenData.isCharmed && renderer.getPostProcessor() != null && SIREN_SHADER.toString().equals(renderer.getPostProcessor().getName()))
+            if (sirenData.getCharmedByUUID().isEmpty()) return;
+            if (IafClientConfig.INSTANCE.sirenShader.getValue() && !sirenData.isCharmed() && renderer.getPostProcessor() != null && SIREN_SHADER.toString().equals(renderer.getPostProcessor().getName()))
                 renderer.disablePostProcessor();
-            if (data.sirenData.isCharmed) {
-                if (entity.getRandom().nextInt(40) == 0)
-                    entity.getWorld().addParticle(IafParticles.SIREN_APPEARANCE.get(), player.getX(), player.getY(), player.getZ(), data.sirenData.charmedBy.getHairColor(), 0, 0);
+            if (sirenData.isCharmed()) {
+                if (entity.getRandom().nextInt(40) == 0) {
+                    Entity e = mc.world.getEntityLookup().get(sirenData.getCharmedByUUID().get());
+                    if (e instanceof EntitySiren siren)
+                        entity.getWorld().addParticle(IafParticles.SIREN_APPEARANCE.get(), player.getX(), player.getY(), player.getZ(), siren.getHairColor(), 0, 0);
+                }
                 if (IafClientConfig.INSTANCE.sirenShader.getValue() && renderer.getPostProcessor() == null)
                     renderer.loadPostProcessor(SIREN_SHADER);
             }
@@ -93,12 +106,15 @@ public class ClientEvents {
     }
 
     public static void onPostRenderLiving(LivingEntity entity, float partialRenderTick, MatrixStack matrixStack, VertexConsumerProvider buffers, int light) {
-        IafEntityData data = IafEntityData.get(entity);
-        data.miscData.checkScepterTarget();
-        for (LivingEntity target : data.miscData.getTargetedByScepter())
-            CockatriceBeamRender.render(entity, target, matrixStack, buffers, partialRenderTick);
-        if (data.frozenData.isFrozen)
-            RenderFrozenState.render(entity, matrixStack, buffers, light, data.frozenData.frozenTicks);
-        RenderChain.render(entity, matrixStack, buffers, light, data.chainData.getChainedTo());
+        MiscData miscData = MiscData.get(entity);
+        ClientWorld world = MinecraftClient.getInstance().world;
+        miscData.checkScepterTarget(world.getEntityLookup()::get);
+        for (UUID target : miscData.getTargetedByScepters())
+            CockatriceBeamRender.render(entity, world.getEntityLookup().get(target), matrixStack, buffers, partialRenderTick);
+        FrozenData frozenData = FrozenData.get(entity);
+        if (frozenData.isFrozen)
+            RenderFrozenState.render(entity, matrixStack, buffers, light, frozenData.frozenTicks);
+        ChainData chainData = ChainData.get(entity);
+        RenderChain.render(entity, matrixStack, buffers, light, chainData.getChainedTo());
     }
 }

@@ -3,7 +3,7 @@ package com.iafenvoy.iceandfire.event;
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.component.StoneStatusComponent;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.data.component.IafEntityData;
+import com.iafenvoy.iceandfire.data.component.ChainData;
 import com.iafenvoy.iceandfire.entity.*;
 import com.iafenvoy.iceandfire.entity.ai.EntitySheepAIFollowCyclops;
 import com.iafenvoy.iceandfire.entity.ai.VillagerAIFearUntamed;
@@ -20,7 +20,6 @@ import com.iafenvoy.iceandfire.registry.*;
 import com.iafenvoy.iceandfire.registry.tag.IafEntityTags;
 import com.iafenvoy.uranus.object.RegistryHelper;
 import com.iafenvoy.uranus.util.RandomHelper;
-import dev.architectury.event.CompoundEventResult;
 import dev.architectury.event.EventResult;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.utils.value.IntValue;
@@ -46,7 +45,6 @@ import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -63,9 +61,7 @@ import java.util.function.Predicate;
 public class ServerEvents {
     public static final UUID ALEX_UUID = UUID.fromString("71363abe-fd03-49c9-940d-aae8b8209b7c");
     public static final String BOLT_DONT_DESTROY_LOOT = "iceandfire.bolt_skip_loot";
-    // FIXME :: No check for shouldFear()?
     private static final Predicate<LivingEntity> VILLAGER_FEAR = entity -> entity instanceof IVillagerFear fear && fear.shouldFear();
-    private static final String[] VILLAGE_TYPES = new String[]{"plains", "desert", "snowy", "savanna", "taiga"};
 
     private static void signalChickenAlarm(LivingEntity chicken, LivingEntity attacker) {
         final float d0 = IafCommonConfig.INSTANCE.cockatrice.chickenSearchLength.getValue();
@@ -107,14 +103,6 @@ public class ServerEvents {
             if (entity.equals(entityIn) || isRidingOrBeingRiddenBy(entity, entityIn))
                 return true;
         return false;
-    }
-
-    public static void onEntityFall(LivingEntity entity, float fallDistance, float multiplier, DamageSource source) {
-        if (entity instanceof PlayerEntity) {
-            IafEntityData data = IafEntityData.get(entity);
-            if (data.miscData.hasDismounted)
-                data.miscData.setDismounted(false);
-        }
     }
 
     public static float onEntityDamage(LivingEntity entity, DamageSource source, float amount) {
@@ -221,19 +209,19 @@ public class ServerEvents {
     }
 
     public static EventResult onEntityDie(LivingEntity entity, DamageSource damageSource) {
-        IafEntityData data = IafEntityData.get(entity);
         if (entity.getWorld().isClient) return EventResult.pass();
 
-        if (!data.chainData.getChainedTo().isEmpty()) {
+        ChainData chainData = ChainData.get(entity);
+        if (!chainData.getChainedTo().isEmpty()) {
             ItemEntity entityitem = new ItemEntity(entity.getWorld(),
                     entity.getX(),
                     entity.getY() + 1,
                     entity.getZ(),
-                    new ItemStack(IafItems.CHAIN.get(), data.chainData.getChainedTo().size()));
+                    new ItemStack(IafItems.CHAIN.get(), chainData.getChainedTo().size()));
             entityitem.setToDefaultPickupDelay();
             entity.getWorld().spawnEntity(entityitem);
 
-            data.chainData.clearChains();
+            chainData.clearChains();
         }
 
         if (entity.getUuid().equals(ServerEvents.ALEX_UUID))
@@ -265,21 +253,12 @@ public class ServerEvents {
         return EventResult.pass();
     }
 
-    public static CompoundEventResult<ItemStack> onEntityUseItem(PlayerEntity player, Hand hand) {
-        ItemStack stack = player.getStackInHand(hand);
-        if (player.getX() > 87 && player.getVehicle() != null && player.getVehicle() instanceof EntityDragonBase dragon) {
-            if (dragon.interactMob(player, hand) == ActionResult.SUCCESS)
-                return CompoundEventResult.interruptTrue(stack);
-        }
-        return CompoundEventResult.pass();
-    }
-
     public static EventResult onEntityInteract(PlayerEntity player, Entity entity, Hand hand) {
         // Handle chain removal
         if (entity instanceof LivingEntity target && !player.isSpectator()) {
-            IafEntityData data = IafEntityData.get(target);
-            if (data.chainData.isChainedTo(entity.getUuid())) {
-                data.chainData.removeChain(entity.getUuid());
+            ChainData chainData = ChainData.get(target);
+            if (chainData.isChainedTo(entity.getUuid())) {
+                chainData.removeChain(entity.getUuid());
                 if (!player.getWorld().isClient)
                     entity.dropItem(IafItems.CHAIN.get(), 1);
                 return EventResult.interruptTrue();

@@ -5,6 +5,7 @@ import com.iafenvoy.iceandfire.data.DragonArmor;
 import com.iafenvoy.iceandfire.data.IafSkullType;
 import com.iafenvoy.iceandfire.data.SeaSerpent;
 import com.iafenvoy.iceandfire.data.TrollType;
+import com.iafenvoy.iceandfire.event.ClientEvents;
 import com.iafenvoy.iceandfire.event.ServerEvents;
 import com.iafenvoy.iceandfire.network.ServerNetworkHelper;
 import com.iafenvoy.iceandfire.registry.*;
@@ -74,7 +75,6 @@ public class IceAndFire {
 
         BlockEvent.BREAK.register(ServerEvents::onBreakBlock);
         InteractionEvent.INTERACT_ENTITY.register(ServerEvents::onEntityInteract);
-        InteractionEvent.RIGHT_CLICK_ITEM.register(ServerEvents::onEntityUseItem);
         InteractionEvent.RIGHT_CLICK_BLOCK.register(ServerEvents::onPlayerRightClick);
         EntityEvent.LIVING_DEATH.register(ServerEvents::onEntityDie);
         PlayerEvent.ATTACK_ENTITY.register(ServerEvents::onPlayerAttack);
@@ -82,7 +82,6 @@ public class IceAndFire {
         EntityEvents.ON_JOIN_WORLD.register(ServerEvents::onEntityJoinWorld);
         EntityEvents.START_TRACKING_TAIL.register(ServerEvents::onLivingSetTarget);
         LivingEntityEvents.DAMAGE.register(ServerEvents::onEntityDamage);
-        LivingEntityEvents.FALL.register(ServerEvents::onEntityFall);
         EntityEvent.LIVING_HURT.register(ServerEvents::onLivingHurt);
 
         ServerNetworkHelper.registerReceivers();

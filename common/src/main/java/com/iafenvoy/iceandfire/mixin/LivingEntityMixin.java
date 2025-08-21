@@ -6,7 +6,6 @@ import com.iafenvoy.iceandfire.registry.tag.IafItemTags;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,18 +22,12 @@ public abstract class LivingEntityMixin {
     @Environment(EnvType.CLIENT)
     @Inject(method = "tick", at = @At("RETURN"))
     private void onEntityTick(CallbackInfo ci) {
-        ClientEvents.onLivingUpdate((LivingEntity) (Object) this);
+        ClientEvents.LIVING_TICK.invoker().accept((LivingEntity) (Object) this);
     }
 
     @Inject(method = "swingHand(Lnet/minecraft/util/Hand;Z)V", at = @At("HEAD"))
     private void onSwingHand(Hand hand, boolean fromServerPlayer, CallbackInfo ci) {
-        ItemStack stack = this.getStackInHand(hand);
-        Item item = stack.getItem();
-        LivingEntity self = (LivingEntity) (Object) this;
-        if (stack.isIn(IafItemTags.SUMMON_GHOST_SWORD)) {
-            if (AbilityImpls.SUMMON_GHOST_SWORD.isEnable()) {
-                AbilityImpls.SUMMON_GHOST_SWORD.active(self);
-            }
-        }
+        if (this.getStackInHand(hand).isIn(IafItemTags.SUMMON_GHOST_SWORD) && AbilityImpls.SUMMON_GHOST_SWORD.isEnable())
+            AbilityImpls.SUMMON_GHOST_SWORD.active((LivingEntity) (Object) this);
     }
 }

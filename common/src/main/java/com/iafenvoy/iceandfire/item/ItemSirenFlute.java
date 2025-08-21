@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.item;
 
-import com.iafenvoy.iceandfire.data.component.IafEntityData;
+import com.iafenvoy.iceandfire.data.component.MiscData;
 import com.iafenvoy.iceandfire.entity.util.IBlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
 import com.iafenvoy.iceandfire.registry.IafSounds;
@@ -69,8 +69,7 @@ public class ItemSirenFlute extends Item {
         }
 
         if (pointedEntity instanceof LivingEntity livingEntity) {
-            IafEntityData data = IafEntityData.get(livingEntity);
-            data.miscData.setLoveTicks(10 * 20);
+            MiscData.get(livingEntity).setLoveTicks(10 * 20);
             itemStackIn.damage(2, player, EquipmentSlot.MAINHAND);
             player.getItemCooldownManager().set(itemStackIn.getItem(), 45 * 20);
         }
