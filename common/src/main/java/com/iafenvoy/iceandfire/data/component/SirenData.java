@@ -86,10 +86,7 @@ public class SirenData extends NeedUpdateData<LivingEntity> {
             double motionZAdd = (Math.signum(siren.getZ() - living.getZ()) * 0.5D - living.getVelocity().z) * 0.100000000372529;
 
             living.setVelocity(living.getVelocity().add(motionXAdd, motionYAdd, motionZAdd));
-
-            if (living.hasVehicle())
-                living.stopRiding();
-
+            if (living.hasVehicle()) living.stopRiding();
             if (!(living instanceof PlayerEntity)) {
                 double x = siren.getX() - living.getX();
                 double y = siren.getY() - 1 - living.getY();

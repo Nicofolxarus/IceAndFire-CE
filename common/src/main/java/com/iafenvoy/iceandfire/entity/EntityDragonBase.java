@@ -1482,10 +1482,7 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
             if (this.getControllingPassenger() == null || !this.getControllingPassenger().getUuid().equals(passenger.getUuid())) {
                 this.updatePreyInMouth(passenger);
             } else {
-                if (this.isModelDead()) {
-                    passenger.stopRiding();
-                }
-
+                if (this.isModelDead()) passenger.stopRiding();
                 this.setYaw(passenger.getYaw());
                 this.setHeadYaw(passenger.getHeadYaw());
                 this.setPitch(passenger.getPitch());
@@ -2210,9 +2207,6 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                     }
                 }
             }
-            // Shift key to dismount
-            if (this.getControllingPassenger() != null && this.getControllingPassenger().isSneaking())
-                this.getControllingPassenger().stopRiding();
             // Reset attack target when being ridden
             if (this.getTarget() != null && !this.getPassengerList().isEmpty() && this.getOwner() != null && this.getPassengerList().contains(this.getOwner())) {
                 this.setTarget(null);
@@ -2255,8 +2249,6 @@ public abstract class EntityDragonBase extends TameableEntity implements NamedSc
                     this.logic.attackTarget(target, ridingPlayer, (int) this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).getValue());
                 }
             }
-            if (this.getControllingPassenger() != null && this.getControllingPassenger().isSneaking())
-                this.getControllingPassenger().stopRiding();
             if (this.isFlying()) {
                 if (!this.isHovering() && this.getControllingPassenger() != null && !this.isOnGround() && Math.max(Math.abs(this.getVelocity().getX()), Math.abs(this.getVelocity().getZ())) < 0.1F) {
                     this.setHovering(true);
