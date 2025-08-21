@@ -9,13 +9,13 @@ import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.ShieldItem;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -56,7 +56,8 @@ public class EntityDreadLichSkull extends PersistentProjectileEntity {
     @Override
     public void tick() {
         float sqrt = MathHelper.sqrt((float) (this.getVelocity().x * this.getVelocity().x + this.getVelocity().z * this.getVelocity().z));
-        boolean flag = true;
+        if ((sqrt < 0.1F || this.horizontalCollision || this.verticalCollision || this.inGround) && this.age > 5)
+            this.remove(RemovalReason.DISCARDED);
         Entity shootingEntity = this.getOwner();
         if (shootingEntity instanceof MobEntity && ((MobEntity) shootingEntity).getTarget() != null) {
             LivingEntity target = ((MobEntity) shootingEntity).getTarget();
@@ -91,11 +92,7 @@ public class EntityDreadLichSkull extends PersistentProjectileEntity {
                 this.setVelocity(this.getVelocity().add((Math.signum(minusX) * 0.5D - this.getVelocity().x) * 0.10000000149011612D, (Math.signum(minusY) * 0.5D - this.getVelocity().y) * 0.10000000149011612D, (Math.signum(minusZ) * 0.5D - this.getVelocity().z) * 0.10000000149011612D));
                 this.setYaw((float) (MathHelper.atan2(this.getVelocity().x, this.getVelocity().z) * (180D / Math.PI)));
                 this.setPitch((float) (MathHelper.atan2(this.getVelocity().y, sqrt) * (180D / Math.PI)));
-                flag = false;
             }
-        }
-        if ((sqrt < 0.1F || this.horizontalCollision || this.verticalCollision || this.inGround) && this.age > 5 && flag) {
-            this.remove(RemovalReason.DISCARDED);
         }
         double d0 = 0;
         double d1 = 0.01D;
@@ -125,13 +122,11 @@ public class EntityDreadLichSkull extends PersistentProjectileEntity {
 
     @Override
     protected void onEntityHit(EntityHitResult raytraceResultIn) {
-        if (raytraceResultIn.getType() == HitResult.Type.ENTITY) {
-            Entity entity = raytraceResultIn.getEntity();
-            Entity shootingEntity = this.getOwner();
-            if (entity != null) {
-                if (shootingEntity != null && entity.isTeammate(shootingEntity)) {
-                    return;
-                }
+        Entity entity = raytraceResultIn.getEntity();
+        Entity shootingEntity = this.getOwner();
+        if (entity != null) {
+            if (shootingEntity != null && entity.isTeammate(shootingEntity)) {
+                return;
             }
         }
         super.onEntityHit(raytraceResultIn);
@@ -150,7 +145,7 @@ public class EntityDreadLichSkull extends PersistentProjectileEntity {
 
     @Override
     protected ItemStack getDefaultItemStack() {
-        return ItemStack.EMPTY;
+        return new ItemStack(Items.ARROW);
     }
 
     protected void damageShield(PlayerEntity player, float damage) {

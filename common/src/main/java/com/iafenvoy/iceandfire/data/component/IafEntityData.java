@@ -43,7 +43,6 @@ public class IafEntityData {
         this.isDirty = this.frozenData.doesClientNeedUpdate() || this.chainData.doesClientNeedUpdate() || this.sirenData.doesClientNeedUpdate() || this.miscData.doesClientNeedUpdate();
     }
 
-    //TODO: Implement later
     public boolean isDirty() {
         return this.isDirty;
     }

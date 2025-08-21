@@ -38,7 +38,7 @@ public class PortalDataStorage implements ITickableAttachment, INBTSerializable<
 
     @Override
     public boolean isDirty() {
-        return true;
+        return this.data.isDirty();
     }
 
     @Override

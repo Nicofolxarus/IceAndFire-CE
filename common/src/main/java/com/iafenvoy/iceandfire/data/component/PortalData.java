@@ -22,6 +22,7 @@ public class PortalData {
     private final LivingEntity living;
     private boolean teleported = false;
     private int teleportTick = -1;
+    private boolean dirty;
 
     public PortalData(LivingEntity living) {
         this.living = living;
@@ -29,8 +30,8 @@ public class PortalData {
 
     public void tick() {
         World world = this.living.getWorld();
-        if (!this.teleported && this.teleportTick == 0 && world instanceof ServerWorld serverWorld) {
-            this.teleported = true;
+        if (!this.isTeleported() && this.getTeleportTick() == 0 && world instanceof ServerWorld serverWorld) {
+            this.setTeleported(true);
             MinecraftServer server = serverWorld.getServer();
             if (world.getRegistryKey().getValue().equals(IafWorld.DREAD_LAND.getValue()))
                 this.living.teleportTo(new TeleportTarget(server.getOverworld(), this.living.getPos(), Vec3d.ZERO, this.living.headYaw, this.living.getPitch(), TeleportTarget.SEND_TRAVEL_THROUGH_PORTAL_PACKET));
@@ -44,11 +45,11 @@ public class PortalData {
             }
         }
         if (world.getBlockState(this.living.getBlockPos()).isOf(IafBlocks.DREAD_PORTAL.get())) {
-            if (this.teleportTick > 0) this.teleportTick--;
-            else if (this.teleportTick == -1) this.teleportTick = 100;
+            if (this.getTeleportTick() > 0) this.setTeleportTick(this.getTeleportTick() - 1);
+            else if (this.getTeleportTick() == -1) this.setTeleportTick(100);
         } else {
-            this.teleported = false;
-            this.teleportTick = -1;
+            this.setTeleported(false);
+            this.setTeleportTick(-1);
         }
     }
 
@@ -71,11 +72,23 @@ public class PortalData {
     }
 
     public void setTeleported(boolean teleported) {
+        if (this.teleported != teleported) this.markDirty();
         this.teleported = teleported;
     }
 
     public void setTeleportTick(int teleportTick) {
+        if (this.teleportTick != teleportTick) this.markDirty();
         this.teleportTick = teleportTick;
+    }
+
+    public void markDirty() {
+        this.dirty = true;
+    }
+
+    public boolean isDirty() {
+        boolean dirty = this.dirty;
+        this.dirty = false;
+        return dirty;
     }
 
     public static PortalData get(PlayerEntity player) {
