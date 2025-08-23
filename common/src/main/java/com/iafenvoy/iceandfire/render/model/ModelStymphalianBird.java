@@ -314,7 +314,7 @@ public class ModelStymphalianBird extends ModelDragonBase<EntityStymphalianBird>
     public void animate(IAnimatedEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.resetToDefaultPose();
         this.animator = ModelAnimator.create();
-        this.animator.update(entity);
+        this.animator.startAnimate(entity);
         if (this.animator.setAnimation(EntityStymphalianBird.ANIMATION_PECK)) {
             this.animator.startKeyframe(5);
             this.rotate(this.animator, this.Neck1, -47, 0, 0);
@@ -344,7 +344,7 @@ public class ModelStymphalianBird extends ModelDragonBase<EntityStymphalianBird>
             this.animator.endKeyframe();
             this.animator.resetKeyframe(10);
         }
-
+        this.animator.endAnimate();
     }
 
     private void shootPosture() {

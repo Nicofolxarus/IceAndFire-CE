@@ -188,7 +188,7 @@ public class ModelCyclops extends ModelDragonBase<EntityCyclops> {
 
     public void animate(IAnimatedEntity entity, float f, float f1, float f2, float f3, float f4) {
         this.resetToDefaultPose();
-        this.animator.update(entity);
+        this.animator.startAnimate(entity);
         if (this.animator.setAnimation(EntityCyclops.ANIMATION_STOMP)) {
             this.animator.startKeyframe(7);
             this.rotate(this.animator, this.rightleg, -62, 0, 0);
@@ -373,6 +373,7 @@ public class ModelCyclops extends ModelDragonBase<EntityCyclops> {
             this.Loin.rotateAngleX = Math.min(0, Math.min(this.leftleg.rotateAngleX, this.rightleg.rotateAngleX));
             this.LoinBack.rotateAngleX = this.Loin.rotateAngleX - Math.max(this.leftleg.rotateAngleX, this.rightleg.rotateAngleX);
         }
+        this.animator.endAnimate();
     }
 
     @Override

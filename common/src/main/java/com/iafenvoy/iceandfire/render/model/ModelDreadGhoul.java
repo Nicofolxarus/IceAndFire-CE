@@ -99,10 +99,9 @@ public class ModelDreadGhoul extends ModelBipedBase<EntityDreadGhoul> {
     }
 
     @Override
-    void animate(EntityDreadGhoul entity, float limbSwing, float limbSwingAmount,
-                 float ageInTicks, float netHeadYaw, float headPitch, float f) {
+    void animate(EntityDreadGhoul entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float f) {
         this.resetToDefaultPose();
-        this.animator.update(entity);
+        this.animator.startAnimate(entity);
         if (this.animator.setAnimation(EntityDreadGhoul.ANIMATION_SLASH)) {
             this.animator.startKeyframe(5);
             this.rotate(this.animator, this.armRight, 20, 45, 80);
@@ -140,6 +139,6 @@ public class ModelDreadGhoul extends ModelBipedBase<EntityDreadGhoul> {
             this.animator.endKeyframe();
             this.animator.resetKeyframe(5);
         }
+        this.animator.endAnimate();
     }
-
 }

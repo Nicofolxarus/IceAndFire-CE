@@ -29,7 +29,7 @@ abstract class ModelDreadBase<T extends LivingEntity & IAnimatedEntity> extends 
 
     @Override
     public void animate(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        this.animator.update(entity);
+        this.animator.startAnimate(entity);
         if (this.animator.setAnimation(this.getSpawnAnimation())) {
             this.animator.startKeyframe(0);
             this.animator.move(this.body, 0, 35, 0);
@@ -43,5 +43,6 @@ abstract class ModelDreadBase<T extends LivingEntity & IAnimatedEntity> extends 
             this.animator.endKeyframe();
             this.animator.resetKeyframe(5);
         }
+        this.animator.endAnimate();
     }
 }

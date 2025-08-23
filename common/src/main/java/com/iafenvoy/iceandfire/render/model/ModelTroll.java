@@ -234,7 +234,7 @@ public class ModelTroll extends ModelDragonBase<EntityTroll> {
     public void animate(IAnimatedEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.log1.showModel = true;
         this.resetToDefaultPose();
-        this.animator.update(entity);
+        this.animator.startAnimate(entity);
         if (this.animator.setAnimation(EntityTroll.ANIMATION_SPEAK)) {
             this.animator.startKeyframe(5);
             this.rotate(this.animator, this.jaw, 25, 0, 0);
@@ -342,6 +342,7 @@ public class ModelTroll extends ModelDragonBase<EntityTroll> {
             this.animator.resetKeyframe(5);
             this.animator.endKeyframe();
         }
+        this.animator.endAnimate();
     }
 
     @Override

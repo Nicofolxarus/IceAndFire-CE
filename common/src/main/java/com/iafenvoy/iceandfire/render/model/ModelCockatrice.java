@@ -232,7 +232,7 @@ public class ModelCockatrice extends ModelDragonBase<EntityCockatrice> {
 
     public void animate(IAnimatedEntity entity, float f, float f1, float f2, float f3, float f4) {
         this.resetToDefaultPose();
-        this.animator.update(entity);
+        this.animator.startAnimate(entity);
         if (this.animator.setAnimation(EntityCockatrice.ANIMATION_EAT)) {
             this.animator.startKeyframe(5);
             this.rotate(this.animator, this.neck2, 7, 0, 0);
@@ -366,6 +366,7 @@ public class ModelCockatrice extends ModelDragonBase<EntityCockatrice> {
             this.rotate(this.animator, this.lowerJaw, 25, 0, 0);
             this.animator.resetKeyframe(5);
         }
+        this.animator.endAnimate();
     }
 
     private void jumpPos() {

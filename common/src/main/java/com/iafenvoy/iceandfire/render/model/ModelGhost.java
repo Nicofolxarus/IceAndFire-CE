@@ -123,7 +123,7 @@ public class ModelGhost extends ModelBipedBase<EntityGhost> {
 
     @Override
     public void animate(EntityGhost entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        this.animator.update(entity);
+        this.animator.startAnimate(entity);
         if (this.animator.setAnimation(EntityGhost.ANIMATION_SCARE)) {
             this.animator.startKeyframe(5);
             this.animator.move(this.head, 0, -2, 0);
@@ -174,6 +174,7 @@ public class ModelGhost extends ModelBipedBase<EntityGhost> {
             this.animator.endKeyframe();
             this.animator.resetKeyframe(5);
         }
+        this.animator.endAnimate();
     }
 
     @Override

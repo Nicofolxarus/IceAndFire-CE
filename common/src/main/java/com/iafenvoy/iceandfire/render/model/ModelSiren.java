@@ -144,7 +144,7 @@ public class ModelSiren extends ModelDragonBase<EntitySiren> {
 
     public void animate(IAnimatedEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.resetToDefaultPose();
-        this.animator.update(entity);
+        this.animator.startAnimate(entity);
         if (this.animator.setAnimation(EntitySiren.ANIMATION_BITE)) {
             this.animator.startKeyframe(5);
             this.rotate(this.animator, this.Mouth, -28, 0, 0);
@@ -165,6 +165,7 @@ public class ModelSiren extends ModelDragonBase<EntitySiren> {
             this.animator.resetKeyframe(5);
             this.animator.endKeyframe();
         }
+        this.animator.endAnimate();
     }
 
     @Override

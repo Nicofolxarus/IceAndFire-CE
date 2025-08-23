@@ -233,7 +233,7 @@ public class ModelDeathWorm extends ModelDragonBase<EntityDeathWorm> {
 
     public void animate(IAnimatedEntity entity, float f, float f1, float f2, float f3, float f4) {
         this.resetToDefaultPose();
-        this.animator.update(entity);
+        this.animator.startAnimate(entity);
         if (this.animator.setAnimation(EntityDeathWorm.ANIMATION_BITE)) {
             this.animator.startKeyframe(3);
             this.rotate(this.animator, this.TopJaw, -20, 0, 0);
@@ -255,6 +255,7 @@ public class ModelDeathWorm extends ModelDragonBase<EntityDeathWorm> {
             this.animator.endKeyframe();
             this.animator.resetKeyframe(2);
         }
+        this.animator.endAnimate();
     }
 
     @Override

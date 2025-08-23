@@ -20,7 +20,7 @@ public class SeaSerpentTabulaModelAnimator extends IceAndFireTabulaModelAnimator
     public void setRotationAngles(TabulaModel<EntitySeaSerpent> model, EntitySeaSerpent entity, float limbSwing, float limbSwingAmount, float ageInTicks, float rotationYaw, float rotationPitch, float scale) {
         model.resetToDefaultPose();
         model.getCube("BodyUpper").rotationPointY += 9;//model was made too high
-        model.animator.update(entity);
+        model.animator.startAnimate(entity);
         this.animate(model, entity, limbSwing, limbSwingAmount, ageInTicks, rotationYaw, rotationPitch, scale);
         int currentIndex = entity.swimCycle / 10;
         int prevIndex = currentIndex - 1;
@@ -76,6 +76,7 @@ public class SeaSerpentTabulaModelAnimator extends IceAndFireTabulaModelAnimator
             model.getCube("Tail3").rotateAngleX -= (entity.getPiecePitch(3, partialTicks) - 0) * ((float) Math.PI / 180F);
             model.getCube("Tail4").rotateAngleX -= (entity.getPiecePitch(4, partialTicks) - 0) * ((float) Math.PI / 180F);
         }
+        model.animator.endAnimate();
     }
 
     public void progressRotation(AdvancedModelBox model, float progress, float rotX, float rotY, float rotZ) {

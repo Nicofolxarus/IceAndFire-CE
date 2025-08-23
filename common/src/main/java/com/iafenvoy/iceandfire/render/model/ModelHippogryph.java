@@ -419,7 +419,7 @@ public class ModelHippogryph extends ModelDragonBase<EntityHippogryph> {
 
     public void animate(IAnimatedEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.resetToDefaultPose();
-        this.animator.update(entity);
+        this.animator.startAnimate(entity);
         if (this.animator.setAnimation(EntityHippogryph.ANIMATION_SPEAK)) {
             this.animator.startKeyframe(10);
             this.rotate(this.animator, this.Head, -10, 0, 0);
@@ -534,6 +534,7 @@ public class ModelHippogryph extends ModelDragonBase<EntityHippogryph> {
             this.animator.endKeyframe();
             this.animator.resetKeyframe(5);
         }
+        this.animator.endAnimate();
     }
 
     @Override

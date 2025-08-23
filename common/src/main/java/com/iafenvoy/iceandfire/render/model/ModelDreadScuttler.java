@@ -233,7 +233,7 @@ public class ModelDreadScuttler extends ModelDragonBase<EntityDreadScuttler> {
 
     public void animate(IAnimatedEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.resetToDefaultPose();
-        this.animator.update(entity);
+        this.animator.startAnimate(entity);
         if (this.animator.setAnimation(EntityDreadScuttler.ANIMATION_BITE)) {
             this.animator.startKeyframe(5);
             this.rotate(this.animator, this.Neck1, -30, 0, 0);
@@ -255,6 +255,7 @@ public class ModelDreadScuttler extends ModelDragonBase<EntityDreadScuttler> {
             this.animator.endKeyframe();
             this.animator.resetKeyframe(5);
         }
+        this.animator.endAnimate();
     }
 
     @Override

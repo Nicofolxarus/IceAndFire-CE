@@ -311,7 +311,7 @@ public class ModelAmphithere extends ModelDragonBase<EntityAmphithere> {
     }
 
     public void animate(IAnimatedEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        this.animator.update(entity);
+        this.animator.startAnimate(entity);
         if (this.animator.setAnimation(EntityAmphithere.ANIMATION_BITE)) {
             this.animator.startKeyframe(5);
             this.rotate(this.animator, this.Neck1, -39, 0, 0);
@@ -408,6 +408,7 @@ public class ModelAmphithere extends ModelDragonBase<EntityAmphithere> {
             this.animator.endKeyframe();
             this.animator.resetKeyframe(5);
         }
+        this.animator.endAnimate();
     }
 
     private void wingBlastPose() {

@@ -42,7 +42,7 @@ Netherite Related things.
 | ProjectE                    | EMC & Dragon Forge Recipe Calculation |   ✅    |                                                                                                                           |
 | Roughly Enough Items        | Recipe view                           |   ❌    |                                                                                                                           |
 | Tinkers' Construct          | New materials                         |   🔲   |                                                                                                                           |
-| Thaumcraft 7                | New vis                               |   🔲   | TC7 is not published yet but is planned so I added here lol                                                                    |
+| Thaumcraft 7                | New vis                               |   🔲   | TC7 is not published yet but is planned so I added here lol                                                               |
 
 Also, there's a recipe extension pack for updated and harder crafts using netherite:
 [Ice And Fire Smithing](https://modrinth.com/datapack/iceandfire_smithing)

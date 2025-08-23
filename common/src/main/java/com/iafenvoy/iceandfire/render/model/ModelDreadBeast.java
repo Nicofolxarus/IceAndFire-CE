@@ -240,7 +240,7 @@ public class ModelDreadBeast extends ModelDragonBase<EntityDreadBeast> {
 
     public void animate(IAnimatedEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.resetToDefaultPose();
-        this.animator.update(entity);
+        this.animator.startAnimate(entity);
         if (this.animator.setAnimation(EntityDreadBeast.ANIMATION_BITE)) {
             this.animator.startKeyframe(5);
             this.rotate(this.animator, this.Neck1, -39, 0, 0);
@@ -263,6 +263,7 @@ public class ModelDreadBeast extends ModelDragonBase<EntityDreadBeast> {
             this.animator.endKeyframe();
             this.animator.resetKeyframe(5);
         }
+        this.animator.endAnimate();
     }
 
     @Override

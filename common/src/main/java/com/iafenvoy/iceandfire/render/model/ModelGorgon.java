@@ -570,7 +570,7 @@ public class ModelGorgon extends ModelDragonBase<EntityGorgon> {
 
     public void animate(IAnimatedEntity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.resetToDefaultPose();
-        this.animator.update(entity);
+        this.animator.startAnimate(entity);
         if (this.animator.setAnimation(EntityGorgon.ANIMATION_SCARE)) {
             this.animator.startKeyframe(5);
             this.rotate(this.animator, this.Head, 0, 20, 0);
@@ -603,6 +603,7 @@ public class ModelGorgon extends ModelDragonBase<EntityGorgon> {
             this.animator.endKeyframe();
             this.animator.resetKeyframe(5);
         }
+        this.animator.endAnimate();
     }
 
     @Override

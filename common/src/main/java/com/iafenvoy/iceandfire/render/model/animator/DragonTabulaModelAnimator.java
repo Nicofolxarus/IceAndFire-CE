@@ -257,7 +257,7 @@ public abstract class DragonTabulaModelAnimator extends IceAndFireTabulaModelAni
     protected void animate(TabulaModel<EntityDragonBase> model, EntityDragonBase entity, float limbSwing, float limbSwingAmount, float ageInTicks, float rotationYaw, float rotationPitch, float scale) {
         AdvancedModelBox modelCubeJaw = model.getCube("Jaw");
         AdvancedModelBox modelCubeBodyUpper = model.getCube("BodyUpper");
-        model.animator.update(entity);
+        model.animator.startAnimate(entity);
         //Firecharge
         if (model.animator.setAnimation(EntityDragonBase.ANIMATION_FIRECHARGE)) {
             model.animator.startKeyframe(10);
@@ -419,5 +419,6 @@ public abstract class DragonTabulaModelAnimator extends IceAndFireTabulaModelAni
             this.rotate(model.animator, model.getCube("Neck2"), -18, 0, 0);
             model.animator.endKeyframe();
         }
+        model.animator.endAnimate();
     }
 }
