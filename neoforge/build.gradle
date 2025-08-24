@@ -1,6 +1,3 @@
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-
 plugins {
     id 'com.github.johnrengelman.shadow'
 }
@@ -57,13 +54,6 @@ processResources {
     filesMatching('META-INF/neoforge.mods.toml') {
         expand version: project.version
     }
-
-    File jsonFile = file("${destinationDir}/iceandfire.mixins.json".replace("neoforge", "common"))
-    def json = jsonFile.exists() ? new JsonSlurper().parse(jsonFile) : [:]
-    json.refmap = "IceAndFireCE-common-common-refmap.json"
-    File f = file("${destinationDir}/iceandfire.mixins.json")
-    f.parentFile.mkdirs()
-    f.text = JsonOutput.prettyPrint(JsonOutput.toJson(json))
 }
 
 shadowJar {
