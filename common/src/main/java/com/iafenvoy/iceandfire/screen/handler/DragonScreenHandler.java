@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.screen.handler;
 
 import com.iafenvoy.iceandfire.data.DragonArmorPart;
-import com.iafenvoy.iceandfire.entity.EntityDragonBase;
+import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.registry.IafScreenHandlers;
 import com.iafenvoy.iceandfire.screen.slot.BannerSlot;
 import com.iafenvoy.iceandfire.screen.slot.DragonArmorSlot;
@@ -46,7 +46,7 @@ public class DragonScreenHandler extends ScreenHandler {
     @Override
     public boolean canUse(PlayerEntity playerIn) {
         Entity entity = playerIn.getWorld().getEntityById(this.getDragonId());
-        return entity instanceof EntityDragonBase dragon && !dragon.hasInventoryChanged(this.dragonInventory) && this.dragonInventory.canPlayerUse(playerIn) && dragon.isAlive() && dragon.distanceTo(playerIn) < 8.0F;
+        return entity instanceof DragonBaseEntity dragon && !dragon.hasInventoryChanged(this.dragonInventory) && this.dragonInventory.canPlayerUse(playerIn) && dragon.isAlive() && dragon.distanceTo(playerIn) < 8.0F;
     }
 
     @Override

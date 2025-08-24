@@ -3,9 +3,9 @@ package com.iafenvoy.iceandfire.world.structure;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.DragonColor;
 import com.iafenvoy.iceandfire.data.DragonType;
-import com.iafenvoy.iceandfire.entity.EntityDragonBase;
+import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.entity.util.HomePosition;
-import com.iafenvoy.iceandfire.item.block.BlockGoldPile;
+import com.iafenvoy.iceandfire.item.block.GoldPileBlock;
 import com.iafenvoy.iceandfire.registry.tag.IafBlockTags;
 import com.iafenvoy.iceandfire.world.GenerationConstants;
 import com.iafenvoy.uranus.util.ShapeBuilder;
@@ -108,7 +108,7 @@ public abstract class DragonCaveStructure extends Structure {
             int radius = (int) (dragonAge * 0.2F) + random.nextInt(4);
             this.generateCave(world, radius, 3, position, random);
             if (this.offset.equals(new BlockPos(0, 0, 0))) {
-                EntityDragonBase dragon = this.createDragon(world, random, position, dragonAge);
+                DragonBaseEntity dragon = this.createDragon(world, random, position, dragonAge);
                 world.spawnEntity(dragon);
             }
         }
@@ -215,7 +215,7 @@ public abstract class DragonCaveStructure extends Structure {
                 int chance = rand.nextInt(99) + 1;
                 if (chance < 60) {
                     boolean generateGold = rand.nextDouble() < IafCommonConfig.INSTANCE.dragon.generateDenGoldChance.getValue() * (this.male ? 1 : 2);
-                    world.setBlockState(pos, generateGold ? this.getTreasurePile().with(BlockGoldPile.LAYERS, 1 + rand.nextInt(7)) : Blocks.AIR.getDefaultState(), 3);
+                    world.setBlockState(pos, generateGold ? this.getTreasurePile().with(GoldPileBlock.LAYERS, 1 + rand.nextInt(7)) : Blocks.AIR.getDefaultState(), 3);
                 } else if (chance == 61) {
                     world.setBlockState(pos, Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, GenerationConstants.HORIZONTALS[rand.nextInt(3)]), Block.NOTIFY_LISTENERS);
                     if (world.getBlockState(pos).getBlock() instanceof ChestBlock) {
@@ -227,8 +227,8 @@ public abstract class DragonCaveStructure extends Structure {
             }
         }
 
-        private EntityDragonBase createDragon(final StructureWorldAccess worldGen, final Random random, final BlockPos position, int dragonAge) {
-            EntityDragonBase dragon = this.getDragonType().create(worldGen.toServerWorld());
+        private DragonBaseEntity createDragon(final StructureWorldAccess worldGen, final Random random, final BlockPos position, int dragonAge) {
+            DragonBaseEntity dragon = this.getDragonType().create(worldGen.toServerWorld());
             assert dragon != null;
             dragon.setGender(this.male);
             dragon.growDragon(dragonAge);
@@ -253,7 +253,7 @@ public abstract class DragonCaveStructure extends Structure {
 
         protected abstract RegistryKey<LootTable> getChestTable(boolean male);
 
-        protected abstract EntityType<? extends EntityDragonBase> getDragonType();
+        protected abstract EntityType<? extends DragonBaseEntity> getDragonType();
     }
 
     public record SphereInfo(int radius, BlockPos pos) {

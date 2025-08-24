@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.data;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.entity.EntityDragonBase;
+import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import net.minecraft.entity.EntityType;
@@ -21,11 +21,11 @@ public class DragonType {
     public static final DragonType ICE = new DragonType("ice", IafEntities.ICE_DRAGON::get, IafItems.DRAGON_SKULL_ICE, IafItems.SUMMONING_CRYSTAL_ICE).setPiscivore();
     public static final DragonType LIGHTNING = new DragonType("lightning", IafEntities.LIGHTNING_DRAGON::get, IafItems.DRAGON_SKULL_LIGHTNING, IafItems.SUMMONING_CRYSTAL_LIGHTNING);
     private final String name;
-    private final Supplier<EntityType<? extends EntityDragonBase>> entityType;
+    private final Supplier<EntityType<? extends DragonBaseEntity>> entityType;
     private final Supplier<Item> skullItem, crystalItem;
     private boolean piscivore;
 
-    public DragonType(String name, Supplier<EntityType<? extends EntityDragonBase>> entityType, Supplier<Item> skullItem, Supplier<Item> crystalItem) {
+    public DragonType(String name, Supplier<EntityType<? extends DragonBaseEntity>> entityType, Supplier<Item> skullItem, Supplier<Item> crystalItem) {
         this.name = name;
         this.entityType = entityType;
         this.skullItem = skullItem;
@@ -50,7 +50,7 @@ public class DragonType {
         return TYPES.indexOf(this);
     }
 
-    public EntityType<? extends EntityDragonBase> getEntity() {
+    public EntityType<? extends DragonBaseEntity> getEntity() {
         return this.entityType.get();
     }
 

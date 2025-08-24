@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.render.model.util;
 
-import com.iafenvoy.iceandfire.entity.EntityDragonBase;
+import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -19,11 +19,11 @@ public class LegSolver {
         this.legs = legs;
     }
 
-    public final void update(EntityDragonBase entity, float scale) {
+    public final void update(DragonBaseEntity entity, float scale) {
         this.update(entity, entity.bodyYaw, scale);
     }
 
-    public final void update(EntityDragonBase entity, float yaw, float scale) {
+    public final void update(DragonBaseEntity entity, float yaw, float scale) {
         double sideTheta = yaw / (180 / Math.PI);
         double sideX = MathHelper.cos((float) sideTheta) * scale;
         double sideZ = MathHelper.sin((float) sideTheta) * scale;
@@ -51,7 +51,7 @@ public class LegSolver {
             return this.prevHeight + (this.height - this.prevHeight) * delta;
         }
 
-        public void update(EntityDragonBase entity, double sideX, double sideZ, double forwardX, double forwardZ, float scale) {
+        public void update(DragonBaseEntity entity, double sideX, double sideZ, double forwardX, double forwardZ, float scale) {
             this.prevHeight = this.height;
             double posY = entity.getY();
             float settledHeight = this.settle(entity, entity.getX() + sideX * this.side + forwardX * this.forward, posY, entity.getZ() + sideZ * this.side + forwardZ * this.forward, this.height);
@@ -59,7 +59,7 @@ public class LegSolver {
         }
 
 
-        private float settle(EntityDragonBase entity, double x, double y, double z, float height) {
+        private float settle(DragonBaseEntity entity, double x, double y, double z, float height) {
             BlockPos pos = BlockPos.ofFloored(x, y + 1e-3, z);
             float dist = this.getDistance(entity.getWorld(), pos);
             if (1 - dist < 1e-3) dist = this.getDistance(entity.getWorld(), pos.down()) + (float) y % 1;

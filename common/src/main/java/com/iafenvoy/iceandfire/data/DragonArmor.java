@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.data;
 
 import com.google.common.collect.ImmutableList;
-import com.iafenvoy.iceandfire.item.armor.ItemScaleArmor;
+import com.iafenvoy.iceandfire.item.armor.ScaleArmorItem;
 import com.iafenvoy.iceandfire.registry.IafArmorMaterials;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.uranus.util.function.MemorizeSupplier;
@@ -49,10 +49,10 @@ public class DragonArmor {
             value.armorMaterial = IafArmorMaterials.register("armor_dragon_scales_" + (i + 1), new int[]{5, 7, 9, 5}, 15, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 2, new MemorizeSupplier<>(() -> Ingredient.ofItems(value.repairItem.get())));
             String sub = "armor_" + value.color.name().toLowerCase(Locale.ROOT);
 
-            value.helmet = IafItems.register(sub + "_helmet", () -> new ItemScaleArmor(value.color, value, value.armorMaterial, ArmorItem.Type.HELMET));
-            value.chestplate = IafItems.register(sub + "_chestplate", () -> new ItemScaleArmor(value.color, value, value.armorMaterial, ArmorItem.Type.CHESTPLATE));
-            value.leggings = IafItems.register(sub + "_leggings", () -> new ItemScaleArmor(value.color, value, value.armorMaterial, ArmorItem.Type.LEGGINGS));
-            value.boots = IafItems.register(sub + "_boots", () -> new ItemScaleArmor(value.color, value, value.armorMaterial, ArmorItem.Type.BOOTS));
+            value.helmet = IafItems.register(sub + "_helmet", () -> new ScaleArmorItem(value.color, value, value.armorMaterial, ArmorItem.Type.HELMET));
+            value.chestplate = IafItems.register(sub + "_chestplate", () -> new ScaleArmorItem(value.color, value, value.armorMaterial, ArmorItem.Type.CHESTPLATE));
+            value.leggings = IafItems.register(sub + "_leggings", () -> new ScaleArmorItem(value.color, value, value.armorMaterial, ArmorItem.Type.LEGGINGS));
+            value.boots = IafItems.register(sub + "_boots", () -> new ScaleArmorItem(value.color, value, value.armorMaterial, ArmorItem.Type.BOOTS));
         }
     }
 

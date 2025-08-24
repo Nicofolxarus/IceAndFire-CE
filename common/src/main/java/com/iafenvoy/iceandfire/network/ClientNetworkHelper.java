@@ -1,10 +1,10 @@
 package com.iafenvoy.iceandfire.network;
 
 import com.iafenvoy.iceandfire.config.IafClientConfig;
-import com.iafenvoy.iceandfire.entity.EntityDragonBase;
-import com.iafenvoy.iceandfire.entity.block.BlockEntityJar;
-import com.iafenvoy.iceandfire.entity.block.BlockEntityPixieHouse;
-import com.iafenvoy.iceandfire.entity.block.BlockEntityPodium;
+import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
+import com.iafenvoy.iceandfire.item.block.entity.JarBlockEntity;
+import com.iafenvoy.iceandfire.item.block.entity.PixieHouseBlockEntity;
+import com.iafenvoy.iceandfire.item.block.entity.PodiumBlockEntity;
 import com.iafenvoy.iceandfire.entity.util.ISyncMount;
 import com.iafenvoy.iceandfire.network.payload.*;
 import dev.architectury.networking.NetworkManager;
@@ -25,7 +25,7 @@ public class ClientNetworkHelper {
             PlayerEntity player = ctx.getPlayer();
             if (player != null) {
                 Entity entity = player.getWorld().getEntityById(payload.entityId());
-                if (entity instanceof EntityDragonBase dragon) {
+                if (entity instanceof DragonBaseEntity dragon) {
                     dragon.setBreathingFire(payload.breathing());
                     dragon.burningTarget = new BlockPos(payload.target());
                 }
@@ -63,10 +63,10 @@ public class ClientNetworkHelper {
             PlayerEntity player = ctx.getPlayer();
             if (player != null) {
                 BlockEntity blockEntity = player.getWorld().getBlockEntity(payload.blockPos());
-                if (blockEntity instanceof BlockEntityPixieHouse house) {
+                if (blockEntity instanceof PixieHouseBlockEntity house) {
                     house.hasPixie = payload.hasPixie();
                     house.pixieType = payload.pixieType();
-                } else if (blockEntity instanceof BlockEntityJar jar) {
+                } else if (blockEntity instanceof JarBlockEntity jar) {
                     jar.hasPixie = payload.hasPixie();
                     jar.pixieType = payload.pixieType();
                 }
@@ -75,13 +75,13 @@ public class ClientNetworkHelper {
         NetworkManager.registerReceiver(NetworkManager.Side.S2C, UpdatePixieJarPayload.ID, UpdatePixieJarPayload.CODEC, (payload, ctx) -> {
             PlayerEntity player = ctx.getPlayer();
             if (player != null)
-                if (player.getWorld().getBlockEntity(payload.blockPos()) instanceof BlockEntityJar jar)
+                if (player.getWorld().getBlockEntity(payload.blockPos()) instanceof JarBlockEntity jar)
                     jar.hasProduced = payload.isProducing();
         });
         NetworkManager.registerReceiver(NetworkManager.Side.S2C, UpdatePodiumPayload.ID, UpdatePodiumPayload.CODEC, (payload, ctx) -> {
             PlayerEntity player = ctx.getPlayer();
             if (player != null)
-                if (player.getWorld().getBlockEntity(payload.blockPos()) instanceof BlockEntityPodium podium)
+                if (player.getWorld().getBlockEntity(payload.blockPos()) instanceof PodiumBlockEntity podium)
                     podium.setStack(0, payload.heldStack());
         });
     }

@@ -4,13 +4,13 @@ import com.iafenvoy.iceandfire.api.IafEvents;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.data.component.FrozenData;
-import com.iafenvoy.iceandfire.entity.EntityDragonBase;
-import com.iafenvoy.iceandfire.entity.block.BlockEntityDragonForgeInput;
+import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
+import com.iafenvoy.iceandfire.item.block.entity.DragonForgeInputBlockEntity;
 import com.iafenvoy.iceandfire.entity.util.BlockLaunchExplosion;
-import com.iafenvoy.iceandfire.item.block.BlockCharedPath;
-import com.iafenvoy.iceandfire.item.block.BlockFallingReturningState;
-import com.iafenvoy.iceandfire.item.block.BlockReturningState;
-import com.iafenvoy.iceandfire.item.block.util.IDragonProof;
+import com.iafenvoy.iceandfire.item.block.CharedPathBlock;
+import com.iafenvoy.iceandfire.item.block.FallingReturningStateBlock;
+import com.iafenvoy.iceandfire.item.block.ReturningStateBlock;
+import com.iafenvoy.iceandfire.item.block.util.DragonProof;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafDamageTypes;
 import net.minecraft.block.Block;
@@ -29,7 +29,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 
 public class IafDragonDestructionManager {
-    public static void destroyAreaBreath(final World level, final BlockPos center, final EntityDragonBase dragon) {
+    public static void destroyAreaBreath(final World level, final BlockPos center, final DragonBaseEntity dragon) {
         if (IafEvents.ON_DRAGON_DAMAGE_BLOCK.invoker().onDamageBlock(dragon, center.getX(), center.getY(), center.getZ()))
             return;
 
@@ -52,7 +52,7 @@ public class IafDragonDestructionManager {
 
         if (dragon.getDragonStage() <= 3) {
             BlockPos.stream(center.add(-1, -1, -1), center.add(1, 1, 1)).forEach(position -> {
-                if (level.getBlockEntity(position) instanceof BlockEntityDragonForgeInput forge) {
+                if (level.getBlockEntity(position) instanceof DragonForgeInputBlockEntity forge) {
                     forge.onHitWithFlame();
                     return;
                 }
@@ -70,7 +70,7 @@ public class IafDragonDestructionManager {
             damageRadius = 2.5F + f * 1.2F;
 
             BlockPos.stream(center.add(-x, -y, -z), center.add(x, y, z)).forEach(position -> {
-                if (level.getBlockEntity(position) instanceof BlockEntityDragonForgeInput forge) {
+                if (level.getBlockEntity(position) instanceof DragonForgeInputBlockEntity forge) {
                     forge.onHitWithFlame();
                     return;
                 }
@@ -101,7 +101,7 @@ public class IafDragonDestructionManager {
         });
     }
 
-    public static void destroyAreaCharge(final World level, final BlockPos center, final EntityDragonBase dragon) {
+    public static void destroyAreaCharge(final World level, final BlockPos center, final DragonBaseEntity dragon) {
         if (dragon == null) return;
         if (IafEvents.ON_DRAGON_DAMAGE_BLOCK.invoker().onDamageBlock(dragon, center.getX(), center.getY(), center.getZ()))
             return;
@@ -116,7 +116,7 @@ public class IafDragonDestructionManager {
             if (dragon.getDragonStage() <= 3) {
                 BlockPos.stream(center.add(-x, -y, -z), center.add(x, y, z)).forEach(position -> {
                     BlockState state = level.getBlockState(position);
-                    if (state.getBlock() instanceof IDragonProof) return;
+                    if (state.getBlock() instanceof DragonProof) return;
                     if (dragon.getRandom().nextFloat() * 3 > center.getSquaredDistance(position) && DragonUtils.canDragonBreak(state, dragon))
                         level.breakBlock(position, false);
                     if (dragon.getRandom().nextBoolean()) attackBlock(level, dragon, position, state);
@@ -176,7 +176,7 @@ public class IafDragonDestructionManager {
             causeExplosion(level, center, dragon, damageSource, dragon.getDragonStage());
     }
 
-    private static DamageSource getDamageSource(final EntityDragonBase dragon) {
+    private static DamageSource getDamageSource(final DragonBaseEntity dragon) {
         PlayerEntity player = dragon.getRidingPlayer();
 
         if (dragon.dragonType == DragonType.FIRE)
@@ -189,8 +189,8 @@ public class IafDragonDestructionManager {
             return dragon.getWorld().getDamageSources().mobAttack(dragon);
     }
 
-    private static void attackBlock(final World level, final EntityDragonBase dragon, final BlockPos position, final BlockState state) {
-        if (state.getBlock() instanceof IDragonProof || !DragonUtils.canDragonBreak(state, dragon))
+    private static void attackBlock(final World level, final DragonBaseEntity dragon, final BlockPos position, final BlockState state) {
+        if (state.getBlock() instanceof DragonProof || !DragonUtils.canDragonBreak(state, dragon))
             return;
 
         BlockState transformed;
@@ -222,11 +222,11 @@ public class IafDragonDestructionManager {
             level.setBlockState(position.up(), elementalBlock.getDefaultState());
     }
 
-    private static void attackBlock(final World level, final EntityDragonBase dragon, final BlockPos position) {
+    private static void attackBlock(final World level, final DragonBaseEntity dragon, final BlockPos position) {
         attackBlock(level, dragon, position, level.getBlockState(position));
     }
 
-    private static void applyDragonEffect(final LivingEntity target, final EntityDragonBase dragon, int statusDuration) {
+    private static void applyDragonEffect(final LivingEntity target, final DragonBaseEntity dragon, int statusDuration) {
         if (dragon.dragonType == DragonType.FIRE)
             target.setOnFireFor(statusDuration);
         else if (dragon.dragonType == DragonType.ICE) {
@@ -239,7 +239,7 @@ public class IafDragonDestructionManager {
         }
     }
 
-    private static void causeExplosion(World world, BlockPos center, EntityDragonBase destroyer, DamageSource source, int stage) {
+    private static void causeExplosion(World world, BlockPos center, DragonBaseEntity destroyer, DamageSource source, int stage) {
         Explosion.DestructionType mode = world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.KEEP;
         BlockLaunchExplosion explosion = new BlockLaunchExplosion(world, destroyer, source, center.getX(), center.getY(), center.getZ(), Math.min(2, stage - 2), mode);
         explosion.collectBlocksAndDamageEntities();
@@ -250,7 +250,7 @@ public class IafDragonDestructionManager {
         BlockPos.stream(center.add(-x, -y, -z), center.add(x, y, z)).forEach(pos -> {
             if (center.getSquaredDistance(pos) <= radius2) {
                 BlockState state = world.getBlockState(pos);
-                if (state.getBlock() instanceof IDragonProof) return;
+                if (state.getBlock() instanceof DragonProof) return;
                 if (world.random.nextFloat() * 3 > (float) center.getSquaredDistance(pos) / radius2 && DragonUtils.canDragonBreak(state, destroyer))
                     world.breakBlock(pos, false);
             }
@@ -259,17 +259,17 @@ public class IafDragonDestructionManager {
 
     public static BlockState transformBlockFire(BlockState in) {
         if (in.getBlock() instanceof SpreadableBlock)
-            return IafBlocks.CHARRED_GRASS.get().getDefaultState().with(BlockReturningState.REVERTS, true);
+            return IafBlocks.CHARRED_GRASS.get().getDefaultState().with(ReturningStateBlock.REVERTS, true);
         else if (in.isOf(Blocks.DIRT))
-            return IafBlocks.CHARRED_DIRT.get().getDefaultState().with(BlockReturningState.REVERTS, true);
+            return IafBlocks.CHARRED_DIRT.get().getDefaultState().with(ReturningStateBlock.REVERTS, true);
         else if (in.isIn(BlockTags.SAND) && in.getBlock() == Blocks.GRAVEL)
-            return IafBlocks.CHARRED_GRAVEL.get().getDefaultState().with(BlockFallingReturningState.REVERTS, true);
+            return IafBlocks.CHARRED_GRAVEL.get().getDefaultState().with(FallingReturningStateBlock.REVERTS, true);
         else if (in.isIn(BlockTags.BASE_STONE_OVERWORLD) && (in.getBlock() == Blocks.COBBLESTONE || in.getBlock().getTranslationKey().contains("cobblestone")))
-            return IafBlocks.CHARRED_COBBLESTONE.get().getDefaultState().with(BlockReturningState.REVERTS, true);
+            return IafBlocks.CHARRED_COBBLESTONE.get().getDefaultState().with(ReturningStateBlock.REVERTS, true);
         else if (in.isIn(BlockTags.BASE_STONE_OVERWORLD) && in.getBlock() != IafBlocks.CHARRED_COBBLESTONE.get())
-            return IafBlocks.CHARRED_STONE.get().getDefaultState().with(BlockReturningState.REVERTS, true);
+            return IafBlocks.CHARRED_STONE.get().getDefaultState().with(ReturningStateBlock.REVERTS, true);
         else if (in.getBlock() == Blocks.DIRT_PATH)
-            return IafBlocks.CHARRED_DIRT_PATH.get().getDefaultState().with(BlockCharedPath.REVERTS, true);
+            return IafBlocks.CHARRED_DIRT_PATH.get().getDefaultState().with(CharedPathBlock.REVERTS, true);
         else if (in.isIn(BlockTags.LOGS) || in.isIn(BlockTags.PLANKS))
             return IafBlocks.ASH.get().getDefaultState();
         else if (in.isIn(BlockTags.LEAVES) || in.isIn(BlockTags.FLOWERS) || in.isIn(BlockTags.CROPS) || in.getBlock() == Blocks.SNOW)
@@ -279,19 +279,19 @@ public class IafDragonDestructionManager {
 
     public static BlockState transformBlockIce(BlockState in) {
         if (in.getBlock() instanceof SpreadableBlock)
-            return IafBlocks.FROZEN_GRASS.get().getDefaultState().with(BlockReturningState.REVERTS, true);
+            return IafBlocks.FROZEN_GRASS.get().getDefaultState().with(ReturningStateBlock.REVERTS, true);
         else if (in.isIn(BlockTags.DIRT) && in.getBlock() == Blocks.DIRT || in.isIn(BlockTags.SNOW))
-            return IafBlocks.FROZEN_DIRT.get().getDefaultState().with(BlockReturningState.REVERTS, true);
+            return IafBlocks.FROZEN_DIRT.get().getDefaultState().with(ReturningStateBlock.REVERTS, true);
         else if (in.isIn(BlockTags.SAND) && in.getBlock() == Blocks.GRAVEL)
-            return IafBlocks.FROZEN_GRAVEL.get().getDefaultState().with(BlockFallingReturningState.REVERTS, true);
+            return IafBlocks.FROZEN_GRAVEL.get().getDefaultState().with(FallingReturningStateBlock.REVERTS, true);
         else if (in.isIn(BlockTags.SAND) && in.getBlock() != Blocks.GRAVEL)
             return in;
         else if (in.isIn(BlockTags.BASE_STONE_OVERWORLD) && (in.getBlock() == Blocks.COBBLESTONE || in.getBlock().getTranslationKey().contains("cobblestone")))
-            return IafBlocks.FROZEN_COBBLESTONE.get().getDefaultState().with(BlockReturningState.REVERTS, true);
+            return IafBlocks.FROZEN_COBBLESTONE.get().getDefaultState().with(ReturningStateBlock.REVERTS, true);
         else if (in.isIn(BlockTags.BASE_STONE_OVERWORLD) && in.getBlock() != IafBlocks.FROZEN_COBBLESTONE.get())
-            return IafBlocks.FROZEN_STONE.get().getDefaultState().with(BlockReturningState.REVERTS, true);
+            return IafBlocks.FROZEN_STONE.get().getDefaultState().with(ReturningStateBlock.REVERTS, true);
         else if (in.getBlock() == Blocks.DIRT_PATH)
-            return IafBlocks.FROZEN_DIRT_PATH.get().getDefaultState().with(BlockCharedPath.REVERTS, true);
+            return IafBlocks.FROZEN_DIRT_PATH.get().getDefaultState().with(CharedPathBlock.REVERTS, true);
         else if (in.isIn(BlockTags.LOGS) || in.isIn(BlockTags.PLANKS))
             return IafBlocks.FROZEN_SPLINTERS.get().getDefaultState();
         else if (in.isOf(Blocks.WATER))
@@ -303,17 +303,17 @@ public class IafDragonDestructionManager {
 
     public static BlockState transformBlockLightning(BlockState in) {
         if (in.getBlock() instanceof SpreadableBlock)
-            return IafBlocks.CRACKLED_GRASS.get().getDefaultState().with(BlockReturningState.REVERTS, true);
+            return IafBlocks.CRACKLED_GRASS.get().getDefaultState().with(ReturningStateBlock.REVERTS, true);
         else if (in.isIn(BlockTags.DIRT) && in.getBlock() == Blocks.DIRT)
-            return IafBlocks.CRACKLED_DIRT.get().getDefaultState().with(BlockReturningState.REVERTS, true);
+            return IafBlocks.CRACKLED_DIRT.get().getDefaultState().with(ReturningStateBlock.REVERTS, true);
         else if (in.isIn(BlockTags.SAND) && in.getBlock() == Blocks.GRAVEL)
-            return IafBlocks.CRACKLED_GRAVEL.get().getDefaultState().with(BlockFallingReturningState.REVERTS, true);
+            return IafBlocks.CRACKLED_GRAVEL.get().getDefaultState().with(FallingReturningStateBlock.REVERTS, true);
         else if (in.isIn(BlockTags.BASE_STONE_OVERWORLD) && (in.getBlock() == Blocks.COBBLESTONE || in.getBlock().getTranslationKey().contains("cobblestone")))
-            return IafBlocks.CRACKLED_COBBLESTONE.get().getDefaultState().with(BlockReturningState.REVERTS, true);
+            return IafBlocks.CRACKLED_COBBLESTONE.get().getDefaultState().with(ReturningStateBlock.REVERTS, true);
         else if (in.isIn(BlockTags.BASE_STONE_OVERWORLD) && in.getBlock() != IafBlocks.CRACKLED_COBBLESTONE.get())
-            return IafBlocks.CRACKLED_STONE.get().getDefaultState().with(BlockReturningState.REVERTS, true);
+            return IafBlocks.CRACKLED_STONE.get().getDefaultState().with(ReturningStateBlock.REVERTS, true);
         else if (in.getBlock() == Blocks.DIRT_PATH)
-            return IafBlocks.CRACKLED_DIRT_PATH.get().getDefaultState().with(BlockCharedPath.REVERTS, true);
+            return IafBlocks.CRACKLED_DIRT_PATH.get().getDefaultState().with(CharedPathBlock.REVERTS, true);
         else if (in.isIn(BlockTags.LOGS) || in.isIn(BlockTags.PLANKS))
             return IafBlocks.ASH.get().getDefaultState();
         else if (in.isIn(BlockTags.LEAVES) || in.isIn(BlockTags.FLOWERS) || in.isIn(BlockTags.CROPS) || in.getBlock() == Blocks.SNOW)

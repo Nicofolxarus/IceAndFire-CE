@@ -1,8 +1,8 @@
 package com.iafenvoy.iceandfire.screen.handler;
 
 import com.iafenvoy.iceandfire.data.BestiaryPages;
-import com.iafenvoy.iceandfire.entity.block.BlockEntityLectern;
-import com.iafenvoy.iceandfire.item.ItemBestiary;
+import com.iafenvoy.iceandfire.item.block.entity.LecternBlockEntity;
+import com.iafenvoy.iceandfire.item.BestiaryItem;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafScreenHandlers;
 import com.iafenvoy.iceandfire.registry.IafSounds;
@@ -38,7 +38,7 @@ public class LecternScreenHandler extends ScreenHandler {
         this.addSlot(new LecternSlot(furnaceInventory, 0, 15, 47) {
             @Override
             public boolean canInsert(ItemStack stack) {
-                return super.canInsert(stack) && !stack.isEmpty() && stack.getItem() instanceof ItemBestiary;
+                return super.canInsert(stack) && !stack.isEmpty() && stack.getItem() instanceof BestiaryItem;
             }
         });
         this.addSlot(new Slot(furnaceInventory, 1, 35, 47) {
@@ -128,7 +128,7 @@ public class LecternScreenHandler extends ScreenHandler {
                     if (manuscriptStack.isEmpty())
                         this.tileFurnace.setStack(1, ItemStack.EMPTY);
                     BestiaryPages.addPage(page, bookStack);
-                    if (this.tileFurnace instanceof BlockEntityLectern entityLectern)
+                    if (this.tileFurnace instanceof LecternBlockEntity entityLectern)
                         entityLectern.randomizePages(bookStack, manuscriptStack);
                 }
                 this.tileFurnace.setStack(0, bookStack);

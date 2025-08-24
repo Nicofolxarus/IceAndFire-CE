@@ -1,5 +1,5 @@
 {
-  "__comment": "The customize_to_sea_serpent tag changes items to appear like the sea serpent(ex. red sea serpent scales -> blue sea serpent scales), and scales the stack size to the sea serpent's as well.",
+  "__comment": "The sea_serpent_loot tag changes items to appear like the sea serpent(ex. red sea serpent scales -> blue sea serpent scales), and scales the stack size to the sea serpent's as well.",
   "pools": [
     {
       "name": "sea_serpent",
@@ -18,7 +18,7 @@
               }
             },
             {
-              "function": "iceandfire:customize_to_sea_serpent"
+              "function": "iceandfire:sea_serpent_loot"
             }
           ]
         }
@@ -41,7 +41,7 @@
               }
             },
             {
-              "function": "iceandfire:customize_to_sea_serpent"
+              "function": "iceandfire:sea_serpent_loot"
             }
           ]
         }

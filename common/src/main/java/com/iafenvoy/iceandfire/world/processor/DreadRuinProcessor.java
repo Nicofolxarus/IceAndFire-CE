@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.world.processor;
 
-import com.iafenvoy.iceandfire.item.block.util.IDreadBlock;
+import com.iafenvoy.iceandfire.item.block.util.DreadBlock;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafProcessors;
@@ -25,11 +25,11 @@ public class DreadRuinProcessor extends StructureProcessor {
     public static BlockState getRandomCrackedBlock(BlockState prev, Random random) {
         float rand = random.nextFloat();
         if (rand < 0.5)
-            return IafBlocks.DREAD_STONE_BRICKS.get().getDefaultState().with(IDreadBlock.UNBREAKABLE, true);
+            return IafBlocks.DREAD_STONE_BRICKS.get().getDefaultState().with(DreadBlock.UNBREAKABLE, true);
         else if (rand < 0.9)
-            return IafBlocks.DREAD_STONE_BRICKS_CRACKED.get().getDefaultState().with(IDreadBlock.UNBREAKABLE, true);
+            return IafBlocks.DREAD_STONE_BRICKS_CRACKED.get().getDefaultState().with(DreadBlock.UNBREAKABLE, true);
         else
-            return IafBlocks.DREAD_STONE_BRICKS_MOSSY.get().getDefaultState().with(IDreadBlock.UNBREAKABLE, true);
+            return IafBlocks.DREAD_STONE_BRICKS_MOSSY.get().getDefaultState().with(DreadBlock.UNBREAKABLE, true);
     }
 
     @Override

@@ -2,12 +2,11 @@ package com.iafenvoy.iceandfire.data;
 
 import com.google.common.collect.ImmutableList;
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.entity.EntityDragonBase;
+import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import net.minecraft.item.Item;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,7 +73,7 @@ public record DragonColor(String name, Formatting color, DragonType dragonType, 
         return Identifier.of(IceAndFire.MOD_ID, String.format("textures/entity/%sdragon/egg_%s.png", this.dragonType.getName(), this.name));
     }
 
-    public Identifier getTextureByEntity(EntityDragonBase dragon) {
+    public Identifier getTextureByEntity(DragonBaseEntity dragon) {
         int stage = dragon.getDragonStage();
         if (dragon.isModelDead()) {
             if (dragon.getDeathStage() >= (dragon.getAgeInDays() / 5) / 2) return this.getSkeletonTexture(stage);

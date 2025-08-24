@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.compat.jade;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.entity.EntityDragonBase;
+import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -20,7 +20,7 @@ public enum DragonComponentProvider implements IEntityComponentProvider {
 
     @Override
     public void appendTooltip(ITooltip iTooltip, EntityAccessor entityAccessor, IPluginConfig iPluginConfig) {
-        if (entityAccessor.getEntity() instanceof EntityDragonBase dragon) {
+        if (entityAccessor.getEntity() instanceof DragonBaseEntity dragon) {
             iTooltip.add(Text.translatable("dragon.stage").formatted(Formatting.GRAY).append(Text.literal(" " + dragon.getDragonStage())));
             iTooltip.add(Text.literal(dragon.getAgeInDays() + "d"));
             iTooltip.add(Text.literal(dragon.isMale() ? "Male" : "Female"));

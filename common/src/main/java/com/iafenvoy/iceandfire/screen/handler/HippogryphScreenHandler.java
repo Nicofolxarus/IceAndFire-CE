@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.screen.handler;
 
-import com.iafenvoy.iceandfire.entity.EntityHippogryph;
+import com.iafenvoy.iceandfire.entity.HippogryphEntity;
 import com.iafenvoy.iceandfire.registry.IafScreenHandlers;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,13 +15,13 @@ import net.minecraft.screen.slot.Slot;
 
 public class HippogryphScreenHandler extends ScreenHandler {
     private final Inventory hippogryphInventory;
-    private final EntityHippogryph hippogryph;
+    private final HippogryphEntity hippogryph;
 
     public HippogryphScreenHandler(int i, PlayerInventory playerInventory, PacketByteBuf buf) {
-        this(i, new SimpleInventory(18), playerInventory, (EntityHippogryph) MinecraftClient.getInstance().world.getEntityById(buf.readInt()));
+        this(i, new SimpleInventory(18), playerInventory, (HippogryphEntity) MinecraftClient.getInstance().world.getEntityById(buf.readInt()));
     }
 
-    public HippogryphScreenHandler(int id, Inventory hippogryphInventory, PlayerInventory playerInventory, EntityHippogryph hippogryph) {
+    public HippogryphScreenHandler(int id, Inventory hippogryphInventory, PlayerInventory playerInventory, HippogryphEntity hippogryph) {
         super(IafScreenHandlers.HIPPOGRYPH_SCREEN.get(), id);
         this.hippogryphInventory = hippogryphInventory;
         this.hippogryph = hippogryph;
@@ -66,7 +66,7 @@ public class HippogryphScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(this.hippogryphInventory, 2, 8, 52) {
             @Override
             public boolean canInsert(ItemStack stack) {
-                return EntityHippogryph.getIntFromArmor(stack) != 0;
+                return HippogryphEntity.getIntFromArmor(stack) != 0;
             }
 
             @Override
@@ -78,7 +78,7 @@ public class HippogryphScreenHandler extends ScreenHandler {
             public void markDirty() {
                 super.markDirty();
                 if (HippogryphScreenHandler.this.hippogryph != null)
-                    HippogryphScreenHandler.this.hippogryph.setArmor(this.hasStack() ? EntityHippogryph.getIntFromArmor(this.getStack()) : 0);
+                    HippogryphScreenHandler.this.hippogryph.setArmor(this.hasStack() ? HippogryphEntity.getIntFromArmor(this.getStack()) : 0);
             }
 
             @Override
@@ -150,7 +150,7 @@ public class HippogryphScreenHandler extends ScreenHandler {
         this.hippogryphInventory.onClose(playerIn);
     }
 
-    public EntityHippogryph getHippogryph() {
+    public HippogryphEntity getHippogryph() {
         return this.hippogryph;
     }
 }

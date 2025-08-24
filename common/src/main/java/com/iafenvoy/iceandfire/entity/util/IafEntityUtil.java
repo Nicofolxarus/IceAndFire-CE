@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.entity.util;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.entity.EntityMultipartPart;
+import com.iafenvoy.iceandfire.entity.MultipartPartEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 import java.util.UUID;
 
 public class IafEntityUtil {
-    public static void updatePart(final EntityMultipartPart part, final LivingEntity parent) {
+    public static void updatePart(final MultipartPartEntity part, final LivingEntity parent) {
         if (part == null || !(parent.getWorld() instanceof ServerWorld serverLevel) || parent.isRemoved())
             return;
         if (!part.shouldContinuePersisting()) {

@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.data.component;
 
-import com.iafenvoy.iceandfire.entity.EntityIceDragon;
+import com.iafenvoy.iceandfire.entity.IceDragonEntity;
 import com.iafenvoy.iceandfire.impl.ComponentManager;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.util.attachment.NeedUpdateData;
@@ -37,7 +37,7 @@ public class FrozenData extends NeedUpdateData<LivingEntity> {
     public void tick(final LivingEntity entity) {
         if (!this.isFrozen) return;
 
-        if (entity instanceof EntityIceDragon) {
+        if (entity instanceof IceDragonEntity) {
             this.clearFrozen(entity);
             return;
         }

@@ -1,12 +1,12 @@
 package com.iafenvoy.iceandfire.render.model.util;
 
-import com.iafenvoy.iceandfire.entity.EntityDragonBase;
+import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.uranus.client.model.AdvancedModelBox;
 import net.minecraft.util.math.MathHelper;
 
 public final class LegArticulator {
     public static void articulateQuadruped(
-            EntityDragonBase entity, LegSolverQuadruped legs, AdvancedModelBox body, AdvancedModelBox lowerBody, AdvancedModelBox neck,
+            DragonBaseEntity entity, LegSolverQuadruped legs, AdvancedModelBox body, AdvancedModelBox lowerBody, AdvancedModelBox neck,
             AdvancedModelBox backLeftThigh, AdvancedModelBox backLeftCalf, AdvancedModelBox[] backLeftFoot,
             AdvancedModelBox backRightThigh, AdvancedModelBox backRightCalf, AdvancedModelBox[] backRightFoot,
 
@@ -57,7 +57,7 @@ public final class LegArticulator {
         return (a + b) / 2;
     }
 
-    private static float getScale(EntityDragonBase entity) {
+    private static float getScale(DragonBaseEntity entity) {
         return entity.getRenderSize() * 0.33F;
     }
 }

@@ -2,8 +2,8 @@ package com.iafenvoy.iceandfire.world.structure;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.entity.EntityCyclops;
-import com.iafenvoy.iceandfire.item.block.BlockGoldPile;
+import com.iafenvoy.iceandfire.entity.CyclopsEntity;
+import com.iafenvoy.iceandfire.item.block.GoldPileBlock;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafStructurePieces;
@@ -109,11 +109,11 @@ public class CyclopsCaveStructure extends Structure {
                     }
 
                     if (random.nextInt(80) == 0 && this.isTouchingAir(world, position.up())) {
-                        world.setBlockState(position.up(), IafBlocks.GOLD_PILE.get().getDefaultState().with(BlockGoldPile.LAYERS, 8), 3);
-                        world.setBlockState(position.up().north(), IafBlocks.GOLD_PILE.get().getDefaultState().with(BlockGoldPile.LAYERS, 1 + new java.util.Random().nextInt(7)), 3);
-                        world.setBlockState(position.up().south(), IafBlocks.GOLD_PILE.get().getDefaultState().with(BlockGoldPile.LAYERS, 1 + new java.util.Random().nextInt(7)), 3);
-                        world.setBlockState(position.up().west(), IafBlocks.GOLD_PILE.get().getDefaultState().with(BlockGoldPile.LAYERS, 1 + new java.util.Random().nextInt(7)), 3);
-                        world.setBlockState(position.up().east(), IafBlocks.GOLD_PILE.get().getDefaultState().with(BlockGoldPile.LAYERS, 1 + new java.util.Random().nextInt(7)), 3);
+                        world.setBlockState(position.up(), IafBlocks.GOLD_PILE.get().getDefaultState().with(GoldPileBlock.LAYERS, 8), 3);
+                        world.setBlockState(position.up().north(), IafBlocks.GOLD_PILE.get().getDefaultState().with(GoldPileBlock.LAYERS, 1 + new java.util.Random().nextInt(7)), 3);
+                        world.setBlockState(position.up().south(), IafBlocks.GOLD_PILE.get().getDefaultState().with(GoldPileBlock.LAYERS, 1 + new java.util.Random().nextInt(7)), 3);
+                        world.setBlockState(position.up().west(), IafBlocks.GOLD_PILE.get().getDefaultState().with(GoldPileBlock.LAYERS, 1 + new java.util.Random().nextInt(7)), 3);
+                        world.setBlockState(position.up().east(), IafBlocks.GOLD_PILE.get().getDefaultState().with(GoldPileBlock.LAYERS, 1 + new java.util.Random().nextInt(7)), 3);
                         world.setBlockState(position.up(2), Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, GenerationConstants.HORIZONTALS[new java.util.Random().nextInt(3)]), 2);
 
                         if (world.getBlockState(position.up(2)).getBlock() instanceof AbstractChestBlock) {
@@ -132,7 +132,7 @@ public class CyclopsCaveStructure extends Structure {
                 }
             }
 
-            EntityCyclops cyclops = IafEntities.CYCLOPS.get().create(world.toServerWorld());
+            CyclopsEntity cyclops = IafEntities.CYCLOPS.get().create(world.toServerWorld());
             if (cyclops != null) {
                 cyclops.updatePositionAndAngles(pivot.getX() + 0.5, pivot.getY() + 1.5, pivot.getZ() + 0.5, random.nextFloat() * 360, 0);
                 world.spawnEntity(cyclops);

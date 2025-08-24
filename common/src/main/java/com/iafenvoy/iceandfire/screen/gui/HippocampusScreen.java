@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.screen.gui;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.entity.EntityHippocampus;
+import com.iafenvoy.iceandfire.entity.HippocampusEntity;
 import com.iafenvoy.iceandfire.screen.handler.HippocampusScreenHandler;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -37,7 +37,7 @@ public class HippocampusScreen extends HandledScreen<HippocampusScreenHandler> {
         int i = (this.width - this.backgroundWidth) / 2;
         int j = (this.height - this.backgroundHeight) / 2;
         context.drawTexture(TEXTURE, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
-        EntityHippocampus hippo = this.handler.getHippocampus();
+        HippocampusEntity hippo = this.handler.getHippocampus();
         if (hippo.isChested()) context.drawTexture(TEXTURE, i + 79, j + 17, 0, this.backgroundHeight, 5 * 18, 54);
         InventoryScreen.drawEntity(context, i + 26, j + 18, i + 77, j + 69, 17, 0.25F, mouseX, mouseY, hippo);
     }

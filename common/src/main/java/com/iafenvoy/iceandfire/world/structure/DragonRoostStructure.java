@@ -2,9 +2,9 @@ package com.iafenvoy.iceandfire.world.structure;
 
 import com.iafenvoy.iceandfire.data.DragonColor;
 import com.iafenvoy.iceandfire.data.DragonType;
-import com.iafenvoy.iceandfire.entity.EntityDragonBase;
+import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.entity.util.HomePosition;
-import com.iafenvoy.iceandfire.item.block.BlockGoldPile;
+import com.iafenvoy.iceandfire.item.block.GoldPileBlock;
 import com.iafenvoy.iceandfire.registry.tag.IafBlockTags;
 import com.iafenvoy.iceandfire.world.GenerationConstants;
 import net.minecraft.block.*;
@@ -267,18 +267,18 @@ public abstract class DragonRoostStructure extends Structure {
                     if (position.getSquaredDistance(origin) <= circularArea) {
                         position = world.getTopPosition(Heightmap.Type.WORLD_SURFACE, position);
 
-                        if (this.treasureBlock instanceof BlockGoldPile) {
+                        if (this.treasureBlock instanceof GoldPileBlock) {
                             BlockState state = world.getBlockState(position);
                             boolean placed = false;
                             if (state.isAir()) {
-                                world.setBlockState(position, this.treasureBlock.getDefaultState().with(BlockGoldPile.LAYERS, 1 + random.nextInt(7)), Block.NOTIFY_LISTENERS);
+                                world.setBlockState(position, this.treasureBlock.getDefaultState().with(GoldPileBlock.LAYERS, 1 + random.nextInt(7)), Block.NOTIFY_LISTENERS);
                                 placed = true;
                             } else if (state.getBlock() instanceof SnowBlock) {
-                                world.setBlockState(position.down(), this.treasureBlock.getDefaultState().with(BlockGoldPile.LAYERS, state.get(SnowBlock.LAYERS)), Block.NOTIFY_LISTENERS);
+                                world.setBlockState(position.down(), this.treasureBlock.getDefaultState().with(GoldPileBlock.LAYERS, state.get(SnowBlock.LAYERS)), Block.NOTIFY_LISTENERS);
                                 placed = true;
                             }
-                            if (placed && world.getBlockState(position.down()).getBlock() instanceof BlockGoldPile)
-                                world.setBlockState(position.down(), this.treasureBlock.getDefaultState().with(BlockGoldPile.LAYERS, 8), Block.NOTIFY_LISTENERS);
+                            if (placed && world.getBlockState(position.down()).getBlock() instanceof GoldPileBlock)
+                                world.setBlockState(position.down(), this.treasureBlock.getDefaultState().with(GoldPileBlock.LAYERS, 8), Block.NOTIFY_LISTENERS);
                         }
                     }
                 }
@@ -286,7 +286,7 @@ public abstract class DragonRoostStructure extends Structure {
         }
 
         private void spawnDragon(StructureWorldAccess world, BlockPos origin, Random random, int ageOffset, boolean isMale) {
-            EntityDragonBase dragon = this.getDragonType().create(world.toServerWorld());
+            DragonBaseEntity dragon = this.getDragonType().create(world.toServerWorld());
             assert dragon != null;
             dragon.setGender(isMale);
             dragon.growDragon(40 + ageOffset);
@@ -301,7 +301,7 @@ public abstract class DragonRoostStructure extends Structure {
             world.spawnEntity(dragon);
         }
 
-        protected abstract EntityType<? extends EntityDragonBase> getDragonType();
+        protected abstract EntityType<? extends DragonBaseEntity> getDragonType();
 
         protected abstract RegistryKey<LootTable> getRoostLootTable();
 

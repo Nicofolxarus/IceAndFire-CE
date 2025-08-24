@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.mixin;
 
-import com.iafenvoy.iceandfire.entity.EntityDragonBase;
-import com.iafenvoy.iceandfire.render.entity.layer.LayerDragonRider;
+import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
+import com.iafenvoy.iceandfire.render.entity.layer.DragonRiderFeatureRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -18,9 +18,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PlayerEntityRendererMixin {
     @Inject(method = "render(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At("HEAD"), cancellable = true)
     private void onPlayerRender(AbstractClientPlayerEntity abstractClientPlayerEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
-        if (abstractClientPlayerEntity.getVehicle() instanceof EntityDragonBase && abstractClientPlayerEntity instanceof ClientPlayerEntity && (MinecraftClient.getInstance().options.getPerspective().isFirstPerson() || !LayerDragonRider.RENDERING_RIDERS.contains(abstractClientPlayerEntity)))
+        if (abstractClientPlayerEntity.getVehicle() instanceof DragonBaseEntity && abstractClientPlayerEntity instanceof ClientPlayerEntity && (MinecraftClient.getInstance().options.getPerspective().isFirstPerson() || !DragonRiderFeatureRenderer.RENDERING_RIDERS.contains(abstractClientPlayerEntity)))
             ci.cancel();
-        if (abstractClientPlayerEntity instanceof OtherClientPlayerEntity && abstractClientPlayerEntity.getVehicle() instanceof EntityDragonBase && !LayerDragonRider.RENDERING_RIDERS.contains(abstractClientPlayerEntity))
+        if (abstractClientPlayerEntity instanceof OtherClientPlayerEntity && abstractClientPlayerEntity.getVehicle() instanceof DragonBaseEntity && !DragonRiderFeatureRenderer.RENDERING_RIDERS.contains(abstractClientPlayerEntity))
             ci.cancel();
     }
 }

@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.screen.handler;
 
-import com.iafenvoy.iceandfire.entity.EntityHippocampus;
+import com.iafenvoy.iceandfire.entity.HippocampusEntity;
 import com.iafenvoy.iceandfire.registry.IafScreenHandlers;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
@@ -16,13 +16,13 @@ import net.minecraft.screen.slot.Slot;
 
 public class HippocampusScreenHandler extends ScreenHandler {
     private final Inventory hippocampusInventory;
-    private final EntityHippocampus hippocampus;
+    private final HippocampusEntity hippocampus;
 
     public HippocampusScreenHandler(int i, PlayerInventory playerInventory, PacketByteBuf buf) {
-        this(i, new SimpleInventory(18), playerInventory, (EntityHippocampus) MinecraftClient.getInstance().world.getEntityById(buf.readInt()));
+        this(i, new SimpleInventory(18), playerInventory, (HippocampusEntity) MinecraftClient.getInstance().world.getEntityById(buf.readInt()));
     }
 
-    public HippocampusScreenHandler(int id, Inventory hippoInventory, PlayerInventory playerInventory, EntityHippocampus hippocampus) {
+    public HippocampusScreenHandler(int id, Inventory hippoInventory, PlayerInventory playerInventory, HippocampusEntity hippocampus) {
         super(IafScreenHandlers.HIPPOCAMPUS_SCREEN.get(), id);
         this.hippocampusInventory = hippoInventory;
         this.hippocampus = hippocampus;
@@ -59,7 +59,7 @@ public class HippocampusScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(this.hippocampusInventory, 2, 8, 52) {
             @Override
             public boolean canInsert(ItemStack stack) {
-                return EntityHippocampus.getIntFromArmor(stack) != 0;
+                return HippocampusEntity.getIntFromArmor(stack) != 0;
             }
 
             @Override
@@ -137,7 +137,7 @@ public class HippocampusScreenHandler extends ScreenHandler {
         this.hippocampusInventory.onClose(playerIn);
     }
 
-    public EntityHippocampus getHippocampus() {
+    public HippocampusEntity getHippocampus() {
         return this.hippocampus;
     }
 }

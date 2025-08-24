@@ -32,7 +32,7 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class DragonUtils {
-    public static BlockPos getBlockInViewEscort(EntityDragonBase dragon) {
+    public static BlockPos getBlockInViewEscort(DragonBaseEntity dragon) {
         BlockPos escortPos = dragon.getEscortPosition();
         BlockPos ground = dragon.getWorld().getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, escortPos);
         int distFromGround = escortPos.getY() - ground.getY();
@@ -46,7 +46,7 @@ public class DragonUtils {
         return null;
     }
 
-    public static BlockPos getWaterBlockInViewEscort(EntityDragonBase dragon) {
+    public static BlockPos getWaterBlockInViewEscort(DragonBaseEntity dragon) {
         // In water escort
         BlockPos inWaterEscortPos = dragon.getEscortPosition();
         // We don't need to get too close
@@ -60,7 +60,7 @@ public class DragonUtils {
         return inWaterEscortPos;
     }
 
-    public static BlockPos getBlockInView(EntityDragonBase dragon) {
+    public static BlockPos getBlockInView(DragonBaseEntity dragon) {
         float radius = 12 * (0.7F * dragon.getRenderSize() / 3);
         float neg = dragon.getRandom().nextBoolean() ? 1 : -1;
         float renderYawOffset = dragon.bodyYaw;
@@ -88,7 +88,7 @@ public class DragonUtils {
         return null;
     }
 
-    public static BlockPos getWaterBlockInView(EntityDragonBase dragon) {
+    public static BlockPos getWaterBlockInView(DragonBaseEntity dragon) {
         float radius = 0.75F * (0.7F * dragon.getRenderSize() / 3) * -7 - dragon.getRandom().nextInt(dragon.getDragonStage() * 6);
         float neg = dragon.getRandom().nextBoolean() ? 1 : -1;
         float angle = (0.01745329251F * dragon.bodyYaw) + 3.15F + (dragon.getRandom().nextFloat() * neg);
@@ -139,7 +139,7 @@ public class DragonUtils {
         return (LivingEntity) pointedEntity;
     }
 
-    public static BlockPos getBlockInViewHippogryph(EntityHippogryph hippo, float yawAddition) {
+    public static BlockPos getBlockInViewHippogryph(HippogryphEntity hippo, float yawAddition) {
         float radius = 0.75F * (0.7F * 8) * -3 - hippo.getRandom().nextInt(48);
         float neg = hippo.getRandom().nextBoolean() ? 1 : -1;
         float angle = (0.01745329251F * (hippo.bodyYaw + yawAddition)) + 3.15F + (hippo.getRandom().nextFloat() * neg);
@@ -164,7 +164,7 @@ public class DragonUtils {
         return null;
     }
 
-    public static BlockPos getBlockInViewStymphalian(EntityStymphalianBird bird) {
+    public static BlockPos getBlockInViewStymphalian(StymphalianBirdEntity bird) {
         float radius = 0.75F * (0.7F * 6) * -3 - bird.getRandom().nextInt(24);
         float neg = bird.getRandom().nextBoolean() ? 1 : -1;
         float renderYawOffset = bird.flock != null && !bird.flock.isLeader(bird) ? getStymphalianFlockDirection(bird) : bird.bodyYaw;
@@ -183,7 +183,7 @@ public class DragonUtils {
         return null;
     }
 
-    private static BlockPos getStymphalianFearPos(EntityStymphalianBird bird, BlockPos fallback) {
+    private static BlockPos getStymphalianFearPos(StymphalianBirdEntity bird, BlockPos fallback) {
         if (bird.getVictor() != null && bird.getVictor() instanceof PathAwareEntity) {
             Vec3d Vector3d = NoPenaltyTargeting.findFrom((PathAwareEntity) bird.getVictor(), 16, IafCommonConfig.INSTANCE.stymphalianBird.flightHeight.getValue(), new Vec3d(bird.getVictor().getX(), bird.getVictor().getY(), bird.getVictor().getZ()));
             if (Vector3d != null) {
@@ -194,8 +194,8 @@ public class DragonUtils {
         return fallback;
     }
 
-    private static float getStymphalianFlockDirection(EntityStymphalianBird bird) {
-        EntityStymphalianBird leader = bird.flock.getLeader();
+    private static float getStymphalianFlockDirection(StymphalianBirdEntity bird) {
+        StymphalianBirdEntity leader = bird.flock.getLeader();
         if (bird.squaredDistanceTo(leader) > 2) {
             double d0 = leader.getX() - bird.getX();
             double d2 = leader.getZ() - bird.getZ();
@@ -206,7 +206,7 @@ public class DragonUtils {
         } else return leader.bodyYaw;
     }
 
-    public static BlockPos getBlockInTargetsViewCockatrice(EntityCockatrice cockatrice, LivingEntity target) {
+    public static BlockPos getBlockInTargetsViewCockatrice(CockatriceEntity cockatrice, LivingEntity target) {
         float radius = 10 + cockatrice.getRandom().nextInt(10);
         float angle = (0.01745329251F * target.headYaw);
         double extraX = radius * MathHelper.sin((float) (Math.PI + angle));
@@ -219,7 +219,7 @@ public class DragonUtils {
     }
 
 
-    public static BlockPos getBlockInTargetsViewGhost(EntityGhost ghost, LivingEntity target) {
+    public static BlockPos getBlockInTargetsViewGhost(GhostEntity ghost, LivingEntity target) {
         float radius = 4 + ghost.getRandom().nextInt(5);
         float angle = (0.01745329251F * (target.headYaw + 90F + ghost.getRandom().nextInt(180)));
         double extraX = radius * MathHelper.sin((float) (Math.PI + angle));
@@ -229,7 +229,7 @@ public class DragonUtils {
         return ghost.getBlockPos();
     }
 
-    public static BlockPos getBlockInTargetsViewGorgon(EntityGorgon cockatrice, LivingEntity target) {
+    public static BlockPos getBlockInTargetsViewGorgon(GorgonEntity cockatrice, LivingEntity target) {
         float radius = 6;
         float angle = (0.01745329251F * target.headYaw);
         double extraX = radius * MathHelper.sin((float) (Math.PI + angle));
@@ -241,7 +241,7 @@ public class DragonUtils {
     }
 
 
-    public static BlockPos getBlockInTargetsViewSeaSerpent(EntitySeaSerpent serpent, LivingEntity target) {
+    public static BlockPos getBlockInTargetsViewSeaSerpent(SeaSerpentEntity serpent, LivingEntity target) {
         float radius = 10 * serpent.getSeaSerpentScale() + serpent.getRandom().nextInt(10);
         float angle = (0.01745329251F * target.headYaw);
         double extraX = radius * MathHelper.sin((float) (Math.PI + angle));
@@ -278,7 +278,7 @@ public class DragonUtils {
         return world.getRegistryKey().getValue().toString();
     }
 
-    public static boolean isInHomeDimension(EntityDragonBase dragonBase) {
+    public static boolean isInHomeDimension(DragonBaseEntity dragonBase) {
         return (dragonBase.getHomeDimensionName() == null || getDimensionName(dragonBase.getWorld()).equals(dragonBase.getHomeDimensionName()));
     }
 
@@ -296,13 +296,13 @@ public class DragonUtils {
     }
 
     public static boolean isAlive(final LivingEntity entity) {
-        if (entity instanceof EntityDragonBase dragon && dragon.isMobDead())
+        if (entity instanceof DragonBaseEntity dragon && dragon.isMobDead())
             return false;
-        return (!(entity instanceof IDeadMob deadMob) || !deadMob.isMobDead()) && !EntityGorgon.isStoneMob(entity);
+        return (!(entity instanceof IDeadMob deadMob) || !deadMob.isMobDead()) && !GorgonEntity.isStoneMob(entity);
     }
 
 
-    public static boolean canGrief(EntityDragonBase dragon) {
+    public static boolean canGrief(DragonBaseEntity dragon) {
         if (dragon.isTamed()) {
             if (!IafCommonConfig.INSTANCE.dragon.tamedGriefing.getValue()) return false;
         }
@@ -313,7 +313,7 @@ public class DragonUtils {
     public static boolean canHostilesTarget(Entity entity) {
         if (entity instanceof PlayerEntity && (entity.getWorld().getDifficulty() == Difficulty.PEACEFUL || ((PlayerEntity) entity).isCreative()))
             return false;
-        if (entity instanceof EntityDragonBase dragonBase && dragonBase.isMobDead())
+        if (entity instanceof DragonBaseEntity dragonBase && dragonBase.isMobDead())
             return false;
         else
             return entity instanceof LivingEntity livingEntity && isAlive(livingEntity);
@@ -327,12 +327,12 @@ public class DragonUtils {
             owner1 = tameable.getOwner();
         if (entity2 instanceof TameableEntity tameable)
             owner2 = tameable.getOwner();
-        if (entity1 instanceof EntityMultipartPart mutlipartPart) {
+        if (entity1 instanceof MultipartPartEntity mutlipartPart) {
             Entity multipart = mutlipartPart.getParent();
             if (multipart instanceof TameableEntity tameable)
                 owner1 = tameable.getOwner();
         }
-        if (entity2 instanceof EntityMultipartPart mutlipartPart) {
+        if (entity2 instanceof MultipartPartEntity mutlipartPart) {
             Entity multipart = mutlipartPart.getParent();
             if (multipart instanceof TameableEntity tameable)
                 owner2 = tameable.getOwner();

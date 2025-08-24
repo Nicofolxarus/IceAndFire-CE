@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.registry;
 
 import com.iafenvoy.iceandfire.render.RenderVariables;
-import com.iafenvoy.iceandfire.render.block.RenderDreadPortal;
+import com.iafenvoy.iceandfire.render.block.DreadPortalBlockEntityRenderer;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.RenderLayer;
@@ -35,7 +35,7 @@ public final class IafRenderLayers extends RenderLayer {
     }
 
     public static RenderLayer getDreadlandsPortal() {
-        return of("dreadlands_portal", VertexFormats.POSITION_COLOR, VertexFormat.DrawMode.QUADS, 256, false, false, MultiPhaseParameters.builder().program(DREAD_PORTAL_PROGRAM).texture(Textures.create().add(RenderDreadPortal.DREAD_PORTAL_BACKGROUND, false, false).add(RenderDreadPortal.DREAD_PORTAL, false, false).build()).build(false));
+        return of("dreadlands_portal", VertexFormats.POSITION_COLOR, VertexFormat.DrawMode.QUADS, 256, false, false, MultiPhaseParameters.builder().program(DREAD_PORTAL_PROGRAM).texture(Textures.create().add(DreadPortalBlockEntityRenderer.DREAD_PORTAL_BACKGROUND, false, false).add(DreadPortalBlockEntityRenderer.DREAD_PORTAL, false, false).build()).build(false));
     }
 
     public static RenderLayer getStoneMobRenderType(float x, float y) {

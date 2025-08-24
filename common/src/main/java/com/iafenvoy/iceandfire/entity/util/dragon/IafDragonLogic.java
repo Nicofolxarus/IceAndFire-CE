@@ -2,8 +2,8 @@ package com.iafenvoy.iceandfire.entity.util.dragon;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.entity.EntityDragonBase;
-import com.iafenvoy.iceandfire.entity.EntityDreadQueen;
+import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
+import com.iafenvoy.iceandfire.entity.DreadQueenEntity;
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -17,10 +17,10 @@ import net.minecraft.util.math.Vec3i;
     dragon logic separation for client, server and shared sides.
  */
 public class IafDragonLogic {
-    private final EntityDragonBase dragon;
+    private final DragonBaseEntity dragon;
     long ticksAfterClearingTarget;
 
-    public IafDragonLogic(EntityDragonBase dragon) {
+    public IafDragonLogic(DragonBaseEntity dragon) {
         this.dragon = dragon;
     }
 
@@ -149,7 +149,7 @@ public class IafDragonLogic {
             if (this.dragon.getControllingPassenger() == null && this.dragon.doesWantToLand() && !this.dragon.isOnGround() && !this.dragon.isTouchingWater())
                 this.dragon.setVelocity(this.dragon.getVelocity().add(0, -0.25, 0));
             else {
-                if ((this.dragon.getControllingPassenger() == null || this.dragon.getControllingPassenger() instanceof EntityDreadQueen) && !this.dragon.isBeyondHeight()) {
+                if ((this.dragon.getControllingPassenger() == null || this.dragon.getControllingPassenger() instanceof DreadQueenEntity) && !this.dragon.isBeyondHeight()) {
                     double up = this.dragon.isTouchingWater() ? 0.12D : 0.08D;
                     this.dragon.setVelocity(this.dragon.getVelocity().add(0, up, 0));
                 }
@@ -267,7 +267,7 @@ public class IafDragonLogic {
         if (this.dragon.walkCycle < 39) this.dragon.walkCycle++;
         else this.dragon.walkCycle = 0;
 
-        if (this.dragon.getAnimation() == EntityDragonBase.ANIMATION_WINGBLAST && (this.dragon.getAnimationTick() == 17 || this.dragon.getAnimationTick() == 22 || this.dragon.getAnimationTick() == 28))
+        if (this.dragon.getAnimation() == DragonBaseEntity.ANIMATION_WINGBLAST && (this.dragon.getAnimationTick() == 17 || this.dragon.getAnimationTick() == 22 || this.dragon.getAnimationTick() == 28))
             this.dragon.spawnGroundEffects();
         this.dragon.legSolver.update(this.dragon, this.dragon.getRenderSize() / 3F);
 
@@ -403,20 +403,20 @@ public class IafDragonLogic {
             LivingEntity target = this.dragon.getTarget();
             final double dist = this.dragon.distanceTo(target);
             if (dist < this.dragon.getRenderSize() * 0.2574 * 2 + 2) {
-                if (this.dragon.getAnimation() == EntityDragonBase.ANIMATION_BITE) {
+                if (this.dragon.getAnimation() == DragonBaseEntity.ANIMATION_BITE) {
                     if (this.dragon.getAnimationTick() > 15 && this.dragon.getAnimationTick() < 25) {
                         this.attackTarget(target, ridingPlayer, (int) this.dragon.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).getValue());
                         this.dragon.usingGroundAttack = this.dragon.getRandom().nextBoolean();
                         this.dragon.randomizeAttacks();
                     }
-                } else if (this.dragon.getAnimation() == EntityDragonBase.ANIMATION_TAILWHACK) {
+                } else if (this.dragon.getAnimation() == DragonBaseEntity.ANIMATION_TAILWHACK) {
                     if (this.dragon.getAnimationTick() > 20 && this.dragon.getAnimationTick() < 30) {
                         this.attackTarget(target, ridingPlayer, (int) this.dragon.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).getValue());
                         target.takeKnockback(this.dragon.getDragonStage() * 0.6F, MathHelper.sin(this.dragon.getYaw() * 0.017453292F), -MathHelper.cos(this.dragon.getYaw() * 0.017453292F));
                         this.dragon.usingGroundAttack = this.dragon.getRandom().nextBoolean();
                         this.dragon.randomizeAttacks();
                     }
-                } else if (this.dragon.getAnimation() == EntityDragonBase.ANIMATION_WINGBLAST)
+                } else if (this.dragon.getAnimation() == DragonBaseEntity.ANIMATION_WINGBLAST)
                     if ((this.dragon.getAnimationTick() == 15 || this.dragon.getAnimationTick() == 25 || this.dragon.getAnimationTick() == 35)) {
                         this.attackTarget(target, ridingPlayer, (int) this.dragon.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).getValue());
                         target.takeKnockback(this.dragon.getDragonStage() * 0.6F, MathHelper.sin(this.dragon.getYaw() * 0.017453292F), -MathHelper.cos(this.dragon.getYaw() * 0.017453292F));

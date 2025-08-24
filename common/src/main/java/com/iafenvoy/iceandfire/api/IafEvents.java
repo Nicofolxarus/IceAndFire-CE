@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.api;
 
-import com.iafenvoy.iceandfire.entity.EntityDragonBase;
+import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.uranus.event.Event;
 import net.minecraft.entity.LivingEntity;
 
@@ -54,7 +54,7 @@ public class IafEvents {
          * If you want to cancel all aspects of dragon fire, see {@link DragonFire} <br>
          * <br>
          **/
-        boolean onDamageBlock(EntityDragonBase dragonBase, double targetX, double targetY, double targetZ);
+        boolean onDamageBlock(DragonBaseEntity dragonBase, double targetX, double targetY, double targetZ);
     }
 
     @FunctionalInterface
@@ -71,6 +71,6 @@ public class IafEvents {
          * If you only want to deal with the damage caused by dragon fire, see {@link DragonFireDamageWorld} <br>
          * <br>
          **/
-        boolean onFireBlock(EntityDragonBase dragonBase, double targetX, double targetY, double targetZ);
+        boolean onFireBlock(DragonBaseEntity dragonBase, double targetX, double targetY, double targetZ);
     }
 }

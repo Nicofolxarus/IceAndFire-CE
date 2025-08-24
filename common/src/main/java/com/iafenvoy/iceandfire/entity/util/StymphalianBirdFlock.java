@@ -1,8 +1,8 @@
 package com.iafenvoy.iceandfire.entity.util;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.entity.EntityStymphalianBird;
-import com.iafenvoy.iceandfire.entity.ai.StymphalianBirdAIAirTarget;
+import com.iafenvoy.iceandfire.entity.StymphalianBirdEntity;
+import com.iafenvoy.iceandfire.entity.ai.StymphalianBirdAIAirTargetGoal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
@@ -14,15 +14,15 @@ import java.util.List;
 
 public class StymphalianBirdFlock {
     private final int distance = 15;
-    private EntityStymphalianBird leader;
-    private ArrayList<EntityStymphalianBird> members = new ArrayList<>();
+    private StymphalianBirdEntity leader;
+    private ArrayList<StymphalianBirdEntity> members = new ArrayList<>();
     private BlockPos leaderTarget;
     private Random random;
 
     private StymphalianBirdFlock() {
     }
 
-    public static StymphalianBirdFlock createFlock(EntityStymphalianBird bird) {
+    public static StymphalianBirdFlock createFlock(StymphalianBirdEntity bird) {
         StymphalianBirdFlock flock = new StymphalianBirdFlock();
         flock.leader = bird;
         flock.members = new ArrayList<>();
@@ -32,22 +32,22 @@ public class StymphalianBirdFlock {
         return flock;
     }
 
-    public static StymphalianBirdFlock getNearbyFlock(EntityStymphalianBird bird) {
+    public static StymphalianBirdFlock getNearbyFlock(StymphalianBirdEntity bird) {
         float d0 = IafCommonConfig.INSTANCE.stymphalianBird.flockLength.getValue();
-        List<Entity> list = bird.getWorld().getOtherEntities(bird, (new Box(bird.getX(), bird.getY(), bird.getZ(), bird.getX() + 1.0D, bird.getY() + 1.0D, bird.getZ() + 1.0D)).expand(d0, 10.0D, d0), EntityStymphalianBird.STYMPHALIAN_PREDICATE);
+        List<Entity> list = bird.getWorld().getOtherEntities(bird, (new Box(bird.getX(), bird.getY(), bird.getZ(), bird.getX() + 1.0D, bird.getY() + 1.0D, bird.getZ() + 1.0D)).expand(d0, 10.0D, d0), StymphalianBirdEntity.STYMPHALIAN_PREDICATE);
         if (!list.isEmpty())
             for (Entity entity : list)
-                if (entity instanceof EntityStymphalianBird other)
+                if (entity instanceof StymphalianBirdEntity other)
                     if (other.flock != null)
                         return other.flock;
         return null;
     }
 
-    public boolean isLeader(EntityStymphalianBird bird) {
+    public boolean isLeader(StymphalianBirdEntity bird) {
         return this.leader != null && this.leader == bird;
     }
 
-    public void addToFlock(EntityStymphalianBird bird) {
+    public void addToFlock(StymphalianBirdEntity bird) {
         this.members.add(bird);
     }
 
@@ -61,31 +61,31 @@ public class StymphalianBirdFlock {
     }
 
     public void onLeaderAttack(LivingEntity attackTarget) {
-        for (EntityStymphalianBird bird : this.members)
+        for (StymphalianBirdEntity bird : this.members)
             if (bird.getTarget() == null && !this.isLeader(bird))
                 bird.setTarget(attackTarget);
     }
 
-    public EntityStymphalianBird getLeader() {
+    public StymphalianBirdEntity getLeader() {
         return this.leader;
     }
 
 
     public void setTarget(BlockPos target) {
         this.leaderTarget = target;
-        for (EntityStymphalianBird bird : this.members)
+        for (StymphalianBirdEntity bird : this.members)
             if (!this.isLeader(bird))
-                bird.airTarget = StymphalianBirdAIAirTarget.getNearbyAirTarget(bird);
+                bird.airTarget = StymphalianBirdAIAirTargetGoal.getNearbyAirTarget(bird);
     }
 
     public void setFlying(boolean flying) {
-        for (EntityStymphalianBird bird : this.members)
+        for (StymphalianBirdEntity bird : this.members)
             if (!this.isLeader(bird))
                 bird.setFlying(flying);
     }
 
     public void setFearTarget(LivingEntity living) {
-        for (EntityStymphalianBird bird : this.members)
+        for (StymphalianBirdEntity bird : this.members)
             bird.setVictor(living);
     }
 }

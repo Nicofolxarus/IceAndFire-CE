@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.data.component;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.entity.EntitySiren;
+import com.iafenvoy.iceandfire.entity.SirenEntity;
 import com.iafenvoy.iceandfire.entity.util.IHearsSiren;
 import com.iafenvoy.iceandfire.impl.ComponentManager;
 import com.iafenvoy.iceandfire.util.attachment.NeedUpdateData;
@@ -44,17 +44,17 @@ public class SirenData extends NeedUpdateData<LivingEntity> {
     public void tick(LivingEntity living) {
         if (!(living instanceof PlayerEntity || living instanceof MerchantEntity || living instanceof IHearsSiren))
             return;
-        if (this.charmedByUUID.isEmpty() || !(living.getWorld() instanceof ServerWorld world) || !(world.getEntity(this.charmedByUUID.get()) instanceof EntitySiren siren))
+        if (this.charmedByUUID.isEmpty() || !(living.getWorld() instanceof ServerWorld world) || !(world.getEntity(this.charmedByUUID.get()) instanceof SirenEntity siren))
             return;
 
         if (siren.isActuallySinging()) {
-            if (EntitySiren.isWearingEarplugs(living) || this.charmTime > IafCommonConfig.INSTANCE.siren.maxSingTime.getValue()) {
+            if (SirenEntity.isWearingEarplugs(living) || this.charmTime > IafCommonConfig.INSTANCE.siren.maxSingTime.getValue()) {
                 siren.singCooldown = IafCommonConfig.INSTANCE.siren.timeBetweenSongs.getValue();
                 this.clearCharm();
                 return;
             }
 
-            if (!siren.isAlive() || living.distanceTo(siren) > EntitySiren.SEARCH_RANGE * 2 || living instanceof PlayerEntity player && (player.isCreative() || player.isSpectator())) {
+            if (!siren.isAlive() || living.distanceTo(siren) > SirenEntity.SEARCH_RANGE * 2 || living instanceof PlayerEntity player && (player.isCreative() || player.isSpectator())) {
                 this.clearCharm();
                 return;
             }
@@ -112,7 +112,7 @@ public class SirenData extends NeedUpdateData<LivingEntity> {
         return this.charmedByUUID;
     }
 
-    public void setCharmed(EntitySiren siren) {
+    public void setCharmed(SirenEntity siren) {
         this.charmedByUUID = Optional.of(siren.getUuid());
         this.markDirty();
     }

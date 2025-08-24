@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.registry;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.registry.tag.CommonTags;
+import com.iafenvoy.iceandfire.registry.tag.CommonItemTags;
 import net.minecraft.block.Block;
 import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterial;
@@ -85,7 +85,7 @@ public enum IafToolMaterials implements ToolMaterial {
     }
 
     public static void init() {
-        SILVER_TOOL_MATERIAL.setRepairMaterial(Ingredient.fromTag(CommonTags.Items.INGOTS_SILVER));
+        SILVER_TOOL_MATERIAL.setRepairMaterial(Ingredient.fromTag(CommonItemTags.INGOTS_SILVER));
         DRAGONBONE_TOOL_MATERIAL.setRepairMaterial(Ingredient.ofItems(IafItems.DRAGON_BONE.get()));
         FIRE_DRAGONBONE_TOOL_MATERIAL.setRepairMaterial(Ingredient.ofItems(IafItems.DRAGON_BONE.get()));
         ICE_DRAGONBONE_TOOL_MATERIAL.setRepairMaterial(Ingredient.ofItems(IafItems.DRAGON_BONE.get()));

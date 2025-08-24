@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.item.ability;
 
-import com.iafenvoy.iceandfire.entity.EntityGhostSword;
+import com.iafenvoy.iceandfire.entity.GhostSwordEntity;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifiersComponent;
@@ -30,7 +30,7 @@ public interface SummonGhostSwordAbility extends SwingHandAbility {
                 if (modifier.attribute().equals(EntityAttributes.GENERIC_ATTACK_DAMAGE))
                     totalDmg += modifier.modifier().value();
             playerEntity.playSound(SoundEvents.ENTITY_ZOMBIE_INFECT, 1, 1);
-            EntityGhostSword shot = new EntityGhostSword(IafEntities.GHOST_SWORD.get(), playerEntity.getWorld(), playerEntity, totalDmg * 0.5F, stack);
+            GhostSwordEntity shot = new GhostSwordEntity(IafEntities.GHOST_SWORD.get(), playerEntity.getWorld(), playerEntity, totalDmg * 0.5F, stack);
             shot.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 1, 0.5f);
             playerEntity.getWorld().spawnEntity(shot);
             stack.damage(1, playerEntity, EquipmentSlot.MAINHAND);

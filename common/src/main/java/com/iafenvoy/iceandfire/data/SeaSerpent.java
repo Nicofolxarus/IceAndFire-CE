@@ -2,9 +2,9 @@ package com.iafenvoy.iceandfire.data;
 
 import com.google.common.collect.ImmutableList;
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.item.ItemSeaSerpentScales;
-import com.iafenvoy.iceandfire.item.armor.ItemSeaSerpentArmor;
-import com.iafenvoy.iceandfire.item.block.BlockSeaSerpentScales;
+import com.iafenvoy.iceandfire.item.SeaSerpentScalesItem;
+import com.iafenvoy.iceandfire.item.armor.SeaSerpentArmorItem;
+import com.iafenvoy.iceandfire.item.block.SeaSerpentScalesBlock;
 import com.iafenvoy.iceandfire.registry.IafArmorMaterials;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafItems;
@@ -66,12 +66,12 @@ public class SeaSerpent {
     public static void initArmors() {
         for (SeaSerpent color : SeaSerpent.values()) {
             color.armorMaterial = IafArmorMaterials.register("sea_serpent_scales_" + color.name, new int[]{4, 7, 8, 4}, 25, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 2.5F, new MemorizeSupplier<>(() -> Ingredient.ofItems(color.scale.get())));
-            color.scaleBlock = IafBlocks.register("sea_serpent_scale_block_" + color.name, () -> new BlockSeaSerpentScales(color.name, color.color));
-            color.scale = IafItems.register("sea_serpent_scales_" + color.name, () -> new ItemSeaSerpentScales(color.name, color.color));
-            color.helmet = IafItems.register("tide_" + color.name + "_helmet", () -> new ItemSeaSerpentArmor(color, color.armorMaterial, ArmorItem.Type.HELMET));
-            color.chestplate = IafItems.register("tide_" + color.name + "_chestplate", () -> new ItemSeaSerpentArmor(color, color.armorMaterial, ArmorItem.Type.CHESTPLATE));
-            color.leggings = IafItems.register("tide_" + color.name + "_leggings", () -> new ItemSeaSerpentArmor(color, color.armorMaterial, ArmorItem.Type.LEGGINGS));
-            color.boots = IafItems.register("tide_" + color.name + "_boots", () -> new ItemSeaSerpentArmor(color, color.armorMaterial, ArmorItem.Type.BOOTS));
+            color.scaleBlock = IafBlocks.register("sea_serpent_scale_block_" + color.name, () -> new SeaSerpentScalesBlock(color.name, color.color));
+            color.scale = IafItems.register("sea_serpent_scales_" + color.name, () -> new SeaSerpentScalesItem(color.name, color.color));
+            color.helmet = IafItems.register("tide_" + color.name + "_helmet", () -> new SeaSerpentArmorItem(color, color.armorMaterial, ArmorItem.Type.HELMET));
+            color.chestplate = IafItems.register("tide_" + color.name + "_chestplate", () -> new SeaSerpentArmorItem(color, color.armorMaterial, ArmorItem.Type.CHESTPLATE));
+            color.leggings = IafItems.register("tide_" + color.name + "_leggings", () -> new SeaSerpentArmorItem(color, color.armorMaterial, ArmorItem.Type.LEGGINGS));
+            color.boots = IafItems.register("tide_" + color.name + "_boots", () -> new SeaSerpentArmorItem(color, color.armorMaterial, ArmorItem.Type.BOOTS));
         }
     }
 

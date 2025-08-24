@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.world.structure;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.entity.EntityDragonBase;
+import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafStructurePieces;
@@ -86,7 +86,7 @@ public class LightningDragonCaveStructure extends DragonCaveStructure {
         }
 
         @Override
-        protected EntityType<? extends EntityDragonBase> getDragonType() {
+        protected EntityType<? extends DragonBaseEntity> getDragonType() {
             return IafEntities.LIGHTNING_DRAGON.get();
         }
     }

@@ -5,16 +5,16 @@ import com.iafenvoy.iceandfire.data.component.ChainData;
 import com.iafenvoy.iceandfire.data.component.FrozenData;
 import com.iafenvoy.iceandfire.data.component.MiscData;
 import com.iafenvoy.iceandfire.data.component.SirenData;
-import com.iafenvoy.iceandfire.entity.EntityDragonBase;
-import com.iafenvoy.iceandfire.entity.EntityMultipartPart;
-import com.iafenvoy.iceandfire.entity.EntitySiren;
+import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
+import com.iafenvoy.iceandfire.entity.MultipartPartEntity;
+import com.iafenvoy.iceandfire.entity.SirenEntity;
 import com.iafenvoy.iceandfire.entity.util.ICustomMoveController;
 import com.iafenvoy.iceandfire.network.payload.DragonControlPayload;
-import com.iafenvoy.iceandfire.particle.CockatriceBeamRender;
+import com.iafenvoy.iceandfire.render.misc.CockatriceBeamRenderer;
 import com.iafenvoy.iceandfire.registry.IafKeybindings;
 import com.iafenvoy.iceandfire.registry.IafParticles;
-import com.iafenvoy.iceandfire.render.block.RenderFrozenState;
-import com.iafenvoy.iceandfire.render.entity.RenderChain;
+import com.iafenvoy.iceandfire.render.misc.FrozenStateRenderer;
+import com.iafenvoy.iceandfire.render.misc.ChainRenderer;
 import com.iafenvoy.uranus.event.Event;
 import dev.architectury.event.EventResult;
 import dev.architectury.networking.NetworkManager;
@@ -44,8 +44,8 @@ public class ClientEvents {
 
     public static void onCameraSetup(Camera camera) {
         PlayerEntity player = MinecraftClient.getInstance().player;
-        if (player != null && player.getVehicle() instanceof EntityDragonBase) {
-            float scale = ((EntityDragonBase) player.getVehicle()).getRenderSize() / 3;
+        if (player != null && player.getVehicle() instanceof DragonBaseEntity) {
+            float scale = ((DragonBaseEntity) player.getVehicle()).getRenderSize() / 3;
             if (MinecraftClient.getInstance().options.getPerspective() == Perspective.THIRD_PERSON_BACK ||
                     MinecraftClient.getInstance().options.getPerspective() == Perspective.THIRD_PERSON_FRONT) {
                 if (currentView == 1) camera.moveBy(-camera.clipToSpace(scale * 1.2F), 0F, 0);
@@ -57,7 +57,7 @@ public class ClientEvents {
 
     public static EventResult onEntityInteract(PlayerEntity player, Entity entity, Hand hand) {
         // Hook multipart
-        if (entity instanceof EntityMultipartPart) return EventResult.interruptTrue();
+        if (entity instanceof MultipartPartEntity) return EventResult.interruptTrue();
         return EventResult.pass();
     }
 
@@ -96,7 +96,7 @@ public class ClientEvents {
             if (sirenData.isCharmed()) {
                 if (entity.getRandom().nextInt(40) == 0) {
                     Entity e = mc.world.getEntityLookup().get(sirenData.getCharmedByUUID().get());
-                    if (e instanceof EntitySiren siren)
+                    if (e instanceof SirenEntity siren)
                         entity.getWorld().addParticle(IafParticles.SIREN_APPEARANCE.get(), player.getX(), player.getY(), player.getZ(), siren.getHairColor(), 0, 0);
                 }
                 if (IafClientConfig.INSTANCE.sirenShader.getValue() && renderer.getPostProcessor() == null)
@@ -110,11 +110,11 @@ public class ClientEvents {
         ClientWorld world = MinecraftClient.getInstance().world;
         miscData.checkScepterTarget(world.getEntityLookup()::get);
         for (UUID target : miscData.getTargetedByScepters())
-            CockatriceBeamRender.render(entity, world.getEntityLookup().get(target), matrixStack, buffers, partialRenderTick);
+            CockatriceBeamRenderer.render(entity, world.getEntityLookup().get(target), matrixStack, buffers, partialRenderTick);
         FrozenData frozenData = FrozenData.get(entity);
         if (frozenData.isFrozen)
-            RenderFrozenState.render(entity, matrixStack, buffers, light, frozenData.frozenTicks);
+            FrozenStateRenderer.render(entity, matrixStack, buffers, light, frozenData.frozenTicks);
         ChainData chainData = ChainData.get(entity);
-        RenderChain.render(entity, matrixStack, buffers, light, chainData.getChainedTo());
+        ChainRenderer.render(entity, matrixStack, buffers, light, chainData.getChainedTo());
     }
 }

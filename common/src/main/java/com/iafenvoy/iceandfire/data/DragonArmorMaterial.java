@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.data;
 
 import com.google.common.collect.ImmutableList;
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.item.ItemDragonArmor;
+import com.iafenvoy.iceandfire.item.DragonArmorItem;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -32,7 +32,7 @@ public class DragonArmorMaterial {
     }
 
     public static Identifier getArmorTexture(ItemStack stack, EquipmentSlot slot) {
-        if (!stack.isEmpty() && stack.getItem() instanceof ItemDragonArmor armorItem)
+        if (!stack.isEmpty() && stack.getItem() instanceof DragonArmorItem armorItem)
             return armorItem.type.getTexture(slot);
         else return Identifier.of(Identifier.DEFAULT_NAMESPACE, "missing");
     }

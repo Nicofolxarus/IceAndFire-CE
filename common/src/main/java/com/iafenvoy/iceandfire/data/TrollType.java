@@ -2,8 +2,8 @@ package com.iafenvoy.iceandfire.data;
 
 import com.google.common.collect.ImmutableList;
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.item.armor.ItemTrollArmor;
-import com.iafenvoy.iceandfire.item.tool.ItemTrollWeapon;
+import com.iafenvoy.iceandfire.item.armor.TrollArmorItem;
+import com.iafenvoy.iceandfire.item.tool.TrollWeaponItem;
 import com.iafenvoy.iceandfire.registry.IafArmorMaterials;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.tag.IafBiomeTags;
@@ -57,10 +57,10 @@ public class TrollType {
     public static void initArmors() {
         for (TrollType troll : TYPES) {
             troll.leather = IafItems.register("troll_leather_%s".formatted(troll.name.toLowerCase(Locale.ROOT)), () -> new Item(new Item.Settings()));
-            troll.helmet = IafItems.register(ItemTrollArmor.getName(troll, EquipmentSlot.HEAD), () -> new ItemTrollArmor(troll, ArmorItem.Type.HELMET));
-            troll.chestplate = IafItems.register(ItemTrollArmor.getName(troll, EquipmentSlot.CHEST), () -> new ItemTrollArmor(troll, ArmorItem.Type.CHESTPLATE));
-            troll.leggings = IafItems.register(ItemTrollArmor.getName(troll, EquipmentSlot.LEGS), () -> new ItemTrollArmor(troll, ArmorItem.Type.LEGGINGS));
-            troll.boots = IafItems.register(ItemTrollArmor.getName(troll, EquipmentSlot.FEET), () -> new ItemTrollArmor(troll, ArmorItem.Type.BOOTS));
+            troll.helmet = IafItems.register(TrollArmorItem.getName(troll, EquipmentSlot.HEAD), () -> new TrollArmorItem(troll, ArmorItem.Type.HELMET));
+            troll.chestplate = IafItems.register(TrollArmorItem.getName(troll, EquipmentSlot.CHEST), () -> new TrollArmorItem(troll, ArmorItem.Type.CHESTPLATE));
+            troll.leggings = IafItems.register(TrollArmorItem.getName(troll, EquipmentSlot.LEGS), () -> new TrollArmorItem(troll, ArmorItem.Type.LEGGINGS));
+            troll.boots = IafItems.register(TrollArmorItem.getName(troll, EquipmentSlot.FEET), () -> new TrollArmorItem(troll, ArmorItem.Type.BOOTS));
         }
     }
 
@@ -105,7 +105,7 @@ public class TrollType {
         private final RegistrySupplier<Item> item;
 
         BuiltinWeapon() {
-            this.item = IafItems.register("troll_weapon_" + this.name().toLowerCase(Locale.ROOT), () -> new ItemTrollWeapon(this));
+            this.item = IafItems.register("troll_weapon_" + this.name().toLowerCase(Locale.ROOT), () -> new TrollWeaponItem(this));
             ITrollWeapon.addWeapons(this);
         }
 

@@ -1,20 +1,20 @@
 package com.iafenvoy.iceandfire.event;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.component.StoneStatusComponent;
+import com.iafenvoy.iceandfire.item.component.StoneStatusComponent;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.component.ChainData;
 import com.iafenvoy.iceandfire.entity.*;
-import com.iafenvoy.iceandfire.entity.ai.EntitySheepAIFollowCyclops;
-import com.iafenvoy.iceandfire.entity.ai.VillagerAIFearUntamed;
+import com.iafenvoy.iceandfire.entity.ai.EntitySheepAIFollowCyclopsGoal;
+import com.iafenvoy.iceandfire.entity.ai.VillagerAIFearUntamedGoal;
 import com.iafenvoy.iceandfire.entity.util.IAnimalFear;
 import com.iafenvoy.iceandfire.entity.util.IVillagerFear;
 import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
-import com.iafenvoy.iceandfire.item.ItemChain;
-import com.iafenvoy.iceandfire.item.ItemDragonHorn;
-import com.iafenvoy.iceandfire.item.armor.ItemDragonSteelArmor;
-import com.iafenvoy.iceandfire.item.armor.ItemScaleArmor;
-import com.iafenvoy.iceandfire.item.armor.ItemTrollArmor;
+import com.iafenvoy.iceandfire.item.ChainItem;
+import com.iafenvoy.iceandfire.item.DragonHornItem;
+import com.iafenvoy.iceandfire.item.armor.DragonSteelArmorItem;
+import com.iafenvoy.iceandfire.item.armor.ScaleArmorItem;
+import com.iafenvoy.iceandfire.item.armor.TrollArmorItem;
 import com.iafenvoy.iceandfire.network.payload.PlayerHitMultipartPayload;
 import com.iafenvoy.iceandfire.registry.*;
 import com.iafenvoy.iceandfire.registry.tag.IafEntityTags;
@@ -65,11 +65,11 @@ public class ServerEvents {
 
     private static void signalChickenAlarm(LivingEntity chicken, LivingEntity attacker) {
         final float d0 = IafCommonConfig.INSTANCE.cockatrice.chickenSearchLength.getValue();
-        final List<EntityCockatrice> list = chicken.getWorld().getNonSpectatingEntities(EntityCockatrice.class, (new Box(chicken.getX(), chicken.getY(), chicken.getZ(), chicken.getX() + 1.0D, chicken.getY() + 1.0D, chicken.getZ() + 1.0D)).expand(d0, 10.0D, d0));
+        final List<CockatriceEntity> list = chicken.getWorld().getNonSpectatingEntities(CockatriceEntity.class, (new Box(chicken.getX(), chicken.getY(), chicken.getZ(), chicken.getX() + 1.0D, chicken.getY() + 1.0D, chicken.getZ() + 1.0D)).expand(d0, 10.0D, d0));
         if (list.isEmpty()) return;
 
-        for (final EntityCockatrice cockatrice : list) {
-            if (!(attacker instanceof EntityCockatrice)) {
+        for (final CockatriceEntity cockatrice : list) {
+            if (!(attacker instanceof CockatriceEntity)) {
                 if (!DragonUtils.hasSameOwner(cockatrice, attacker)) {
                     if (attacker instanceof PlayerEntity player) {
                         if (!player.isCreative() && !cockatrice.isOwner(player))
@@ -82,11 +82,11 @@ public class ServerEvents {
 
     private static void signalAmphithereAlarm(LivingEntity villager, LivingEntity attacker) {
         final float d0 = IafCommonConfig.INSTANCE.amphithere.villagerSearchLength.getValue().floatValue();
-        final List<EntityAmphithere> list = villager.getWorld().getNonSpectatingEntities(EntityAmphithere.class, (new Box(villager.getX() - 1.0D, villager.getY() - 1.0D, villager.getZ() - 1.0D, villager.getX() + 1.0D, villager.getY() + 1.0D, villager.getZ() + 1.0D)).expand(d0, d0, d0));
+        final List<AmphithereEntity> list = villager.getWorld().getNonSpectatingEntities(AmphithereEntity.class, (new Box(villager.getX() - 1.0D, villager.getY() - 1.0D, villager.getZ() - 1.0D, villager.getX() + 1.0D, villager.getY() + 1.0D, villager.getZ() + 1.0D)).expand(d0, d0, d0));
         if (list.isEmpty()) return;
 
         for (final Entity entity : list) {
-            if (entity instanceof EntityAmphithere amphithere && !(attacker instanceof EntityAmphithere)) {
+            if (entity instanceof AmphithereEntity amphithere && !(attacker instanceof AmphithereEntity)) {
                 if (!DragonUtils.hasSameOwner(amphithere, attacker)) {
                     if (attacker instanceof PlayerEntity player) {
                         if (!player.isCreative() && !amphithere.isOwner(player))
@@ -108,29 +108,29 @@ public class ServerEvents {
     public static float onEntityDamage(LivingEntity entity, DamageSource source, float amount) {
         if (source.isIn(DamageTypeTags.IS_PROJECTILE)) {
             float multi = 1;
-            if (entity.getEquippedStack(EquipmentSlot.HEAD).getItem() instanceof ItemTrollArmor)
+            if (entity.getEquippedStack(EquipmentSlot.HEAD).getItem() instanceof TrollArmorItem)
                 multi -= 0.1f;
-            if (entity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof ItemTrollArmor)
+            if (entity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof TrollArmorItem)
                 multi -= 0.3f;
-            if (entity.getEquippedStack(EquipmentSlot.LEGS).getItem() instanceof ItemTrollArmor)
+            if (entity.getEquippedStack(EquipmentSlot.LEGS).getItem() instanceof TrollArmorItem)
                 multi -= 0.2f;
-            if (entity.getEquippedStack(EquipmentSlot.FEET).getItem() instanceof ItemTrollArmor)
+            if (entity.getEquippedStack(EquipmentSlot.FEET).getItem() instanceof TrollArmorItem)
                 multi -= 0.1f;
             amount *= multi;
         }
         if (source.isOf(IafDamageTypes.DRAGON_FIRE_TYPE) || source.isOf(IafDamageTypes.DRAGON_ICE_TYPE) || source.isOf(IafDamageTypes.DRAGON_LIGHTNING_TYPE)) {
             float multi = 1;
-            if (entity.getEquippedStack(EquipmentSlot.HEAD).getItem() instanceof ItemScaleArmor ||
-                    entity.getEquippedStack(EquipmentSlot.HEAD).getItem() instanceof ItemDragonSteelArmor)
+            if (entity.getEquippedStack(EquipmentSlot.HEAD).getItem() instanceof ScaleArmorItem ||
+                    entity.getEquippedStack(EquipmentSlot.HEAD).getItem() instanceof DragonSteelArmorItem)
                 multi -= 0.1f;
-            if (entity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof ItemScaleArmor ||
-                    entity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof ItemDragonSteelArmor)
+            if (entity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof ScaleArmorItem ||
+                    entity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof DragonSteelArmorItem)
                 multi -= 0.3f;
-            if (entity.getEquippedStack(EquipmentSlot.LEGS).getItem() instanceof ItemScaleArmor ||
-                    entity.getEquippedStack(EquipmentSlot.LEGS).getItem() instanceof ItemDragonSteelArmor)
+            if (entity.getEquippedStack(EquipmentSlot.LEGS).getItem() instanceof ScaleArmorItem ||
+                    entity.getEquippedStack(EquipmentSlot.LEGS).getItem() instanceof DragonSteelArmorItem)
                 multi -= 0.2f;
-            if (entity.getEquippedStack(EquipmentSlot.FEET).getItem() instanceof ItemScaleArmor ||
-                    entity.getEquippedStack(EquipmentSlot.FEET).getItem() instanceof ItemDragonSteelArmor)
+            if (entity.getEquippedStack(EquipmentSlot.FEET).getItem() instanceof ScaleArmorItem ||
+                    entity.getEquippedStack(EquipmentSlot.FEET).getItem() instanceof DragonSteelArmorItem)
                 multi -= 0.1f;
             amount *= multi;
         }
@@ -150,11 +150,11 @@ public class ServerEvents {
             final List<Entity> list = entity.getWorld().getOtherEntities(entity, entity.getBoundingBox().expand(dist, dist, dist));
             if (!list.isEmpty())
                 for (final Entity e : list)
-                    if (e instanceof EntityCyclops cyclops)
+                    if (e instanceof CyclopsEntity cyclops)
                         if (!cyclops.isBlinded() && !player.isCreative())
                             cyclops.setTarget(player);
         }
-        if (entity instanceof EntityStoneStatue statue) {
+        if (entity instanceof StoneStatueEntity statue) {
             statue.setHealth(statue.getMaxHealth());
             if (player != null) {
                 ItemStack stack = player.getMainHandStack();
@@ -184,7 +184,7 @@ public class ServerEvents {
             }
             return EventResult.interruptDefault();
         }
-        if (entity instanceof EntityMultipartPart mutlipartPart) {
+        if (entity instanceof MultipartPartEntity mutlipartPart) {
             Entity parent = mutlipartPart.getParent();
             try {
                 //If the attacked entity is the parent itself parent will be null and also doesn't have to be attacked
@@ -194,7 +194,7 @@ public class ServerEvents {
                 IceAndFire.LOGGER.warn("Exception thrown while interacting with entity.", e);
             }
             int extraData = 0;
-            if (mutlipartPart instanceof EntityHydraHead hydraHead && parent instanceof EntityHydra hydra) {
+            if (mutlipartPart instanceof HydraHeadEntity hydraHead && parent instanceof HydraEntity hydra) {
                 extraData = hydraHead.headIndex;
                 hydra.triggerHeadFlags(extraData);
             }
@@ -238,7 +238,7 @@ public class ServerEvents {
                         flag = true;
                     if (flag) {
                         World world = entity.getWorld();
-                        EntityGhost ghost = IafEntities.GHOST.get().create(world);
+                        GhostEntity ghost = IafEntities.GHOST.get().create(world);
                         assert ghost != null;
                         ghost.copyPositionAndRotation(entity);
                         if (world instanceof ServerWorldAccess serverWorldAccess) {
@@ -265,10 +265,10 @@ public class ServerEvents {
             }
         }
         // Handle multipart
-        if (entity instanceof EntityMultipartPart multipart) {
+        if (entity instanceof MultipartPartEntity multipart) {
             multipart.interact(player, hand);
             // Handle some dragon items
-            if (player.getStackInHand(hand).getItem() instanceof ItemDragonHorn horn && multipart.getParent() instanceof LivingEntity living)
+            if (player.getStackInHand(hand).getItem() instanceof DragonHornItem horn && multipart.getParent() instanceof LivingEntity living)
                 horn.useOnEntity(player.getStackInHand(hand), player, living, hand);
         }
         return EventResult.pass();
@@ -281,7 +281,7 @@ public class ServerEvents {
             final List<Entity> list = world.getOtherEntities(player, player.getBoundingBox().expand(dist, dist, dist));
             if (!list.isEmpty())
                 for (final Entity entity : list)
-                    if (entity instanceof EntityDragonBase dragon)
+                    if (entity instanceof DragonBaseEntity dragon)
                         if (!dragon.isTamed() && !dragon.isModelDead() && !dragon.isOwner(player)) {
                             dragon.setInSittingPose(false);
                             dragon.setSitting(false);
@@ -289,7 +289,7 @@ public class ServerEvents {
                         }
         }
         if (world.getBlockState(pos).getBlock() instanceof WallBlock)
-            ItemChain.attachToFence(player, world, pos);
+            ChainItem.attachToFence(player, world, pos);
         return EventResult.pass();
     }
 
@@ -300,7 +300,7 @@ public class ServerEvents {
             if (list.isEmpty()) return EventResult.pass();
 
             for (Entity entity : list)
-                if (entity instanceof EntityDragonBase dragon)
+                if (entity instanceof DragonBaseEntity dragon)
                     if (!dragon.isTamed() && !dragon.isModelDead() && !dragon.isOwner(player) && !player.isCreative()) {
                         dragon.setInSittingPose(false);
                         dragon.setSitting(false);
@@ -320,13 +320,13 @@ public class ServerEvents {
         if (entity instanceof MobEntity mob)
             try {
                 if (mob.getType().isIn(IafEntityTags.SHEEP) && mob instanceof AnimalEntity animal)
-                    animal.goalSelector.add(8, new EntitySheepAIFollowCyclops(animal, 1.2D));
+                    animal.goalSelector.add(8, new EntitySheepAIFollowCyclopsGoal(animal, 1.2D));
                 if (mob.getType().isIn(IafEntityTags.VILLAGERS))
                     if (IafCommonConfig.INSTANCE.dragon.villagersFear.getValue())
-                        mob.goalSelector.add(1, new VillagerAIFearUntamed((PathAwareEntity) mob, LivingEntity.class, 8.0F, 0.8D, 0.8D, VILLAGER_FEAR));
+                        mob.goalSelector.add(1, new VillagerAIFearUntamedGoal((PathAwareEntity) mob, LivingEntity.class, 8.0F, 0.8D, 0.8D, VILLAGER_FEAR));
                 if (mob.getType().isIn(IafEntityTags.FEAR_DRAGONS))
                     if (IafCommonConfig.INSTANCE.dragon.animalsFear.getValue())
-                        mob.goalSelector.add(1, new VillagerAIFearUntamed((PathAwareEntity) mob, LivingEntity.class, 30, 1.0D, 0.5D, e -> e instanceof IAnimalFear fear && fear.shouldAnimalsFear(mob)));
+                        mob.goalSelector.add(1, new VillagerAIFearUntamedGoal((PathAwareEntity) mob, LivingEntity.class, 30, 1.0D, 0.5D, e -> e instanceof IAnimalFear fear && fear.shouldAnimalsFear(mob)));
             } catch (Exception e) {
                 IceAndFire.LOGGER.warn("Tried to add unique behaviors to vanilla mobs and encountered an error");
             }

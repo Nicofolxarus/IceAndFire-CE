@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.data;
 
 import com.google.common.collect.ImmutableList;
-import com.iafenvoy.iceandfire.item.ItemBestiary;
+import com.iafenvoy.iceandfire.item.BestiaryItem;
 import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import net.minecraft.item.ItemStack;
 
@@ -58,7 +58,7 @@ public final class BestiaryPages {
     }
 
     public static List<BestiaryPages> possiblePages(ItemStack book) {
-        if (book.getItem() instanceof ItemBestiary) {
+        if (book.getItem() instanceof BestiaryItem) {
             List<String> s = book.get(IafDataComponents.BESTIARY_PAGES.get());
             if (s == null) return List.of();
             Collection<BestiaryPages> containedPages = containedPages(s);
@@ -70,7 +70,7 @@ public final class BestiaryPages {
     }
 
     public static void addPage(BestiaryPages page, ItemStack book) {
-        if (book.getItem() instanceof ItemBestiary) {
+        if (book.getItem() instanceof BestiaryItem) {
             List<String> already = book.get(IafDataComponents.BESTIARY_PAGES.get());
             if (already == null) return;
             if (!already.contains(page.name)) {

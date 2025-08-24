@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.world.structure;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.entity.EntityHydra;
+import com.iafenvoy.iceandfire.entity.HydraEntity;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafStructurePieces;
 import com.iafenvoy.iceandfire.registry.IafStructureTypes;
@@ -147,7 +147,7 @@ public class HydraCaveStructure extends Structure {
                     }
                 }
             }
-            EntityHydra hydra = new EntityHydra(IafEntities.HYDRA.get(), world.toServerWorld());
+            HydraEntity hydra = new HydraEntity(IafEntities.HYDRA.get(), world.toServerWorld());
             hydra.setVariant(random.nextInt(3));
             hydra.setPositionTarget(pivot, 15);
             hydra.updatePositionAndAngles(pivot.getX() + 0.5, pivot.getY() + 1.5, pivot.getZ() + 0.5, random.nextFloat() * 360, 0);

@@ -1,9 +1,9 @@
 package com.iafenvoy.iceandfire.entity.util.dragon;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.entity.EntityAmphithere;
-import com.iafenvoy.iceandfire.entity.EntityDragonBase;
-import com.iafenvoy.iceandfire.entity.EntityIceDragon;
+import com.iafenvoy.iceandfire.entity.AmphithereEntity;
+import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
+import com.iafenvoy.iceandfire.entity.IceDragonEntity;
 import com.iafenvoy.iceandfire.entity.util.IFlyingMount;
 import com.iafenvoy.iceandfire.util.IafMath;
 import net.minecraft.entity.LivingEntity;
@@ -21,13 +21,13 @@ import net.minecraft.util.math.Vec3d;
 
 
 public class IafDragonFlightManager {
-    private final EntityDragonBase dragon;
+    private final DragonBaseEntity dragon;
     private Vec3d target;
     private Vec3d startAttackVec;
     private Vec3d startPreyVec;
     private LivingEntity prevAttackTarget = null;
 
-    public IafDragonFlightManager(EntityDragonBase dragon) {
+    public IafDragonFlightManager(DragonBaseEntity dragon) {
         this.dragon = dragon;
     }
 
@@ -48,7 +48,7 @@ public class IafDragonFlightManager {
     public void update() {
 
         if (this.dragon.getTarget() != null && this.dragon.getTarget().isAlive()) {
-            if (this.dragon instanceof EntityIceDragon && this.dragon.isTouchingWater())
+            if (this.dragon instanceof IceDragonEntity && this.dragon.isTouchingWater())
                 this.dragon.airAttack = this.dragon.getTarget() == null ? IafDragonAttacks.Air.SCORCH_STREAM : IafDragonAttacks.Air.TACKLE;
             LivingEntity entity = this.dragon.getTarget();
             if (this.dragon.airAttack == IafDragonAttacks.Air.TACKLE)
@@ -76,10 +76,10 @@ public class IafDragonFlightManager {
                 || this.dragon.getCommand() == 2 && this.dragon.shouldTPtoOwner()) {
             BlockPos viewBlock = null;
 
-            if (this.dragon instanceof EntityIceDragon && this.dragon.isTouchingWater())
+            if (this.dragon instanceof IceDragonEntity && this.dragon.isTouchingWater())
                 viewBlock = DragonUtils.getWaterBlockInView(this.dragon);
             if (this.dragon.getCommand() == 2 && this.dragon.useFlyingPathFinder())
-                viewBlock = this.dragon instanceof EntityIceDragon && this.dragon.isTouchingWater() ? DragonUtils.getWaterBlockInViewEscort(this.dragon) : DragonUtils.getBlockInViewEscort(this.dragon);
+                viewBlock = this.dragon instanceof IceDragonEntity && this.dragon.isTouchingWater() ? DragonUtils.getWaterBlockInViewEscort(this.dragon) : DragonUtils.getBlockInViewEscort(this.dragon);
             else if (this.dragon.lookingForRoostAIFlag) {
                 // FIXME :: Unused
                 BlockPos upPos = this.dragon.getPositionTarget();
@@ -169,7 +169,7 @@ public class IafDragonFlightManager {
                 this.state = State.WAIT;
             } else if (this.state == State.MOVE_TO) {
                 this.state = State.WAIT;
-                EntityDragonBase dragonBase = (EntityDragonBase) this.entity;
+                DragonBaseEntity dragonBase = (DragonBaseEntity) this.entity;
                 double d0 = this.getTargetX() - this.entity.getX();
                 double d1 = this.getTargetZ() - this.entity.getZ();
                 double d2 = this.getTargetY() - this.entity.getY();
@@ -199,9 +199,9 @@ public class IafDragonFlightManager {
     }
 
     public static class FlightMoveHelper extends MoveControl {
-        private final EntityDragonBase dragon;
+        private final DragonBaseEntity dragon;
 
-        public FlightMoveHelper(EntityDragonBase dragonBase) {
+        public FlightMoveHelper(DragonBaseEntity dragonBase) {
             super(dragonBase);
             this.dragon = dragonBase;
         }
@@ -261,7 +261,7 @@ public class IafDragonFlightManager {
 
         @Override
         public void tick() {
-            if (this.dragon instanceof EntityDragonBase theDragon && theDragon.getControllingPassenger() != null)
+            if (this.dragon instanceof DragonBaseEntity theDragon && theDragon.getControllingPassenger() != null)
                 // New ride system doesn't need move controller
                 // The flight move control is disabled here, the walking move controller will stay Operation.WAIT so nothing will happen too
                 return;
@@ -281,7 +281,7 @@ public class IafDragonFlightManager {
         }
 
         public double speedMod() {
-            return (this.dragon instanceof EntityAmphithere ? 0.6D : 1.25D) * IafCommonConfig.INSTANCE.dragon.dragonFlightSpeedMod.getValue().floatValue() * this.dragon.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED);
+            return (this.dragon instanceof AmphithereEntity ? 0.6D : 1.25D) * IafCommonConfig.INSTANCE.dragon.dragonFlightSpeedMod.getValue().floatValue() * this.dragon.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED);
         }
     }
 }

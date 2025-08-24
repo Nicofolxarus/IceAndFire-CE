@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.recipe;
 
-import com.iafenvoy.iceandfire.entity.block.BlockEntityDragonForge;
+import com.iafenvoy.iceandfire.item.block.entity.DragonForgeBlockEntity;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafRecipeSerializers;
 import com.iafenvoy.iceandfire.registry.IafRecipes;
@@ -18,7 +18,7 @@ import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 
-public class DragonForgeRecipe implements Recipe<BlockEntityDragonForge.DragonForgeRecipeInput> {
+public class DragonForgeRecipe implements Recipe<DragonForgeBlockEntity.DragonForgeRecipeInput> {
     private final Ingredient input;
     private final Ingredient blood;
     private final ItemStack result;
@@ -55,12 +55,12 @@ public class DragonForgeRecipe implements Recipe<BlockEntityDragonForge.DragonFo
     }
 
     @Override
-    public boolean matches(BlockEntityDragonForge.DragonForgeRecipeInput inv, World worldIn) {
+    public boolean matches(DragonForgeBlockEntity.DragonForgeRecipeInput inv, World worldIn) {
         return this.input.test(inv.getStack(0)) && this.blood.test(inv.getStack(1)) && this.dragonType.equals(inv.getTypeID());
     }
 
     @Override
-    public ItemStack craft(BlockEntityDragonForge.DragonForgeRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
+    public ItemStack craft(DragonForgeBlockEntity.DragonForgeRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
         return this.result;
     }
 

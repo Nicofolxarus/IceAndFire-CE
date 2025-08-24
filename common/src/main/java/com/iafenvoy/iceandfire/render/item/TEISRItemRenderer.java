@@ -1,6 +1,5 @@
 package com.iafenvoy.iceandfire.render.item;
 
-import com.iafenvoy.iceandfire.render.block.IceAndFireTEISR;
 import com.iafenvoy.uranus.client.render.DynamicItemRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;

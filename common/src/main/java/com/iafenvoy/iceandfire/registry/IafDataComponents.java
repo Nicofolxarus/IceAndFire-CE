@@ -1,9 +1,9 @@
 package com.iafenvoy.iceandfire.registry;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.component.DragonHornComponent;
-import com.iafenvoy.iceandfire.component.DragonSkullComponent;
-import com.iafenvoy.iceandfire.component.StoneStatusComponent;
+import com.iafenvoy.iceandfire.item.component.DragonHornComponent;
+import com.iafenvoy.iceandfire.item.component.DragonSkullComponent;
+import com.iafenvoy.iceandfire.item.component.StoneStatusComponent;
 import com.mojang.serialization.Codec;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;

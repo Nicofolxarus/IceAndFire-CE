@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.world.structure;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.entity.EntitySiren;
+import com.iafenvoy.iceandfire.entity.SirenEntity;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafStructurePieces;
 import com.iafenvoy.iceandfire.registry.IafStructureTypes;
@@ -112,7 +112,7 @@ public class SirenIslandStructure extends Structure {
         }
 
         private void spawnSiren(ServerWorldAccess worldIn, Random rand, BlockPos position) {
-            EntitySiren siren = new EntitySiren(IafEntities.SIREN.get(), worldIn.toServerWorld());
+            SirenEntity siren = new SirenEntity(IafEntities.SIREN.get(), worldIn.toServerWorld());
             siren.setSinging(true);
             siren.setHairColor(rand.nextInt(2));
             siren.setSingingPose(rand.nextInt(2));

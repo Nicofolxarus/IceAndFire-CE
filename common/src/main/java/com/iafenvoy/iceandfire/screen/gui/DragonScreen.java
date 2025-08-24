@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.screen.gui;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.entity.EntityDragonBase;
+import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.screen.handler.DragonScreenHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
@@ -47,12 +47,12 @@ public class DragonScreen extends HandledScreen<DragonScreenHandler> {
         matrixStack.drawTexture(texture, k, l, 0, 0, this.backgroundWidth, this.backgroundHeight);
         assert MinecraftClient.getInstance().world != null;
         Entity entity = MinecraftClient.getInstance().world.getEntityById(this.handler.getDragonId());
-        if (entity instanceof EntityDragonBase dragon) {
+        if (entity instanceof DragonBaseEntity dragon) {
             float dragonScale = 1F / Math.max(0.0001F, dragon.getScaleFactor());
             Quaternionf quaternionf = (new Quaternionf()).rotateY((float) MathHelper.lerp((float) mouseX / this.width, 0, Math.PI)).rotateZ((float) MathHelper.lerp((float) mouseY / this.width, Math.PI, Math.PI + 0.2));
             InventoryScreen.drawEntity(matrixStack, k + 88, l + (int) (0.5F * (dragon.flyProgress)) + 55, (int) (dragonScale * 23F), new Vector3f(0), quaternionf, null, dragon);
         }
-        if (entity instanceof EntityDragonBase dragon) {
+        if (entity instanceof DragonBaseEntity dragon) {
             assert this.client != null;
             TextRenderer textRenderer = this.client.textRenderer;
             String s3 = dragon.getCustomName() == null ? I18n.translate("dragon.unnamed") : I18n.translate("dragon.name") + " " + dragon.getCustomName().getString();

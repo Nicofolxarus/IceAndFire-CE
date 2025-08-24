@@ -3,7 +3,7 @@ package com.iafenvoy.iceandfire.registry;
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.TrollType;
-import com.iafenvoy.iceandfire.registry.tag.CommonTags;
+import com.iafenvoy.iceandfire.registry.tag.CommonItemTags;
 import com.iafenvoy.uranus.util.function.MemorizeSupplier;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -27,8 +27,8 @@ public final class IafArmorMaterials {
     public static final DeferredRegister<ArmorMaterial> REGISTRY = DeferredRegister.create(IceAndFire.MOD_ID, RegistryKeys.ARMOR_MATERIAL);
 
     public static final RegistrySupplier<ArmorMaterial> COPPER_ARMOR_MATERIAL = register("copper", new int[]{1, 3, 4, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0, new MemorizeSupplier<>(() -> Ingredient.ofItems(Items.COPPER_INGOT)));
-    public static final RegistrySupplier<ArmorMaterial> SILVER_ARMOR_MATERIAL = register("silver", new int[]{1, 4, 5, 2}, 20, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 0, new MemorizeSupplier<>(() -> Ingredient.fromTag(CommonTags.Items.INGOTS_SILVER)));
-    public static final RegistrySupplier<ArmorMaterial> BLINDFOLD_ARMOR_MATERIAL = register("blindfold", new int[]{1, 1, 1, 1}, 10, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0, new MemorizeSupplier<>(() -> Ingredient.fromTag(CommonTags.Items.STRINGS)));
+    public static final RegistrySupplier<ArmorMaterial> SILVER_ARMOR_MATERIAL = register("silver", new int[]{1, 4, 5, 2}, 20, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 0, new MemorizeSupplier<>(() -> Ingredient.fromTag(CommonItemTags.INGOTS_SILVER)));
+    public static final RegistrySupplier<ArmorMaterial> BLINDFOLD_ARMOR_MATERIAL = register("blindfold", new int[]{1, 1, 1, 1}, 10, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0, new MemorizeSupplier<>(() -> Ingredient.fromTag(CommonItemTags.STRINGS)));
     public static final RegistrySupplier<ArmorMaterial> SHEEP_ARMOR_MATERIAL = register("sheep", new int[]{1, 3, 2, 1}, 15, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0, new MemorizeSupplier<>(() -> Ingredient.ofItems(Blocks.WHITE_WOOL)));
     public static final RegistrySupplier<ArmorMaterial> EARPLUGS_ARMOR_MATERIAL = register("earplugs", new int[]{1, 1, 1, 1}, 10, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0, new MemorizeSupplier<>(() -> Ingredient.ofItems(Blocks.OAK_BUTTON)));
     public static final RegistrySupplier<ArmorMaterial> DEATHWORM_0_ARMOR_MATERIAL = register("yellow_deathworm", new int[]{2, 5, 7, 3}, 5, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 1.5F, new MemorizeSupplier<>(() -> Ingredient.ofItems(IafItems.DEATH_WORM_CHITIN_YELLOW.get())));

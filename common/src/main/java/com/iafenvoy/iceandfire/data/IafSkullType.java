@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.data;
 
-import com.iafenvoy.iceandfire.item.ItemMobSkull;
+import com.iafenvoy.iceandfire.item.MobSkullItem;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.SkullBlock;
@@ -27,7 +27,7 @@ public enum IafSkullType implements SkullBlock.SkullType {
 
     public static void initItems() {
         for (IafSkullType skull : IafSkullType.values())
-            skull.skullItem = IafItems.register(skull.itemResourceName, () -> new ItemMobSkull(skull));
+            skull.skullItem = IafItems.register(skull.itemResourceName, () -> new MobSkullItem(skull));
     }
 
     public Item getSkullItem() {

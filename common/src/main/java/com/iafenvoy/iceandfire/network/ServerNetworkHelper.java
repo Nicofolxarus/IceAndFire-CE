@@ -36,24 +36,24 @@ public class ServerNetworkHelper {
                             Doing it here would cause server-side movement checks to fail (resulting in "moved wrongly" messages)
                         */
                     switch (entity) {
-                        case EntityDragonBase dragon -> {
+                        case DragonBaseEntity dragon -> {
                             if (dragon.isOwner(player))
                                 dragon.setControlState(payload.controlState());
                         }
-                        case EntityHippogryph hippogryph -> {
+                        case HippogryphEntity hippogryph -> {
                             if (hippogryph.isOwner(player))
                                 hippogryph.setControlState(payload.controlState());
                         }
-                        case EntityHippocampus hippo -> {
+                        case HippocampusEntity hippo -> {
                             if (hippo.isOwner(player))
                                 hippo.setControlState(payload.controlState());
                             hippo.setPos(pos.getX(), pos.getY(), pos.getZ());
                         }
-                        case EntityDeathWorm deathWorm -> {
+                        case DeathWormEntity deathWorm -> {
                             deathWorm.setControlState(payload.controlState());
                             deathWorm.setPos(pos.getX(), pos.getY(), pos.getZ());
                         }
-                        case EntityAmphithere amphithere -> {
+                        case AmphithereEntity amphithere -> {
                             if (amphithere.isOwner(player))
                                 amphithere.setControlState(payload.controlState());
                             // TODO :: Is this handled by Entity#move due to recent changes?
@@ -89,7 +89,7 @@ public class ServerNetworkHelper {
                     double dist = player.distanceTo(livingEntity);
                     if (dist < 100) {
                         player.attack(livingEntity);
-                        if (livingEntity instanceof EntityHydra hydra)
+                        if (livingEntity instanceof HydraEntity hydra)
                             hydra.triggerHeadFlags(payload.index());
                     }
                 }
