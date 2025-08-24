@@ -1,7 +1,8 @@
 package com.iafenvoy.iceandfire.entity;
 
 import com.google.common.base.Predicate;
-import com.iafenvoy.iceandfire.api.IafEvents;
+import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
+import com.iafenvoy.iceandfire.event.IafEvents;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.ai.CyclopsAIAttackMeleeGoal;
 import com.iafenvoy.iceandfire.entity.ai.CyclopsAITargetSheepPlayersGoal;
@@ -44,7 +45,7 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
-public class CyclopsEntity extends HostileEntity implements IAnimatedEntity, IBlacklistedFromStatues, IVillagerFear, IHumanoid, IHasCustomizableAttributes {
+public class CyclopsEntity extends HostileEntity implements IAnimatedEntity, BlacklistedFromStatues, IVillagerFear, IHumanoid, IHasCustomizableAttributes {
     private static final TrackedData<Boolean> BLINDED = DataTracker.registerData(CyclopsEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Integer> VARIANT = DataTracker.registerData(CyclopsEntity.class, TrackedDataHandlerRegistry.INTEGER);
     public static Animation ANIMATION_STOMP;

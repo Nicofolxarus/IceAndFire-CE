@@ -69,7 +69,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class HippogryphEntity extends TameableEntity implements ExtendedMenuProvider, ISyncMount, IAnimatedEntity, IDragonFlute, IVillagerFear, IAnimalFear, IDropArmor, IFlyingMount, ICustomMoveController, IHasCustomizableAttributes {
+public class HippogryphEntity extends TameableEntity implements ExtendedMenuProvider, ISyncMount, IAnimatedEntity, IDragonFlute, IVillagerFear, IAnimalFear, IFlyingMount, ICustomMoveController, IHasCustomizableAttributes {
     private static final int FLIGHT_CHANCE_PER_TICK = 1200;
     private static final TrackedData<String> VARIANT = DataTracker.registerData(HippogryphEntity.class, TrackedDataHandlerRegistry.STRING);
     private static final TrackedData<Boolean> SADDLE = DataTracker.registerData(HippogryphEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -1004,18 +1004,6 @@ public class HippogryphEntity extends TameableEntity implements ExtendedMenuProv
     @Override
     public boolean shouldAnimalsFear(Entity entity) {
         return DragonUtils.canTameDragonAttack(this, entity);
-    }
-
-    @Override
-    public void dropArmor() {
-        if (this.hippogryphInventory != null && !this.getWorld().isClient) {
-            for (int i = 0; i < this.hippogryphInventory.size(); ++i) {
-                ItemStack itemstack = this.hippogryphInventory.getStack(i);
-                if (!itemstack.isEmpty()) {
-                    this.dropStack(itemstack, 0.0F);
-                }
-            }
-        }
     }
 
     @Override

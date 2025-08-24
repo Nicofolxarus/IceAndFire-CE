@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.entity;
 
+import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.ai.GhostAIChargeGoal;
 import com.iafenvoy.iceandfire.entity.ai.GhostPathNavigatorGoal;
@@ -45,7 +46,7 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
-public class GhostEntity extends HostileEntity implements IAnimatedEntity, IVillagerFear, IAnimalFear, IHumanoid, IBlacklistedFromStatues, IHasCustomizableAttributes {
+public class GhostEntity extends HostileEntity implements IAnimatedEntity, IVillagerFear, IAnimalFear, IHumanoid, BlacklistedFromStatues, IHasCustomizableAttributes {
     private static final TrackedData<Integer> COLOR = DataTracker.registerData(GhostEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Boolean> CHARGING = DataTracker.registerData(GhostEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Boolean> IS_DAYTIME_MODE = DataTracker.registerData(GhostEntity.class, TrackedDataHandlerRegistry.BOOLEAN);

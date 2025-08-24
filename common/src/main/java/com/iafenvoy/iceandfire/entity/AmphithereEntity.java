@@ -54,7 +54,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.*;
 
 @SuppressWarnings("ALL")
-public class AmphithereEntity extends TameableEntity implements ISyncMount, IAnimatedEntity, IPhasesThroughBlock, IFlapable, IDragonFlute, IFlyingMount, IHasCustomizableAttributes, ICustomMoveController {
+public class AmphithereEntity extends TameableEntity implements ISyncMount, IAnimatedEntity, IFlapable, IDragonFlute, IFlyingMount, IHasCustomizableAttributes, ICustomMoveController {
     public static final Animation ANIMATION_BITE = Animation.create(15);
     public static final Animation ANIMATION_BITE_RIDER = Animation.create(15);
     public static final Animation ANIMATION_WING_BLAST = Animation.create(30);
@@ -810,11 +810,6 @@ public class AmphithereEntity extends TameableEntity implements ISyncMount, IAni
         spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
         this.setVariant(this.getRandom().nextInt(5));
         return spawnDataIn;
-    }
-
-    @Override
-    public boolean canPhaseThroughBlock(WorldAccess world, BlockPos pos) {
-        return world.getBlockState(pos).getBlock() instanceof LeavesBlock;
     }
 
     // FIXME: I don't know what's is overriding the flight speed (I assume it's on the server side)

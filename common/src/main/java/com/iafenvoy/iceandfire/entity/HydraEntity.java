@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.entity;
 
+import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.util.*;
 import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
@@ -101,7 +102,7 @@ public class HydraEntity extends HostileEntity implements IAnimatedEntity, IMult
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.add(7, new LookAroundGoal(this));
         this.targetSelector.add(1, new RevengeGoal(this));
-        this.targetSelector.add(3, new ActiveTargetGoal<>(this, LivingEntity.class, 10, true, false, entity -> DragonUtils.isAlive(entity) && !(entity instanceof Monster) || entity instanceof IBlacklistedFromStatues blacklisted && blacklisted.canBeTurnedToStone()));
+        this.targetSelector.add(3, new ActiveTargetGoal<>(this, LivingEntity.class, 10, true, false, entity -> DragonUtils.isAlive(entity) && !(entity instanceof Monster) || entity instanceof BlacklistedFromStatues blacklisted && blacklisted.canBeTurnedToStone()));
     }
 
     @Override

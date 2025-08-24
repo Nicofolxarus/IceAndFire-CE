@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.entity;
 
 import com.iafenvoy.iceandfire.item.component.DragonSkullComponent;
 import com.iafenvoy.iceandfire.data.DragonType;
-import com.iafenvoy.iceandfire.entity.util.IBlacklistedFromStatues;
+import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.IDeadMob;
 import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import net.minecraft.entity.Entity;
@@ -26,7 +26,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class DragonSkullEntity extends AnimalEntity implements IBlacklistedFromStatues, IDeadMob {
+public class DragonSkullEntity extends AnimalEntity implements BlacklistedFromStatues, IDeadMob {
     private static final TrackedData<String> DRAGON_TYPE = DataTracker.registerData(DragonSkullEntity.class, TrackedDataHandlerRegistry.STRING);
     private static final TrackedData<Integer> DRAGON_AGE = DataTracker.registerData(DragonSkullEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> DRAGON_STAGE = DataTracker.registerData(DragonSkullEntity.class, TrackedDataHandlerRegistry.INTEGER);

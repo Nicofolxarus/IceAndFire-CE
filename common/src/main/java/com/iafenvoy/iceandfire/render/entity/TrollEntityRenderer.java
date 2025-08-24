@@ -1,8 +1,8 @@
 package com.iafenvoy.iceandfire.render.entity;
 
 import com.iafenvoy.iceandfire.entity.TrollEntity;
-import com.iafenvoy.iceandfire.render.entity.layer.TrollEyesFeatureRenderer;
-import com.iafenvoy.iceandfire.render.entity.layer.TrollWeaponFeatureRenderer;
+import com.iafenvoy.iceandfire.render.entity.feature.TrollEyesFeatureRenderer;
+import com.iafenvoy.iceandfire.render.entity.feature.TrollWeaponFeatureRenderer;
 import com.iafenvoy.iceandfire.render.model.TrollModel;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;

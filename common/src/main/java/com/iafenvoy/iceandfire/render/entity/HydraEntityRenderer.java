@@ -2,8 +2,8 @@ package com.iafenvoy.iceandfire.render.entity;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.entity.HydraEntity;
-import com.iafenvoy.iceandfire.render.entity.layer.GenericGlowingFeatureRenderer;
-import com.iafenvoy.iceandfire.render.entity.layer.HydraHeadFeatureRenderer;
+import com.iafenvoy.iceandfire.render.entity.feature.GenericGlowingFeatureRenderer;
+import com.iafenvoy.iceandfire.render.entity.feature.HydraHeadFeatureRenderer;
 import com.iafenvoy.iceandfire.render.model.HydraBodyModel;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;

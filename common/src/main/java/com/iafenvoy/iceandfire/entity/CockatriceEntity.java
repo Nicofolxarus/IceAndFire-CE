@@ -4,7 +4,7 @@ import com.google.common.base.Predicate;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.ai.*;
 import com.iafenvoy.iceandfire.entity.util.HomePosition;
-import com.iafenvoy.iceandfire.entity.util.IBlacklistedFromStatues;
+import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.IHasCustomizableAttributes;
 import com.iafenvoy.iceandfire.entity.util.IVillagerFear;
 import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
@@ -52,7 +52,7 @@ import net.minecraft.world.*;
 
 import java.util.List;
 
-public class CockatriceEntity extends TameableEntity implements IAnimatedEntity, IBlacklistedFromStatues, IVillagerFear, IHasCustomizableAttributes {
+public class CockatriceEntity extends TameableEntity implements IAnimatedEntity, BlacklistedFromStatues, IVillagerFear, IHasCustomizableAttributes {
     public static final Animation ANIMATION_JUMPAT = Animation.create(30);
     public static final Animation ANIMATION_WATTLESHAKE = Animation.create(20);
     public static final Animation ANIMATION_BITE = Animation.create(15);
@@ -203,7 +203,7 @@ public class CockatriceEntity extends TameableEntity implements IAnimatedEntity,
     }
 
     private boolean canUseStareOn(Entity entity) {
-        return (!(entity instanceof IBlacklistedFromStatues statues) || statues.canBeTurnedToStone()) && !entity.getType().isIn(IafEntityTags.COCKATRICE_TARGETS);
+        return (!(entity instanceof BlacklistedFromStatues statues) || statues.canBeTurnedToStone()) && !entity.getType().isIn(IafEntityTags.COCKATRICE_TARGETS);
     }
 
     private void switchAI(boolean melee) {

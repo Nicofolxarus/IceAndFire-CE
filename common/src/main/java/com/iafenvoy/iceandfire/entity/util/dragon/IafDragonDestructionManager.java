@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.entity.util.dragon;
 
-import com.iafenvoy.iceandfire.api.IafEvents;
+import com.iafenvoy.iceandfire.event.IafEvents;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.data.component.FrozenData;

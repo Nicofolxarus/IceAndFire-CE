@@ -1710,6 +1710,8 @@
   "modifier.surf_wax_america.desc": "\"You take your car to work, I'll take my board...:\"§r\\n在玩家骑乘坐骑时追加五点额外伤害。",
   "modifier.sweater_song": "《Undone》",
   "modifier.sweater_song.desc": "\"If you want to destroy my sweater...\"§r\\n暴击时，有30%的概率打掉装备有护甲的目标的装备。",
+  "resourcePack.iceandfire.legacy.description": "冰火传说社区版2.0前的旧版材质",
+  "resourcePack.iceandfire.legacy.name": "冰火传说旧版材质",
   "screen.iceandfire.client.title": "冰火传说客户端设置",
   "screen.iceandfire.common.title": "冰火传说通用设置",
   "sea_serpent.blue": "蔚蓝",

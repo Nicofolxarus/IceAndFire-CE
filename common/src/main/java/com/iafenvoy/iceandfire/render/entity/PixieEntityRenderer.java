@@ -2,8 +2,8 @@ package com.iafenvoy.iceandfire.render.entity;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.entity.PixieEntity;
-import com.iafenvoy.iceandfire.render.entity.layer.PixieGlowFeatureRenderer;
-import com.iafenvoy.iceandfire.render.entity.layer.PixieItemFeatureRenderer;
+import com.iafenvoy.iceandfire.render.entity.feature.PixieGlowFeatureRenderer;
+import com.iafenvoy.iceandfire.render.entity.feature.PixieItemFeatureRenderer;
 import com.iafenvoy.iceandfire.render.model.PixieModel;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;

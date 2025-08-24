@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.item;
 
 import com.iafenvoy.iceandfire.data.component.MiscData;
 import com.iafenvoy.iceandfire.entity.GorgonEntity;
-import com.iafenvoy.iceandfire.entity.util.IBlacklistedFromStatues;
+import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
@@ -82,7 +82,7 @@ public class CockatriceScepterItem extends Item {
             Vec3d Vector3d2 = playerEyePosition.add(playerLook.x * dist, playerLook.y * dist, playerLook.z * dist);
             List<Entity> pointedEntities = new LinkedList<>();
             List<Entity> nearbyEntities = level.getOtherEntities(player, player.getBoundingBox().stretch(playerLook.x * dist, playerLook.y * dist, playerLook.z * dist).expand(1, 1, 1), entity -> {
-                boolean blindness = entity instanceof LivingEntity && ((LivingEntity) entity).hasStatusEffect(StatusEffects.BLINDNESS) || (entity instanceof IBlacklistedFromStatues blacklisted && !blacklisted.canBeTurnedToStone());
+                boolean blindness = entity instanceof LivingEntity && ((LivingEntity) entity).hasStatusEffect(StatusEffects.BLINDNESS) || (entity instanceof BlacklistedFromStatues blacklisted && !blacklisted.canBeTurnedToStone());
                 return entity != null && entity.canHit() && !blindness && (entity instanceof PlayerEntity || (entity instanceof LivingEntity living && DragonUtils.isAlive(living)));
             });
             double d2 = dist;

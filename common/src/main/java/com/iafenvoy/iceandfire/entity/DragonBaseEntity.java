@@ -2,19 +2,19 @@ package com.iafenvoy.iceandfire.entity;
 
 import com.google.common.base.Predicate;
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.api.IafEvents;
-import com.iafenvoy.iceandfire.item.component.DragonSkullComponent;
+import com.iafenvoy.iceandfire.event.IafEvents;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.DragonColor;
 import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.data.component.ChainData;
 import com.iafenvoy.iceandfire.entity.ai.*;
-import com.iafenvoy.iceandfire.item.block.entity.DragonForgeInputBlockEntity;
 import com.iafenvoy.iceandfire.entity.util.*;
 import com.iafenvoy.iceandfire.entity.util.dragon.*;
 import com.iafenvoy.iceandfire.item.DragonArmorItem;
 import com.iafenvoy.iceandfire.item.SummoningCrystalItem;
+import com.iafenvoy.iceandfire.item.block.entity.DragonForgeInputBlockEntity;
 import com.iafenvoy.iceandfire.item.block.util.DragonProof;
+import com.iafenvoy.iceandfire.item.component.DragonSkullComponent;
 import com.iafenvoy.iceandfire.network.payload.DragonSetBurnBlockPayload;
 import com.iafenvoy.iceandfire.network.payload.StartRidingMobC2SPayload;
 import com.iafenvoy.iceandfire.network.payload.StartRidingMobS2CPayload;
@@ -108,7 +108,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-public abstract class DragonBaseEntity extends TameableEntity implements NamedScreenHandlerFactory, IPassabilityNavigator, ISyncMount, IFlyingMount, IMultipartEntity, IAnimatedEntity, IDragonFlute, IDeadMob, IVillagerFear, IAnimalFear, IDropArmor, IHasCustomizableAttributes, ICustomSizeNavigator, ICustomMoveController, InventoryChangedListener {
+public abstract class DragonBaseEntity extends TameableEntity implements NamedScreenHandlerFactory, IPassabilityNavigator, ISyncMount, IFlyingMount, IMultipartEntity, IAnimatedEntity, IDragonFlute, IDeadMob, IVillagerFear, IAnimalFear, IHasCustomizableAttributes, ICustomSizeNavigator, ICustomMoveController, InventoryChangedListener {
     public static final int FLIGHT_CHANCE_PER_TICK = 1500;
     public static final float[] growth_stage_1 = new float[]{1F, 3F};
     public static final float[] growth_stage_2 = new float[]{3F, 7F};
@@ -2405,10 +2405,6 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
     @Override
     public boolean shouldAnimalsFear(Entity entity) {
         return DragonUtils.canTameDragonAttack(this, entity);
-    }
-
-    @Override
-    public void dropArmor() {
     }
 
     public boolean isChained() {

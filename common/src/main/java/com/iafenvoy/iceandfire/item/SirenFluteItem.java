@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.item;
 
 import com.iafenvoy.iceandfire.data.component.MiscData;
-import com.iafenvoy.iceandfire.entity.util.IBlacklistedFromStatues;
+import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import net.minecraft.entity.Entity;
@@ -42,7 +42,7 @@ public class SirenFluteItem extends Item {
 
         Entity pointedEntity = null;
         List<Entity> list = player.getWorld().getOtherEntities(player, player.getBoundingBox().stretch(Vector3d1.x * dist, Vector3d1.y * dist, Vector3d1.z * dist).expand(1.0D, 1.0D, 1.0D), entity -> {
-            boolean blindness = entity instanceof LivingEntity living && living.hasStatusEffect(StatusEffects.BLINDNESS) || entity instanceof IBlacklistedFromStatues blacklisted && !blacklisted.canBeTurnedToStone();
+            boolean blindness = entity instanceof LivingEntity living && living.hasStatusEffect(StatusEffects.BLINDNESS) || entity instanceof BlacklistedFromStatues blacklisted && !blacklisted.canBeTurnedToStone();
             return entity != null && entity.canHit() && !blindness && (entity instanceof PlayerEntity || entity instanceof LivingEntity living && DragonUtils.isAlive(living));
         });
 

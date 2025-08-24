@@ -2,9 +2,9 @@ package com.iafenvoy.iceandfire.render.entity;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.entity.DreadThrallEntity;
-import com.iafenvoy.iceandfire.render.entity.layer.IHasArmorVariantResource;
-import com.iafenvoy.iceandfire.render.entity.layer.BipedArmorFeatureRendererMultiple;
-import com.iafenvoy.iceandfire.render.entity.layer.GenericGlowingFeatureRenderer;
+import com.iafenvoy.iceandfire.render.entity.feature.IHasArmorVariantResource;
+import com.iafenvoy.iceandfire.render.entity.feature.BipedArmorFeatureRendererMultiple;
+import com.iafenvoy.iceandfire.render.entity.feature.GenericGlowingFeatureRenderer;
 import com.iafenvoy.iceandfire.render.model.DreadThrallModel;
 import com.iafenvoy.uranus.client.model.util.HideableLayer;
 import net.minecraft.client.render.entity.EntityRendererFactory;

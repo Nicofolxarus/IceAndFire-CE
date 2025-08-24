@@ -9,18 +9,18 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class EntityDragonArrow extends PersistentProjectileEntity {
-    public EntityDragonArrow(EntityType<? extends PersistentProjectileEntity> typeIn, World worldIn) {
+public class DragonArrowEntity extends PersistentProjectileEntity {
+    public DragonArrowEntity(EntityType<? extends PersistentProjectileEntity> typeIn, World worldIn) {
         super(typeIn, worldIn);
         this.setDamage(10);
     }
 
-    public EntityDragonArrow(EntityType<? extends PersistentProjectileEntity> typeIn, double x, double y, double z, World world, ItemStack stack, @Nullable ItemStack shotFrom) {
+    public DragonArrowEntity(EntityType<? extends PersistentProjectileEntity> typeIn, double x, double y, double z, World world, ItemStack stack, @Nullable ItemStack shotFrom) {
         super(typeIn, x, y, z, world, stack, shotFrom);
         this.setDamage(10);
     }
 
-    public EntityDragonArrow(EntityType<? extends PersistentProjectileEntity> typeIn, LivingEntity shooter, World worldIn, ItemStack from) {
+    public DragonArrowEntity(EntityType<? extends PersistentProjectileEntity> typeIn, LivingEntity shooter, World worldIn, ItemStack from) {
         super(typeIn, shooter, worldIn, new ItemStack(IafItems.DRAGONBONE_ARROW.get()), from);
         this.setDamage(10);
     }

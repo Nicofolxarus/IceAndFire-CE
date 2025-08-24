@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.mixin;
 
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
-import com.iafenvoy.iceandfire.render.entity.layer.DragonRiderFeatureRenderer;
+import com.iafenvoy.iceandfire.render.entity.feature.DragonRiderFeatureRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;

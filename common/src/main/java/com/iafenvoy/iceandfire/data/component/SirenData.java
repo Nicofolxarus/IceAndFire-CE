@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.data.component;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.SirenEntity;
-import com.iafenvoy.iceandfire.entity.util.IHearsSiren;
+import com.iafenvoy.iceandfire.entity.util.SirenAffectable;
 import com.iafenvoy.iceandfire.impl.ComponentManager;
 import com.iafenvoy.iceandfire.util.attachment.NeedUpdateData;
 import com.mojang.serialization.Codec;
@@ -42,7 +42,7 @@ public class SirenData extends NeedUpdateData<LivingEntity> {
 
     @Override
     public void tick(LivingEntity living) {
-        if (!(living instanceof PlayerEntity || living instanceof MerchantEntity || living instanceof IHearsSiren))
+        if (!(living instanceof PlayerEntity || living instanceof MerchantEntity || living instanceof SirenAffectable))
             return;
         if (this.charmedByUUID.isEmpty() || !(living.getWorld() instanceof ServerWorld world) || !(world.getEntity(this.charmedByUUID.get()) instanceof SirenEntity siren))
             return;

@@ -5,7 +5,7 @@ import com.iafenvoy.iceandfire.entity.HydraEntity;
 import com.iafenvoy.iceandfire.entity.StoneStatueEntity;
 import com.iafenvoy.iceandfire.entity.TrollEntity;
 import com.iafenvoy.iceandfire.registry.IafRenderLayers;
-import com.iafenvoy.iceandfire.render.entity.layer.HydraHeadFeatureRenderer;
+import com.iafenvoy.iceandfire.render.entity.feature.HydraHeadFeatureRenderer;
 import com.iafenvoy.iceandfire.render.model.ICustomStatueModel;
 import com.iafenvoy.iceandfire.render.model.HydraBodyModel;
 import com.iafenvoy.iceandfire.render.model.StonePlayerModel;

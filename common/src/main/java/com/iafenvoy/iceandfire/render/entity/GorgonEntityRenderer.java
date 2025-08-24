@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.render.entity;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.entity.GorgonEntity;
-import com.iafenvoy.iceandfire.render.entity.layer.GorgonEyesFeatureRenderer;
+import com.iafenvoy.iceandfire.render.entity.feature.GorgonEyesFeatureRenderer;
 import com.iafenvoy.iceandfire.render.model.GorgonModel;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;

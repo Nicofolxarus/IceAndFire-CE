@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.item;
 
 import com.google.common.base.Predicate;
 import com.iafenvoy.iceandfire.entity.StoneStatueEntity;
-import com.iafenvoy.iceandfire.entity.util.IBlacklistedFromStatues;
+import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
 import com.iafenvoy.iceandfire.registry.IafDamageTypes;
 import com.iafenvoy.iceandfire.registry.IafDataComponents;
@@ -48,7 +48,7 @@ public class GorgonHeadItem extends Item {
         Entity pointedEntity = null;
         List<Entity> list = worldIn.getOtherEntities(entity, entity.getBoundingBox().stretch(Vector3d1.x * dist, Vector3d1.y * dist, Vector3d1.z * dist).expand(1.0D, 1.0D, 1.0D), (Predicate<Entity>) entity12 -> {
             if (entity12 instanceof LivingEntity livingEntity) {
-                boolean isImmune = livingEntity instanceof IBlacklistedFromStatues blacklisted && !blacklisted.canBeTurnedToStone() || entity12.getType().isIn(IafEntityTags.IMMUNE_TO_GORGON_STONE) || livingEntity.hasStatusEffect(StatusEffects.BLINDNESS);
+                boolean isImmune = livingEntity instanceof BlacklistedFromStatues blacklisted && !blacklisted.canBeTurnedToStone() || entity12.getType().isIn(IafEntityTags.IMMUNE_TO_GORGON_STONE) || livingEntity.hasStatusEffect(StatusEffects.BLINDNESS);
                 return !isImmune && entity12.canHit() && !livingEntity.isDead() && (entity12 instanceof PlayerEntity || DragonUtils.isAlive(livingEntity));
             }
             return false;

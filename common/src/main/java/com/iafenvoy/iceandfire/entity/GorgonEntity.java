@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.entity;
 
+import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.ai.GorgonAIStareAttackGoal;
 import com.iafenvoy.iceandfire.entity.util.*;
@@ -116,7 +117,7 @@ public class GorgonEntity extends HostileEntity implements IAnimatedEntity, IVil
         this.goalSelector.add(6, new LookAroundGoal(this));
         this.targetSelector.add(1, new RevengeGoal(this));
         this.targetSelector.add(3, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, false, false, LivingEntity::isAlive));
-        this.targetSelector.add(3, new ActiveTargetGoal<>(this, LivingEntity.class, 10, true, false, entity -> entity instanceof LivingEntity && DragonUtils.isAlive(entity) || (entity instanceof IBlacklistedFromStatues blacklisted && blacklisted.canBeTurnedToStone())));
+        this.targetSelector.add(3, new ActiveTargetGoal<>(this, LivingEntity.class, 10, true, false, entity -> entity instanceof LivingEntity && DragonUtils.isAlive(entity) || (entity instanceof BlacklistedFromStatues blacklisted && blacklisted.canBeTurnedToStone())));
         this.goalSelector.remove(this.aiMelee);
     }
 
@@ -128,7 +129,7 @@ public class GorgonEntity extends HostileEntity implements IAnimatedEntity, IVil
 
     @Override
     public boolean tryAttack(Entity entityIn) {
-        boolean blindness = this.hasStatusEffect(StatusEffects.BLINDNESS) || this.getTarget() != null && this.getTarget().hasStatusEffect(StatusEffects.BLINDNESS) || this.getTarget() != null && this.getTarget() instanceof IBlacklistedFromStatues blacklisted && !blacklisted.canBeTurnedToStone();
+        boolean blindness = this.hasStatusEffect(StatusEffects.BLINDNESS) || this.getTarget() != null && this.getTarget().hasStatusEffect(StatusEffects.BLINDNESS) || this.getTarget() != null && this.getTarget() instanceof BlacklistedFromStatues blacklisted && !blacklisted.canBeTurnedToStone();
         if (blindness && this.deathTime == 0) {
             if (this.getAnimation() != ANIMATION_HIT)
                 this.setAnimation(ANIMATION_HIT);
@@ -144,7 +145,7 @@ public class GorgonEntity extends HostileEntity implements IAnimatedEntity, IVil
         if (LivingEntityIn != null && !this.getWorld().isClient) {
 
 
-            boolean blindness = this.hasStatusEffect(StatusEffects.BLINDNESS) || LivingEntityIn.hasStatusEffect(StatusEffects.BLINDNESS) || LivingEntityIn instanceof IBlacklistedFromStatues && !((IBlacklistedFromStatues) LivingEntityIn).canBeTurnedToStone() || isBlindfolded(LivingEntityIn);
+            boolean blindness = this.hasStatusEffect(StatusEffects.BLINDNESS) || LivingEntityIn.hasStatusEffect(StatusEffects.BLINDNESS) || LivingEntityIn instanceof BlacklistedFromStatues && !((BlacklistedFromStatues) LivingEntityIn).canBeTurnedToStone() || isBlindfolded(LivingEntityIn);
             if (blindness && this.deathTime == 0) {
                 this.goalSelector.add(3, this.aiMelee);
                 this.goalSelector.remove(this.aiStare);
@@ -211,7 +212,7 @@ public class GorgonEntity extends HostileEntity implements IAnimatedEntity, IVil
 
 
         if (attackTarget != null && isEntityLookingAt(this, attackTarget, 0.4) && isEntityLookingAt(attackTarget, this, 0.4) && !isBlindfolded(attackTarget)) {
-            boolean blindness = this.hasStatusEffect(StatusEffects.BLINDNESS) || attackTarget.hasStatusEffect(StatusEffects.BLINDNESS) || attackTarget instanceof IBlacklistedFromStatues blacklisted && !blacklisted.canBeTurnedToStone();
+            boolean blindness = this.hasStatusEffect(StatusEffects.BLINDNESS) || attackTarget.hasStatusEffect(StatusEffects.BLINDNESS) || attackTarget instanceof BlacklistedFromStatues blacklisted && !blacklisted.canBeTurnedToStone();
             if (!blindness && this.deathTime == 0) {
                 if (this.getAnimation() != ANIMATION_SCARE) {
                     this.playSound(IafSounds.GORGON_ATTACK.get(), 1, 1);

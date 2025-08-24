@@ -3,7 +3,7 @@ package com.iafenvoy.iceandfire.render.entity;
 import com.iafenvoy.iceandfire.data.SeaSerpent;
 import com.iafenvoy.iceandfire.entity.SeaSerpentEntity;
 import com.iafenvoy.iceandfire.registry.IafRenderers;
-import com.iafenvoy.iceandfire.render.entity.layer.SeaSerpentAncientFeatureRenderer;
+import com.iafenvoy.iceandfire.render.entity.feature.SeaSerpentAncientFeatureRenderer;
 import com.iafenvoy.iceandfire.render.model.animator.SeaSerpentTabulaModelAnimator;
 import com.iafenvoy.uranus.client.model.AdvancedEntityModel;
 import com.iafenvoy.uranus.client.model.util.TabulaModelHandlerHelper;

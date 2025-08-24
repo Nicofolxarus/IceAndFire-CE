@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.entity;
 
 import com.google.common.collect.ImmutableList;
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.entity.util.IBlacklistedFromStatues;
+import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -21,7 +21,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Arm;
 import net.minecraft.world.World;
 
-public class StoneStatueEntity extends LivingEntity implements IBlacklistedFromStatues {
+public class StoneStatueEntity extends LivingEntity implements BlacklistedFromStatues {
     private static final TrackedData<String> TRAPPED_ENTITY_TYPE = DataTracker.registerData(StoneStatueEntity.class, TrackedDataHandlerRegistry.STRING);
     private static final TrackedData<NbtCompound> TRAPPED_ENTITY_DATA = DataTracker.registerData(StoneStatueEntity.class, TrackedDataHandlerRegistry.NBT_COMPOUND);
     private static final TrackedData<Float> TRAPPED_ENTITY_WIDTH = DataTracker.registerData(StoneStatueEntity.class, TrackedDataHandlerRegistry.FLOAT);

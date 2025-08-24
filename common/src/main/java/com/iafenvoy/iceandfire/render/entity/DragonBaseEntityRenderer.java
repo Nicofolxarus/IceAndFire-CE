@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.render.entity;
 
 import com.iafenvoy.iceandfire.data.DragonColor;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
-import com.iafenvoy.iceandfire.render.entity.layer.*;
+import com.iafenvoy.iceandfire.render.entity.feature.*;
 import com.iafenvoy.uranus.client.model.TabulaModel;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;

@@ -9,7 +9,7 @@ import com.iafenvoy.iceandfire.entity.ai.SirenAIFindWaterTargetGoal;
 import com.iafenvoy.iceandfire.entity.ai.SirenAIWanderGoal;
 import com.iafenvoy.iceandfire.entity.util.ChainBuffer;
 import com.iafenvoy.iceandfire.entity.util.IHasCustomizableAttributes;
-import com.iafenvoy.iceandfire.entity.util.IHearsSiren;
+import com.iafenvoy.iceandfire.entity.util.SirenAffectable;
 import com.iafenvoy.iceandfire.entity.util.IVillagerFear;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafParticles;
@@ -50,7 +50,7 @@ import java.util.List;
 
 public class SirenEntity extends HostileEntity implements IAnimatedEntity, IVillagerFear, IHasCustomizableAttributes {
     public static final int SEARCH_RANGE = 32;
-    public static final Predicate<Entity> SIREN_PREY = p_apply_1_ -> (p_apply_1_ instanceof PlayerEntity && !((PlayerEntity) p_apply_1_).isCreative() && !p_apply_1_.isSpectator()) || p_apply_1_ instanceof MerchantEntity || p_apply_1_ instanceof IHearsSiren;
+    public static final Predicate<Entity> SIREN_PREY = entity -> (entity instanceof PlayerEntity && !((PlayerEntity) entity).isCreative() && !entity.isSpectator()) || entity instanceof MerchantEntity || entity instanceof SirenAffectable;
     public static final Animation ANIMATION_BITE = Animation.create(20);
     public static final Animation ANIMATION_PULL = Animation.create(20);
     private static final TrackedData<Integer> HAIR_COLOR = DataTracker.registerData(SirenEntity.class, TrackedDataHandlerRegistry.INTEGER);

@@ -1,7 +1,8 @@
 package com.iafenvoy.iceandfire.entity;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.api.IafEvents;
+import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
+import com.iafenvoy.iceandfire.event.IafEvents;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.ai.*;
 import com.iafenvoy.iceandfire.entity.pathfinding.DeathWormLandNavigation;
@@ -57,7 +58,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.*;
 
 @SuppressWarnings("ALL")
-public class DeathWormEntity extends TameableEntity implements ISyncMount, ICustomCollisions, IBlacklistedFromStatues, IAnimatedEntity, IVillagerFear, IAnimalFear, IGroundMount, IHasCustomizableAttributes, ICustomMoveController {
+public class DeathWormEntity extends TameableEntity implements ISyncMount, ICustomCollisions, BlacklistedFromStatues, IAnimatedEntity, IVillagerFear, IAnimalFear, IGroundMount, IHasCustomizableAttributes, ICustomMoveController {
     public static final Identifier TAN_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/deathworm_tan");
     public static final Identifier WHITE_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/deathworm_white");
     public static final Identifier RED_LOOT = Identifier.of(IceAndFire.MOD_ID, "entities/deathworm_red");

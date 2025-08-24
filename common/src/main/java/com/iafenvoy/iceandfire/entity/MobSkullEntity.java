@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.entity;
 
 import com.iafenvoy.iceandfire.data.IafSkullType;
-import com.iafenvoy.iceandfire.entity.util.IBlacklistedFromStatues;
+import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.IDeadMob;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -23,7 +23,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class MobSkullEntity extends AnimalEntity implements IBlacklistedFromStatues, IDeadMob {
+public class MobSkullEntity extends AnimalEntity implements BlacklistedFromStatues, IDeadMob {
     private static final TrackedData<Float> SKULL_DIRECTION = DataTracker.registerData(MobSkullEntity.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Integer> SKULL_ENUM = DataTracker.registerData(MobSkullEntity.class, TrackedDataHandlerRegistry.INTEGER);
 

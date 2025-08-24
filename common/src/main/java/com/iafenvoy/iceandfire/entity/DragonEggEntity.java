@@ -6,7 +6,7 @@ import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.DragonColor;
 import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.item.block.entity.EggInIceBlockEntity;
-import com.iafenvoy.iceandfire.entity.util.IBlacklistedFromStatues;
+import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.IDeadMob;
 import com.iafenvoy.iceandfire.item.DragonEggItem;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
@@ -37,7 +37,7 @@ import net.minecraft.world.World;
 import java.util.Optional;
 import java.util.UUID;
 
-public class DragonEggEntity extends LivingEntity implements IBlacklistedFromStatues, IDeadMob {
+public class DragonEggEntity extends LivingEntity implements BlacklistedFromStatues, IDeadMob {
     protected static final TrackedData<Optional<UUID>> OWNER_UNIQUE_ID = DataTracker.registerData(DragonEggEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
     private static final TrackedData<String> DRAGON_TYPE = DataTracker.registerData(DragonEggEntity.class, TrackedDataHandlerRegistry.STRING);
     private static final TrackedData<Integer> DRAGON_AGE = DataTracker.registerData(DragonEggEntity.class, TrackedDataHandlerRegistry.INTEGER);
