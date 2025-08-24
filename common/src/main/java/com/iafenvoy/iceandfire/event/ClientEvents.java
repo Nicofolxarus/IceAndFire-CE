@@ -95,7 +95,7 @@ public class ClientEvents {
                 renderer.disablePostProcessor();
             if (sirenData.isCharmed()) {
                 if (entity.getRandom().nextInt(40) == 0) {
-                    Entity e = mc.world.getEntityLookup().get(sirenData.getCharmedByUUID().get());
+                    Entity e = mc.world.entityManager.getLookup().get(sirenData.getCharmedByUUID().get());
                     if (e instanceof SirenEntity siren)
                         entity.getWorld().addParticle(IafParticles.SIREN_APPEARANCE.get(), player.getX(), player.getY(), player.getZ(), siren.getHairColor(), 0, 0);
                 }
@@ -108,9 +108,9 @@ public class ClientEvents {
     public static void onPostRenderLiving(LivingEntity entity, float partialRenderTick, MatrixStack matrixStack, VertexConsumerProvider buffers, int light) {
         MiscData miscData = MiscData.get(entity);
         ClientWorld world = MinecraftClient.getInstance().world;
-        miscData.checkScepterTarget(world.getEntityLookup()::get);
+        miscData.checkScepterTarget(world.entityManager.getLookup()::get);
         for (UUID target : miscData.getTargetedByScepters())
-            CockatriceBeamRenderer.render(entity, world.getEntityLookup().get(target), matrixStack, buffers, partialRenderTick);
+            CockatriceBeamRenderer.render(entity, world.entityManager.getLookup().get(target), matrixStack, buffers, partialRenderTick);
         FrozenData frozenData = FrozenData.get(entity);
         if (frozenData.isFrozen)
             FrozenStateRenderer.render(entity, matrixStack, buffers, light, frozenData.frozenTicks);

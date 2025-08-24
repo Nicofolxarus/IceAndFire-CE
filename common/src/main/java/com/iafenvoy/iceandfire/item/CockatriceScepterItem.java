@@ -124,7 +124,7 @@ public class CockatriceScepterItem extends Item {
             Entity entity = null;
             if (caster.getWorld() instanceof ServerWorld serverWorld) entity = serverWorld.getEntity(uuid);
             else if (caster.getWorld() instanceof ClientWorld clientWorld)
-                entity = clientWorld.getEntityLookup().get(uuid);
+                entity = clientWorld.entityManager.getLookup().get(uuid);
             if (!(entity instanceof LivingEntity target)) continue;
 
             if (!GorgonEntity.isEntityLookingAt(caster, target, 0.2F) || caster.isRemoved() || target.isRemoved()) {

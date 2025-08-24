@@ -31,7 +31,7 @@ public class ChainRenderer {
                 continue;
             }
             if (MinecraftClient.getInstance().world == null) continue;
-            Entity chainTarget = MinecraftClient.getInstance().world.getEntityLookup().get(uuid);
+            Entity chainTarget = MinecraftClient.getInstance().world.entityManager.getLookup().get(uuid);
             if (chainTarget == null) continue;
             try {
                 renderLink(entityLivingIn, matrixStackIn, bufferIn, lightIn, chainTarget);

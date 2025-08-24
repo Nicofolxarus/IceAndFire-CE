@@ -62,8 +62,7 @@ shadowJar {
 }
 
 remapJar {
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
-    archiveClassifier = ""
     atAccessWideners.add("iceandfire.accesswidener")
+    inputFile.set shadowJar.archiveFile
+    dependsOn shadowJar
 }
