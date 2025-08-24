@@ -17,7 +17,7 @@ logoFile = "logo.png"
 [[dependencies.iceandfire]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21,)"
+versionRange = "[21.1.197,)"
 ordering = "NONE"
 side = "BOTH"
 
@@ -31,7 +31,7 @@ side = "BOTH"
 [[dependencies.iceandfire]]
 modId = "uranus"
 type = "required"
-versionRange = "[2,)"
+versionRange = "[2.3.2,)"
 ordering = "NONE"
 side = "BOTH"
 
