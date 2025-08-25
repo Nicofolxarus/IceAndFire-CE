@@ -2,10 +2,11 @@ package com.iafenvoy.iceandfire.network;
 
 import com.iafenvoy.iceandfire.config.IafClientConfig;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
+import com.iafenvoy.iceandfire.entity.util.ISyncMount;
+import com.iafenvoy.iceandfire.event.ClientEvents;
 import com.iafenvoy.iceandfire.item.block.entity.JarBlockEntity;
 import com.iafenvoy.iceandfire.item.block.entity.PixieHouseBlockEntity;
 import com.iafenvoy.iceandfire.item.block.entity.PodiumBlockEntity;
-import com.iafenvoy.iceandfire.entity.util.ISyncMount;
 import com.iafenvoy.iceandfire.network.payload.*;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.block.entity.BlockEntity;
@@ -31,6 +32,7 @@ public class ClientNetworkHelper {
                 }
             }
         });
+        NetworkManager.registerReceiver(NetworkManager.Side.S2C, LightningBoltS2CPayload.ID, LightningBoltS2CPayload.CODEC, (payload, ctx) -> ctx.queue(() -> ClientEvents.LIGHTNINGS.addAll(payload.lightnings())));
         NetworkManager.registerReceiver(NetworkManager.Side.S2C, StartRidingMobS2CPayload.ID, StartRidingMobS2CPayload.CODEC, (payload, ctx) -> {
             GameOptions options = MinecraftClient.getInstance().options;
             PlayerEntity player = ctx.getPlayer();

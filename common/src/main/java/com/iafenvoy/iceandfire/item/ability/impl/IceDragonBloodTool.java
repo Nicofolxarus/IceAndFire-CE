@@ -5,6 +5,7 @@ import com.iafenvoy.iceandfire.item.ability.DamageBonusAbility;
 import com.iafenvoy.iceandfire.item.ability.PostHitAbility;
 import com.iafenvoy.iceandfire.registry.tag.IafEntityTags;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -15,10 +16,10 @@ public class IceDragonBloodTool implements PostHitAbility {
     private final PostHitAbility frozen = new FrozenTargetAbilityImpl(IafCommonConfig.INSTANCE.tools.dragonBloodFrozenDuration.getValue());
 
     @Override
-    public void active(LivingEntity target, LivingEntity attacker) {
-        this.damageBonus.active(target, attacker);
+    public void active(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        this.damageBonus.active(stack, target, attacker);
         if (this.isEnable()) {
-            this.frozen.active(target, attacker);
+            this.frozen.active(stack, target, attacker);
         }
     }
 

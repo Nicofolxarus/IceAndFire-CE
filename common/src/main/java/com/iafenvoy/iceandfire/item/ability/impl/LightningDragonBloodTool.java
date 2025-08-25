@@ -5,6 +5,7 @@ import com.iafenvoy.iceandfire.item.ability.DamageBonusAbility;
 import com.iafenvoy.iceandfire.item.ability.PostHitAbility;
 import com.iafenvoy.iceandfire.registry.tag.IafEntityTags;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -14,11 +15,11 @@ public class LightningDragonBloodTool implements PostHitAbility {
     private final DamageBonusAbility damageBonusFire = new DamageBonusAbilityImpl(4.0F, IafEntityTags.FIRE_DRAGON, null);
     private final DamageBonusAbility damageBonusIce = new DamageBonusAbilityImpl(4.0F, IafEntityTags.ICE_DRAGON, null);
     @Override
-    public void active(LivingEntity target, LivingEntity attacker) {
-        this.damageBonusFire.active(target, attacker);
-        this.damageBonusIce.active(target, attacker);
+    public void active(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        this.damageBonusFire.active(stack, target, attacker);
+        this.damageBonusIce.active(stack, target, attacker);
         if (this.isEnable()) {
-            AbilityImpls.SUMMON_LIGHTNING.active(target, attacker);
+            AbilityImpls.SUMMON_LIGHTNING.active(stack, target, attacker);
         }
     }
 

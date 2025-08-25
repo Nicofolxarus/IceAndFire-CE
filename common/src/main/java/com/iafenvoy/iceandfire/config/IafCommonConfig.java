@@ -107,8 +107,8 @@ public class IafCommonConfig extends AutoInitConfigContainer {
         public final IConfigEntry<Double> maxBreathTimeMul = new DoubleEntry("iceandfire.dragon.maxBreathTimeMul", 2, 0, Integer.MAX_VALUE);
         public final IConfigEntry<Boolean> neutralToPlayer = new BooleanEntry("iceandfire.dragon.neutralToPlayer", false);
         public final IConfigEntry<Boolean> enableBrushDragonScales = new BooleanEntry("iceandfire.dragon.enableBrushDragonScales", true);
-        public final IConfigEntry<Integer> maxBrushScalesDropPerTime = new IntegerEntry("iceandfire.dragon.maxBrushScalesDropPerTime", 2,1,Integer.MAX_VALUE);
-        public final IConfigEntry<Double> brushTimesMul = new DoubleEntry("iceandfire.dragon.brushTimesMul", 1,0,Integer.MAX_VALUE);
+        public final IConfigEntry<Integer> maxBrushScalesDropPerTime = new IntegerEntry("iceandfire.dragon.maxBrushScalesDropPerTime", 2, 1, Integer.MAX_VALUE);
+        public final IConfigEntry<Double> brushTimesMul = new DoubleEntry("iceandfire.dragon.brushTimesMul", 1, 0, Integer.MAX_VALUE);
         public final SeparatorEntry s3 = new SeparatorEntry();
         public final IConfigEntry<Boolean> lootSkull = new BooleanEntry("iceandfire.dragon.loot.skull", true);
         public final IConfigEntry<Boolean> lootHeart = new BooleanEntry("iceandfire.dragon.loot.heart", true);
@@ -283,30 +283,18 @@ public class IafCommonConfig extends AutoInitConfigContainer {
     }
 
     public static class ToolsConfig extends AutoInitConfigCategoryBase {
-        public final IConfigEntry<Boolean> dragonFireAbility = new BooleanEntry(
-                "iceandfire.tools.dragonFireAbility", true
-        );
-        public final IConfigEntry<Boolean> dragonIceAbility = new BooleanEntry(
-                "iceandfire.tools.dragonIceAbility", true
-        );
-        public final IConfigEntry<Boolean> dragonLightningAbility = new BooleanEntry(
-                "iceandfire.tools.dragonLightningAbility", true
-        );
-        public final IConfigEntry<Integer> dragonsteelFireDuration = new IntegerEntry(
-                "iceandfire.tools.dragonsteelFireDuration", 15, 0, Integer.MAX_VALUE
-        );
-        public final IConfigEntry<Integer> dragonBloodFireDuration = new IntegerEntry(
-                "iceandfire.tools.dragonBloodFireDuration", 5, 0, Integer.MAX_VALUE
-        );
-        public final IConfigEntry<Integer> dragonsteelFrozenDuration = new IntegerEntry(
-                "iceandfire.tools.dragonsteelFrozenDuration", 300, 0, Integer.MAX_VALUE
-        );
-        public final IConfigEntry<Integer> dragonBloodFrozenDuration = new IntegerEntry(
-                "iceandfire.tools.dragonBloodFrozenDuration", 100, 0, Integer.MAX_VALUE
-        );
-        public final IConfigEntry<Boolean> phantasmalBladeAbility = new BooleanEntry(
-                "iceandfire.tools.phantasmalBladeAbility", true
-        );
+        public final IConfigEntry<Boolean> dragonFireAbility = new BooleanEntry("iceandfire.tools.dragonFireAbility", true);
+        public final IConfigEntry<Boolean> dragonIceAbility = new BooleanEntry("iceandfire.tools.dragonIceAbility", true);
+        public final IConfigEntry<Boolean> dragonLightningAbility = new BooleanEntry("iceandfire.tools.dragonLightningAbility", true);
+        public final IConfigEntry<Integer> dragonsteelFireDuration = new IntegerEntry("iceandfire.tools.dragonsteelFireDuration", 15, 0, Integer.MAX_VALUE);
+        public final IConfigEntry<Integer> dragonBloodFireDuration = new IntegerEntry("iceandfire.tools.dragonBloodFireDuration", 5, 0, Integer.MAX_VALUE);
+        public final IConfigEntry<Integer> dragonsteelFrozenDuration = new IntegerEntry("iceandfire.tools.dragonsteelFrozenDuration", 300, 0, Integer.MAX_VALUE);
+        public final IConfigEntry<Integer> dragonBloodFrozenDuration = new IntegerEntry("iceandfire.tools.dragonBloodFrozenDuration", 100, 0, Integer.MAX_VALUE);
+        public final IConfigEntry<Boolean> phantasmalBladeAbility = new BooleanEntry("iceandfire.tools.phantasmalBladeAbility", true);
+        public final SeparatorEntry s2 = new SeparatorEntry();
+        public final IConfigEntry<Double> dragonLightningSearchRange = new DoubleEntry("iceandfire.tools.dragonLightningSearchRange", 10, 0, 128);
+        public final IConfigEntry<Double> dragonLightningDamageReduction = new DoubleEntry("iceandfire.tools.dragonLightningDamageReduction", 0.5, 0, 1);
+        public final IConfigEntry<Integer> dragonLightningMaxSearchCount = new IntegerEntry("iceandfire.tools.dragonLightningMaxSearchCount", 10, 0, 1024);
 
         public ToolsConfig() {
             super("tools", "iceandfire.category.tools");
@@ -316,40 +304,18 @@ public class IafCommonConfig extends AutoInitConfigContainer {
     @SuppressWarnings("unused")
     public static class ArmorsConfig extends AutoInitConfigCategoryBase {
         public final IConfigEntry<Double> dragonSteelBaseDamage = new DoubleEntry("iceandfire.armors.dragonSteelBaseDamage", 25, 0, Integer.MAX_VALUE);
-
-        public final IConfigEntry<Double> dragonsteelArmorToughness = new DoubleEntry("iceandfire.armors.dragonsteelArmorToughness", 6, 0, Integer.MAX_VALUE);
-        public final IConfigEntry<Integer> dragonsteelHelmetArmor = new IntegerEntry(
-                "iceandfire.armors.dragonsteelHelmetArmor", 7, 0, Integer.MAX_VALUE
-        );
-        public final IConfigEntry<Integer> dragonsteelHelmetDurability = new IntegerEntry(
-                "iceandfire.armors.dragonsteelHelmetDurability", 1760, 0, Integer.MAX_VALUE
-        );
-        public final IConfigEntry<Integer> dragonsteelChestplateArmor = new IntegerEntry(
-                "iceandfire.armors.dragonsteelChestplateArmor", 12, 0, Integer.MAX_VALUE
-        );
-        public final IConfigEntry<Integer> dragonsteelChestplateDurability = new IntegerEntry(
-                "iceandfire.armors.dragonsteelChestplateDurability", 2560, 0, Integer.MAX_VALUE
-        );
-        public final IConfigEntry<Integer> dragonsteelLeggingsArmor = new IntegerEntry(
-                "iceandfire.armors.dragonsteelLeggingsArmor", 9, 0, Integer.MAX_VALUE
-        );
-        public final IConfigEntry<Integer> dragonsteelLeggingsDurability = new IntegerEntry(
-                "iceandfire.armors.dragonsteelLeggingsDurability", 2400, 0, Integer.MAX_VALUE
-        );
-        public final IConfigEntry<Integer> dragonsteelBootsArmor = new IntegerEntry(
-                "iceandfire.armors.dragonsteelBootsArmor", 6, 0, Integer.MAX_VALUE
-        );
-        public final IConfigEntry<Integer> dragonsteelBootsDurability = new IntegerEntry(
-                "iceandfire.armors.dragonsteelBootsDurability", 2080, 0, Integer.MAX_VALUE
-        );
-        public final IConfigEntry<Integer> dragonsteelArmorEnchantability = new IntegerEntry(
-                "iceandfire.armors.dragonsteelArmorEnchantability", 30, 0, Integer.MAX_VALUE
-        );
-        public final IConfigEntry<Double> dragonsteelArmorKnockbackResistance = new DoubleEntry(
-                "iceandfire.armors.dragonsteelArmorKnockbackResistance", 0.1, 0.0, 0.25
-        );
-
         public final IConfigEntry<Integer> dragonSteelBaseDurability = new IntegerEntry("iceandfire.armors.dragonSteelBaseDurability", 8000, 0, Integer.MAX_VALUE);
+        public final IConfigEntry<Double> dragonsteelArmorToughness = new DoubleEntry("iceandfire.armors.dragonsteelArmorToughness", 6, 0, Integer.MAX_VALUE);
+        public final IConfigEntry<Integer> dragonsteelHelmetArmor = new IntegerEntry("iceandfire.armors.dragonsteelHelmetArmor", 7, 0, Integer.MAX_VALUE);
+        public final IConfigEntry<Integer> dragonsteelHelmetDurability = new IntegerEntry("iceandfire.armors.dragonsteelHelmetDurability", 1760, 0, Integer.MAX_VALUE);
+        public final IConfigEntry<Integer> dragonsteelChestplateArmor = new IntegerEntry("iceandfire.armors.dragonsteelChestplateArmor", 12, 0, Integer.MAX_VALUE);
+        public final IConfigEntry<Integer> dragonsteelChestplateDurability = new IntegerEntry("iceandfire.armors.dragonsteelChestplateDurability", 2560, 0, Integer.MAX_VALUE);
+        public final IConfigEntry<Integer> dragonsteelLeggingsArmor = new IntegerEntry("iceandfire.armors.dragonsteelLeggingsArmor", 9, 0, Integer.MAX_VALUE);
+        public final IConfigEntry<Integer> dragonsteelLeggingsDurability = new IntegerEntry("iceandfire.armors.dragonsteelLeggingsDurability", 2400, 0, Integer.MAX_VALUE);
+        public final IConfigEntry<Integer> dragonsteelBootsArmor = new IntegerEntry("iceandfire.armors.dragonsteelBootsArmor", 6, 0, Integer.MAX_VALUE);
+        public final IConfigEntry<Integer> dragonsteelBootsDurability = new IntegerEntry("iceandfire.armors.dragonsteelBootsDurability", 2080, 0, Integer.MAX_VALUE);
+        public final IConfigEntry<Integer> dragonsteelArmorEnchantability = new IntegerEntry("iceandfire.armors.dragonsteelArmorEnchantability", 30, 0, Integer.MAX_VALUE);
+        public final IConfigEntry<Double> dragonsteelArmorKnockbackResistance = new DoubleEntry("iceandfire.armors.dragonsteelArmorKnockbackResistance", 0.1, 0.0, 0.25);
 
         public ArmorsConfig() {
             super("armors", "iceandfire.category.armors");

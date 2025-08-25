@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.item.ability.impl;
 
+import com.iafenvoy.iceandfire.item.ability.LightningMultihitAbility;
 import com.iafenvoy.iceandfire.item.ability.PostHitAbility;
 import com.iafenvoy.iceandfire.item.ability.SwingHandAbility;
 import net.minecraft.registry.tag.EntityTypeTags;
@@ -16,7 +17,6 @@ public abstract class AbilityImpls {
     public static final PostHitAbility FIRE_DRAGON_BLOOD_TOOL = new FireDragonBloodTool();
     public static final PostHitAbility DRAGONSTEEL_FIRE_TOOL = new DragonsteelFireTool();
     public static final PostHitAbility DRAGONSTEEL_ICE_TOOL = new DragonsteelIceTool();
-    public static final PostHitAbility DRAGONSTEEL_LIGHTNING_TOOL = new DragonsteelLightningTool();
+    public static final PostHitAbility DRAGONSTEEL_LIGHTNING_TOOL = new LightningMultihitAbility();
     public static final PostHitAbility LIGHTNING_DRAGON_BLOOD_TOOL = new LightningDragonBloodTool();
-
 }

@@ -5,6 +5,7 @@ import com.iafenvoy.iceandfire.item.ability.DamageBonusAbility;
 import com.iafenvoy.iceandfire.item.ability.PostHitAbility;
 import com.iafenvoy.iceandfire.registry.tag.IafEntityTags;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -14,11 +15,11 @@ public class FireDragonBloodTool implements PostHitAbility {
     private final DamageBonusAbility damageBonus = new DamageBonusAbilityImpl(8.0F, IafEntityTags.FIRE_DRAGON, null);
     private final PostHitAbility ignite = new IgniteTargetAbilityImpl(IafCommonConfig.INSTANCE.tools.dragonBloodFireDuration.getValue());
     @Override
-    public void active(LivingEntity target, LivingEntity attacker) {
-        this.damageBonus.active(target, attacker);
+    public void active(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        this.damageBonus.active(stack, target, attacker);
         if (this.isEnable()) {
-            this.ignite.active(target, attacker);
-            AbilityImpls.TAKE_KNOCKBACK.active(target, attacker);
+            this.ignite.active(stack, target, attacker);
+            AbilityImpls.TAKE_KNOCKBACK.active(stack, target, attacker);
         }
     }
 

@@ -53,7 +53,8 @@ public class LightningDragonEntityRenderer extends DragonBaseEntityRenderer {
                 float energyScale = 0.4F * lightningDragon.getScaleFactor();
                 LightningBoltData bolt = new LightningBoltData(LightningBoltData.BoltRenderInfo.ELECTRICITY, Vector3d1, Vector3d, 15)
                         .size(0.05F * getBoundedScale(energyScale))
-                        .lifespan(4);
+                        .lifespan(4)
+                        .spawn(LightningBoltData.SpawnFunction.NO_DELAY);
                 this.lightningRenderer.update(null, bolt, partialTicks);
                 matrixStackIn.translate(-lightningDragon.getX(), -lightningDragon.getY(), -lightningDragon.getZ());
                 this.lightningRenderer.render(partialTicks, matrixStackIn, bufferIn);

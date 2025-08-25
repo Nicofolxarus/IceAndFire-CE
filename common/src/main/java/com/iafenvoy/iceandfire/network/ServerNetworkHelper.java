@@ -19,6 +19,7 @@ public class ServerNetworkHelper {
     public static void registerReceivers() {
         if (Platform.getEnvironment() == Env.SERVER) {
             NetworkManager.registerS2CPayloadType(DragonSetBurnBlockPayload.ID, DragonSetBurnBlockPayload.CODEC);
+            NetworkManager.registerS2CPayloadType(LightningBoltS2CPayload.ID, LightningBoltS2CPayload.CODEC);
             NetworkManager.registerS2CPayloadType(StartRidingMobS2CPayload.ID, StartRidingMobS2CPayload.CODEC);
             NetworkManager.registerS2CPayloadType(UpdatePixieHousePayload.ID, UpdatePixieHousePayload.CODEC);
             NetworkManager.registerS2CPayloadType(UpdatePixieJarPayload.ID, UpdatePixieJarPayload.CODEC);

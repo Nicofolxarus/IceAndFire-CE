@@ -3,13 +3,11 @@ package com.iafenvoy.iceandfire.registry;
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.particle.DragonFlameParticleType;
 import com.iafenvoy.iceandfire.particle.DragonFrostParticleType;
-import com.iafenvoy.iceandfire.particle.LightningBoltParticleType;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.particle.ParticleType;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.math.Vec3d;
 
 import java.util.function.Supplier;
 
@@ -26,7 +24,6 @@ public final class IafParticles {
     public static final RegistrySupplier<SimpleParticleType> SERPENT_BUBBLE = register("serpent_bubble", () -> new SimpleParticleType(true));
     public static final RegistrySupplier<SimpleParticleType> SIREN_APPEARANCE = register("siren_appearance", () -> new SimpleParticleType(true));
     public static final RegistrySupplier<SimpleParticleType> SIREN_MUSIC = register("siren_music", () -> new SimpleParticleType(true));
-    public static final RegistrySupplier<LightningBoltParticleType> LIGHTNING_BOLT = register("lightning_bolt", LightningBoltParticleType.builder(Vec3d.ZERO)::build);
 
     private static <T extends ParticleType<?>> RegistrySupplier<T> register(String name, Supplier<T> obj) {
         return REGISTRY.register(name, obj);

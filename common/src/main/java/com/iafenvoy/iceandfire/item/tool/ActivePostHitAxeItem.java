@@ -21,7 +21,7 @@ public class ActivePostHitAxeItem extends AxeItem {
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (this.ability.isEnable()) {
-            this.ability.active(target, attacker);
+            this.ability.active(stack, target, attacker);
         }
         return super.postHit(stack, target, attacker);
     }

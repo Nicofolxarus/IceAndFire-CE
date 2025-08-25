@@ -106,7 +106,6 @@ public final class IafRenderers {
         consumer.accept(new ParticleProviderHolder<>(IafParticles.SERPENT_BUBBLE.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new SerpentBubbleParticle(world, x, y, z, velocityX, velocityY, velocityZ, 1)));
         consumer.accept(new ParticleProviderHolder<>(IafParticles.SIREN_APPEARANCE.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new SirenAppearanceParticle(world, x, y, z, 1)));
         consumer.accept(new ParticleProviderHolder<>(IafParticles.SIREN_MUSIC.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new SirenMusicParticle(world, x, y, z, velocityX, velocityY, velocityZ)));
-        consumer.accept(new ParticleProviderHolder<>(IafParticles.LIGHTNING_BOLT.get(), LightningBoltParticle::new));
     }
 
     public static void registerBlockEntityRenderers() {

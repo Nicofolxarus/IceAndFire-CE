@@ -16,7 +16,8 @@
     "LivingEntityRendererMixin",
     "PlayerEntityRendererMixin",
     "RotatingCubeMapRendererMixin",
-    "TitleScreenMixin"
+    "TitleScreenMixin",
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

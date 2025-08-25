@@ -3,6 +3,7 @@ package com.iafenvoy.iceandfire.item.ability.impl;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.item.ability.PostHitAbility;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -10,9 +11,9 @@ import java.util.List;
 
 public class DragonsteelLightningTool implements PostHitAbility {
     @Override
-    public void active(LivingEntity target, LivingEntity attacker) {
+    public void active(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (this.isEnable()) {
-            AbilityImpls.SUMMON_LIGHTNING.active(target, attacker);
+            AbilityImpls.SUMMON_LIGHTNING.active(stack, target, attacker);
         }
     }
 
