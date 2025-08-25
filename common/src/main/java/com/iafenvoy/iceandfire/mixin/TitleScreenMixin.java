@@ -2,6 +2,9 @@ package com.iafenvoy.iceandfire.mixin;
 
 import com.iafenvoy.iceandfire.config.IafClientConfig;
 import com.iafenvoy.iceandfire.screen.TitleScreenRenderManager;
+import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.SplashTextRenderer;
 import net.minecraft.client.gui.screen.TitleScreen;
@@ -29,5 +32,12 @@ public abstract class TitleScreenMixin extends Screen {
         SplashTextRenderer renderer = TitleScreenRenderManager.getSplash();
         if (renderer != null)
             this.splashText = renderer;
+    }
+
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/LogoDrawer;draw(Lnet/minecraft/client/gui/DrawContext;IF)V"))
+    private void renderModBrand(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci, @Local(ordinal = 2) int i) {
+        if (!IafClientConfig.INSTANCE.customMainMenu.getValue()) return;
+        if (MinecraftClient.getInstance().currentScreen instanceof TitleScreen)
+            TitleScreenRenderManager.drawModName(context, this.width, this.height, 16777215 | i);
     }
 }
