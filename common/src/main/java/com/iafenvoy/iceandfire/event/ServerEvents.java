@@ -15,7 +15,7 @@ import com.iafenvoy.iceandfire.item.DragonHornItem;
 import com.iafenvoy.iceandfire.item.armor.DragonSteelArmorItem;
 import com.iafenvoy.iceandfire.item.armor.ScaleArmorItem;
 import com.iafenvoy.iceandfire.item.armor.TrollArmorItem;
-import com.iafenvoy.iceandfire.network.payload.PlayerHitMultipartPayload;
+import com.iafenvoy.iceandfire.network.payload.PlayerHitMultipartC2SPayload;
 import com.iafenvoy.iceandfire.registry.*;
 import com.iafenvoy.iceandfire.registry.tag.IafEntityTags;
 import com.iafenvoy.uranus.object.RegistryHelper;
@@ -58,7 +58,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-public class ServerEvents {
+public final class ServerEvents {
     public static final UUID ALEX_UUID = UUID.fromString("71363abe-fd03-49c9-940d-aae8b8209b7c");
     public static final String BOLT_DONT_DESTROY_LOOT = "iceandfire.bolt_skip_loot";
     private static final Predicate<LivingEntity> VILLAGER_FEAR = entity -> entity instanceof IVillagerFear fear && fear.shouldFear();
@@ -199,7 +199,7 @@ public class ServerEvents {
                 hydra.triggerHeadFlags(extraData);
             }
             if (mutlipartPart.getWorld().isClient && parent != null)
-                NetworkManager.sendToServer(new PlayerHitMultipartPayload(parent.getId(), extraData));
+                NetworkManager.sendToServer(new PlayerHitMultipartC2SPayload(parent.getId(), extraData));
         }
         if (entity instanceof LivingEntity livingEntity) {
             if (entity.getType().isIn(IafEntityTags.CHICKENS)) signalChickenAlarm(livingEntity, player);

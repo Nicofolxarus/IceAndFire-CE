@@ -7,9 +7,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 
-public interface SummonLightningAbility extends PostHitAbility {
+public class SummonLightningAbility implements PostHitAbility {
     @Override
-    default void active(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public void active(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (this.isEnable()) {
             if (attacker instanceof PlayerEntity && attacker.handSwingProgress > 0.2) {
                 return;

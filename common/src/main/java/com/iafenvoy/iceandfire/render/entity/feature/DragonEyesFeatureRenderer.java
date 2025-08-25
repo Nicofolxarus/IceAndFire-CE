@@ -21,12 +21,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class DragonEyesFeatureRenderer extends FeatureRenderer<DragonBaseEntity, TabulaModel<DragonBaseEntity>> {
+public class DragonEyesFeatureRenderer<T extends DragonBaseEntity> extends FeatureRenderer<T, TabulaModel<T>> {
     private TabulaModel<DragonBaseEntity> fireHead;
     private TabulaModel<DragonBaseEntity> iceHead;
     private TabulaModel<DragonBaseEntity> lightningHead;
 
-    public DragonEyesFeatureRenderer(MobEntityRenderer<DragonBaseEntity, TabulaModel<DragonBaseEntity>> renderIn) {
+    public DragonEyesFeatureRenderer(MobEntityRenderer<T, TabulaModel<T>> renderIn) {
         super(renderIn);
         try {
             this.fireHead = this.onlyKeepCubes(TabulaModelHandlerHelper.getModel(Identifier.of(IceAndFire.MOD_ID, "firedragon/firedragon_ground"), null), Collections.singletonList("HeadFront"));
@@ -101,7 +101,7 @@ public class DragonEyesFeatureRenderer extends FeatureRenderer<DragonBaseEntity,
         return pose.rotationPointX == original.rotationPointX && pose.rotationPointY == original.rotationPointY && pose.rotationPointZ == original.rotationPointZ;
     }
 
-    public void copyPositions(TabulaModel<DragonBaseEntity> model, TabulaModel<DragonBaseEntity> modelTo) {
+    public void copyPositions(TabulaModel<DragonBaseEntity> model, TabulaModel<T> modelTo) {
         for (AdvancedModelBox cube : model.getCubes().values()) {
             AdvancedModelBox modelToCube = modelTo.getCube(cube.boxName);
             if (!this.isAngleEqual(cube, modelToCube)) {

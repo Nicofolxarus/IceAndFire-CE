@@ -10,13 +10,13 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
-public record UpdatePixieJarPayload(BlockPos blockPos, boolean isProducing) implements CustomPayload {
+public record UpdatePixieJarS2CPayload(BlockPos blockPos, boolean isProducing) implements CustomPayload {
     private static final Identifier IDENTIFIER = Identifier.of(IceAndFire.MOD_ID, "update_pixie_jar");
-    public static final Id<UpdatePixieJarPayload> ID = new Id<>(IDENTIFIER);
-    public static final PacketCodec<ByteBuf, UpdatePixieJarPayload> CODEC = PacketCodecs.codec(RecordCodecBuilder.create(i -> i.group(
-            BlockPos.CODEC.fieldOf("blockPos").forGetter(UpdatePixieJarPayload::blockPos),
-            Codec.BOOL.fieldOf("isProducing").forGetter(UpdatePixieJarPayload::isProducing)
-    ).apply(i, UpdatePixieJarPayload::new)));
+    public static final Id<UpdatePixieJarS2CPayload> ID = new Id<>(IDENTIFIER);
+    public static final PacketCodec<ByteBuf, UpdatePixieJarS2CPayload> CODEC = PacketCodecs.codec(RecordCodecBuilder.create(i -> i.group(
+            BlockPos.CODEC.fieldOf("blockPos").forGetter(UpdatePixieJarS2CPayload::blockPos),
+            Codec.BOOL.fieldOf("isProducing").forGetter(UpdatePixieJarS2CPayload::isProducing)
+    ).apply(i, UpdatePixieJarS2CPayload::new)));
 
     @Override
     public Id<? extends CustomPayload> getId() {

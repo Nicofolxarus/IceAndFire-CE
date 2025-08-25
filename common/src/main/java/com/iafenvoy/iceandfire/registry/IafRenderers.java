@@ -39,8 +39,8 @@ public final class IafRenderers {
     public static final Identifier SEA_SERPENT = Identifier.of(IceAndFire.MOD_ID, "seaserpent/seaserpent_base");
 
     public static void registerEntityRenderers() {
-        EntityRendererRegistry.register(IafEntities.FIRE_DRAGON, x -> new DragonBaseEntityRenderer(x, TabulaModelHandlerHelper.getModel(FIRE_DRAGON, new MemorizeSupplier<>(FireDragonTabulaModelAnimator::new))));
-        EntityRendererRegistry.register(IafEntities.ICE_DRAGON, manager -> new DragonBaseEntityRenderer(manager, TabulaModelHandlerHelper.getModel(ICE_DRAGON, new MemorizeSupplier<>(IceDragonTabulaModelAnimator::new))));
+        EntityRendererRegistry.register(IafEntities.FIRE_DRAGON, x -> new DragonBaseEntityRenderer<>(x, TabulaModelHandlerHelper.getModel(FIRE_DRAGON, new MemorizeSupplier<>(FireDragonTabulaModelAnimator::new))));
+        EntityRendererRegistry.register(IafEntities.ICE_DRAGON, manager -> new DragonBaseEntityRenderer<>(manager, TabulaModelHandlerHelper.getModel(ICE_DRAGON, new MemorizeSupplier<>(IceDragonTabulaModelAnimator::new))));
         EntityRendererRegistry.register(IafEntities.LIGHTNING_DRAGON, manager -> new LightningDragonEntityRenderer(manager, TabulaModelHandlerHelper.getModel(LIGHTNING_DRAGON, new MemorizeSupplier<>(LightningTabulaDragonAnimator::new))));
         EntityRendererRegistry.register(IafEntities.DRAGON_EGG, DragonEggEntityRenderer::new);
         EntityRendererRegistry.register(IafEntities.DRAGON_ARROW, DragonArrowEntityRenderer::new);

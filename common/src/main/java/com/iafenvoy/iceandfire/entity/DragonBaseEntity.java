@@ -15,7 +15,7 @@ import com.iafenvoy.iceandfire.item.SummoningCrystalItem;
 import com.iafenvoy.iceandfire.item.block.entity.DragonForgeInputBlockEntity;
 import com.iafenvoy.iceandfire.item.block.util.DragonProof;
 import com.iafenvoy.iceandfire.item.component.DragonSkullComponent;
-import com.iafenvoy.iceandfire.network.payload.DragonSetBurnBlockPayload;
+import com.iafenvoy.iceandfire.network.payload.DragonSetBurnBlockS2CPayload;
 import com.iafenvoy.iceandfire.network.payload.StartRidingMobC2SPayload;
 import com.iafenvoy.iceandfire.network.payload.StartRidingMobS2CPayload;
 import com.iafenvoy.iceandfire.registry.IafDataComponents;
@@ -480,7 +480,7 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
                 this.setBreathingFire(true);
             } else {
                 if (!this.getWorld().isClient)
-                    ServerHelper.sendToAll(new DragonSetBurnBlockPayload(this.getId(), true, this.burningTarget));
+                    ServerHelper.sendToAll(new DragonSetBurnBlockS2CPayload(this.getId(), true, this.burningTarget));
                 this.burningTarget = null;
             }
         }

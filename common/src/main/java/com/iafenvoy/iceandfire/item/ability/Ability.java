@@ -9,5 +9,6 @@ public interface Ability {
         return true;
     }
 
-    default void addDescription(List<Text> tooltip) {}
+    default void addDescription(List<Text> tooltip) {
+    }
 }

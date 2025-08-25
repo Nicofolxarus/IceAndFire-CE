@@ -11,19 +11,19 @@ import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-public class DragonMaleOverlayFeatureRenderer extends FeatureRenderer<DragonBaseEntity, TabulaModel<DragonBaseEntity>> {
-    public DragonMaleOverlayFeatureRenderer(MobEntityRenderer<DragonBaseEntity, TabulaModel<DragonBaseEntity>> renderIn) {
+public class DragonMaleOverlayFeatureRenderer<T extends DragonBaseEntity> extends FeatureRenderer<T, TabulaModel<T>> {
+    public DragonMaleOverlayFeatureRenderer(MobEntityRenderer<T, TabulaModel<T>> renderIn) {
         super(renderIn);
     }
 
     @Override
-    public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn, DragonBaseEntity dragon, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn, T dragon, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (dragon.isMale() && !dragon.isSkeletal())
             this.getContextModel().render(matrixStackIn, bufferIn.getBuffer(RenderLayer.getEntityTranslucent(this.getTexture(dragon))), packedLightIn, OverlayTexture.DEFAULT_UV, -1);
     }
 
     @Override
-    protected Identifier getTexture(DragonBaseEntity dragon) {
+    protected Identifier getTexture(T dragon) {
         return DragonColor.getById(dragon.getVariant()).getMaleOverlay();
     }
 }

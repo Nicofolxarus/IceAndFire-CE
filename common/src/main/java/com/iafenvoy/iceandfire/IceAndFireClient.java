@@ -2,6 +2,7 @@ package com.iafenvoy.iceandfire;
 
 import com.iafenvoy.iceandfire.config.IafClientConfig;
 import com.iafenvoy.iceandfire.event.ClientEvents;
+import com.iafenvoy.iceandfire.event.CommonEvents;
 import com.iafenvoy.iceandfire.network.ClientNetworkHelper;
 import com.iafenvoy.iceandfire.registry.IafKeybindings;
 import com.iafenvoy.iceandfire.registry.IafRenderers;
@@ -31,7 +32,7 @@ public class IceAndFireClient {
         PortalRenderTick.init();
 
         InteractionEvent.INTERACT_ENTITY.register(ClientEvents::onEntityInteract);
-        ClientEvents.LIVING_TICK.register(ClientEvents::onLivingUpdate);
+        CommonEvents.LIVING_TICK.register(ClientEvents::onLivingUpdate);
 
         ClientNetworkHelper.registerReceivers();
     }

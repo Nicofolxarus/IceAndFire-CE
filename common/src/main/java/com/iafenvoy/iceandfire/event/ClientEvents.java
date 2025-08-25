@@ -9,13 +9,12 @@ import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.entity.MultipartPartEntity;
 import com.iafenvoy.iceandfire.entity.SirenEntity;
 import com.iafenvoy.iceandfire.entity.util.ICustomMoveController;
-import com.iafenvoy.iceandfire.network.payload.DragonControlPayload;
+import com.iafenvoy.iceandfire.network.payload.DragonControlC2SPayload;
 import com.iafenvoy.iceandfire.render.misc.CockatriceBeamRenderer;
 import com.iafenvoy.iceandfire.registry.IafKeybindings;
 import com.iafenvoy.iceandfire.registry.IafParticles;
 import com.iafenvoy.iceandfire.render.misc.FrozenStateRenderer;
 import com.iafenvoy.iceandfire.render.misc.ChainRenderer;
-import com.iafenvoy.uranus.event.Event;
 import dev.architectury.event.EventResult;
 import dev.architectury.networking.NetworkManager;
 import net.fabricmc.api.EnvType;
@@ -37,11 +36,9 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.function.Consumer;
 
 @Environment(EnvType.CLIENT)
-public class ClientEvents {
-    public static final Event<Consumer<LivingEntity>> LIVING_TICK = new Event<>(listeners -> living -> listeners.forEach(x -> x.accept(living)));
+public final class ClientEvents {
     private static final Identifier SIREN_SHADER = Identifier.of("iceandfire", "shaders/post/siren.json");
     public static int currentView = 0;
     public static final CopyOnWriteArrayList<Pair<Vec3d, Vec3d>> LIGHTNINGS = new CopyOnWriteArrayList<>();
@@ -73,7 +70,7 @@ public class ClientEvents {
                 moveController.dismount(mc.options.sneakKey.isPressed());
                 byte controlState = moveController.getControlState();
                 if (controlState != previousState)
-                    NetworkManager.sendToServer(new DragonControlPayload(entity.getId(), controlState, entity.getBlockPos()));
+                    NetworkManager.sendToServer(new DragonControlC2SPayload(entity.getId(), controlState, entity.getBlockPos()));
             }
         }
         if (entity instanceof PlayerEntity player && player.getWorld().isClient) {
@@ -87,7 +84,7 @@ public class ClientEvents {
                 controller.strike(IafKeybindings.DRAGON_BREATH.isPressed());
                 byte controlState = controller.getControlState();
                 if (controlState != previousState)
-                    NetworkManager.sendToServer(new DragonControlPayload(vehicle.getId(), controlState, vehicle.getBlockPos()));
+                    NetworkManager.sendToServer(new DragonControlC2SPayload(vehicle.getId(), controlState, vehicle.getBlockPos()));
             }
             GameRenderer renderer = MinecraftClient.getInstance().gameRenderer;
             SirenData sirenData = SirenData.get(player);

@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.item.block.entity;
 
 import com.iafenvoy.iceandfire.entity.PixieEntity;
-import com.iafenvoy.iceandfire.network.payload.UpdatePixieHousePayload;
+import com.iafenvoy.iceandfire.network.payload.UpdatePixieHouseS2CPayload;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafEntities;
@@ -114,6 +114,6 @@ public class PixieHouseBlockEntity extends BlockEntity {
         this.hasPixie = false;
         this.pixieType = 0;
         if (!this.world.isClient)
-            ServerHelper.sendToAll(new UpdatePixieHousePayload(this.pos, false, 0));
+            ServerHelper.sendToAll(new UpdatePixieHouseS2CPayload(this.pos, false, 0));
     }
 }

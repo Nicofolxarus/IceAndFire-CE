@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.item.ability;
 
+import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.GhostSwordEntity;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import net.minecraft.component.DataComponentTypes;
@@ -16,9 +17,14 @@ import net.minecraft.util.Hand;
 
 import java.util.List;
 
-public interface SummonGhostSwordAbility extends SwingHandAbility {
+public class SummonGhostSwordAbility implements SwingHandAbility {
     @Override
-    default void active(LivingEntity attacker) {
+    public boolean isEnable() {
+        return IafCommonConfig.INSTANCE.tools.phantasmalBladeAbility.getValue();
+    }
+
+    @Override
+    public void active(LivingEntity attacker) {
         if (attacker instanceof PlayerEntity playerEntity) {
             ItemStack stack = playerEntity.getStackInHand(Hand.MAIN_HAND);
             if (playerEntity.getItemCooldownManager().isCoolingDown(stack.getItem())) {
@@ -39,7 +45,7 @@ public interface SummonGhostSwordAbility extends SwingHandAbility {
     }
 
     @Override
-    default void addDescription(List<Text> tooltip) {
+    public void addDescription(List<Text> tooltip) {
         tooltip.add(Text.translatable("item.iceandfire.ghost_sword.desc_0").formatted(Formatting.GRAY));
     }
 }

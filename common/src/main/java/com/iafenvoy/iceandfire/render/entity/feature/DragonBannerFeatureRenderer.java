@@ -1,6 +1,7 @@
 package com.iafenvoy.iceandfire.render.entity.feature;
 
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
+import com.iafenvoy.iceandfire.render.entity.DragonBaseEntityRenderer;
 import com.iafenvoy.uranus.client.model.AdvancedModelBox;
 import com.iafenvoy.uranus.client.model.TabulaModel;
 import net.minecraft.client.MinecraftClient;
@@ -17,16 +18,16 @@ import net.minecraft.util.math.RotationAxis;
 
 import java.util.stream.StreamSupport;
 
-public class DragonBannerFeatureRenderer extends FeatureRenderer<DragonBaseEntity, TabulaModel<DragonBaseEntity>> {
-    private final FeatureRendererContext<DragonBaseEntity, TabulaModel<DragonBaseEntity>> renderer;
+public class DragonBannerFeatureRenderer<T extends DragonBaseEntity> extends FeatureRenderer<T, TabulaModel<T>> {
+    private final FeatureRendererContext<T, TabulaModel<T>> renderer;
 
-    public DragonBannerFeatureRenderer(FeatureRendererContext<DragonBaseEntity, TabulaModel<DragonBaseEntity>> renderIn) {
+    public DragonBannerFeatureRenderer(FeatureRendererContext<T, TabulaModel<T>> renderIn) {
         super(renderIn);
         this.renderer = renderIn;
     }
 
     @Override
-    public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn, DragonBaseEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         ItemStack itemstack = entity.getStackInHand(Hand.OFF_HAND);
         matrixStackIn.push();
         if (!itemstack.isEmpty() && itemstack.getItem() instanceof BannerItem) {

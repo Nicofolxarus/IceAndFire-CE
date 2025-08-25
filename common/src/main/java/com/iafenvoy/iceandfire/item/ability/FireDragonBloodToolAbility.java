@@ -1,8 +1,6 @@
-package com.iafenvoy.iceandfire.item.ability.impl;
+package com.iafenvoy.iceandfire.item.ability;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.item.ability.DamageBonusAbility;
-import com.iafenvoy.iceandfire.item.ability.PostHitAbility;
 import com.iafenvoy.iceandfire.registry.tag.IafEntityTags;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -11,15 +9,16 @@ import net.minecraft.util.Formatting;
 
 import java.util.List;
 
-public class FireDragonBloodTool implements PostHitAbility {
-    private final DamageBonusAbility damageBonus = new DamageBonusAbilityImpl(8.0F, IafEntityTags.FIRE_DRAGON, null);
-    private final PostHitAbility ignite = new IgniteTargetAbilityImpl(IafCommonConfig.INSTANCE.tools.dragonBloodFireDuration.getValue());
+public class FireDragonBloodToolAbility implements PostHitAbility {
+    private final DamageBonusAbility damageBonus = new DamageBonusAbility(8.0F, IafEntityTags.FIRE_DRAGON, null);
+    private final PostHitAbility ignite = new IgniteTargetAbility(IafCommonConfig.INSTANCE.tools.dragonBloodFireDuration.getValue());
+
     @Override
     public void active(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         this.damageBonus.active(stack, target, attacker);
         if (this.isEnable()) {
             this.ignite.active(stack, target, attacker);
-            AbilityImpls.TAKE_KNOCKBACK.active(stack, target, attacker);
+            BuiltinAbilities.TAKE_KNOCKBACK.active(stack, target, attacker);
         }
     }
 

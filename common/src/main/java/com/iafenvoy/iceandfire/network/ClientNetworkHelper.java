@@ -22,7 +22,7 @@ public class ClientNetworkHelper {
     private static Perspective prev = Perspective.FIRST_PERSON;
 
     public static void registerReceivers() {
-        NetworkManager.registerReceiver(NetworkManager.Side.S2C, DragonSetBurnBlockPayload.ID, DragonSetBurnBlockPayload.CODEC, (payload, ctx) -> {
+        NetworkManager.registerReceiver(NetworkManager.Side.S2C, DragonSetBurnBlockS2CPayload.ID, DragonSetBurnBlockS2CPayload.CODEC, (payload, ctx) -> {
             PlayerEntity player = ctx.getPlayer();
             if (player != null) {
                 Entity entity = player.getWorld().getEntityById(payload.entityId());
@@ -61,7 +61,7 @@ public class ClientNetworkHelper {
                 }
             }
         });
-        NetworkManager.registerReceiver(NetworkManager.Side.S2C, UpdatePixieHousePayload.ID, UpdatePixieHousePayload.CODEC, (payload, ctx) -> {
+        NetworkManager.registerReceiver(NetworkManager.Side.S2C, UpdatePixieHouseS2CPayload.ID, UpdatePixieHouseS2CPayload.CODEC, (payload, ctx) -> {
             PlayerEntity player = ctx.getPlayer();
             if (player != null) {
                 BlockEntity blockEntity = player.getWorld().getBlockEntity(payload.blockPos());
@@ -74,13 +74,13 @@ public class ClientNetworkHelper {
                 }
             }
         });
-        NetworkManager.registerReceiver(NetworkManager.Side.S2C, UpdatePixieJarPayload.ID, UpdatePixieJarPayload.CODEC, (payload, ctx) -> {
+        NetworkManager.registerReceiver(NetworkManager.Side.S2C, UpdatePixieJarS2CPayload.ID, UpdatePixieJarS2CPayload.CODEC, (payload, ctx) -> {
             PlayerEntity player = ctx.getPlayer();
             if (player != null)
                 if (player.getWorld().getBlockEntity(payload.blockPos()) instanceof JarBlockEntity jar)
                     jar.hasProduced = payload.isProducing();
         });
-        NetworkManager.registerReceiver(NetworkManager.Side.S2C, UpdatePodiumPayload.ID, UpdatePodiumPayload.CODEC, (payload, ctx) -> {
+        NetworkManager.registerReceiver(NetworkManager.Side.S2C, UpdatePodiumS2CPayload.ID, UpdatePodiumS2CPayload.CODEC, (payload, ctx) -> {
             PlayerEntity player = ctx.getPlayer();
             if (player != null)
                 if (player.getWorld().getBlockEntity(payload.blockPos()) instanceof PodiumBlockEntity podium)

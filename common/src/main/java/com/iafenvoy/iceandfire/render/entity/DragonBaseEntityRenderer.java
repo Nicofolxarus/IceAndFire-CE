@@ -10,14 +10,14 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 
-public class DragonBaseEntityRenderer extends MobEntityRenderer<DragonBaseEntity, TabulaModel<DragonBaseEntity>> {
-    public DragonBaseEntityRenderer(EntityRendererFactory.Context context, TabulaModel<DragonBaseEntity> model) {
+public class DragonBaseEntityRenderer<T extends DragonBaseEntity> extends MobEntityRenderer<T, TabulaModel<T>> {
+    public DragonBaseEntityRenderer(EntityRendererFactory.Context context, TabulaModel<T> model) {
         super(context, model, 0.025F);
-        this.addFeature(new DragonMaleOverlayFeatureRenderer(this));
-        this.addFeature(new DragonEyesFeatureRenderer(this));
-        this.addFeature(new DragonRiderFeatureRenderer(this, false));
-        this.addFeature(new DragonBannerFeatureRenderer(this));
-        this.addFeature(new DragonArmorFeatureRenderer(this));
+        this.addFeature(new DragonMaleOverlayFeatureRenderer<>(this));
+        this.addFeature(new DragonEyesFeatureRenderer<>(this));
+        this.addFeature(new DragonRiderFeatureRenderer<>(this, false));
+        this.addFeature(new DragonBannerFeatureRenderer<>(this));
+        this.addFeature(new DragonArmorFeatureRenderer<>(this));
     }
 
     @Override

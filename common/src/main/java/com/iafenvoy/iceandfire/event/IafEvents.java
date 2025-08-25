@@ -4,7 +4,7 @@ import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.uranus.event.Event;
 import net.minecraft.entity.LivingEntity;
 
-public class IafEvents {
+public final class IafEvents {
     public static final Event<GriefBreakBlock> ON_GRIEF_BREAK_BLOCK = new Event<>(callbacks -> (griefer, targetX, targetY, targetZ) -> {
         for (GriefBreakBlock callback : callbacks)
             if (callback.onBreakBlock(griefer, targetX, targetY, targetZ))

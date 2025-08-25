@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.entity;
 
-import com.iafenvoy.iceandfire.network.payload.MultipartInteractPayload;
+import com.iafenvoy.iceandfire.network.payload.MultipartInteractC2SPayload;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -220,7 +220,7 @@ public abstract class MultipartPartEntity extends Entity implements Tameable {
     public ActionResult interact(PlayerEntity player, Hand hand) {
         Entity parent = this.getParent();
         if (this.getWorld().isClient && this.getParentId() != null)
-            NetworkManager.sendToServer(new MultipartInteractPayload(this.getParentId(), 0));
+            NetworkManager.sendToServer(new MultipartInteractC2SPayload(this.getParentId(), 0));
         return parent != null ? parent.interact(player, hand) : ActionResult.PASS;
     }
 
@@ -228,7 +228,7 @@ public abstract class MultipartPartEntity extends Entity implements Tameable {
     public boolean damage(DamageSource source, float damage) {
         Entity parent = this.getParent();
         if (this.getWorld().isClient && this.getParentId() != null && source.getAttacker() instanceof PlayerEntity)
-            NetworkManager.sendToServer(new MultipartInteractPayload(this.getParentId(), damage * this.damageMultiplier));
+            NetworkManager.sendToServer(new MultipartInteractC2SPayload(this.getParentId(), damage * this.damageMultiplier));
         return parent != null && parent.damage(source, damage * this.damageMultiplier);
     }
 

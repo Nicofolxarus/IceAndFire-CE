@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.item.block.entity;
 
 import com.iafenvoy.iceandfire.item.DragonEggItem;
-import com.iafenvoy.iceandfire.network.payload.UpdatePodiumPayload;
+import com.iafenvoy.iceandfire.network.payload.UpdatePodiumS2CPayload;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
 import com.iafenvoy.iceandfire.screen.handler.PodiumScreenHandler;
 import com.iafenvoy.uranus.ServerHelper;
@@ -79,7 +79,7 @@ public class PodiumBlockEntity extends LockableContainerBlockEntity implements S
             stack.setCount(this.getMaxCountPerStack());
         assert this.world != null;
         if (!this.world.isClient)
-            ServerHelper.sendToAll(new UpdatePodiumPayload(this.getPos(), this.stacks.getFirst()));
+            ServerHelper.sendToAll(new UpdatePodiumS2CPayload(this.getPos(), this.stacks.getFirst()));
     }
 
     @Override

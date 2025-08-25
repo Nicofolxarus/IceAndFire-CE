@@ -1,8 +1,8 @@
 package com.iafenvoy.iceandfire.item.block.entity;
 
 import com.iafenvoy.iceandfire.entity.PixieEntity;
-import com.iafenvoy.iceandfire.network.payload.UpdatePixieHousePayload;
-import com.iafenvoy.iceandfire.network.payload.UpdatePixieJarPayload;
+import com.iafenvoy.iceandfire.network.payload.UpdatePixieHouseS2CPayload;
+import com.iafenvoy.iceandfire.network.payload.UpdatePixieJarS2CPayload;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafParticles;
@@ -62,11 +62,11 @@ public class JarBlockEntity extends BlockEntity {
         if (entityJar.ticksExisted % 24000 == 0 && !entityJar.hasProduced && entityJar.hasPixie) {
             entityJar.hasProduced = true;
             if (!level.isClient)
-                ServerHelper.sendToAll(new UpdatePixieJarPayload(pos, true));
+                ServerHelper.sendToAll(new UpdatePixieJarS2CPayload(pos, true));
         }
         if (entityJar.hasPixie && entityJar.hasProduced != entityJar.prevHasProduced && entityJar.ticksExisted > 5) {
             if (!level.isClient)
-                ServerHelper.sendToAll(new UpdatePixieJarPayload(pos, entityJar.hasProduced));
+                ServerHelper.sendToAll(new UpdatePixieJarS2CPayload(pos, entityJar.hasProduced));
             else
                 level.playSound(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5, IafSounds.PIXIE_HURT.get(), SoundCategory.BLOCKS, 1, 1, false);
         }
@@ -123,6 +123,6 @@ public class JarBlockEntity extends BlockEntity {
         this.hasPixie = false;
         this.pixieType = 0;
         if (!this.world.isClient)
-            ServerHelper.sendToAll(new UpdatePixieHousePayload(this.pos, false, 0));
+            ServerHelper.sendToAll(new UpdatePixieHouseS2CPayload(this.pos, false, 0));
     }
 }

@@ -18,15 +18,15 @@ import net.minecraft.util.math.BlockPos;
 public class ServerNetworkHelper {
     public static void registerReceivers() {
         if (Platform.getEnvironment() == Env.SERVER) {
-            NetworkManager.registerS2CPayloadType(DragonSetBurnBlockPayload.ID, DragonSetBurnBlockPayload.CODEC);
+            NetworkManager.registerS2CPayloadType(DragonSetBurnBlockS2CPayload.ID, DragonSetBurnBlockS2CPayload.CODEC);
             NetworkManager.registerS2CPayloadType(LightningBoltS2CPayload.ID, LightningBoltS2CPayload.CODEC);
             NetworkManager.registerS2CPayloadType(StartRidingMobS2CPayload.ID, StartRidingMobS2CPayload.CODEC);
-            NetworkManager.registerS2CPayloadType(UpdatePixieHousePayload.ID, UpdatePixieHousePayload.CODEC);
-            NetworkManager.registerS2CPayloadType(UpdatePixieJarPayload.ID, UpdatePixieJarPayload.CODEC);
-            NetworkManager.registerS2CPayloadType(UpdatePodiumPayload.ID, UpdatePodiumPayload.CODEC);
+            NetworkManager.registerS2CPayloadType(UpdatePixieHouseS2CPayload.ID, UpdatePixieHouseS2CPayload.CODEC);
+            NetworkManager.registerS2CPayloadType(UpdatePixieJarS2CPayload.ID, UpdatePixieJarS2CPayload.CODEC);
+            NetworkManager.registerS2CPayloadType(UpdatePodiumS2CPayload.ID, UpdatePodiumS2CPayload.CODEC);
         }
 
-        NetworkManager.registerReceiver(NetworkManager.Side.C2S, DragonControlPayload.ID, DragonControlPayload.CODEC, (payload, ctx) -> {
+        NetworkManager.registerReceiver(NetworkManager.Side.C2S, DragonControlC2SPayload.ID, DragonControlC2SPayload.CODEC, (payload, ctx) -> {
             PlayerEntity player = ctx.getPlayer();
             if (player != null) {
                 Entity entity = player.getWorld().getEntityById(payload.dragonId());
@@ -66,7 +66,7 @@ public class ServerNetworkHelper {
                 }
             }
         });
-        NetworkManager.registerReceiver(NetworkManager.Side.C2S, MultipartInteractPayload.ID, MultipartInteractPayload.CODEC, (payload, ctx) -> {
+        NetworkManager.registerReceiver(NetworkManager.Side.C2S, MultipartInteractC2SPayload.ID, MultipartInteractC2SPayload.CODEC, (payload, ctx) -> {
             PlayerEntity player = ctx.getPlayer();
             ctx.queue(() -> {
                 if (player != null && player.getWorld() instanceof ServerWorld serverWorld) {
@@ -82,7 +82,7 @@ public class ServerNetworkHelper {
                 }
             });
         });
-        NetworkManager.registerReceiver(NetworkManager.Side.C2S, PlayerHitMultipartPayload.ID, PlayerHitMultipartPayload.CODEC, (payload, ctx) -> {
+        NetworkManager.registerReceiver(NetworkManager.Side.C2S, PlayerHitMultipartC2SPayload.ID, PlayerHitMultipartC2SPayload.CODEC, (payload, ctx) -> {
             PlayerEntity player = ctx.getPlayer();
             if (player != null) {
                 Entity entity = player.getWorld().getEntityById(payload.entityId());

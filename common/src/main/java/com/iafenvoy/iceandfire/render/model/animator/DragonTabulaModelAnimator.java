@@ -1,23 +1,29 @@
 package com.iafenvoy.iceandfire.render.model.animator;
 
+import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.render.model.util.DragonPoses;
+import com.iafenvoy.iceandfire.render.model.util.IEnumDragonModelTypes;
+import com.iafenvoy.iceandfire.render.model.util.IEnumDragonPoses;
 import com.iafenvoy.iceandfire.render.model.util.LegArticulator;
 import com.iafenvoy.uranus.client.model.AdvancedModelBox;
 import com.iafenvoy.uranus.client.model.ITabulaModelAnimator;
 import com.iafenvoy.uranus.client.model.TabulaModel;
+import com.iafenvoy.uranus.client.model.util.TabulaModelHandlerHelper;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public abstract class DragonTabulaModelAnimator extends IceAndFireTabulaModelAnimator<DragonBaseEntity> implements ITabulaModelAnimator<DragonBaseEntity> {
+public abstract class DragonTabulaModelAnimator<T extends DragonBaseEntity> extends IceAndFireTabulaModelAnimator<T> implements ITabulaModelAnimator<T> {
     //FIXME::Will not reload
-    private final Map<DragonPoses, TabulaModel<DragonBaseEntity>> CACHES = new LinkedHashMap<>();
-    protected TabulaModel<DragonBaseEntity>[] walkPoses;
-    protected TabulaModel<DragonBaseEntity>[] flyPoses;
-    protected TabulaModel<DragonBaseEntity>[] swimPoses;
+    private final Map<DragonPoses, TabulaModel<T>> modelCache = new LinkedHashMap<>();
+    protected final IEnumDragonModelTypes modelType;
+    protected TabulaModel<T>[] walkPoses;
+    protected TabulaModel<T>[] flyPoses;
+    protected TabulaModel<T>[] swimPoses;
     protected AdvancedModelBox[] neckParts;
     protected AdvancedModelBox[] tailParts;
     protected AdvancedModelBox[] tailPartsWBody;
@@ -26,11 +32,16 @@ public abstract class DragonTabulaModelAnimator extends IceAndFireTabulaModelAni
     protected AdvancedModelBox[] clawL;
     protected AdvancedModelBox[] clawR;
 
-    public DragonTabulaModelAnimator(TabulaModel<DragonBaseEntity> baseModel) {
-        super(baseModel);
+    public DragonTabulaModelAnimator(IEnumDragonPoses pose, IEnumDragonModelTypes modelType) {
+        super(TabulaModelHandlerHelper.getModel(buildId(pose, modelType)));
+        this.modelType = modelType;
     }
 
-    public void init(TabulaModel<DragonBaseEntity> model) {
+    public static Identifier buildId(IEnumDragonPoses pose, IEnumDragonModelTypes modelType) {
+        return Identifier.of(IceAndFire.MOD_ID, modelType.getModelType() + "dragon/" + modelType.getModelType() + "dragon_" + pose.getPose());
+    }
+
+    public void init(TabulaModel<T> model) {
         this.neckParts = new AdvancedModelBox[]{model.getCube("Neck1"), model.getCube("Neck2"), model.getCube("Neck3"), model.getCube("Head")};
         this.tailParts = new AdvancedModelBox[]{model.getCube("Tail1"), model.getCube("Tail2"), model.getCube("Tail3"), model.getCube("Tail4")};
         this.tailPartsWBody = new AdvancedModelBox[]{model.getCube("BodyLower"), model.getCube("Tail1"), model.getCube("Tail2"), model.getCube("Tail3"), model.getCube("Tail4")};
@@ -41,11 +52,10 @@ public abstract class DragonTabulaModelAnimator extends IceAndFireTabulaModelAni
     }
 
     @Override
-    public void setRotationAngles(TabulaModel<DragonBaseEntity> model, DragonBaseEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float rotationYaw, float rotationPitch, float scale) {
+    public void setRotationAngles(TabulaModel<T> model, T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float rotationYaw, float rotationPitch, float scale) {
         model.resetToDefaultPose();
-        if (this.neckParts == null)
-            this.init(model);
-        this.animate(model, entity, limbSwing, limbSwingAmount, ageInTicks, rotationYaw, rotationPitch, scale);
+        if (this.neckParts == null) this.init(model);
+        this.animate(model, entity);
 
         boolean walking = !entity.isHovering() && !entity.isFlying() && entity.hoverProgress <= 0 && entity.flyProgress <= 0;
         boolean swimming = entity.isTouchingWater() && entity.swimProgress > 0;
@@ -55,8 +65,8 @@ public abstract class DragonTabulaModelAnimator extends IceAndFireTabulaModelAni
         int prevIndex = currentIndex - 1;
         if (prevIndex < 0) prevIndex = swimming ? 4 : walking ? 3 : 5;
 
-        TabulaModel<DragonBaseEntity> currentPosition = swimming ? this.swimPoses[currentIndex] : walking ? this.walkPoses[currentIndex] : this.flyPoses[currentIndex];
-        TabulaModel<DragonBaseEntity> prevPosition = swimming ? this.swimPoses[prevIndex] : walking ? this.walkPoses[prevIndex] : this.flyPoses[prevIndex];
+        TabulaModel<T> currentPosition = swimming ? this.swimPoses[currentIndex] : walking ? this.walkPoses[currentIndex] : this.flyPoses[currentIndex];
+        TabulaModel<T> prevPosition = swimming ? this.swimPoses[prevIndex] : walking ? this.walkPoses[prevIndex] : this.flyPoses[prevIndex];
         float delta = ((walking ? entity.walkCycle : entity.flightCycle) / 10.0F) % 1.0F;
         if (swimming) delta = (entity.swimCycle / 10.0F) % 1.0F;
         float partialTick = MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false);
@@ -72,7 +82,7 @@ public abstract class DragonTabulaModelAnimator extends IceAndFireTabulaModelAni
 
         if (entity.isModelDead()) {
             for (AdvancedModelBox cube : model.getCubes().values())
-                this.setRotationsLoopDeath(model, entity, limbSwingAmount, walking, currentPosition, prevPosition, partialTick, deltaTicks, cube);
+                this.setRotationsLoopDeath(entity, partialTick, cube);
             return;
         }
 
@@ -140,7 +150,7 @@ public abstract class DragonTabulaModelAnimator extends IceAndFireTabulaModelAni
     }
 
 
-    private void setRotationsLoop(TabulaModel<DragonBaseEntity> model, DragonBaseEntity entity, float limbSwingAmount, boolean walking, TabulaModel<DragonBaseEntity> currentPosition, TabulaModel<DragonBaseEntity> prevPosition, float partialTick, float deltaTicks, AdvancedModelBox cube) {
+    private void setRotationsLoop(TabulaModel<T> model, T entity, float limbSwingAmount, boolean walking, TabulaModel<T> currentPosition, TabulaModel<T> prevPosition, float partialTick, float deltaTicks, AdvancedModelBox cube) {
         this.genderMob(entity, cube);
         if (walking && entity.flyProgress <= 0.0F && entity.hoverProgress <= 0.0F && entity.modelDeadProgress <= 0.0F) {
             AdvancedModelBox walkPart = this.getModel(DragonPoses.GROUND_POSE).getCube(cube.boxName);
@@ -206,13 +216,13 @@ public abstract class DragonTabulaModelAnimator extends IceAndFireTabulaModelAni
         }
     }
 
-    public void setRotationsLoopDeath(TabulaModel<DragonBaseEntity> model, DragonBaseEntity entity, float limbSwingAmount, boolean walking, TabulaModel<DragonBaseEntity> currentPosition, TabulaModel<DragonBaseEntity> prevPosition, float partialTick, float deltaTicks, AdvancedModelBox cube) {
+    public void setRotationsLoopDeath(DragonBaseEntity entity, float partialTick, AdvancedModelBox cube) {
         if (entity.modelDeadProgress > 0.0F) {
             // TODO: Figure out what's up with custom poses
             // DON'T use this in it's current state since it heavily effects render performance due to the fact that
             // custom poses aren't being used right now
             // TabulaModel customPose = customPose(entity);
-            TabulaModel<DragonBaseEntity> pose = this.getModel(DragonPoses.DEAD);
+            TabulaModel<T> pose = this.getModel(DragonPoses.DEAD);
             if (!this.isRotationEqual(cube, pose.getCube(cube.boxName)))
                 this.transitionTo(cube, pose.getCube(cube.boxName), entity.prevModelDeadProgress + (entity.modelDeadProgress - entity.prevModelDeadProgress) * MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false), 20, cube.boxName.equals("ThighR") || cube.boxName.equals("ThighL"));
             //Ugly hack to make sure ice dragon models are touching the ground when dead
@@ -222,7 +232,7 @@ public abstract class DragonTabulaModelAnimator extends IceAndFireTabulaModelAni
         }
     }
 
-    protected boolean isWing(TabulaModel<DragonBaseEntity> model, AdvancedModelBox modelRenderer) {
+    protected boolean isWing(TabulaModel<T> model, AdvancedModelBox modelRenderer) {
         return model.getCube("armL1") == modelRenderer || model.getCube("armR1") == modelRenderer || model.getCube("armL1").childModels.contains(modelRenderer) || model.getCube("armR1").childModels.contains(modelRenderer);
     }
 
@@ -230,10 +240,10 @@ public abstract class DragonTabulaModelAnimator extends IceAndFireTabulaModelAni
         return modelRenderer.boxName.contains("Horn");
     }
 
-    protected void genderMob(DragonBaseEntity entity, AdvancedModelBox cube) {
+    protected void genderMob(T entity, AdvancedModelBox cube) {
         if (!entity.isMale()) {
-            TabulaModel<DragonBaseEntity> maleModel = this.getModel(DragonPoses.MALE);
-            TabulaModel<DragonBaseEntity> femaleModel = this.getModel(DragonPoses.FEMALE);
+            TabulaModel<T> maleModel = this.getModel(DragonPoses.MALE);
+            TabulaModel<T> femaleModel = this.getModel(DragonPoses.FEMALE);
             AdvancedModelBox femaleModelCube = femaleModel.getCube(cube.boxName);
             AdvancedModelBox maleModelCube = maleModel.getCube(cube.boxName);
             if (maleModelCube == null || femaleModelCube == null) return;
@@ -245,16 +255,14 @@ public abstract class DragonTabulaModelAnimator extends IceAndFireTabulaModelAni
         }
     }
 
-    protected TabulaModel<DragonBaseEntity> getModel(DragonPoses pose) {
-        if (this.CACHES.containsKey(pose)) return this.CACHES.get(pose);
-        TabulaModel<DragonBaseEntity> model = this.getModelInternal(pose);
-        this.CACHES.put(pose, model);
+    protected TabulaModel<T> getModel(DragonPoses pose) {
+        if (this.modelCache.containsKey(pose)) return this.modelCache.get(pose);
+        TabulaModel<T> model = TabulaModelHandlerHelper.getModel(buildId(pose, this.modelType));
+        this.modelCache.put(pose, model);
         return model;
     }
 
-    protected abstract TabulaModel<DragonBaseEntity> getModelInternal(DragonPoses pose);
-
-    protected void animate(TabulaModel<DragonBaseEntity> model, DragonBaseEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float rotationYaw, float rotationPitch, float scale) {
+    protected void animate(TabulaModel<T> model, DragonBaseEntity entity) {
         AdvancedModelBox modelCubeJaw = model.getCube("Jaw");
         AdvancedModelBox modelCubeBodyUpper = model.getCube("BodyUpper");
         model.animator.startAnimate(entity);

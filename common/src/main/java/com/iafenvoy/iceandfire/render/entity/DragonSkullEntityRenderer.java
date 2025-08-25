@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DragonSkullEntityRenderer extends EntityRenderer<DragonSkullEntity> {
-    public static final Map<DragonType, Pair<Identifier, MemorizeSupplier<ITabulaModelAnimator<DragonBaseEntity>>>> MODELS = new HashMap<>();
+    public static final Map<DragonType, Pair<Identifier, MemorizeSupplier<ITabulaModelAnimator<? extends DragonBaseEntity>>>> MODELS = new HashMap<>();
     public static final float[] growth_stage_1 = new float[]{1F, 3F};
     public static final float[] growth_stage_2 = new float[]{3F, 7F};
     public static final float[] growth_stage_3 = new float[]{7F, 12.5F};
@@ -55,10 +55,10 @@ public class DragonSkullEntityRenderer extends EntityRenderer<DragonSkullEntity>
 
     @Override
     public void render(DragonSkullEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn) {
-        Pair<Identifier, MemorizeSupplier<ITabulaModelAnimator<DragonBaseEntity>>> p = MODELS.get(DragonType.getTypeById(entity.getDragonType()));
-        TabulaModel<DragonBaseEntity> model = TabulaModelHandlerHelper.getModel(p.getFirst(), p.getSecond());
+        Pair<Identifier, MemorizeSupplier<ITabulaModelAnimator<? extends DragonBaseEntity>>> p = MODELS.get(DragonType.getTypeById(entity.getDragonType()));
+        TabulaModel<? extends DragonBaseEntity> model = TabulaModelHandlerHelper.getModel(p.getFirst());
         if (model == null) return;
-        VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderLayer.getEntityTranslucent(this.getTexture(entity)));
+        VertexConsumer consumer = bufferIn.getBuffer(RenderLayer.getEntityTranslucent(this.getTexture(entity)));
         matrixStackIn.push();
         matrixStackIn.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-180.0F));
         matrixStackIn.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(-180.0F - entity.getYaw()));
@@ -68,7 +68,7 @@ public class DragonSkullEntityRenderer extends EntityRenderer<DragonSkullEntity>
         matrixStackIn.translate(0, entity.isOnWall() ? -0.24F : -0.12F, entity.isOnWall() ? 0.4F : 0.5F);
         model.resetToDefaultPose();
         setRotationAngles(model.getCube("Head"), entity.isOnWall() ? (float) Math.toRadians(50F) : 0F);
-        model.getCube("Head").render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
+        model.getCube("Head").render(matrixStackIn, consumer, packedLightIn, OverlayTexture.DEFAULT_UV, -1);
         matrixStackIn.pop();
     }
 

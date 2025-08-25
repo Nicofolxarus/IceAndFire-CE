@@ -25,19 +25,17 @@ import net.minecraft.util.math.RotationAxis;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DragonRiderFeatureRenderer extends FeatureRenderer<DragonBaseEntity, TabulaModel<DragonBaseEntity>> {
+public class DragonRiderFeatureRenderer<T extends DragonBaseEntity> extends FeatureRenderer<T, TabulaModel<T>> {
     public static final List<Entity> RENDERING_RIDERS = new ArrayList<>();
-    private final MobEntityRenderer<DragonBaseEntity, TabulaModel<DragonBaseEntity>> render;
     private final boolean excludeDreadQueenMob;
 
-    public DragonRiderFeatureRenderer(MobEntityRenderer<DragonBaseEntity, TabulaModel<DragonBaseEntity>> renderIn, boolean excludeDreadQueenMob) {
+    public DragonRiderFeatureRenderer(MobEntityRenderer<T, TabulaModel<T>> renderIn, boolean excludeDreadQueenMob) {
         super(renderIn);
-        this.render = renderIn;
         this.excludeDreadQueenMob = excludeDreadQueenMob;
     }
 
     @Override
-    public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn, DragonBaseEntity dragon, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn, T dragon, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         matrixStackIn.push();
         if (!dragon.getPassengerList().isEmpty()) {
             float dragonScale = dragon.getRenderSize() / 3;
@@ -83,14 +81,14 @@ public class DragonRiderFeatureRenderer extends FeatureRenderer<DragonBaseEntity
     }
 
     protected void translateToBody(MatrixStack stack) {
-        this.postRender(this.render.getModel().getCube("BodyUpper"), stack);
-        this.postRender(this.render.getModel().getCube("Neck1"), stack);
+        this.postRender(this.getContextModel().getCube("BodyUpper"), stack);
+        this.postRender(this.getContextModel().getCube("Neck1"), stack);
     }
 
     protected void translateToHead(MatrixStack stack) {
-        this.postRender(this.render.getModel().getCube("Neck2"), stack);
-        this.postRender(this.render.getModel().getCube("Neck3"), stack);
-        this.postRender(this.render.getModel().getCube("Head"), stack);
+        this.postRender(this.getContextModel().getCube("Neck2"), stack);
+        this.postRender(this.getContextModel().getCube("Neck3"), stack);
+        this.postRender(this.getContextModel().getCube("Head"), stack);
     }
 
     protected void postRender(AdvancedModelBox renderer, MatrixStack matrixStackIn) {

@@ -3,7 +3,7 @@ package com.iafenvoy.iceandfire.entity;
 import com.google.common.base.Predicate;
 import com.iafenvoy.iceandfire.entity.ai.*;
 import com.iafenvoy.iceandfire.item.block.entity.PixieHouseBlockEntity;
-import com.iafenvoy.iceandfire.network.payload.UpdatePixieHousePayload;
+import com.iafenvoy.iceandfire.network.payload.UpdatePixieHouseS2CPayload;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafParticles;
 import com.iafenvoy.iceandfire.registry.IafSounds;
@@ -301,7 +301,7 @@ public class PixieEntity extends TameableEntity {
                     house.pixieItems.set(0, this.getStackInHand(Hand.MAIN_HAND));
                     house.tamedPixie = this.isTamed();
                     house.pixieOwnerUUID = this.getOwnerUuid();
-                    ServerHelper.sendToAll(new UpdatePixieHousePayload(this.housePos, true, this.getColor()));
+                    ServerHelper.sendToAll(new UpdatePixieHouseS2CPayload(this.housePos, true, this.getColor()));
                     this.remove(RemovalReason.DISCARDED);
                 }
             }

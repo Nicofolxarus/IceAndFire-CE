@@ -17,16 +17,16 @@ import net.minecraft.util.Identifier;
 
 import java.util.List;
 
-public class DragonArmorFeatureRenderer extends FeatureRenderer<DragonBaseEntity, TabulaModel<DragonBaseEntity>> {
+public class DragonArmorFeatureRenderer<T extends DragonBaseEntity> extends FeatureRenderer<T, TabulaModel<T>> {
     private static final List<EquipmentSlot> ARMOR_SLOTS = List.of(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET);
 
-    public DragonArmorFeatureRenderer(MobEntityRenderer<DragonBaseEntity, TabulaModel<DragonBaseEntity>> renderIn) {
+    public DragonArmorFeatureRenderer(MobEntityRenderer<T, TabulaModel<T>> renderIn) {
         super(renderIn);
     }
 
     @Override
-    public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int light, DragonBaseEntity dragon, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        EntityModel<DragonBaseEntity> model = this.getContextModel();
+    public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int light, T dragon, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        EntityModel<T> model = this.getContextModel();
         for (EquipmentSlot slot : ARMOR_SLOTS) {
             ItemStack stack = dragon.getEquippedStack(slot);
             if (stack.isEmpty()) continue;

@@ -10,13 +10,13 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
-public record UpdatePodiumPayload(BlockPos blockPos, ItemStack heldStack) implements CustomPayload {
+public record UpdatePodiumS2CPayload(BlockPos blockPos, ItemStack heldStack) implements CustomPayload {
     private static final Identifier IDENTIFIER = Identifier.of(IceAndFire.MOD_ID, "update_podium");
-    public static final Id<UpdatePodiumPayload> ID = new Id<>(IDENTIFIER);
-    public static final PacketCodec<ByteBuf, UpdatePodiumPayload> CODEC = PacketCodecs.codec(RecordCodecBuilder.create(i -> i.group(
-            BlockPos.CODEC.fieldOf("blockPos").forGetter(UpdatePodiumPayload::blockPos),
-            ItemStack.OPTIONAL_CODEC.fieldOf("heldStack").forGetter(UpdatePodiumPayload::heldStack)
-    ).apply(i, UpdatePodiumPayload::new)));
+    public static final Id<UpdatePodiumS2CPayload> ID = new Id<>(IDENTIFIER);
+    public static final PacketCodec<ByteBuf, UpdatePodiumS2CPayload> CODEC = PacketCodecs.codec(RecordCodecBuilder.create(i -> i.group(
+            BlockPos.CODEC.fieldOf("blockPos").forGetter(UpdatePodiumS2CPayload::blockPos),
+            ItemStack.OPTIONAL_CODEC.fieldOf("heldStack").forGetter(UpdatePodiumS2CPayload::heldStack)
+    ).apply(i, UpdatePodiumS2CPayload::new)));
 
     @Override
     public Id<? extends CustomPayload> getId() {

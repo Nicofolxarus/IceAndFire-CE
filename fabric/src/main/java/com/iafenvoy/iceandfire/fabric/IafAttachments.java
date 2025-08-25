@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.fabric;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.data.component.*;
-import com.iafenvoy.iceandfire.event.ClientEvents;
+import com.iafenvoy.iceandfire.event.CommonEvents;
 import com.iafenvoy.iceandfire.util.attachment.IafEntityAttachment;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
@@ -20,7 +20,7 @@ public final class IafAttachments {
     public static final AttachmentType<SirenData> SIREN_DATA = AttachmentRegistry.create(Identifier.of(IceAndFire.MOD_ID, "siren_data"), builder -> builder.initializer(SirenData::new).persistent(SirenData.CODEC).syncWith(SirenData.PACKET_CODEC, AttachmentSyncPredicate.all()).copyOnDeath());
 
     public static void init() {
-        ClientEvents.LIVING_TICK.register(living -> {
+        CommonEvents.LIVING_TICK.register(living -> {
             tickAndSync(CHAIN_DATA, living);
             tickAndSync(CHICKEN_DATA, living);
             tickAndSync(FROZEN_DATA, living);

@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.item.tool;
 
-import com.iafenvoy.iceandfire.item.ability.impl.AbilityImpls;
+import com.iafenvoy.iceandfire.item.ability.BuiltinAbilities;
 import com.iafenvoy.iceandfire.registry.IafToolMaterials;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
@@ -20,6 +20,6 @@ public class GhostSwordItem extends SwordItem {
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         tooltip.add(Text.translatable("item.iceandfire.legendary_weapon.desc").formatted(Formatting.GRAY));
         super.appendTooltip(stack, context, tooltip, type);
-        AbilityImpls.SUMMON_GHOST_SWORD.addDescription(tooltip);
+        BuiltinAbilities.SUMMON_GHOST_SWORD.addDescription(tooltip);
     }
 }
