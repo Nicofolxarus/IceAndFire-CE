@@ -1,12 +1,12 @@
 package com.iafenvoy.iceandfire.entity;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.event.IafEvents;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
 import com.iafenvoy.iceandfire.entity.util.dragon.IafDragonAttacks;
 import com.iafenvoy.iceandfire.entity.util.dragon.IafDragonDestructionManager;
+import com.iafenvoy.iceandfire.event.IafEvents;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafSounds;
@@ -350,18 +350,16 @@ public class LightningDragonEntity extends DragonBaseEntity {
             if (this.canPositionBeSeen(progressX, progressY, progressZ)) {
                 this.setHasLightningTarget(true);
                 this.setLightningTargetVec((float) burnX, (float) burnY, (float) burnZ);
-            } else {
-                if (!this.getWorld().isClient) {
-                    HitResult result = this.getWorld().raycast(new RaycastContext(
-                            new Vec3d(this.getX(), this.getY() + this.getStandingEyeHeight(), this.getZ()),
-                            new Vec3d(progressX, progressY, progressZ), RaycastContext.ShapeType.COLLIDER,
-                            RaycastContext.FluidHandling.NONE, this));
-                    Vec3d vec3 = result.getPos();
-                    BlockPos pos = BlockPos.ofFloored(vec3);
-                    IafDragonDestructionManager.destroyAreaBreath(this.getWorld(), pos, this);
-                    this.setHasLightningTarget(true);
-                    this.setLightningTargetVec((float) result.getPos().x, (float) result.getPos().y, (float) result.getPos().z);
-                }
+            } else if (!this.getWorld().isClient) {
+                HitResult result = this.getWorld().raycast(new RaycastContext(
+                        new Vec3d(this.getX(), this.getY() + this.getStandingEyeHeight(), this.getZ()),
+                        new Vec3d(progressX, progressY, progressZ), RaycastContext.ShapeType.COLLIDER,
+                        RaycastContext.FluidHandling.NONE, this));
+                Vec3d vec3 = result.getPos();
+                BlockPos pos = BlockPos.ofFloored(vec3);
+                IafDragonDestructionManager.destroyAreaBreath(this.getWorld(), pos, this);
+                this.setHasLightningTarget(true);
+                this.setLightningTargetVec((float) result.getPos().x, (float) result.getPos().y, (float) result.getPos().z);
             }
         }
         if (this.burnProgress >= 40D && this.canPositionBeSeen(burnX, burnY, burnZ)) {

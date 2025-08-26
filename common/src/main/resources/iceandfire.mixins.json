@@ -8,9 +8,7 @@
     "ChunkRegionMixin",
     "LivingEntityMixin",
     "MinecraftServerMixin",
-    "MobEntityMixin",
-    "datafix.ChunkSerializerFixer",
-    "datafix.ItemStackFixer"
+    "MobEntityMixin"
   ],
   "client": [
     "GameRendererMixin",

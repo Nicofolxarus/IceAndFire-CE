@@ -8,7 +8,7 @@ import net.minecraft.client.world.ClientWorld;
 import org.jetbrains.annotations.NotNull;
 
 public class DragonFrostParticle extends SpriteBillboardParticle {
-    protected DragonFrostParticle(DragonFrostParticleType params, ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, SpriteProvider provider) {
+    public DragonFrostParticle(DragonFrostParticleType params, ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, SpriteProvider provider) {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn);
         float size = params.getScale();
         this.scale *= (float) RandomHelper.nextDouble(size, size * 2);

@@ -12,7 +12,6 @@ import com.iafenvoy.iceandfire.render.PortalRenderTick;
 import com.iafenvoy.integration.IntegrationExecutor;
 import com.iafenvoy.jupiter.ConfigManager;
 import dev.architectury.event.events.common.InteractionEvent;
-import net.createmod.ponder.foundation.PonderIndex;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
@@ -24,7 +23,7 @@ public class IceAndFireClient {
         IafRenderers.registerEntityRenderers();
         IafKeybindings.init();
 
-        IntegrationExecutor.runWhenLoad("ponder", () -> () -> PonderIndex.addPlugin(new IceAndFirePonderPlugin()));
+        IntegrationExecutor.runWhenLoad("ponder", () -> IceAndFirePonderPlugin::init);
     }
 
     public static void process() {

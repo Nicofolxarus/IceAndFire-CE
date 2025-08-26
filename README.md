@@ -40,7 +40,7 @@ Netherite Related things.
 | Iron's Spells 'n Spellbooks | IAF Spellbooks                        |   🔲   |                                                                                                                           |
 | Jade                        | Additional crosshair information      |   ✅    |                                                                                                                           |
 | Just Enough Items           | Recipe view                           |   ✅    | MC 1.21+ only                                                                                                             |
-| Ponder                      | Dragon Forge Structure Tutorial       |   🔲   |                                                                                                                           |
+| Ponder                      | Dragon Forge Structure Tutorial       |   ✅    |                                                                                                                           |
 | ProjectE                    | EMC & Dragon Forge Recipe Calculation |   ✅    |                                                                                                                           |
 | Roughly Enough Items        | Recipe view                           |   ❌    |                                                                                                                           |
 | Tinkers' Construct          | New materials                         |   🔲   |                                                                                                                           |
