@@ -1634,7 +1634,7 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
     public void tick() {
         super.tick();
         //TODO: Better detect logic
-        if (!IntegrationExecutor.getWhenLoad("ponder", () -> () -> this.getWorld() instanceof SchematicLevel, false)) {
+        if (!IntegrationExecutor.getWhenLoad("ponder", () -> () -> this.getWorld() instanceof SchematicLevel, () -> false)) {
             this.calculateDimensions();
             this.updateParts();
         }

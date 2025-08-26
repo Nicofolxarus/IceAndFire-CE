@@ -54,7 +54,7 @@ dependencies {
     // Jade
     modImplementation "maven.modrinth:jade:pA0xvozk"
 
-    modImplementation("net.createmod.ponder:Ponder-Fabric-${minecraft_version}:${ponder_version}")
+    compileOnly "net.createmod.ponder:Ponder-Fabric-${minecraft_version}:${ponder_version}"
 }
 
 processResources {

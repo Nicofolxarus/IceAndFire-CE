@@ -40,12 +40,12 @@ Netherite Related things.
 | Iron's Spells 'n Spellbooks | IAF Spellbooks                        |   🔲   |                                                                                                                           |
 | Jade                        | Additional crosshair information      |   ✅    |                                                                                                                           |
 | Just Enough Items           | Recipe view                           |   ✅    | MC 1.21+ only                                                                                                             |
-| Ponder                      | Dragon Forge Structure Tutorial       |   ✅    |                                                                                                                           |
+| Ponder                      | Dragon Forge Structure Tutorial       |   ✅    | MC 1.21+ only                                                                                                             |
 | ProjectE                    | EMC & Dragon Forge Recipe Calculation |   ✅    |                                                                                                                           |
 | Roughly Enough Items        | Recipe view                           |   ❌    |                                                                                                                           |
 | Tinkers' Construct          | New materials                         |   🔲   |                                                                                                                           |
 | Thaumcraft 7                | New vis                               |   🔲   | TC7 is not published yet but is planned so I added here lol                                                               |
-| Touhou Little Maid          | Armors&Tools effects                  |   🔲   |                                                                                                                           |
+| Touhou Little Maid          | Armors&Tools effects                  |   🚧   |                                                                                                                           |
 
 Also, there's a recipe extension pack for updated and harder crafts using netherite:
 [Ice And Fire Smithing](https://modrinth.com/datapack/iceandfire_smithing)

@@ -48,7 +48,9 @@ dependencies {
     //ProjectE
     modApi "curse.maven:projecte-226410:6611984"
 
-    implementation("net.createmod.ponder:Ponder-NeoForge-${minecraft_version}:${ponder_version}")
+    compileOnly "net.createmod.ponder:Ponder-NeoForge-${minecraft_version}:${ponder_version}"
+
+    modImplementation 'curse.maven:touhou-little-maid-355044:6911706'
 }
 
 processResources {
