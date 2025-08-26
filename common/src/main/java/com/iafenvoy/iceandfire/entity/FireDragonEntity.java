@@ -363,9 +363,9 @@ public class FireDragonEntity extends DragonBaseEntity {
                 double d3 = burnY - headVec.y;
                 double d4 = burnZ - headVec.z;
                 float inaccuracy = 1.0F;
-                d2 = d2 + this.random.nextGaussian() * 0.007499999832361937D * inaccuracy;
-                d3 = d3 + this.random.nextGaussian() * 0.007499999832361937D * inaccuracy;
-                d4 = d4 + this.random.nextGaussian() * 0.007499999832361937D * inaccuracy;
+                d2 = d2 + this.random.nextGaussian() * 0.0075 * inaccuracy;
+                d3 = d3 + this.random.nextGaussian() * 0.0075 * inaccuracy;
+                d4 = d4 + this.random.nextGaussian() * 0.0075 * inaccuracy;
                 this.playSound(IafSounds.FIREDRAGON_BREATH.get(), 4, 1);
                 FireDragonChargeEntity entitylargefireball = new FireDragonChargeEntity(IafEntities.FIRE_DRAGON_CHARGE.get(), this.getWorld(), this, d2, d3, d4);
                 entitylargefireball.setPosition(headVec.x, headVec.y, headVec.z);

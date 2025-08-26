@@ -42,6 +42,7 @@ dependencies {
 
     modImplementation "maven.modrinth:uranus:oVarjaE9"
     modImplementation "maven.modrinth:jupiter:yHfucqRJ"
+    modImplementation(include("com.github.IAFEnvoy.Integration:integration-fabric:$integration_version"))
 
     // Optional dependencies
     // ModMenu
@@ -52,6 +53,8 @@ dependencies {
 
     // Jade
     modImplementation "maven.modrinth:jade:pA0xvozk"
+
+    modImplementation("net.createmod.ponder:Ponder-Fabric-${minecraft_version}:${ponder_version}")
 }
 
 processResources {

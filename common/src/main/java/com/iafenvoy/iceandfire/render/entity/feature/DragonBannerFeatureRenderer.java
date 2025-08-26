@@ -1,7 +1,6 @@
 package com.iafenvoy.iceandfire.render.entity.feature;
 
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
-import com.iafenvoy.iceandfire.render.entity.DragonBaseEntityRenderer;
 import com.iafenvoy.uranus.client.model.AdvancedModelBox;
 import com.iafenvoy.uranus.client.model.TabulaModel;
 import net.minecraft.client.MinecraftClient;

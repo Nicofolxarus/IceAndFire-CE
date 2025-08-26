@@ -5,10 +5,11 @@ content and rewrites.
 
 **Note: DO NOT directly replace mod, or your saves will be corrupted!**
 
-Related
-Links: [Origin CurseForge](https://www.curseforge.com/minecraft/mc-mods/ice-and-fire-dragons) | [Origin Modrinth](https://modrinth.com/mod/ice-and-fire-dragons)
+Related Links:
+[Origin CurseForge](https://www.curseforge.com/minecraft/mc-mods/ice-and-fire-dragons) | [Origin Modrinth](https://modrinth.com/mod/ice-and-fire-dragons)
 
-Join our [Discord](https://discord.gg/NDzz2upqAk) and check [the wiki](https://docs.iafenvoy.com/docs/mod/ice-and-fire-ce/) if you have any questions.
+Join our [Discord](https://discord.gg/NDzz2upqAk) and check
+[the wiki](https://docs.iafenvoy.com/docs/mod/ice-and-fire-ce/) if you have any questions.
 
 ## What have we have added
 
@@ -39,15 +40,21 @@ Netherite Related things.
 | Iron's Spells 'n Spellbooks | IAF Spellbooks                        |   🔲   |                                                                                                                           |
 | Jade                        | Additional crosshair information      |   ✅    |                                                                                                                           |
 | Just Enough Items           | Recipe view                           |   ✅    | MC 1.21+ only                                                                                                             |
+| Ponder                      | Dragon Forge Structure Tutorial       |   🔲   |                                                                                                                           |
 | ProjectE                    | EMC & Dragon Forge Recipe Calculation |   ✅    |                                                                                                                           |
 | Roughly Enough Items        | Recipe view                           |   ❌    |                                                                                                                           |
 | Tinkers' Construct          | New materials                         |   🔲   |                                                                                                                           |
 | Thaumcraft 7                | New vis                               |   🔲   | TC7 is not published yet but is planned so I added here lol                                                               |
+| Touhou Little Maid          | Armors&Tools effects                  |   🔲   |                                                                                                                           |
 
 Also, there's a recipe extension pack for updated and harder crafts using netherite:
 [Ice And Fire Smithing](https://modrinth.com/datapack/iceandfire_smithing)
 
 ## FAQ
+
+### Will new contents in 1.21.1 be updated in 1.20.1?
+
+No. 1.20.1 now only receive bug fixes since parallel update is very hard.
 
 ### Other Minecraft Version?
 

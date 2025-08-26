@@ -1,6 +1,5 @@
 package com.iafenvoy.iceandfire.entity;
 
-import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.ai.GorgonAIStareAttackGoal;
 import com.iafenvoy.iceandfire.entity.util.*;

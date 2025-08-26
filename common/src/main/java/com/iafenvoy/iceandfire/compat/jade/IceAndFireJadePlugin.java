@@ -1,8 +1,6 @@
 package com.iafenvoy.iceandfire.compat.jade;
 
 import com.iafenvoy.iceandfire.entity.*;
-import com.iafenvoy.iceandfire.entity.FireDragonEntity;
-import com.iafenvoy.iceandfire.entity.IceDragonEntity;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaPlugin;
 import snownee.jade.api.WailaPlugin;

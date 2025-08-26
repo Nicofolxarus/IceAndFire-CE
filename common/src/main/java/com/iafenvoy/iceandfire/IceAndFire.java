@@ -5,7 +5,6 @@ import com.iafenvoy.iceandfire.data.DragonArmor;
 import com.iafenvoy.iceandfire.data.IafSkullType;
 import com.iafenvoy.iceandfire.data.SeaSerpent;
 import com.iafenvoy.iceandfire.data.TrollType;
-import com.iafenvoy.iceandfire.event.ClientEvents;
 import com.iafenvoy.iceandfire.event.ServerEvents;
 import com.iafenvoy.iceandfire.network.ServerNetworkHelper;
 import com.iafenvoy.iceandfire.registry.*;

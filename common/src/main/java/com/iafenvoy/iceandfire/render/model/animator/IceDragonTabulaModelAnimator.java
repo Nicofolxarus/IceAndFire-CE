@@ -4,7 +4,6 @@ import com.iafenvoy.iceandfire.entity.IceDragonEntity;
 import com.iafenvoy.iceandfire.render.model.util.DragonModelTypes;
 import com.iafenvoy.iceandfire.render.model.util.DragonPoses;
 import com.iafenvoy.uranus.client.model.TabulaModel;
-import com.iafenvoy.uranus.client.model.util.TabulaModelHandlerHelper;
 
 public class IceDragonTabulaModelAnimator extends DragonTabulaModelAnimator<IceDragonEntity> {
     public IceDragonTabulaModelAnimator() {

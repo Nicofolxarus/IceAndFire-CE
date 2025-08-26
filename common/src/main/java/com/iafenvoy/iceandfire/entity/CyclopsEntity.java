@@ -1,7 +1,6 @@
 package com.iafenvoy.iceandfire.entity;
 
 import com.google.common.base.Predicate;
-import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
 import com.iafenvoy.iceandfire.event.IafEvents;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.ai.CyclopsAIAttackMeleeGoal;

@@ -219,7 +219,7 @@ public class SirenEntity extends HostileEntity implements IAnimatedEntity, IVill
         }
         LivingEntity target = this.getTarget();
         boolean pathOnHighGround = this.isPathOnHighGround() || !this.getWorld().isClient && target != null && !target.isTouchingWater();
-        if (target == null || !target.isTouchingWater() && !target.isTouchingWater()) {
+        if (target == null || !target.isTouchingWater()) {
             if (pathOnHighGround && this.isTouchingWater()) {
                 this.jump();
                 this.onSwimmingStart();

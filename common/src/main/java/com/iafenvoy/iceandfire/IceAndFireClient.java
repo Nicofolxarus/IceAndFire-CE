@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire;
 
+import com.iafenvoy.iceandfire.compat.ponder.IceAndFirePonderPlugin;
 import com.iafenvoy.iceandfire.config.IafClientConfig;
 import com.iafenvoy.iceandfire.event.ClientEvents;
 import com.iafenvoy.iceandfire.event.CommonEvents;
@@ -8,8 +9,10 @@ import com.iafenvoy.iceandfire.registry.IafKeybindings;
 import com.iafenvoy.iceandfire.registry.IafRenderers;
 import com.iafenvoy.iceandfire.registry.IafScreenHandlers;
 import com.iafenvoy.iceandfire.render.PortalRenderTick;
+import com.iafenvoy.integration.IntegrationExecutor;
 import com.iafenvoy.jupiter.ConfigManager;
 import dev.architectury.event.events.common.InteractionEvent;
+import net.createmod.ponder.foundation.PonderIndex;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
@@ -20,6 +23,8 @@ public class IceAndFireClient {
 
         IafRenderers.registerEntityRenderers();
         IafKeybindings.init();
+
+        IntegrationExecutor.runWhenLoad("ponder", () -> () -> PonderIndex.addPlugin(new IceAndFirePonderPlugin()));
     }
 
     public static void process() {

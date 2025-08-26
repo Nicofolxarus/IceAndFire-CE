@@ -2,7 +2,6 @@ package com.iafenvoy.iceandfire.entity;
 
 import com.google.common.base.Predicate;
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.event.IafEvents;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.DragonColor;
 import com.iafenvoy.iceandfire.data.DragonType;
@@ -10,6 +9,7 @@ import com.iafenvoy.iceandfire.data.component.ChainData;
 import com.iafenvoy.iceandfire.entity.ai.*;
 import com.iafenvoy.iceandfire.entity.util.*;
 import com.iafenvoy.iceandfire.entity.util.dragon.*;
+import com.iafenvoy.iceandfire.event.IafEvents;
 import com.iafenvoy.iceandfire.item.DragonArmorItem;
 import com.iafenvoy.iceandfire.item.SummoningCrystalItem;
 import com.iafenvoy.iceandfire.item.block.entity.DragonForgeInputBlockEntity;
@@ -28,6 +28,7 @@ import com.iafenvoy.iceandfire.render.model.IFChainBuffer;
 import com.iafenvoy.iceandfire.render.model.util.LegSolverQuadruped;
 import com.iafenvoy.iceandfire.screen.handler.DragonScreenHandler;
 import com.iafenvoy.iceandfire.world.DragonPosWorldData;
+import com.iafenvoy.integration.IntegrationExecutor;
 import com.iafenvoy.uranus.ServerHelper;
 import com.iafenvoy.uranus.animation.Animation;
 import com.iafenvoy.uranus.animation.AnimationHandler;
@@ -40,6 +41,7 @@ import com.iafenvoy.uranus.object.entity.pathfinding.raycoms.PathingStuckHandler
 import com.iafenvoy.uranus.object.entity.pathfinding.raycoms.pathjobs.ICustomSizeNavigator;
 import com.iafenvoy.uranus.object.item.FoodUtils;
 import dev.architectury.networking.NetworkManager;
+import net.createmod.catnip.levelWrappers.SchematicLevel;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
@@ -1618,9 +1620,8 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
     public void calculateDimensions() {
         super.calculateDimensions();
         final float scale = Math.min(this.getRenderSize() * 0.35F, 7F);
-        if (scale != this.lastScale) {
+        if (scale != this.lastScale)
             this.updateScale(this.getRenderSize() / 3);
-        }
         this.lastScale = scale;
     }
 
@@ -1632,8 +1633,11 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
     @Override
     public void tick() {
         super.tick();
-        this.calculateDimensions();
-        this.updateParts();
+        //TODO: Better detect logic
+        if (!IntegrationExecutor.getWhenLoad("ponder", () -> () -> this.getWorld() instanceof SchematicLevel, false)) {
+            this.calculateDimensions();
+            this.updateParts();
+        }
         this.prevDragonPitch = this.getDragonPitch();
         this.getWorld().getProfiler().push("dragonLogic");
         this.getAttributeInstance(EntityAttributes.GENERIC_STEP_HEIGHT).setBaseValue(this.getStepHeight());

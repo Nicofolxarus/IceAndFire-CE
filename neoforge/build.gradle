@@ -36,6 +36,7 @@ dependencies {
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
+    modImplementation(include("com.github.IAFEnvoy.Integration:integration-neoforge:$integration_version"))
 
     modImplementation "maven.modrinth:uranus:D7jNDhfK"
     modImplementation "maven.modrinth:jupiter:6FVn8sRM"
@@ -46,6 +47,8 @@ dependencies {
 
     //ProjectE
     modApi "curse.maven:projecte-226410:6611984"
+
+    implementation("net.createmod.ponder:Ponder-NeoForge-${minecraft_version}:${ponder_version}")
 }
 
 processResources {
