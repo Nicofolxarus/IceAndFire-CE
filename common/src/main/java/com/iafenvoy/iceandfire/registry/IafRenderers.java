@@ -95,7 +95,6 @@ public final class IafRenderers {
 
     public static void registerParticleRenderers(Consumer<ParticleProviderHolder<?>> consumer) {
         consumer.accept(new ParticleProviderHolder<>(IafParticles.DRAGON_FLAME.get(), DragonFlameParticle::provider));
-        consumer.accept(new ParticleProviderHolder<>(IafParticles.DRAGON_FLAME.get(), DragonFlameParticle::provider));
         consumer.accept(new ParticleProviderHolder<>(IafParticles.DRAGON_FROST.get(), DragonFrostParticle::provider));
         consumer.accept(new ParticleProviderHolder<>(IafParticles.BLOOD.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new BloodParticle(world, x, y, z)));
         consumer.accept(new ParticleProviderHolder<>(IafParticles.DREAD_PORTAL.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new DreadPortalParticle(world, x, y, z, velocityX, velocityY, velocityZ)));

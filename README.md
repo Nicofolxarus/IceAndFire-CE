@@ -8,6 +8,8 @@ content and rewrites.
 Related Links:
 [Origin CurseForge](https://www.curseforge.com/minecraft/mc-mods/ice-and-fire-dragons) | [Origin Modrinth](https://modrinth.com/mod/ice-and-fire-dragons)
 
+**Please DO NOT report any issue to the original mod!**
+
 Join our [Discord](https://discord.gg/NDzz2upqAk) and check
 [the wiki](https://docs.iafenvoy.com/docs/mod/ice-and-fire-ce/) if you have any questions.
 
@@ -70,5 +72,3 @@ side GUI through mod menu. (Requires server operator permission.)
 ### How to change biome configs
 
 Change biome tags by using datapacks.
-
-**Please DO NOT report any issue to the original mod!**

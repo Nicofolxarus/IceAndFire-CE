@@ -40,17 +40,18 @@ public class PixieWandItem extends Item {
                 if (itemstack.isEmpty())
                     user.getInventory().removeOne(itemstack);
             }
-            double d2 = user.getRotationVector().x;
-            double d3 = user.getRotationVector().y;
-            double d4 = user.getRotationVector().z;
-            float inaccuracy = 1.0F;
-            d2 = d2 + user.getRandom().nextGaussian() * 0.007499999832361937D * inaccuracy;
-            d3 = d3 + user.getRandom().nextGaussian() * 0.007499999832361937D * inaccuracy;
-            d4 = d4 + user.getRandom().nextGaussian() * 0.007499999832361937D * inaccuracy;
-            PixieChargeEntity charge = new PixieChargeEntity(IafEntities.PIXIE_CHARGE.get(), world, user, d2, d3, d4);
-            charge.setPosition(user.getX(), user.getY() + 1, user.getZ());
-            if (!world.isClient)
+            if (!world.isClient) {
+                double d2 = user.getRotationVector().x;
+                double d3 = user.getRotationVector().y;
+                double d4 = user.getRotationVector().z;
+                float inaccuracy = 1.0F;
+                d2 = d2 + user.getRandom().nextGaussian() * 0.007499999832361937D * inaccuracy;
+                d3 = d3 + user.getRandom().nextGaussian() * 0.007499999832361937D * inaccuracy;
+                d4 = d4 + user.getRandom().nextGaussian() * 0.007499999832361937D * inaccuracy;
+                PixieChargeEntity charge = new PixieChargeEntity(IafEntities.PIXIE_CHARGE.get(), world, user, d2, d3, d4);
+                charge.setPosition(user.getX(), user.getY() + 1, user.getZ());
                 world.spawnEntity(charge);
+            }
             user.playSound(IafSounds.PIXIE_WAND.get(), 1F, 0.75F + 0.5F * user.getRandom().nextFloat());
             itemstack.damage(1, user, LivingEntity.getSlotForHand(user.getActiveHand()));
             user.getItemCooldownManager().set(this, 5);

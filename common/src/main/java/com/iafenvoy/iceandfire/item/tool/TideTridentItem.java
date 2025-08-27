@@ -2,10 +2,15 @@ package com.iafenvoy.iceandfire.item.tool;
 
 import com.iafenvoy.iceandfire.entity.TideTridentEntity;
 import com.iafenvoy.uranus.object.RegistryHelper;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.AttributeModifierSlot;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.Item;
@@ -27,7 +32,14 @@ import java.util.List;
 
 public class TideTridentItem extends TridentItem {
     public TideTridentItem() {
-        super(new Item.Settings().maxDamage(400));
+        super(new Item.Settings().maxDamage(400).component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers()));
+    }
+
+    public static AttributeModifiersComponent createAttributeModifiers() {
+        return AttributeModifiersComponent.builder()
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID, 12, EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND)
+                .add(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, -2.9F, EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND)
+                .build();
     }
 
     @Override

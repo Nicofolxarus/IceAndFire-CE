@@ -27,13 +27,14 @@ public class StymphalianFeatherBundleItem extends Item {
         player.setCurrentHand(hand);
         player.getItemCooldownManager().set(this, 15);
         player.playSound(SoundEvents.ENTITY_EGG_THROW, 1, 1);
-        float rotation = player.headYaw;
-        for (int i = 0; i < 8; i++) {
-            StymphalianFeatherEntity feather = new StymphalianFeatherEntity(IafEntities.STYMPHALIAN_FEATHER.get(), worldIn, player);
-            rotation += 45;
-            feather.setVelocity(player, 0, rotation, 0.0F, 1.5F, 1.0F);
-            if (!worldIn.isClient)
+        if (!worldIn.isClient) {
+            float rotation = player.headYaw;
+            for (int i = 0; i < 8; i++) {
+                StymphalianFeatherEntity feather = new StymphalianFeatherEntity(IafEntities.STYMPHALIAN_FEATHER.get(), worldIn, player);
+                rotation += 45;
+                feather.setVelocity(player, 0, rotation, 0.0F, 1.5F, 1.0F);
                 worldIn.spawnEntity(feather);
+            }
         }
         if (!player.isCreative())
             itemStackIn.decrement(1);

@@ -19,19 +19,16 @@ public class StymphalianFeatherEntity extends PersistentProjectileEntity {
         super(t, worldIn);
         this.setOwner(shooter);
         this.setDamage(IafCommonConfig.INSTANCE.stymphalianBird.featherAttackDamage.getValue());
+        this.setPosition(shooter.getPos());
     }
 
     @Override
     public void remove(RemovalReason reason) {
         super.remove(reason);
-        if (IafCommonConfig.INSTANCE.stymphalianBird.featherDropChance.getValue() > 0) {
-            if (this.getWorld().isClient) {
-                if (this.random.nextDouble() < IafCommonConfig.INSTANCE.stymphalianBird.featherDropChance.getValue()) {
+        if (IafCommonConfig.INSTANCE.stymphalianBird.featherDropChance.getValue() > 0)
+            if (this.getWorld().isClient)
+                if (this.random.nextDouble() < IafCommonConfig.INSTANCE.stymphalianBird.featherDropChance.getValue())
                     this.dropStack(this.asItemStack(), 0.1F);
-                }
-            }
-        }
-
     }
 
     @Override

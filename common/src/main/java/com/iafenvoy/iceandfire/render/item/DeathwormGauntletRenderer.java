@@ -25,7 +25,7 @@ public class DeathwormGauntletRenderer implements DynamicItemRenderer {
             texture = RenderLayer.getEntityCutout(DeathWormEntityRenderer.TEXTURE_YELLOW);
         matrices.push();
         matrices.translate(0.5F, 0.5F, 0.5F);
-        MODEL.animate(stack, MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false));
+        MODEL.animate(stack);
         MODEL.render(matrices, vertexConsumers.getBuffer(texture), light, overlay, -1);
         matrices.pop();
     }

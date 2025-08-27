@@ -66,15 +66,14 @@ public class DeathwormGauntletItem extends Item {
             stack.damage(this.specialDamage, user, LivingEntity.getSlotForHand(user.getActiveHand()));
             this.specialDamage = 0;
         }
-
-        if (stack.get(IafDataComponents.INT.get()) != -1)
-            stack.set(IafDataComponents.INT.get(), -1);
+        stack.set(IafDataComponents.INT.get(), -1);
     }
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        if (user instanceof PlayerEntity player)
+        if (user instanceof PlayerEntity player) {
             player.getItemCooldownManager().set(this, 20);
+        }
         return super.finishUsing(stack, world, user);
     }
 

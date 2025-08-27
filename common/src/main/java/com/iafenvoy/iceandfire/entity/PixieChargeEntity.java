@@ -9,9 +9,8 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractFireballEntity;
-import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleTypes;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
@@ -48,37 +47,23 @@ public class PixieChargeEntity extends AbstractFireballEntity {
 
     @Override
     public void tick() {
-        Entity shootingEntity = this.getOwner();
+        this.setNoGravity(true);
         if (this.getWorld().isClient)
             for (int i = 0; i < 5; ++i)
                 this.getWorld().addParticle(IafParticles.PIXIE_DUST.get(), this.getX() + this.random.nextDouble() * 0.15F * (this.random.nextBoolean() ? -1 : 1), this.getY() + this.random.nextDouble() * 0.15F * (this.random.nextBoolean() ? -1 : 1), this.getZ() + this.random.nextDouble() * 0.15F * (this.random.nextBoolean() ? -1 : 1), this.rgb[0], this.rgb[1], this.rgb[2]);
         this.extinguish();
         if (this.age > 30) this.remove(RemovalReason.DISCARDED);
-        if (this.getWorld().isClient || (shootingEntity == null || shootingEntity.isAlive()) && this.getWorld().isChunkLoaded(this.getBlockPos())) {
-            this.baseTick();
-            if (this.isBurning()) this.setOnFireFor(1);
+        super.tick();
+    }
 
-            ++this.ticksInAir;
-            HitResult raytraceresult = ProjectileUtil.getCollision(this, this::canHit);
-            if (raytraceresult.getType() != HitResult.Type.MISS)
-                this.onCollision(raytraceresult);
+    @Override
+    protected float getDrag() {
+        return 1.05f;
+    }
 
-            Vec3d vector3d = this.getVelocity();
-            double d0 = this.getX() + vector3d.x;
-            double d1 = this.getY() + vector3d.y;
-            double d2 = this.getZ() + vector3d.z;
-            ProjectileUtil.setRotationFromVelocity(this, 0.2F);
-            float f = this.getDrag();
-            this.setVelocity(vector3d.add(vector3d.normalize().multiply(this.movementMultiplier)).multiply(f));
-
-            ++this.ticksInAir;
-
-            if (this.isTouchingWater())
-                for (int i = 0; i < 4; ++i)
-                    this.getWorld().addParticle(ParticleTypes.BUBBLE, this.getX() - this.getVelocity().x * 0.25D, this.getY() - this.getVelocity().y * 0.25D, this.getZ() - this.getVelocity().z * 0.25D, this.getVelocity().x, this.getVelocity().y, this.getVelocity().z);
-            this.setPosition(d0, d1, d2);
-            this.setPosition(this.getX(), this.getY(), this.getZ());
-        }
+    @Override
+    protected ParticleEffect getParticleType() {
+        return IafParticles.PIXIE_DUST.get();
     }
 
     @Override
@@ -97,7 +82,7 @@ public class PixieChargeEntity extends AbstractFireballEntity {
                     }
                     if (this.getWorld().isClient)
                         for (int i = 0; i < 20; ++i)
-                            this.getWorld().addParticle(IafParticles.PIXIE_DUST.get(), this.getX() + this.random.nextDouble() * 1F * (this.random.nextBoolean() ? -1 : 1), this.getY() + this.random.nextDouble() * 1F * (this.random.nextBoolean() ? -1 : 1), this.getZ() + this.random.nextDouble() * 1F * (this.random.nextBoolean() ? -1 : 1), this.rgb[0], this.rgb[1], this.rgb[2]);
+                            this.getWorld().addParticle(this.getParticleType(), this.getX() + this.random.nextDouble() * 1F * (this.random.nextBoolean() ? -1 : 1), this.getY() + this.random.nextDouble() * 1F * (this.random.nextBoolean() ? -1 : 1), this.getZ() + this.random.nextDouble() * 1F * (this.random.nextBoolean() ? -1 : 1), this.rgb[0], this.rgb[1], this.rgb[2]);
                     if (!(shootingEntity instanceof PlayerEntity) || !((PlayerEntity) shootingEntity).isCreative())
                         if (this.random.nextInt(3) == 0)
                             this.dropStack(new ItemStack(IafItems.PIXIE_DUST.get(), 1), 0.45F);

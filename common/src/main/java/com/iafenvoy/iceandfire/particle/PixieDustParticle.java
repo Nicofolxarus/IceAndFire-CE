@@ -32,8 +32,7 @@ public class PixieDustParticle extends SpriteBillboardParticle {
         this.blue = ((float) (Math.random() * 0.20000000298023224D) + 0.8F) * blue * f;
         this.scale *= scale;
         this.reddustParticleScale = this.scale;
-        this.maxAge = (int) (8.0D / (Math.random() * 0.8D + 0.2D));
-        this.maxAge = (int) ((float) this.maxAge * scale);
+        this.maxAge = (int) (this.maxAge * scale);
     }
 
     @Override

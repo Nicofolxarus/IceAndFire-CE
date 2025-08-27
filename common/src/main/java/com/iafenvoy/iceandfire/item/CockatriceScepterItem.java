@@ -120,7 +120,8 @@ public class CockatriceScepterItem extends Item {
 
     private void attackTargets(final LivingEntity caster) {
         MiscData miscData = MiscData.get(caster);
-        for (UUID uuid : miscData.getTargetedByScepters()) {
+        for (Iterator<UUID> iterator = miscData.getTargetedByScepters().iterator(); iterator.hasNext(); ) {
+            UUID uuid = iterator.next();
             Entity entity = null;
             if (caster.getWorld() instanceof ServerWorld serverWorld) entity = serverWorld.getEntity(uuid);
             else if (caster.getWorld() instanceof ClientWorld clientWorld)
@@ -128,7 +129,7 @@ public class CockatriceScepterItem extends Item {
             if (!(entity instanceof LivingEntity target)) continue;
 
             if (!GorgonEntity.isEntityLookingAt(caster, target, 0.2F) || caster.isRemoved() || target.isRemoved()) {
-                miscData.removeScepterTarget(target);
+                iterator.remove();
                 continue;
             }
 

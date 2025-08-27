@@ -106,7 +106,7 @@ public class DeathWormGauntletModel extends DragonBaseModel {
         return ImmutableList.of(this.Head, this.JawExtender, this.HeadInner, this.ToothB, this.ToothT, this.ToothL, this.ToothL_1, this.JawExtender2, this.JawExtender3, this.JawExtender4, this.TopJaw, this.BottomJaw, this.JawHook);
     }
 
-    public void animate(ItemStack stack, float partialTick) {
+    public void animate(ItemStack stack) {
         this.resetToDefaultPose();
         if (!stack.contains(IafDataComponents.INT.get())) return;
         assert MinecraftClient.getInstance().world != null;
@@ -114,7 +114,7 @@ public class DeathWormGauntletModel extends DragonBaseModel {
 
         if (!(holder instanceof LivingEntity livingEntity)) return;
 
-        float lungeTicks = MiscData.get(livingEntity).lungeTicks + partialTick;
+        float lungeTicks = MiscData.get(livingEntity).lungeTicks;
         this.progressRotation(this.TopJaw, lungeTicks, (float) Math.toRadians(-30), 0, 0);
         this.progressRotation(this.BottomJaw, lungeTicks, (float) Math.toRadians(30), 0, 0);
         this.progressPosition(this.JawExtender, lungeTicks, 0, 0, -4);
