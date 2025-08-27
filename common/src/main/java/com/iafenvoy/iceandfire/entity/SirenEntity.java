@@ -306,7 +306,7 @@ public class SirenEntity extends HostileEntity implements IAnimatedEntity, IVill
             for (LivingEntity entity : entities) {
                 if (isWearingEarplugs(entity)) continue;
                 SirenData sirenData = SirenData.get(entity);
-                if (sirenData.isCharmed() || sirenData.getCharmedByUUID().isEmpty()) sirenData.setCharmed(this);
+                if (!sirenData.isCharmed()) sirenData.setCharmed(this);
             }
         }
     }

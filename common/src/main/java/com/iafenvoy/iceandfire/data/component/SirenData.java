@@ -17,6 +17,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Uuids;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -56,6 +57,7 @@ public class SirenData extends NeedUpdateData<LivingEntity> {
 
             if (!siren.isAlive() || living.distanceTo(siren) > SirenEntity.SEARCH_RANGE * 2 || living instanceof PlayerEntity player && (player.isCreative() || player.isSpectator())) {
                 this.clearCharm();
+                siren.setAttacking(false);
                 return;
             }
 
@@ -78,14 +80,14 @@ public class SirenData extends NeedUpdateData<LivingEntity> {
                             living.getZ() + ((living.getRandom().nextDouble() - 0.5D) * 3),
                             0, 0, 0);
 
-            if (living.horizontalCollision)
-                living.setJumping(true);
+            if (living.horizontalCollision) living.setJumping(true);
 
-            double motionXAdd = (Math.signum(siren.getX() - living.getX()) * 0.5D - living.getVelocity().x) * 0.100000000372529;
-            double motionYAdd = (Math.signum(siren.getY() - living.getY() + 1) * 0.5D - living.getVelocity().y) * 0.100000000372529;
-            double motionZAdd = (Math.signum(siren.getZ() - living.getZ()) * 0.5D - living.getVelocity().z) * 0.100000000372529;
-
-            living.setVelocity(living.getVelocity().add(motionXAdd, motionYAdd, motionZAdd));
+            Vec3d velocity = living.getVelocity();
+            double vx = (Math.signum(siren.getX() - living.getX()) * 0.5D - velocity.x) * 0.1;
+            double vy = (Math.signum(siren.getY() - living.getY() + 1) * 0.5D - velocity.y) * 0.1;
+            double vz = (Math.signum(siren.getZ() - living.getZ()) * 0.5D - velocity.z) * 0.1;
+            living.setVelocity(velocity.add(vx, vy, vz));
+            living.velocityModified = true;
             if (living.hasVehicle()) living.stopRiding();
             if (!(living instanceof PlayerEntity)) {
                 double x = siren.getX() - living.getX();
