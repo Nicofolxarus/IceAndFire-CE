@@ -3,24 +3,27 @@ package com.iafenvoy.iceandfire.particle;
 import com.iafenvoy.uranus.object.VecUtil;
 import com.iafenvoy.uranus.util.RandomHelper;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.particle.*;
+import net.minecraft.client.particle.ParticleFactory;
+import net.minecraft.client.particle.ParticleTextureSheet;
+import net.minecraft.client.particle.SpriteBillboardParticle;
+import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.world.ClientWorld;
 import org.jetbrains.annotations.NotNull;
 
 public class DragonFlameParticle extends SpriteBillboardParticle {
-    public DragonFlameParticle(DragonFlameParticleType params, ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, SpriteProvider provider) {
-        super(worldIn, xCoordIn, yCoordIn, zCoordIn);
-        float size = params.getScale();
+    protected DragonFlameParticle(DragonFlameParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, SpriteProvider spriteProvider) {
+        super(world, x, y, z);
+        float size = parameters.getScale();
         this.scale *= (float) RandomHelper.nextDouble(size, size * 2);
         this.maxAge = 30;
         this.gravityStrength = 0.0F;
         this.collidesWithWorld = false;
-        this.setSprite(provider);
-        this.setVelocity(RandomHelper.randomize(xSpeedIn, 0.5), RandomHelper.randomize(ySpeedIn, 0.5), RandomHelper.randomize(zSpeedIn, 0.5));
+        this.setVelocity(RandomHelper.randomize(velocityX, 0.5), RandomHelper.randomize(velocityY, 0.5), RandomHelper.randomize(velocityZ, 0.5));
+        this.setSprite(spriteProvider);
     }
 
-    public static Provider provider(SpriteProvider spriteSet) {
-        return new Provider(spriteSet);
+    public static ParticleFactory<DragonFlameParticleType> factory(SpriteProvider spriteProvider) {
+        return (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new DragonFlameParticle(parameters, world, x, y, z, velocityX, velocityY, velocityZ, spriteProvider);
     }
 
     @Override
@@ -39,12 +42,5 @@ public class DragonFlameParticle extends SpriteBillboardParticle {
     @Override
     public @NotNull ParticleTextureSheet getType() {
         return ParticleTextureSheet.PARTICLE_SHEET_LIT;
-    }
-
-    public record Provider(SpriteProvider spriteSet) implements ParticleFactory<DragonFlameParticleType> {
-        @Override
-        public Particle createParticle(DragonFlameParticleType typeIn, ClientWorld worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new DragonFlameParticle(typeIn, worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
-        }
     }
 }

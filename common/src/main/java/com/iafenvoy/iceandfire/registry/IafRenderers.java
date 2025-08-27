@@ -94,17 +94,17 @@ public final class IafRenderers {
     }
 
     public static void registerParticleRenderers(Consumer<ParticleProviderHolder<?>> consumer) {
-        consumer.accept(new ParticleProviderHolder<>(IafParticles.DRAGON_FLAME.get(), DragonFlameParticle::provider));
-        consumer.accept(new ParticleProviderHolder<>(IafParticles.DRAGON_FROST.get(), DragonFrostParticle::provider));
-        consumer.accept(new ParticleProviderHolder<>(IafParticles.BLOOD.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new BloodParticle(world, x, y, z)));
-        consumer.accept(new ParticleProviderHolder<>(IafParticles.DREAD_PORTAL.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new DreadPortalParticle(world, x, y, z, velocityX, velocityY, velocityZ)));
-        consumer.accept(new ParticleProviderHolder<>(IafParticles.DREAD_TORCH.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new DreadTorchParticle(world, x, y, z, velocityX, velocityY, velocityZ)));
-        consumer.accept(new ParticleProviderHolder<>(IafParticles.GHOST_APPEARANCE.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new GhostAppearanceParticle(world, x, y, z, 1)));
-        consumer.accept(new ParticleProviderHolder<>(IafParticles.HYDRA_BREATH.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new HydraBreathParticle(world, x, y, z, 1, 1, 1)));
-        consumer.accept(new ParticleProviderHolder<>(IafParticles.PIXIE_DUST.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new PixieDustParticle(world, x, y, z, 1, 1, 1, 1)));
-        consumer.accept(new ParticleProviderHolder<>(IafParticles.SERPENT_BUBBLE.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new SerpentBubbleParticle(world, x, y, z, velocityX, velocityY, velocityZ, 1)));
-        consumer.accept(new ParticleProviderHolder<>(IafParticles.SIREN_APPEARANCE.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new SirenAppearanceParticle(world, x, y, z, 1)));
-        consumer.accept(new ParticleProviderHolder<>(IafParticles.SIREN_MUSIC.get(), (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new SirenMusicParticle(world, x, y, z, velocityX, velocityY, velocityZ)));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.BLOOD.get(), BloodParticle::factory));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.DRAGON_FLAME.get(), DragonFlameParticle::factory));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.DRAGON_FROST.get(), DragonFrostParticle::factory));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.DREAD_PORTAL.get(), DreadPortalParticle::factory));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.DREAD_TORCH.get(), DreadTorchParticle::factory));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.GHOST_APPEARANCE.get(), GhostAppearanceParticle.factory()));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.HYDRA_BREATH.get(), HydraBreathParticle::factory));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.PIXIE_DUST.get(), PixieDustParticle::factory));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.SERPENT_BUBBLE.get(), SerpentBubbleParticle::factory));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.SIREN_APPEARANCE.get(), SirenAppearanceParticle.factory()));
+        consumer.accept(new ParticleProviderHolder<>(IafParticles.SIREN_MUSIC.get(), SirenMusicParticle::factory));
     }
 
     public static void registerBlockEntityRenderers() {
@@ -112,7 +112,7 @@ public final class IafRenderers {
         BlockEntityRendererRegistry.register(IafBlockEntities.IAF_LECTERN.get(), LecternBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(IafBlockEntities.EGG_IN_ICE.get(), EggInIceBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(IafBlockEntities.PIXIE_HOUSE.get(), PixieHouseBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(IafBlockEntities.PIXIE_JAR.get(), ctx -> new JarBlockEntityRenderer<>());
+        BlockEntityRendererRegistry.register(IafBlockEntities.PIXIE_JAR.get(), JarBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(IafBlockEntities.DREAD_PORTAL.get(), DreadPortalBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(IafBlockEntities.DREAD_SPAWNER.get(), DreadSpawnerBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(IafBlockEntities.GHOST_CHEST.get(), GhostChestBlockEntityRenderer::new);

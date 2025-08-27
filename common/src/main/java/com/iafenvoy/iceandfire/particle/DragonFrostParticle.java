@@ -8,19 +8,19 @@ import net.minecraft.client.world.ClientWorld;
 import org.jetbrains.annotations.NotNull;
 
 public class DragonFrostParticle extends SpriteBillboardParticle {
-    public DragonFrostParticle(DragonFrostParticleType params, ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, SpriteProvider provider) {
-        super(worldIn, xCoordIn, yCoordIn, zCoordIn);
-        float size = params.getScale();
+    protected DragonFrostParticle(DragonFrostParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, SpriteProvider spriteProvider) {
+        super(world, x, y, z);
+        float size = parameters.getScale();
         this.scale *= (float) RandomHelper.nextDouble(size, size * 2);
         this.maxAge = 30;
         this.gravityStrength = 0.0F;
         this.collidesWithWorld = false;
-        this.setSprite(provider);
-        this.setVelocity(RandomHelper.randomize(xSpeedIn, 0.5), RandomHelper.randomize(ySpeedIn, 0.5), RandomHelper.randomize(zSpeedIn, 0.5));
+        this.setSprite(spriteProvider);
+        this.setVelocity(RandomHelper.randomize(velocityX, 0.5), RandomHelper.randomize(velocityY, 0.5), RandomHelper.randomize(velocityZ, 0.5));
     }
 
-    public static Provider provider(SpriteProvider spriteSet) {
-        return new Provider(spriteSet);
+    public static ParticleFactory<DragonFrostParticleType> factory(SpriteProvider spriteProvider) {
+        return (parameters, world, x, y, z, velocityX, velocityY, velocityZ) -> new DragonFrostParticle(parameters, world, x, y, z, velocityX, velocityY, velocityZ, spriteProvider);
     }
 
     @Override
@@ -45,10 +45,10 @@ public class DragonFrostParticle extends SpriteBillboardParticle {
         return ParticleTextureSheet.PARTICLE_SHEET_LIT;
     }
 
-    public record Provider(SpriteProvider spriteSet) implements ParticleFactory<DragonFrostParticleType> {
+    protected record Provider(SpriteProvider spriteProvider) implements ParticleFactory<DragonFrostParticleType> {
         @Override
-        public Particle createParticle(DragonFrostParticleType typeIn, ClientWorld worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new DragonFrostParticle(typeIn, worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+        public Particle createParticle(DragonFrostParticleType typeIn, ClientWorld worldIn, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
+            return new DragonFrostParticle(typeIn, worldIn, x, y, z, velocityX, velocityY, velocityZ, this.spriteProvider);
         }
     }
 }

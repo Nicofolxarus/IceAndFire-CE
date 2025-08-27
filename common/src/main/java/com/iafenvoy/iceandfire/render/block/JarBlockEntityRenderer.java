@@ -8,6 +8,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.RotationAxis;
 
@@ -27,6 +28,9 @@ public class JarBlockEntityRenderer<T extends JarBlockEntity> implements BlockEn
     public static final RenderLayer TEXTURE_4_GLO = RenderLayer.getEyes(PixieEntityRenderer.TEXTURE_4);
     public static final RenderLayer TEXTURE_5_GLO = RenderLayer.getEyes(PixieEntityRenderer.TEXTURE_5);
     private static final Supplier<PixieModel> MODEL_PIXIE = PixieModel::new;
+
+    public JarBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
+    }
 
     @Override
     public void render(T entity, float partialTicks, MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int combinedLightIn, int combinedOverlayIn) {
