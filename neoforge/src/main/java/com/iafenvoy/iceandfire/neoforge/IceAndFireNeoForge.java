@@ -2,7 +2,9 @@ package com.iafenvoy.iceandfire.neoforge;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.IceAndFireClient;
+import com.iafenvoy.iceandfire.neoforge.compat.IceAndFireArsNouveauCompat;
 import com.iafenvoy.iceandfire.util.attachment.IafEntityAttachment;
+import com.iafenvoy.integration.IntegrationExecutor;
 import dev.architectury.platform.Platform;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -30,6 +32,7 @@ public final class IceAndFireNeoForge {
     @SubscribeEvent
     public static void init(FMLCommonSetupEvent event) {
         event.enqueueWork(IceAndFire::process);
+        IntegrationExecutor.runWhenLoad("ars_nouveau", () -> IceAndFireArsNouveauCompat::init);
     }
 
     @SubscribeEvent

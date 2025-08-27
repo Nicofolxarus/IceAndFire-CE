@@ -25,8 +25,8 @@ public class PodiumBlockEntityRenderer<T extends PodiumBlockEntity> implements B
     @Override
     public void render(T entity, float partialTicks, MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int combinedLightIn, int combinedOverlayIn) {
         DragonEggModel model = new DragonEggModel();
-        if (!entity.getStack(0).isEmpty()) {
-            if (entity.getStack(0).getItem() instanceof DragonEggItem item) {
+        if (!entity.getStackInSlot(0).isEmpty()) {
+            if (entity.getStackInSlot(0).getItem() instanceof DragonEggItem item) {
                 matrixStackIn.push();
                 matrixStackIn.translate(0.5F, 0.475F, 0.5F);
                 matrixStackIn.push();
@@ -36,7 +36,7 @@ public class PodiumBlockEntityRenderer<T extends PodiumBlockEntity> implements B
                 matrixStackIn.pop();
                 matrixStackIn.pop();
                 matrixStackIn.pop();
-            } else if (!entity.getStack(0).isEmpty()) {
+            } else if (!entity.getStackInSlot(0).isEmpty()) {
                 matrixStackIn.push();
                 float f2 = ((float) entity.prevTicksExisted + (entity.ticksExisted - entity.prevTicksExisted) * partialTicks);
                 float f3 = MathHelper.sin(f2 / 10.0F) * 0.1F + 0.1F;
@@ -46,7 +46,7 @@ public class PodiumBlockEntityRenderer<T extends PodiumBlockEntity> implements B
                 matrixStackIn.push();
                 matrixStackIn.translate(0, 0.2F, 0);
                 matrixStackIn.scale(0.65F, 0.65F, 0.65F);
-                MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(0), ModelTransformationMode.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, entity.getWorld(), 0);
+                MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStackInSlot(0), ModelTransformationMode.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, entity.getWorld(), 0);
                 matrixStackIn.pop();
                 matrixStackIn.pop();
             }

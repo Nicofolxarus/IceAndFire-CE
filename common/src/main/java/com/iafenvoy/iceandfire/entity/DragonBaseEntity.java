@@ -832,7 +832,7 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
             int i = Math.min(tempInventory.size(), this.dragonInventory.size());
 
             for (int j = 0; j < i; ++j) {
-                ItemStack itemstack = tempInventory.getStack(j);
+                ItemStack itemstack = tempInventory.getStackInSlot(j);
                 if (!itemstack.isEmpty())
                     this.dragonInventory.setStack(j, itemstack.copy());
             }
@@ -2702,11 +2702,11 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
     @Override
     public ItemStack getEquippedStack(final EquipmentSlot slotIn) {
         return switch (slotIn) {
-            case OFFHAND -> this.dragonInventory.getStack(0);
-            case HEAD -> this.dragonInventory.getStack(1);
-            case CHEST -> this.dragonInventory.getStack(2);
-            case LEGS -> this.dragonInventory.getStack(3);
-            case FEET -> this.dragonInventory.getStack(4);
+            case OFFHAND -> this.dragonInventory.getStackInSlot(0);
+            case HEAD -> this.dragonInventory.getStackInSlot(1);
+            case CHEST -> this.dragonInventory.getStackInSlot(2);
+            case LEGS -> this.dragonInventory.getStackInSlot(3);
+            case FEET -> this.dragonInventory.getStackInSlot(4);
             default -> super.getEquippedStack(slotIn);
         };
     }

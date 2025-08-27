@@ -39,6 +39,9 @@ subprojects {
         maven { url = "https://modmaven.dev" }
         maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" }
         maven { url = "https://maven.createmod.net" }
+        maven { url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+        maven { url = 'https://maven.minecraftforge.net/' }
+        flatDir { dirs '../mappings-patch' }
     }
 
     dependencies {
@@ -46,6 +49,7 @@ subprojects {
         mappings loom.layered {
             it.mappings("net.fabricmc:yarn:$rootProject.yarn_mappings:v2")
             it.mappings("dev.architectury:yarn-mappings-patch-neoforge:$rootProject.yarn_mappings_patch_neoforge_version")
+            it.mappings("com.iafenvoy:yarn-mappings-patch-neoforge-mods:1.0")
         }
     }
 

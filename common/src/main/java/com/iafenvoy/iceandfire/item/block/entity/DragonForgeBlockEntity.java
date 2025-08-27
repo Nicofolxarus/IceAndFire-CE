@@ -72,7 +72,7 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
         }
         if (entityDragonforge.getPropertyDelegate().cookTime > 0 && entityDragonforge.canSmelt() && entityDragonforge.lastDragonFlameTimer == 0)
             entityDragonforge.getPropertyDelegate().cookTime--;
-        if (entityDragonforge.getStack(0).isEmpty() && !level.isClient)
+        if (entityDragonforge.getStackInSlot(0).isEmpty() && !level.isClient)
             entityDragonforge.getPropertyDelegate().cookTime = 0;
         assert entityDragonforge.world != null;
         if (!entityDragonforge.world.isClient) {
@@ -143,7 +143,7 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
     }
 
     @Override
-    public ItemStack getStack(int index) {
+    public ItemStack getStackInSlot(int index) {
         return this.forgeItemStacks.get(index);
     }
 

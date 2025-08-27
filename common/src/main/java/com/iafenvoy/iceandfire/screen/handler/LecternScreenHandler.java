@@ -101,7 +101,7 @@ public class LecternScreenHandler extends ScreenHandler {
         this.possiblePagesInt[2] = this.getPageField(2);
         BestiaryPages[] pages = new BestiaryPages[3];
         List<BestiaryPages> allPages = BestiaryPages.values();
-        if (this.tileFurnace.getStack(0).getItem() == IafItems.BESTIARY.get()) {
+        if (this.tileFurnace.getStackInSlot(0).getItem() == IafItems.BESTIARY.get()) {
             if (this.possiblePagesInt[0] < 0) pages[0] = null;
             else pages[0] = allPages.get(Math.min(allPages.size(), this.possiblePagesInt[0]));
             if (this.possiblePagesInt[1] < 0) pages[1] = null;
@@ -115,8 +115,8 @@ public class LecternScreenHandler extends ScreenHandler {
     @Override
     public boolean onButtonClick(PlayerEntity playerIn, int id) {
         this.onUpdate();
-        ItemStack bookStack = this.tileFurnace.getStack(0);
-        ItemStack manuscriptStack = this.tileFurnace.getStack(1);
+        ItemStack bookStack = this.tileFurnace.getStackInSlot(0);
+        ItemStack manuscriptStack = this.tileFurnace.getStackInSlot(1);
         int i = 3;
         if ((manuscriptStack.isEmpty() || manuscriptStack.getCount() < i || manuscriptStack.getItem() != IafItems.MANUSCRIPT.get()))
             return false;

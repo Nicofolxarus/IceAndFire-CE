@@ -64,13 +64,13 @@ public class PixieAIStealGoal extends Goal {
         if (this.temptedEntity.squaredDistanceTo(this.temptingPlayer) < 3D && !this.temptingPlayer.getInventory().isEmpty()) {
 
             for (int i = 0; i < this.temptingPlayer.getInventory().size(); i++) {
-                ItemStack targetStack = this.temptingPlayer.getInventory().getStack(i);
+                ItemStack targetStack = this.temptingPlayer.getInventory().getStackInSlot(i);
                 if (!PlayerInventory.isValidHotbarIndex(i) && !targetStack.isEmpty() && targetStack.isStackable() && !targetStack.isIn(IafItemTags.PIXIE_STOLEN_BLACKLIST))
                     slotlist.add(i);
             }
             if (!slotlist.isEmpty()) {
                 final int slot = slotlist.size() == 1 ? slotlist.getFirst() : slotlist.get(ThreadLocalRandom.current().nextInt(slotlist.size()));
-                ItemStack randomItem = this.temptingPlayer.getInventory().getStack(slot);
+                ItemStack randomItem = this.temptingPlayer.getInventory().getStackInSlot(slot);
                 this.temptedEntity.setStackInHand(Hand.MAIN_HAND, randomItem);
                 this.temptingPlayer.getInventory().removeStack(slot);
                 this.temptedEntity.playSound(IafSounds.PIXIE_TAUNT.get(), 1F, 1F);

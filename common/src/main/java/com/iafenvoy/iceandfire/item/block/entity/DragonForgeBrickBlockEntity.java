@@ -57,8 +57,8 @@ public class DragonForgeBrickBlockEntity extends BlockEntity implements SidedInv
     }
 
     @Override
-    public ItemStack getStack(int slot) {
-        return this.core == null ? ItemStack.EMPTY : this.core.getStack(slot);
+    public ItemStack getStackInSlot(int slot) {
+        return this.core == null ? ItemStack.EMPTY : this.core.getStackInSlot(slot);
     }
 
     @Override

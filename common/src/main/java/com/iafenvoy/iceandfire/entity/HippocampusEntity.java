@@ -212,7 +212,7 @@ public class HippocampusEntity extends TameableEntity implements ExtendedMenuPro
         super.dropInventory();
         if (this.inventory != null && !this.getWorld().isClient) {
             for (int i = 0; i < this.inventory.size(); ++i) {
-                ItemStack itemstack = this.inventory.getStack(i);
+                ItemStack itemstack = this.inventory.getStackInSlot(i);
                 if (!itemstack.isEmpty() && EnchantmentHelper.getLevel(RegistryHelper.getEnchantment(this.getWorld().getRegistryManager(), Enchantments.VANISHING_CURSE), itemstack) == 0)
                     this.dropStack(itemstack);
             }
@@ -227,9 +227,9 @@ public class HippocampusEntity extends TameableEntity implements ExtendedMenuPro
 
     protected void dropChestItems() {
         for (int i = 3; i < 18; i++)
-            if (!this.inventory.getStack(i).isEmpty()) {
+            if (!this.inventory.getStackInSlot(i).isEmpty()) {
                 if (!this.getWorld().isClient)
-                    this.dropStack(this.inventory.getStack(i), 1);
+                    this.dropStack(this.inventory.getStackInSlot(i), 1);
                 this.inventory.removeStack(i);
             }
     }
@@ -383,7 +383,7 @@ public class HippocampusEntity extends TameableEntity implements ExtendedMenuPro
             int i = Math.min(simplecontainer.size(), this.inventory.size());
 
             for (int j = 0; j < i; ++j) {
-                ItemStack itemstack = simplecontainer.getStack(j);
+                ItemStack itemstack = simplecontainer.getStackInSlot(j);
                 if (!itemstack.isEmpty())
                     this.inventory.setStack(j, itemstack.copy());
             }
@@ -395,9 +395,9 @@ public class HippocampusEntity extends TameableEntity implements ExtendedMenuPro
 
     protected void updateContainerEquipment() {
         if (!this.getWorld().isClient) {
-            this.setSaddled(!this.inventory.getStack(INV_SLOT_SADDLE).isEmpty());
-            this.setChested(!this.inventory.getStack(INV_SLOT_CHEST).isEmpty());
-            this.setArmor(getIntFromArmor(this.inventory.getStack(INV_SLOT_ARMOR)));
+            this.setSaddled(!this.inventory.getStackInSlot(INV_SLOT_SADDLE).isEmpty());
+            this.setChested(!this.inventory.getStackInSlot(INV_SLOT_CHEST).isEmpty());
+            this.setArmor(getIntFromArmor(this.inventory.getStackInSlot(INV_SLOT_ARMOR)));
         }
     }
 

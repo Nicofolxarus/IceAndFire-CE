@@ -41,16 +41,21 @@ dependencies {
     modImplementation "maven.modrinth:uranus:D7jNDhfK"
     modImplementation "maven.modrinth:jupiter:6FVn8sRM"
 
-    modLocalRuntime "dev.emi:emi-neoforge:${emi_version}"
+    modLocalRuntime "dev.emi:emi-neoforge:$emi_version"
 
     modImplementation "maven.modrinth:jade:JkFFfEao"
 
     //ProjectE
     modApi "curse.maven:projecte-226410:6611984"
 
-    compileOnly "net.createmod.ponder:Ponder-NeoForge-${minecraft_version}:${ponder_version}"
+    modCompileOnly "net.createmod.ponder:Ponder-NeoForge-$minecraft_version:$ponder_version"
 
-    modImplementation 'curse.maven:touhou-little-maid-355044:6911706'
+    modCompileOnly "curse.maven:touhou-little-maid-355044:6911706"
+
+    // Ars Nouveau
+    modImplementation "com.hollingsworth.ars_nouveau:ars_nouveau-$minecraft_version:$ars_version"
+    modImplementation "software.bernie.geckolib:geckolib-neoforge-$minecraft_version:$geckolib_version"
+    modImplementation "top.theillusivec4.curios:curios-neoforge:$curios_version"
 }
 
 processResources {

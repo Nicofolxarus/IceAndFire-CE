@@ -81,7 +81,7 @@ public class LecternBlockEntity extends LockableContainerBlockEntity implements 
     }
 
     @Override
-    public ItemStack getStack(int index) {
+    public ItemStack getStackInSlot(int index) {
         return this.stacks.get(index);
     }
 
@@ -122,7 +122,7 @@ public class LecternBlockEntity extends LockableContainerBlockEntity implements 
             this.selectedPages[0] = null;
             this.selectedPages[1] = null;
             this.selectedPages[2] = null;
-        } else this.randomizePages(this.getStack(0), this.getStack(1));
+        } else this.randomizePages(this.getStackInSlot(0), this.getStackInSlot(1));
     }
 
     public void randomizePages(ItemStack bestiary, ItemStack manuscript) {

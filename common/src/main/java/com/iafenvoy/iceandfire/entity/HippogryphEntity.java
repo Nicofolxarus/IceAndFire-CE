@@ -213,7 +213,7 @@ public class HippogryphEntity extends TameableEntity implements ExtendedMenuProv
         if (animalchest != null) {
             int i = Math.min(animalchest.size(), this.hippogryphInventory.size());
             for (int j = 0; j < i; ++j) {
-                ItemStack itemstack = animalchest.getStack(j);
+                ItemStack itemstack = animalchest.getStackInSlot(j);
                 if (!itemstack.isEmpty())
                     this.hippogryphInventory.setStack(j, itemstack.copy());
             }
@@ -757,9 +757,9 @@ public class HippogryphEntity extends TameableEntity implements ExtendedMenuProv
         }
         if (this.hasChestVarChanged && this.hippogryphInventory != null && !this.isChested()) {
             for (int i = 3; i < 18; i++) {
-                if (!this.hippogryphInventory.getStack(i).isEmpty()) {
+                if (!this.hippogryphInventory.getStackInSlot(i).isEmpty()) {
                     if (!this.getWorld().isClient) {
-                        this.dropStack(this.hippogryphInventory.getStack(i), 1);
+                        this.dropStack(this.hippogryphInventory.getStackInSlot(i), 1);
                     }
                     this.hippogryphInventory.removeStack(i);
                 }
@@ -946,7 +946,7 @@ public class HippogryphEntity extends TameableEntity implements ExtendedMenuProv
         super.onDeath(cause);
         if (this.hippogryphInventory != null && !this.getWorld().isClient)
             for (int i = 0; i < this.hippogryphInventory.size(); ++i) {
-                ItemStack itemstack = this.hippogryphInventory.getStack(i);
+                ItemStack itemstack = this.hippogryphInventory.getStackInSlot(i);
                 if (!itemstack.isEmpty())
                     this.dropStack(itemstack, 0.0F);
             }

@@ -44,7 +44,7 @@ public class PodiumBlockEntity extends LockableContainerBlockEntity implements S
     }
 
     @Override
-    public ItemStack getStack(int index) {
+    public ItemStack getStackInSlot(int index) {
         return this.stacks.get(index);
     }
 
@@ -185,7 +185,7 @@ public class PodiumBlockEntity extends LockableContainerBlockEntity implements S
     @Override
     public boolean isEmpty() {
         for (int i = 0; i < this.size(); i++)
-            if (!this.getStack(i).isEmpty())
+            if (!this.getStackInSlot(i).isEmpty())
                 return false;
         return true;
     }

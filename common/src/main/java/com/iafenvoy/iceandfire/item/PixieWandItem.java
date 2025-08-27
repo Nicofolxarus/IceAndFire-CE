@@ -71,7 +71,7 @@ public class PixieWandItem extends Item {
             return player.getStackInHand(Hand.MAIN_HAND);
         else {
             for (int i = 0; i < player.getInventory().size(); ++i) {
-                ItemStack itemstack = player.getInventory().getStack(i);
+                ItemStack itemstack = player.getInventory().getStackInSlot(i);
                 if (this.isAmmo(itemstack))
                     return itemstack;
             }
