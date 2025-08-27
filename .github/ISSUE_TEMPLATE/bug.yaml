@@ -20,10 +20,10 @@ body:
   - type: dropdown
     id: loader
     attributes:
-      label: Mod Loader Type
+      label: Mod Loader
       options:
-        - Fabric
         - (Neo)Forge
+        - Fabric
     validations:
       required: true
   - type: textarea
