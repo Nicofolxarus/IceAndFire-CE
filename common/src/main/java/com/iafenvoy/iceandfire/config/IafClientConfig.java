@@ -43,6 +43,7 @@ public class IafClientConfig extends FileConfigContainer {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            this.save();
             IceAndFire.LOGGER.info("Wrong client config version {} for mod {}! Automatically use version {} and backup old one.", version, IceAndFire.MOD_NAME, CURRENT_VERSION);
             return false;
         } else IceAndFire.LOGGER.info("{} client config version match.", IceAndFire.MOD_NAME);

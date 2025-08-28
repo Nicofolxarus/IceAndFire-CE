@@ -57,6 +57,7 @@ public class IafCommonConfig extends AutoInitConfigContainer {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            this.save();
             IceAndFire.LOGGER.info("Wrong common config version {} for mod {}! Automatically use version {} and backup old one.", version, IceAndFire.MOD_NAME, CURRENT_VERSION);
             return false;
         } else IceAndFire.LOGGER.info("{} common config version match.", IceAndFire.MOD_NAME);
