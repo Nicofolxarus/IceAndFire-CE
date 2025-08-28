@@ -28,7 +28,7 @@ public class WorldRendererMixin {
     @Final
     private BufferBuilderStorage bufferBuilders;
     @Unique
-    private static final LightningRenderer LIGHTNING_RENDER = new LightningRenderer();
+    private final LightningRenderer iceandfire$lightningRenderer = new LightningRenderer();
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;getEntities()Ljava/lang/Iterable;"))
     private void renderBolts(CallbackInfo ci, @Local(argsOnly = true) RenderTickCounter tickCounter, @Local MatrixStack matrices) {
@@ -42,10 +42,10 @@ public class WorldRendererMixin {
                     .lifespan(10)
                     .fade(LightningBoltData.FadeFunction.fade(0.1F))
                     .spawn(LightningBoltData.SpawnFunction.NO_DELAY);
-            LIGHTNING_RENDER.update(null, bolt, tickDelta);
+            this.iceandfire$lightningRenderer.update(null, bolt, tickDelta);
         }
         ClientEvents.LIGHTNINGS.clear();
-        LIGHTNING_RENDER.render(tickDelta, matrices, this.bufferBuilders.getEntityVertexConsumers());
+        this.iceandfire$lightningRenderer.render(tickDelta, matrices, this.bufferBuilders.getEntityVertexConsumers());
         matrices.pop();
     }
 }

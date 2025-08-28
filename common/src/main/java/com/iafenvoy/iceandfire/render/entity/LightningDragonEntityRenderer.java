@@ -15,7 +15,7 @@ import net.minecraft.util.math.Vec3d;
 public class LightningDragonEntityRenderer extends DragonBaseEntityRenderer<LightningDragonEntity> {
     private final LightningRenderer lightningRenderer = new LightningRenderer();
 
-    public LightningDragonEntityRenderer(EntityRendererFactory.Context context, TabulaModel modelSupplier) {
+    public LightningDragonEntityRenderer(EntityRendererFactory.Context context, TabulaModel<LightningDragonEntity> modelSupplier) {
         super(context, modelSupplier);
     }
 
@@ -25,13 +25,12 @@ public class LightningDragonEntityRenderer extends DragonBaseEntityRenderer<Ligh
 
     @Override
     public boolean shouldRender(LightningDragonEntity livingEntityIn, Frustum camera, double camX, double camY, double camZ) {
-        if (super.shouldRender(livingEntityIn, camera, camX, camY, camZ))
-            return true;
+        if (super.shouldRender(livingEntityIn, camera, camX, camY, camZ)) return true;
         else {
             if (livingEntityIn.hasLightningTarget()) {
-                Vec3d Vector3d1 = livingEntityIn.getHeadPosition();
-                Vec3d Vector3d = new Vec3d(livingEntityIn.getLightningTargetX(), livingEntityIn.getLightningTargetY(), livingEntityIn.getLightningTargetZ());
-                return camera.isVisible(new Box(Vector3d1.x, Vector3d1.y, Vector3d1.z, Vector3d.x, Vector3d.y, Vector3d.z));
+                Vec3d head = livingEntityIn.getHeadPosition();
+                Vec3d target = new Vec3d(livingEntityIn.getLightningTargetX(), livingEntityIn.getLightningTargetY(), livingEntityIn.getLightningTargetZ());
+                return camera.isVisible(new Box(head.x, head.y, head.z, target.x, target.y, target.z));
             }
             return false;
         }
@@ -42,9 +41,10 @@ public class LightningDragonEntityRenderer extends DragonBaseEntityRenderer<Ligh
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
         matrixStackIn.push();
         if (entityIn.hasLightningTarget()) {
-            assert MinecraftClient.getInstance().player != null;
-            double dist = MinecraftClient.getInstance().player.distanceTo(entityIn);
-            if (dist <= Math.max(256, MinecraftClient.getInstance().options.getViewDistance().getValue() * 16F)) {
+            MinecraftClient client = MinecraftClient.getInstance();
+            assert client.player != null;
+            double dist = client.player.distanceTo(entityIn);
+            if (dist <= Math.max(256, client.options.getViewDistance().getValue() * 16F)) {
                 Vec3d Vector3d1 = entityIn.getHeadPosition();
                 Vec3d Vector3d = new Vec3d(entityIn.getLightningTargetX(), entityIn.getLightningTargetY(), entityIn.getLightningTargetZ());
                 float energyScale = 0.4F * entityIn.getScaleFactor();
