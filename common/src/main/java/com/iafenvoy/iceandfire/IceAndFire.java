@@ -42,8 +42,6 @@ public class IceAndFire {
         TrollType.initArmors();
 
         IafArmorMaterials.REGISTRY.register();
-        IafParticles.REGISTRY.register();
-        IafSounds.REGISTRY.register();
         IafBlocks.REGISTRY.register();
         IafBlockEntities.REGISTRY.register();
         IafDataComponents.REGISTRY.register();
@@ -53,12 +51,14 @@ public class IceAndFire {
         IafLoots.REGISTRY.register();
         IafRecipes.REGISTRY.register();
         IafRecipeSerializers.REGISTRY.register();
+        IafParticles.REGISTRY.register();
         IafPlacementFilters.REGISTRY.register();
         IafProcessors.REGISTRY.register();
         IafFeatures.REGISTRY.register();
+        IafScreenHandlers.REGISTRY.register();
+        IafSounds.REGISTRY.register();
         IafStructurePieces.REGISTRY.register();
         IafStructureTypes.REGISTRY.register();
-        IafScreenHandlers.REGISTRY.register();
         //Trade
         IafTrades.POI_REGISTRY.register();
         IafTrades.PROFESSION_REGISTRY.register();

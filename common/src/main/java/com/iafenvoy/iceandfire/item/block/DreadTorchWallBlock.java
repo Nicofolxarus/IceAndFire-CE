@@ -6,6 +6,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.WallTorchBlock;
 import net.minecraft.block.enums.NoteBlockInstrument;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.BlockPos;
@@ -15,7 +16,7 @@ import net.minecraft.world.World;
 
 public class DreadTorchWallBlock extends WallTorchBlock implements DreadBlock {
     public DreadTorchWallBlock() {
-        super(IafParticles.DREAD_TORCH.get(), Settings.create().mapColor(MapColor.OAK_TAN).instrument(NoteBlockInstrument.BASS).burnable().luminance((state) -> 5).sounds(BlockSoundGroup.STONE).nonOpaque().dynamicBounds().noCollision());
+        super(ParticleTypes.DUST_PLUME, Settings.create().mapColor(MapColor.OAK_TAN).instrument(NoteBlockInstrument.BASS).burnable().luminance((state) -> 5).sounds(BlockSoundGroup.STONE).nonOpaque().dynamicBounds().noCollision());
     }
 
     @Override
