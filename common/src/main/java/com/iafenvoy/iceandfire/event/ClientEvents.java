@@ -10,11 +10,11 @@ import com.iafenvoy.iceandfire.entity.MultipartPartEntity;
 import com.iafenvoy.iceandfire.entity.SirenEntity;
 import com.iafenvoy.iceandfire.entity.util.ICustomMoveController;
 import com.iafenvoy.iceandfire.network.payload.DragonControlC2SPayload;
-import com.iafenvoy.iceandfire.render.misc.CockatriceBeamRenderer;
 import com.iafenvoy.iceandfire.registry.IafKeybindings;
 import com.iafenvoy.iceandfire.registry.IafParticles;
-import com.iafenvoy.iceandfire.render.misc.FrozenStateRenderer;
 import com.iafenvoy.iceandfire.render.misc.ChainRenderer;
+import com.iafenvoy.iceandfire.render.misc.CockatriceBeamRenderer;
+import com.iafenvoy.iceandfire.render.misc.FrozenStateRenderer;
 import dev.architectury.event.EventResult;
 import dev.architectury.networking.NetworkManager;
 import net.fabricmc.api.EnvType;
@@ -109,6 +109,7 @@ public final class ClientEvents {
     public static void onPostRenderLiving(LivingEntity entity, float partialRenderTick, MatrixStack matrixStack, VertexConsumerProvider buffers, int light) {
         MiscData miscData = MiscData.get(entity);
         ClientWorld world = MinecraftClient.getInstance().world;
+        if (world == null) return;
         miscData.checkScepterTarget(world.entityManager.getLookup()::get);
         for (UUID target : miscData.getTargetedByScepters())
             CockatriceBeamRenderer.render(entity, world.entityManager.getLookup().get(target), matrixStack, buffers, partialRenderTick);
