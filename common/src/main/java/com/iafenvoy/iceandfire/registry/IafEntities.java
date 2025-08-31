@@ -92,7 +92,7 @@ public final class IafEntities {
         commonSetup();
     }
 
-    public static void bakeAttributes() {
+    public static void registerAttributes() {
         EntityAttributeRegistry.register(DRAGON_EGG, DragonEggEntity::bakeAttributes);
         EntityAttributeRegistry.register(DRAGON_SKULL, DragonSkullEntity::bakeAttributes);
         EntityAttributeRegistry.register(FIRE_DRAGON, FireDragonEntity::bakeAttributes);

@@ -450,14 +450,9 @@ public class IceDragonEntity extends DragonBaseEntity {
                 d3 = d3 + this.random.nextGaussian() * 0.007499999832361937D * inaccuracy;
                 d4 = d4 + this.random.nextGaussian() * 0.007499999832361937D * inaccuracy;
                 this.playSound(IafSounds.FIREDRAGON_BREATH.get(), 4, 1);
-                IceDragonChargeEntity entitylargefireball = new IceDragonChargeEntity(
-                        IafEntities.ICE_DRAGON_CHARGE.get(), this.getWorld(), this, d2, d3, d4);
-                // FIXME :: Unused
-                // float size = this.isBaby() ? 0.4F : this.shouldDropLoot() ? 1.3F : 0.8F;
-                entitylargefireball.setPosition(headVec.x, headVec.y, headVec.z);
-                if (!this.getWorld().isClient) {
-                    this.getWorld().spawnEntity(entitylargefireball);
-                }
+                IceDragonChargeEntity charge = new IceDragonChargeEntity(IafEntities.ICE_DRAGON_CHARGE.get(), this.getWorld(), this, d2, d3, d4);
+                charge.setPosition(headVec.x, headVec.y, headVec.z);
+                if (!this.getWorld().isClient) this.getWorld().spawnEntity(charge);
             }
             return;
         }

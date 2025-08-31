@@ -4,10 +4,8 @@
   "package": "com.iafenvoy.iceandfire.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "BrewingRecipeRegistry$BuilderMixin",
     "ChunkRegionMixin",
     "LivingEntityMixin",
-    "MinecraftServerMixin",
     "MobEntityMixin"
   ],
   "client": [

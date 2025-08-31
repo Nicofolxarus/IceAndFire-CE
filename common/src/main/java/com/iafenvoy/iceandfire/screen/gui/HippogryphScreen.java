@@ -12,7 +12,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-//TODO: We do the same thing here as we do for the other GUI entity screens, that's dumb
 public class HippogryphScreen extends HandledScreen<HippogryphScreenHandler> {
     private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/gui/hippogryph.png");
 

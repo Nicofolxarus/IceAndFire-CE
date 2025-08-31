@@ -15,8 +15,7 @@ import net.minecraft.world.World;
 
 public class DreadTorchWallBlock extends WallTorchBlock implements DreadBlock {
     public DreadTorchWallBlock() {
-        //TODO: Particle Type
-        super(new SimpleParticleType(false), Settings.create().mapColor(MapColor.OAK_TAN).instrument(NoteBlockInstrument.BASS).burnable().luminance((state) -> 5).sounds(BlockSoundGroup.STONE).nonOpaque().dynamicBounds().noCollision());
+        super(IafParticles.DREAD_TORCH.get(), Settings.create().mapColor(MapColor.OAK_TAN).instrument(NoteBlockInstrument.BASS).burnable().luminance((state) -> 5).sounds(BlockSoundGroup.STONE).nonOpaque().dynamicBounds().noCollision());
     }
 
     @Override

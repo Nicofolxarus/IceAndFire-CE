@@ -705,29 +705,20 @@ public class HippogryphEntity extends TameableEntity implements ExtendedMenuProv
     @Override
     public void tickMovement() {
         super.tickMovement();
-        //switchNavigator();
-        if (this.getWorld().getDifficulty() == Difficulty.PEACEFUL && this.getTarget() instanceof PlayerEntity) {
+        if (this.getWorld().getDifficulty() == Difficulty.PEACEFUL && this.getTarget() instanceof PlayerEntity)
             this.setTarget(null);
-        }
         if (!this.getWorld().isClient) {
-            if (this.isSitting() && (this.getCommand() != 1 || this.getControllingPassenger() != null)) {
+            if (this.isSitting() && (this.getCommand() != 1 || this.getControllingPassenger() != null))
                 this.setSitting(false);
-            }
-            if (!this.isSitting() && this.getCommand() == 1 && this.getControllingPassenger() == null) {
+            if (!this.isSitting() && this.getCommand() == 1 && this.getControllingPassenger() == null)
                 this.setSitting(true);
-            }
-            if (this.isSitting()) {
-                this.getNavigation().stop();
-            }
-            if (this.random.nextInt(900) == 0 && this.deathTime == 0) {
-                this.heal(1.0F);
-            }
+            if (this.isSitting()) this.getNavigation().stop();
+            if (this.random.nextInt(900) == 0 && this.deathTime == 0) this.heal(1.0F);
         }
         if (this.getAnimation() == ANIMATION_BITE && this.getTarget() != null && this.getAnimationTick() == 6) {
             double dist = this.squaredDistanceTo(this.getTarget());
-            if (dist < 8) {
+            if (dist < 8)
                 this.getTarget().damage(this.getWorld().getDamageSources().mobAttack(this), ((int) this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).getValue()));
-            }
         }
         LivingEntity attackTarget = this.getTarget();
         if (this.getAnimation() == ANIMATION_SCRATCH && attackTarget != null && this.getAnimationTick() == 6) {

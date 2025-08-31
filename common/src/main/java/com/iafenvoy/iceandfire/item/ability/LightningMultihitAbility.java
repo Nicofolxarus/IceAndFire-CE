@@ -23,7 +23,6 @@ public class LightningMultihitAbility implements PostHitAbility {
         if (this.isEnable()) {
             if (IafCommonConfig.INSTANCE.tools.dragonLightningAbility.getValue() && attacker.getWorld() instanceof ServerWorld world && target instanceof MobEntity mob) {
                 Vec3d pos = attacker.getPos();
-                //TODO: config
                 double searchRange = IafCommonConfig.INSTANCE.tools.dragonLightningSearchRange.getValue();
                 List<Pair<Vec3d, Vec3d>> lightnings = new LinkedList<>();
                 //Cache for BFS

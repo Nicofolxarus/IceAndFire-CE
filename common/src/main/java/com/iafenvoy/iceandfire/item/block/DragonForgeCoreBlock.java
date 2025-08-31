@@ -117,6 +117,6 @@ public class DragonForgeCoreBlock extends BlockWithEntity implements DragonProof
 
     @Override
     protected MapCodec<? extends BlockWithEntity> getCodec() {
-        return MapCodec.unit(this);//TODO: Codec
+        return MapCodec.unit(this);
     }
 }

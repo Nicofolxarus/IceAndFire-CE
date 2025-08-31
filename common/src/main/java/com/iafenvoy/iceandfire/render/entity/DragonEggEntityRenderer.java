@@ -7,8 +7,6 @@ import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.util.Identifier;
 
 public class DragonEggEntityRenderer extends LivingEntityRenderer<DragonEggEntity, DragonEggModel<DragonEggEntity>> {
-    //TODO: Unused
-
     public DragonEggEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new DragonEggModel<>(), 0.3F);
     }

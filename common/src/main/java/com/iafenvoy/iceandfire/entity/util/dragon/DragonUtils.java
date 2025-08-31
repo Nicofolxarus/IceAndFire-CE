@@ -139,31 +139,6 @@ public class DragonUtils {
         return (LivingEntity) pointedEntity;
     }
 
-    public static BlockPos getBlockInViewHippogryph(HippogryphEntity hippo, float yawAddition) {
-        float radius = 0.75F * (0.7F * 8) * -3 - hippo.getRandom().nextInt(48);
-        float neg = hippo.getRandom().nextBoolean() ? 1 : -1;
-        float angle = (0.01745329251F * (hippo.bodyYaw + yawAddition)) + 3.15F + (hippo.getRandom().nextFloat() * neg);
-        double extraX = radius * MathHelper.sin((float) (Math.PI + angle));
-        double extraZ = radius * MathHelper.cos(angle);
-        if (hippo.hasHomePosition && hippo.homePos != null) {
-            BlockPos dragonPos = hippo.getBlockPos();
-            BlockPos ground = hippo.getWorld().getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, dragonPos);
-            int distFromGround = (int) hippo.getY() - ground.getY();
-            for (int i = 0; i < 10; i++) {
-                BlockPos pos = BlockPos.ofFloored(hippo.homePos.getX() + hippo.getRandom().nextInt(IafCommonConfig.INSTANCE.dragon.wanderFromHomeDistance.getValue()) - IafCommonConfig.INSTANCE.dragon.wanderFromHomeDistance.getValue(), (distFromGround > 16 ? (int) Math.min(IafCommonConfig.INSTANCE.dragon.maxFlight.getValue(), hippo.getY() + hippo.getRandom().nextInt(16) - 8) : (int) hippo.getY() + hippo.getRandom().nextInt(16) + 1), (hippo.homePos.getZ() + hippo.getRandom().nextInt(IafCommonConfig.INSTANCE.dragon.wanderFromHomeDistance.getValue() * 2) - IafCommonConfig.INSTANCE.dragon.wanderFromHomeDistance.getValue()));
-                if (hippo.getDistanceSquared(Vec3d.ofCenter(pos)) > 6 && !hippo.isTargetBlocked(Vec3d.ofCenter(pos)))
-                    return pos;
-            }
-        }
-        BlockPos radialPos = BlockPos.ofFloored(hippo.getX() + extraX, 0, hippo.getZ() + extraZ);
-        BlockPos ground = hippo.getWorld().getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, radialPos);
-        int distFromGround = (int) hippo.getY() - ground.getY();
-        BlockPos newPos = radialPos.up(distFromGround > 16 ? (int) Math.min(IafCommonConfig.INSTANCE.dragon.maxFlight.getValue(), hippo.getY() + hippo.getRandom().nextInt(16) - 8) : (int) hippo.getY() + hippo.getRandom().nextInt(16) + 1);
-        if (!hippo.isTargetBlocked(Vec3d.ofCenter(newPos)) && hippo.getDistanceSquared(Vec3d.ofCenter(newPos)) > 6)
-            return newPos;
-        return null;
-    }
-
     public static BlockPos getBlockInViewStymphalian(StymphalianBirdEntity bird) {
         float radius = 0.75F * (0.7F * 6) * -3 - bird.getRandom().nextInt(24);
         float neg = bird.getRandom().nextBoolean() ? 1 : -1;
@@ -176,16 +151,14 @@ public class DragonUtils {
         int distFromGround = (int) bird.getY() - ground.getY();
         int flightHeight = Math.min(IafCommonConfig.INSTANCE.stymphalianBird.flightHeight.getValue(), ground.getY() + bird.getRandom().nextInt(16));
         BlockPos newPos = radialPos.up(distFromGround > 16 ? flightHeight : (int) bird.getY() + bird.getRandom().nextInt(16) + 1);
-        // FIXME :: Unused
-//        BlockPos pos = bird.doesWantToLand() ? ground : newPos;
         if (bird.getDistanceSquared(Vec3d.ofCenter(newPos)) > 6 && !bird.isTargetBlocked(Vec3d.ofCenter(newPos)))
             return newPos;
         return null;
     }
 
     private static BlockPos getStymphalianFearPos(StymphalianBirdEntity bird, BlockPos fallback) {
-        if (bird.getVictor() != null && bird.getVictor() instanceof PathAwareEntity) {
-            Vec3d Vector3d = NoPenaltyTargeting.findFrom((PathAwareEntity) bird.getVictor(), 16, IafCommonConfig.INSTANCE.stymphalianBird.flightHeight.getValue(), new Vec3d(bird.getVictor().getX(), bird.getVictor().getY(), bird.getVictor().getZ()));
+        if (bird.getVictor() != null && bird.getVictor() instanceof PathAwareEntity pathAware) {
+            Vec3d Vector3d = NoPenaltyTargeting.findFrom(pathAware, 16, IafCommonConfig.INSTANCE.stymphalianBird.flightHeight.getValue(), new Vec3d(bird.getVictor().getX(), bird.getVictor().getY(), bird.getVictor().getZ()));
             if (Vector3d != null) {
                 BlockPos pos = BlockPos.ofFloored(Vector3d);
                 return new BlockPos(pos.getX(), 0, pos.getZ());

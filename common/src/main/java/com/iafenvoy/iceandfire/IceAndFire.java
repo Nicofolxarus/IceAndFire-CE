@@ -18,6 +18,7 @@ import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.InteractionEvent;
 import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.platform.Platform;
+import net.minecraft.recipe.BrewingRecipeRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,6 +42,7 @@ public class IceAndFire {
         TrollType.initArmors();
 
         IafArmorMaterials.REGISTRY.register();
+        IafParticles.REGISTRY.register();
         IafSounds.REGISTRY.register();
         IafBlocks.REGISTRY.register();
         IafBlockEntities.REGISTRY.register();
@@ -51,7 +53,6 @@ public class IceAndFire {
         IafLoots.REGISTRY.register();
         IafRecipes.REGISTRY.register();
         IafRecipeSerializers.REGISTRY.register();
-        IafParticles.REGISTRY.register();
         IafPlacementFilters.REGISTRY.register();
         IafProcessors.REGISTRY.register();
         IafFeatures.REGISTRY.register();
@@ -61,7 +62,7 @@ public class IceAndFire {
         //Trade
         IafTrades.POI_REGISTRY.register();
         IafTrades.PROFESSION_REGISTRY.register();
-        IafEntities.bakeAttributes();
+        IafEntities.registerAttributes();
     }
 
     public static void process() {

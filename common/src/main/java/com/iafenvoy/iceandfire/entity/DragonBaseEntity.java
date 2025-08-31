@@ -75,7 +75,6 @@ import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.particle.BlockStateParticleEffect;
@@ -760,9 +759,7 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
         compound.putBoolean("Tackle", this.isTackling());
         compound.putBoolean("HasHomePosition", this.hasHomePosition);
         compound.putString("CustomPose", this.getCustomPose());
-        if (this.homePos != null && this.hasHomePosition) {
-            this.homePos.write(compound);
-        }
+        if (this.homePos != null && this.hasHomePosition) this.homePos.write(compound);
         compound.putBoolean("AgingDisabled", this.isAgingDisabled());
         compound.putInt("Command", this.getCommand());
         if (this.dragonInventory != null)
@@ -781,13 +778,7 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
         this.setHunger(compound.getInt("Hunger"));
         this.setAgeInTicks(compound.getInt("AgeTicks"));
         this.setGender(compound.getBoolean("Gender"));
-        //FIXME: Compat for old version should be removed in 0.7
-        if (compound.contains("Variant") && compound.get("Variant").getType() == NbtElement.STRING_TYPE)
-            this.setVariant(compound.getString("Variant"));
-        else {
-            List<DragonColor> colors = DragonColor.getColorsByType(this.dragonType);
-            this.setVariant(colors.get(compound.getInt("Variant")).name());
-        }
+        this.setVariant(compound.getString("Variant"));
         this.setInSittingPose(compound.getBoolean("Sleeping"));
         this.setTamed(compound.getBoolean("TamedDragon"), true);
         this.setBreathingFire(compound.getBoolean("FireBreathing"));
@@ -799,9 +790,8 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
         this.modelDeadProgress = compound.getFloat("DeadProg");
         this.setCustomPose(compound.getString("CustomPose"));
         this.hasHomePosition = compound.getBoolean("HasHomePosition");
-        if (this.hasHomePosition && compound.getInt("HomeAreaX") != 0 && compound.getInt("HomeAreaY") != 0 && compound.getInt("HomeAreaZ") != 0) {
+        if (this.hasHomePosition && compound.getInt("HomeAreaX") != 0 && compound.getInt("HomeAreaY") != 0 && compound.getInt("HomeAreaZ") != 0)
             this.homePos = new HomePosition(compound, this.getWorld());
-        }
         this.setTackling(compound.getBoolean("Tackle"));
         this.setAgingDisabled(compound.getBoolean("AgingDisabled"));
         this.setCommand(compound.getInt("Command"));
@@ -851,12 +841,12 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
         return this.dragonInventory != pInventory;
     }
 
-    @Override // TODO :: This only returns player - is that correct?
+    @Override
     public LivingEntity getControllingPassenger() {
         for (Entity passenger : this.getPassengerList())
-            if (passenger instanceof PlayerEntity player && this.getTarget() != passenger)
-                if (this.isTamed() && this.getOwnerUuid() != null && this.getOwnerUuid().equals(player.getUuid()))
-                    return player;
+            if (passenger instanceof LivingEntity living && this.getTarget() != living)
+                if (this.isTamed() && this.getOwnerUuid() != null && this.getOwnerUuid().equals(living.getUuid()))
+                    return living;
         return null;
     }
 

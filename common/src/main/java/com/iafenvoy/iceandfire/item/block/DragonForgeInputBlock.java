@@ -90,6 +90,6 @@ public class DragonForgeInputBlock extends BlockWithEntity implements DragonProo
 
     @Override
     protected MapCodec<? extends BlockWithEntity> getCodec() {
-        return MapCodec.unit(this);//TODO: Codec
+        return MapCodec.unit(this);
     }
 }

@@ -5,10 +5,10 @@ import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.DragonColor;
 import com.iafenvoy.iceandfire.data.DragonType;
-import com.iafenvoy.iceandfire.item.block.entity.EggInIceBlockEntity;
 import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.IDeadMob;
 import com.iafenvoy.iceandfire.item.DragonEggItem;
+import com.iafenvoy.iceandfire.item.block.entity.EggInIceBlockEntity;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import com.iafenvoy.uranus.object.BlockUtil;
@@ -165,44 +165,24 @@ public class DragonEggEntity extends LivingEntity implements BlacklistedFromStat
         if (this.getDragonAge() > IafCommonConfig.INSTANCE.dragon.eggBornTime.getValue()) {
             this.getWorld().setBlockState(this.getBlockPos(), Blocks.AIR.getDefaultState());
             DragonBaseEntity dragon = dragonType.getEntity().create(this.getWorld());
-
-            if (this.hasCustomName()) {
-                assert dragon != null;
-                dragon.setCustomName(this.getCustomName());
-            }
-
             assert dragon != null;
             dragon.setVariant(this.getEggType().name());
             dragon.setGender(this.getRandom().nextBoolean());
             dragon.setPosition(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 1, this.getBlockPos().getZ() + 0.5);
             dragon.setHunger(50);
-
-            if (!this.getWorld().isClient()) {
-                this.getWorld().spawnEntity(dragon);
-            }
-
-            if (this.hasCustomName()) { // FIXME :: Why do this again?
-                dragon.setCustomName(this.getCustomName());
-            }
-
+            if (!this.getWorld().isClient()) this.getWorld().spawnEntity(dragon);
+            if (this.hasCustomName()) dragon.setCustomName(this.getCustomName());
             dragon.setTamed(true, true);
             dragon.setOwnerUuid(this.getOwnerId());
-
             if (dragonType == DragonType.LIGHTNING) {
                 LightningEntity bolt = EntityType.LIGHTNING_BOLT.create(this.getWorld());
                 assert bolt != null;
                 bolt.setPosition(this.getX(), this.getY(), this.getZ());
                 bolt.setCosmetic(true);
-
-                if (!this.getWorld().isClient()) {
-                    this.getWorld().spawnEntity(bolt);
-                }
-
+                if (!this.getWorld().isClient()) this.getWorld().spawnEntity(bolt);
                 this.getWorld().playSound(this.getX(), this.getY() + this.getStandingEyeHeight(), this.getZ(), SoundEvents.ENTITY_LIGHTNING_BOLT_THUNDER, this.getSoundCategory(), 2.5F, 1.0F, false);
-            } else if (dragonType == DragonType.FIRE) {
+            } else if (dragonType == DragonType.FIRE)
                 this.getWorld().playSound(this.getX(), this.getY() + this.getStandingEyeHeight(), this.getZ(), SoundEvents.BLOCK_FIRE_EXTINGUISH, this.getSoundCategory(), 2.5F, 1.0F, false);
-            }
-
             this.getWorld().playSound(this.getX(), this.getY() + this.getStandingEyeHeight(), this.getZ(), IafSounds.EGG_HATCH.get(), this.getSoundCategory(), 2.5F, 1.0F, false);
             this.remove(RemovalReason.DISCARDED);
         }
