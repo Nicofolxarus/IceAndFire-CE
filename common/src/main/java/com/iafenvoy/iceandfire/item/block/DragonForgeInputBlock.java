@@ -24,23 +24,23 @@ import net.minecraft.world.World;
 
 public class DragonForgeInputBlock extends BlockWithEntity implements DragonProof {
     public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
-    private final int dragonType;
+    private final DragonType dragonType;
 
-    public DragonForgeInputBlock(int dragonType) {
+    public DragonForgeInputBlock(DragonType dragonType) {
         super(Settings.create().mapColor(MapColor.STONE_GRAY).instrument(NoteBlockInstrument.BASEDRUM).dynamicBounds().strength(40, 500).sounds(BlockSoundGroup.METAL));
         this.dragonType = dragonType;
         this.setDefaultState(this.getStateManager().getDefaultState().with(ACTIVE, Boolean.FALSE));
     }
 
-    public static String name(int dragonType) {
-        return "dragonforge_%s_input".formatted(DragonType.getNameFromInt(dragonType));
+    public static String name(DragonType dragonType) {
+        return "dragonforge_%s_input".formatted(dragonType.name());
     }
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (this.getConnectedTileEntity(world, pos) != null) {
             DragonForgeBlockEntity forge = this.getConnectedTileEntity(world, pos);
-            if (forge != null && forge.getPropertyDelegate().fireType == this.dragonType) {
+            if (forge != null && forge.getPropertyDelegate().fireType == this.dragonType.getIntFromType()) {
                 if (!world.isClient) {
                     NamedScreenHandlerFactory inamedcontainerprovider = this.createScreenHandlerFactory(forge.getCachedState(), world, forge.getPos());
                     if (inamedcontainerprovider != null) {

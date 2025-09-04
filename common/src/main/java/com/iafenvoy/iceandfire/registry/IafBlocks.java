@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.registry;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.data.DragonColor;
+import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.item.block.*;
 import com.iafenvoy.iceandfire.item.block.LecternBlock;
 import com.iafenvoy.iceandfire.item.block.util.WallBlock;
@@ -69,33 +69,33 @@ public final class IafBlocks {
 
     public static final RegistrySupplier<Block> NEST = register("nest", () -> GenericBlock.builder(0.5F, 0F, BlockSoundGroup.GRAVEL, false, MapColor.DARK_GREEN, null, PistonBehavior.DESTROY, false));
 
-    public static final RegistrySupplier<Block> DRAGON_SCALE_RED = register("dragonscale_red", () -> new DragonScalesBlock(DragonColor.RED));
-    public static final RegistrySupplier<Block> DRAGON_SCALE_GREEN = register("dragonscale_green", () -> new DragonScalesBlock(DragonColor.GREEN));
-    public static final RegistrySupplier<Block> DRAGON_SCALE_BRONZE = register("dragonscale_bronze", () -> new DragonScalesBlock(DragonColor.BRONZE));
-    public static final RegistrySupplier<Block> DRAGON_SCALE_GRAY = register("dragonscale_gray", () -> new DragonScalesBlock(DragonColor.GRAY));
-    public static final RegistrySupplier<Block> DRAGON_SCALE_BLUE = register("dragonscale_blue", () -> new DragonScalesBlock(DragonColor.BLUE));
-    public static final RegistrySupplier<Block> DRAGON_SCALE_WHITE = register("dragonscale_white", () -> new DragonScalesBlock(DragonColor.WHITE));
-    public static final RegistrySupplier<Block> DRAGON_SCALE_SAPPHIRE = register("dragonscale_sapphire", () -> new DragonScalesBlock(DragonColor.SAPPHIRE));
-    public static final RegistrySupplier<Block> DRAGON_SCALE_SILVER = register("dragonscale_silver", () -> new DragonScalesBlock(DragonColor.SILVER));
-    public static final RegistrySupplier<Block> DRAGON_SCALE_ELECTRIC = register("dragonscale_electric", () -> new DragonScalesBlock(DragonColor.ELECTRIC));
-    public static final RegistrySupplier<Block> DRAGON_SCALE_amethyst = register("dragonscale_amethyst", () -> new DragonScalesBlock(DragonColor.AMETHYST));
-    public static final RegistrySupplier<Block> DRAGON_SCALE_COPPER = register("dragonscale_copper", () -> new DragonScalesBlock(DragonColor.COPPER));
-    public static final RegistrySupplier<Block> DRAGON_SCALE_BLACK = register("dragonscale_black", () -> new DragonScalesBlock(DragonColor.BLACK));
+    public static final RegistrySupplier<Block> DRAGON_SCALE_RED = register("dragonscale_red", () -> new DragonScalesBlock(IafDragonColors.RED));
+    public static final RegistrySupplier<Block> DRAGON_SCALE_GREEN = register("dragonscale_green", () -> new DragonScalesBlock(IafDragonColors.GREEN));
+    public static final RegistrySupplier<Block> DRAGON_SCALE_BRONZE = register("dragonscale_bronze", () -> new DragonScalesBlock(IafDragonColors.BRONZE));
+    public static final RegistrySupplier<Block> DRAGON_SCALE_GRAY = register("dragonscale_gray", () -> new DragonScalesBlock(IafDragonColors.GRAY));
+    public static final RegistrySupplier<Block> DRAGON_SCALE_BLUE = register("dragonscale_blue", () -> new DragonScalesBlock(IafDragonColors.BLUE));
+    public static final RegistrySupplier<Block> DRAGON_SCALE_WHITE = register("dragonscale_white", () -> new DragonScalesBlock(IafDragonColors.WHITE));
+    public static final RegistrySupplier<Block> DRAGON_SCALE_SAPPHIRE = register("dragonscale_sapphire", () -> new DragonScalesBlock(IafDragonColors.SAPPHIRE));
+    public static final RegistrySupplier<Block> DRAGON_SCALE_SILVER = register("dragonscale_silver", () -> new DragonScalesBlock(IafDragonColors.SILVER));
+    public static final RegistrySupplier<Block> DRAGON_SCALE_ELECTRIC = register("dragonscale_electric", () -> new DragonScalesBlock(IafDragonColors.ELECTRIC));
+    public static final RegistrySupplier<Block> DRAGON_SCALE_amethyst = register("dragonscale_amethyst", () -> new DragonScalesBlock(IafDragonColors.AMETHYST));
+    public static final RegistrySupplier<Block> DRAGON_SCALE_COPPER = register("dragonscale_copper", () -> new DragonScalesBlock(IafDragonColors.COPPER));
+    public static final RegistrySupplier<Block> DRAGON_SCALE_BLACK = register("dragonscale_black", () -> new DragonScalesBlock(IafDragonColors.BLACK));
 
     public static final RegistrySupplier<Block> DRAGON_BONE_BLOCK = register("dragon_bone_block", DragonBoneBlock::new);
     public static final RegistrySupplier<Block> DRAGON_BONE_BLOCK_WALL = register("dragon_bone_wall", () -> new DragonBoneWallBlock(AbstractBlock.Settings.copy(IafBlocks.DRAGON_BONE_BLOCK.get())));
-    public static final RegistrySupplier<Block> DRAGONFORGE_FIRE_BRICK = register(DragonForgeBrickBlock.name(0), () -> new DragonForgeBrickBlock(0));
-    public static final RegistrySupplier<Block> DRAGONFORGE_ICE_BRICK = register(DragonForgeBrickBlock.name(1), () -> new DragonForgeBrickBlock(1));
-    public static final RegistrySupplier<Block> DRAGONFORGE_LIGHTNING_BRICK = register(DragonForgeBrickBlock.name(2), () -> new DragonForgeBrickBlock(2));
-    public static final RegistrySupplier<Block> DRAGONFORGE_FIRE_INPUT = register(DragonForgeInputBlock.name(0), () -> new DragonForgeInputBlock(0));
-    public static final RegistrySupplier<Block> DRAGONFORGE_ICE_INPUT = register(DragonForgeInputBlock.name(1), () -> new DragonForgeInputBlock(1));
-    public static final RegistrySupplier<Block> DRAGONFORGE_LIGHTNING_INPUT = register(DragonForgeInputBlock.name(2), () -> new DragonForgeInputBlock(2));
-    public static final RegistrySupplier<Block> DRAGONFORGE_FIRE_CORE = register(DragonForgeCoreBlock.name(0, true), () -> new DragonForgeCoreBlock(0, true));
-    public static final RegistrySupplier<Block> DRAGONFORGE_ICE_CORE = register(DragonForgeCoreBlock.name(1, true), () -> new DragonForgeCoreBlock(1, true));
-    public static final RegistrySupplier<Block> DRAGONFORGE_LIGHTNING_CORE = register(DragonForgeCoreBlock.name(2, true), () -> new DragonForgeCoreBlock(2, true));
-    public static final RegistrySupplier<Block> DRAGONFORGE_FIRE_CORE_DISABLED = register(DragonForgeCoreBlock.name(0, false), () -> new DragonForgeCoreBlock(0, false));
-    public static final RegistrySupplier<Block> DRAGONFORGE_ICE_CORE_DISABLED = register(DragonForgeCoreBlock.name(1, false), () -> new DragonForgeCoreBlock(1, false));
-    public static final RegistrySupplier<Block> DRAGONFORGE_LIGHTNING_CORE_DISABLED = register(DragonForgeCoreBlock.name(2, false), () -> new DragonForgeCoreBlock(2, false));
+    public static final RegistrySupplier<Block> DRAGONFORGE_FIRE_BRICK = forgeBrick(IafDragonTypes.FIRE);
+    public static final RegistrySupplier<Block> DRAGONFORGE_ICE_BRICK = forgeBrick(IafDragonTypes.ICE);
+    public static final RegistrySupplier<Block> DRAGONFORGE_LIGHTNING_BRICK = forgeBrick(IafDragonTypes.LIGHTNING);
+    public static final RegistrySupplier<Block> DRAGONFORGE_FIRE_INPUT = forgeInput(IafDragonTypes.FIRE);
+    public static final RegistrySupplier<Block> DRAGONFORGE_ICE_INPUT = forgeInput(IafDragonTypes.ICE);
+    public static final RegistrySupplier<Block> DRAGONFORGE_LIGHTNING_INPUT = forgeInput(IafDragonTypes.LIGHTNING);
+    public static final RegistrySupplier<Block> DRAGONFORGE_FIRE_CORE = forgeCore(IafDragonTypes.FIRE, true);
+    public static final RegistrySupplier<Block> DRAGONFORGE_ICE_CORE = forgeCore(IafDragonTypes.ICE, true);
+    public static final RegistrySupplier<Block> DRAGONFORGE_LIGHTNING_CORE = forgeCore(IafDragonTypes.LIGHTNING, true);
+    public static final RegistrySupplier<Block> DRAGONFORGE_FIRE_CORE_DISABLED = forgeCore(IafDragonTypes.FIRE, false);
+    public static final RegistrySupplier<Block> DRAGONFORGE_ICE_CORE_DISABLED = forgeCore(IafDragonTypes.ICE, false);
+    public static final RegistrySupplier<Block> DRAGONFORGE_LIGHTNING_CORE_DISABLED = forgeCore(IafDragonTypes.LIGHTNING, false);
     public static final RegistrySupplier<Block> EGG_IN_ICE = register("egginice", EggInIceBlock::new);
     public static final RegistrySupplier<Block> PIXIE_HOUSE_MUSHROOM_RED = register(PixieHouseBlock.name("mushroom_red"), PixieHouseBlock::new);
     public static final RegistrySupplier<Block> PIXIE_HOUSE_MUSHROOM_BROWN = register(PixieHouseBlock.name("mushroom_brown"), PixieHouseBlock::new);
@@ -134,6 +134,18 @@ public final class IafBlocks {
     public static final RegistrySupplier<TorchBlock> BURNT_TORCH = registerWallBlock("burnt_torch", BurntTorchBlock::new);
     public static final RegistrySupplier<Block> GHOST_CHEST = register("ghost_chest", GhostChestBlock::new);
     public static final RegistrySupplier<Block> GRAVEYARD_SOIL = register("graveyard_soil", GraveyardSoilBlock::new);
+
+    public static RegistrySupplier<Block> forgeBrick(DragonType type) {
+        return register(DragonForgeBrickBlock.name(type), () -> new DragonForgeBrickBlock(type));
+    }
+
+    public static RegistrySupplier<Block> forgeInput(DragonType type) {
+        return register(DragonForgeInputBlock.name(type), () -> new DragonForgeInputBlock(type));
+    }
+
+    public static RegistrySupplier<Block> forgeCore(DragonType type, boolean activated) {
+        return register(DragonForgeCoreBlock.name(type, activated), () -> new DragonForgeCoreBlock(type, activated));
+    }
 
     public static <T extends Block> RegistrySupplier<T> register(String name, Supplier<T> block) {
         RegistrySupplier<T> r = REGISTRY.register(name, block);

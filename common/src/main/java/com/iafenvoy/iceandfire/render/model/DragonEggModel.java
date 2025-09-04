@@ -1,9 +1,9 @@
 package com.iafenvoy.iceandfire.render.model;
 
 import com.google.common.collect.ImmutableList;
-import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.DragonEggEntity;
 import com.iafenvoy.iceandfire.item.block.entity.EggInIceBlockEntity;
+import com.iafenvoy.iceandfire.registry.IafDragonTypes;
 import com.iafenvoy.uranus.client.model.AdvancedEntityModel;
 import com.iafenvoy.uranus.client.model.AdvancedModelBox;
 import com.iafenvoy.uranus.client.model.basic.BasicModelPart;
@@ -54,9 +54,9 @@ public class DragonEggModel<T extends LivingEntity> extends AdvancedEntityModel<
         this.Egg4.setPos(0.0F, -0.9F, 0.0F);
         if (entity instanceof DragonEggEntity egg) {
             boolean isLocationValid = false;
-            if (egg.getEggType().dragonType() == DragonType.FIRE)
+            if (egg.getEggType().getType() == IafDragonTypes.FIRE)
                 isLocationValid = egg.getWorld().getBlockState(egg.getBlockPos()).isIn(BlockTags.FIRE);
-            else if (egg.getEggType().dragonType() == DragonType.LIGHTNING)
+            else if (egg.getEggType().getType() == IafDragonTypes.LIGHTNING)
                 isLocationValid = egg.getWorld().hasRain(egg.getBlockPos());
             if (isLocationValid) {
                 this.walk(this.Egg1, 0.3F, 0.3F, true, 1, 0, animationProgress, 1);

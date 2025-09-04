@@ -1,11 +1,14 @@
 package com.iafenvoy.iceandfire.entity;
 
+import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.data.SeaSerpent;
+import com.iafenvoy.iceandfire.data.SeaSerpentType;
 import com.iafenvoy.iceandfire.entity.ai.*;
 import com.iafenvoy.iceandfire.entity.util.*;
 import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
 import com.iafenvoy.iceandfire.registry.IafEntities;
+import com.iafenvoy.iceandfire.registry.IafRegistries;
+import com.iafenvoy.iceandfire.registry.IafSeaSerpentTypes;
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import com.iafenvoy.uranus.animation.Animation;
 import com.iafenvoy.uranus.animation.AnimationHandler;
@@ -323,7 +326,7 @@ public class SeaSerpentEntity extends AnimalEntity implements IAnimatedEntity, I
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         super.initDataTracker(builder);
-        builder.add(VARIANT, SeaSerpent.BLUE.getName());
+        builder.add(VARIANT, IafSeaSerpentTypes.BLUE.getName());
         builder.add(SCALE, 0F);
         builder.add(JUMPING, false);
         builder.add(BREATHING, false);
@@ -351,7 +354,7 @@ public class SeaSerpentEntity extends AnimalEntity implements IAnimatedEntity, I
         if (compound.contains("Variant") && compound.get("Variant").getType() == NbtElement.STRING_TYPE)
             this.setVariant(compound.getString("Variant"));
         else
-            this.setVariant(SeaSerpent.values().get(compound.getInt("Variant")).getName());
+            this.setVariant(SeaSerpentType.values().get(compound.getInt("Variant")).getName());
         this.ticksSinceRoar = compound.getInt("TicksSinceRoar");
         this.jumpCooldown = compound.getInt("JumpCooldown");
         this.setSeaSerpentScale(compound.getFloat("Scale"));
@@ -621,7 +624,7 @@ public class SeaSerpentEntity extends AnimalEntity implements IAnimatedEntity, I
     @Override
     public EntityData initialize(ServerWorldAccess worldIn, LocalDifficulty difficultyIn, SpawnReason reason, EntityData spawnDataIn) {
         spawnDataIn = super.initialize(worldIn, difficultyIn, reason, spawnDataIn);
-        this.setVariant(RandomHelper.randomOne(SeaSerpent.values()).getName());
+        this.setVariant(RandomHelper.randomOne(SeaSerpentType.values()).getName());
         boolean ancient = this.getRandom().nextInt(16) == 1;
         if (ancient) {
             this.setAncient(true);
@@ -635,7 +638,7 @@ public class SeaSerpentEntity extends AnimalEntity implements IAnimatedEntity, I
     }
 
     public void onWorldSpawn(Random random) {
-        this.setVariant(RandomHelper.randomOne(SeaSerpent.values()).getName());
+        this.setVariant(RandomHelper.randomOne(SeaSerpentType.values()).getName());
         boolean ancient = random.nextInt(15) == 1;
         if (ancient) {
             this.setAncient(true);
@@ -758,8 +761,8 @@ public class SeaSerpentEntity extends AnimalEntity implements IAnimatedEntity, I
         this.lookAtEntity(entity, 360, 360);
     }
 
-    public SeaSerpent getEnum() {
-        return SeaSerpent.getByName(this.getVariant());
+    public SeaSerpentType getEnum() {
+        return IafRegistries.SEA_SERPENT_TYPE.get(IceAndFire.id(this.getVariant()));
     }
 
     @Override

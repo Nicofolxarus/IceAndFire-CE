@@ -2,7 +2,6 @@ package com.iafenvoy.iceandfire.entity.util.dragon;
 
 import com.iafenvoy.iceandfire.event.IafEvents;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.data.component.FrozenData;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.item.block.entity.DragonForgeInputBlockEntity;
@@ -13,6 +12,7 @@ import com.iafenvoy.iceandfire.item.block.ReturningStateBlock;
 import com.iafenvoy.iceandfire.item.block.util.DragonProof;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafDamageTypes;
+import com.iafenvoy.iceandfire.registry.IafDragonTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -36,13 +36,13 @@ public class IafDragonDestructionManager {
         int statusDuration;
         float damageScale;
 
-        if (dragon.dragonType == DragonType.FIRE) {
+        if (dragon.dragonType == IafDragonTypes.FIRE) {
             statusDuration = 5 + dragon.getDragonStage() * 5;
             damageScale = IafCommonConfig.INSTANCE.dragon.attackDamageFire.getValue().floatValue();
-        } else if (dragon.dragonType == DragonType.ICE) {
+        } else if (dragon.dragonType == IafDragonTypes.ICE) {
             statusDuration = 50 * dragon.getDragonStage();
             damageScale = IafCommonConfig.INSTANCE.dragon.attackDamageIce.getValue().floatValue();
-        } else if (dragon.dragonType == DragonType.LIGHTNING) {
+        } else if (dragon.dragonType == IafDragonTypes.LIGHTNING) {
             statusDuration = 3;
             damageScale = IafCommonConfig.INSTANCE.dragon.attackDamageLightning.getValue().floatValue();
         } else return;
@@ -144,11 +144,11 @@ public class IafDragonDestructionManager {
 
         final int statusDuration;
 
-        if (dragon.dragonType == DragonType.FIRE)
+        if (dragon.dragonType == IafDragonTypes.FIRE)
             statusDuration = 15;
-        else if (dragon.dragonType == DragonType.ICE)
+        else if (dragon.dragonType == IafDragonTypes.ICE)
             statusDuration = 400;
-        else if (dragon.dragonType == DragonType.LIGHTNING)
+        else if (dragon.dragonType == IafDragonTypes.LIGHTNING)
             statusDuration = 9;
         else return;
 
@@ -179,11 +179,11 @@ public class IafDragonDestructionManager {
     private static DamageSource getDamageSource(final DragonBaseEntity dragon) {
         PlayerEntity player = dragon.getRidingPlayer();
 
-        if (dragon.dragonType == DragonType.FIRE)
+        if (dragon.dragonType == IafDragonTypes.FIRE)
             return player != null ? IafDamageTypes.causeIndirectDragonFireDamage(dragon, player) : IafDamageTypes.causeDragonFireDamage(dragon);
-        else if (dragon.dragonType == DragonType.ICE)
+        else if (dragon.dragonType == IafDragonTypes.ICE)
             return player != null ? IafDamageTypes.causeIndirectDragonIceDamage(dragon, player) : IafDamageTypes.causeDragonIceDamage(dragon);
-        else if (dragon.dragonType == DragonType.LIGHTNING)
+        else if (dragon.dragonType == IafDragonTypes.LIGHTNING)
             return player != null ? IafDamageTypes.causeIndirectDragonLightningDamage(dragon, player) : IafDamageTypes.causeDragonLightningDamage(dragon);
         else
             return dragon.getWorld().getDamageSources().mobAttack(dragon);
@@ -195,11 +195,11 @@ public class IafDragonDestructionManager {
 
         BlockState transformed;
 
-        if (dragon.dragonType == DragonType.FIRE)
+        if (dragon.dragonType == IafDragonTypes.FIRE)
             transformed = transformBlockFire(state);
-        else if (dragon.dragonType == DragonType.ICE)
+        else if (dragon.dragonType == IafDragonTypes.ICE)
             transformed = transformBlockIce(state);
-        else if (dragon.dragonType == DragonType.LIGHTNING)
+        else if (dragon.dragonType == IafDragonTypes.LIGHTNING)
             transformed = transformBlockLightning(state);
         else return;
 
@@ -209,10 +209,10 @@ public class IafDragonDestructionManager {
         Block elementalBlock;
         boolean doPlaceBlock;
 
-        if (dragon.dragonType == DragonType.FIRE) {
+        if (dragon.dragonType == IafDragonTypes.FIRE) {
             elementalBlock = Blocks.FIRE;
             doPlaceBlock = dragon.getRandom().nextBoolean();
-        } else if (dragon.dragonType == DragonType.ICE) {
+        } else if (dragon.dragonType == IafDragonTypes.ICE) {
             elementalBlock = IafBlocks.DRAGON_ICE_SPIKES.get();
             doPlaceBlock = dragon.getRandom().nextInt(9) == 0;
         } else return;
@@ -227,12 +227,12 @@ public class IafDragonDestructionManager {
     }
 
     private static void applyDragonEffect(final LivingEntity target, final DragonBaseEntity dragon, int statusDuration) {
-        if (dragon.dragonType == DragonType.FIRE)
+        if (dragon.dragonType == IafDragonTypes.FIRE)
             target.setOnFireFor(statusDuration);
-        else if (dragon.dragonType == DragonType.ICE) {
+        else if (dragon.dragonType == IafDragonTypes.ICE) {
             FrozenData frozenData = FrozenData.get(target);
             frozenData.setFrozen(target, statusDuration);
-        } else if (dragon.dragonType == DragonType.LIGHTNING) {
+        } else if (dragon.dragonType == IafDragonTypes.LIGHTNING) {
             double x = dragon.getX() - target.getX();
             double y = dragon.getZ() - target.getZ();
             target.takeKnockback((double) statusDuration / 10, x, y);

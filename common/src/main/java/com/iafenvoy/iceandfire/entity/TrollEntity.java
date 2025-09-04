@@ -9,6 +9,7 @@ import com.iafenvoy.iceandfire.entity.util.IHumanoid;
 import com.iafenvoy.iceandfire.entity.util.IVillagerFear;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafSounds;
+import com.iafenvoy.iceandfire.registry.IafTrollTypes;
 import com.iafenvoy.iceandfire.world.GenerationConstants;
 import com.iafenvoy.uranus.animation.Animation;
 import com.iafenvoy.uranus.animation.AnimationHandler;
@@ -139,7 +140,7 @@ public class TrollEntity extends HostileEntity implements IAnimatedEntity, IVill
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         super.initDataTracker(builder);
-        builder.add(VARIANT, TrollType.FOREST.getName());
+        builder.add(VARIANT, IafTrollTypes.FOREST.getName());
         builder.add(WEAPON, TrollType.BuiltinWeapon.AXE.getName());
     }
 

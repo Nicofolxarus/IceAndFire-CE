@@ -1,9 +1,10 @@
 package com.iafenvoy.iceandfire.screen.handler;
 
-import com.iafenvoy.iceandfire.data.BestiaryPages;
+import com.iafenvoy.iceandfire.data.BestiaryPage;
 import com.iafenvoy.iceandfire.item.block.entity.LecternBlockEntity;
 import com.iafenvoy.iceandfire.item.BestiaryItem;
 import com.iafenvoy.iceandfire.registry.IafItems;
+import com.iafenvoy.iceandfire.registry.IafRegistries;
 import com.iafenvoy.iceandfire.registry.IafScreenHandlers;
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import com.iafenvoy.iceandfire.screen.slot.LecternSlot;
@@ -95,12 +96,12 @@ public class LecternScreenHandler extends ScreenHandler {
         return itemstack;
     }
 
-    public BestiaryPages[] getPossiblePages() {
+    public BestiaryPage[] getPossiblePages() {
         this.possiblePagesInt[0] = this.getPageField(0);
         this.possiblePagesInt[1] = this.getPageField(1);
         this.possiblePagesInt[2] = this.getPageField(2);
-        BestiaryPages[] pages = new BestiaryPages[3];
-        List<BestiaryPages> allPages = BestiaryPages.values();
+        BestiaryPage[] pages = new BestiaryPage[3];
+        List<BestiaryPage> allPages = IafRegistries.BESTIARY_PAGE.stream().toList();
         if (this.tileFurnace.getStackInSlot(0).getItem() == IafItems.BESTIARY.get()) {
             if (this.possiblePagesInt[0] < 0) pages[0] = null;
             else pages[0] = allPages.get(Math.min(allPages.size(), this.possiblePagesInt[0]));
@@ -121,13 +122,13 @@ public class LecternScreenHandler extends ScreenHandler {
         if ((manuscriptStack.isEmpty() || manuscriptStack.getCount() < i || manuscriptStack.getItem() != IafItems.MANUSCRIPT.get()))
             return false;
         else if (this.possiblePagesInt[id] > 0 && !bookStack.isEmpty() && bookStack.getItem() == IafItems.BESTIARY.get()) {
-            BestiaryPages page = this.getPossiblePages()[MathHelper.clamp(id, 0, 2)];
+            BestiaryPage page = this.getPossiblePages()[MathHelper.clamp(id, 0, 2)];
             if (page != null) {
                 if (!playerIn.getWorld().isClient) {
                     manuscriptStack.decrement(i);
                     if (manuscriptStack.isEmpty())
                         this.tileFurnace.setStack(1, ItemStack.EMPTY);
-                    BestiaryPages.addPage(page, bookStack);
+                    BestiaryPage.addPage(page, bookStack);
                     if (this.tileFurnace instanceof LecternBlockEntity entityLectern)
                         entityLectern.randomizePages(bookStack, manuscriptStack);
                 }

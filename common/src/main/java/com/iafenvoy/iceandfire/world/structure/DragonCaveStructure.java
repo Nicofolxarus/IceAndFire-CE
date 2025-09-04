@@ -1,13 +1,12 @@
 package com.iafenvoy.iceandfire.world.structure;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.data.DragonColor;
-import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.entity.util.HomePosition;
 import com.iafenvoy.iceandfire.item.block.GoldPileBlock;
 import com.iafenvoy.iceandfire.registry.tag.IafBlockTags;
 import com.iafenvoy.iceandfire.world.GenerationConstants;
+import com.iafenvoy.uranus.util.RandomHelper;
 import com.iafenvoy.uranus.util.ShapeBuilder;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -234,8 +233,7 @@ public abstract class DragonCaveStructure extends Structure {
             dragon.growDragon(dragonAge);
             dragon.setAgingDisabled(true);
             dragon.setHealth(dragon.getMaxHealth());
-            List<DragonColor> colors = DragonColor.getColorsByType(DragonType.getTypeByEntityType(this.getDragonType()));
-            dragon.setVariant(colors.get(random.nextInt(colors.size())).name());
+            dragon.setVariant(RandomHelper.randomOne(dragon.dragonType.colors()).getName());
             dragon.updatePositionAndAngles(position.getX() + 0.5, position.getY() + 0.5, position.getZ() + 0.5, random.nextFloat() * 360, 0);
             dragon.setInSittingPose(true);
             dragon.homePos = new HomePosition(position, worldGen.toServerWorld());

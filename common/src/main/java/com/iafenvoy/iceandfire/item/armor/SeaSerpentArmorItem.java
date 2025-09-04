@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.item.armor;
 
-import com.iafenvoy.iceandfire.data.SeaSerpent;
+import com.iafenvoy.iceandfire.data.SeaSerpentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -18,9 +18,9 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class SeaSerpentArmorItem extends ArmorItem implements ArmorFinder {
-    public final SeaSerpent armorType;
+    public final SeaSerpentType armorType;
 
-    public SeaSerpentArmorItem(SeaSerpent armorType, RegistryEntry<ArmorMaterial> material, Type slot) {
+    public SeaSerpentArmorItem(SeaSerpentType armorType, RegistryEntry<ArmorMaterial> material, Type slot) {
         super(material, slot, new Settings().maxDamage(switch (slot) {
             case HELMET -> 330;
             case CHESTPLATE -> 480;

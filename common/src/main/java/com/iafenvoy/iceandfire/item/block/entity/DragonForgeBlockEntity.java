@@ -52,9 +52,9 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
         super(IafBlockEntities.DRAGONFORGE_CORE.get(), pos, state);
     }
 
-    public DragonForgeBlockEntity(BlockPos pos, BlockState state, int fireType) {
+    public DragonForgeBlockEntity(BlockPos pos, BlockState state, DragonType dragonType) {
         super(IafBlockEntities.DRAGONFORGE_CORE.get(), pos, state);
-        this.getPropertyDelegate().fireType = fireType;
+        this.getPropertyDelegate().fireType = dragonType.getIntFromType();
     }
 
     public static void tick(World level, BlockPos pos, BlockState state, DragonForgeBlockEntity entityDragonforge) {

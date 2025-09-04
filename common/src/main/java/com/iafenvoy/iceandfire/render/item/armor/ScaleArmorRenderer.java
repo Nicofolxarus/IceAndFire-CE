@@ -1,9 +1,10 @@
 package com.iafenvoy.iceandfire.render.item.armor;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.data.DragonArmor;
+import com.iafenvoy.iceandfire.data.DragonColor;
 import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.item.armor.ScaleArmorItem;
+import com.iafenvoy.iceandfire.registry.IafDragonTypes;
 import com.iafenvoy.iceandfire.render.model.armor.FireDragonScaleArmorModel;
 import com.iafenvoy.iceandfire.render.model.armor.IceDragonScaleArmorModel;
 import com.iafenvoy.iceandfire.render.model.armor.LightningDragonScaleArmorModel;
@@ -20,17 +21,18 @@ public class ScaleArmorRenderer implements IArmorRendererBase<LivingEntity> {
     public BipedEntityModel<LivingEntity> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot armorSlot, BipedEntityModel<LivingEntity> bipedEntityModel) {
         boolean inner = armorSlot == EquipmentSlot.LEGS || armorSlot == EquipmentSlot.HEAD;
         if (itemStack.getItem() instanceof ScaleArmorItem scaleArmor) {
-            DragonType dragonType = scaleArmor.armorType.getColor().dragonType();
-            if (DragonType.FIRE == dragonType) return new FireDragonScaleArmorModel(inner);
-            if (DragonType.ICE == dragonType) return new IceDragonScaleArmorModel(inner);
-            if (DragonType.LIGHTNING == dragonType) return new LightningDragonScaleArmorModel(inner);
+            DragonType dragonType = scaleArmor.getColor().getType();
+            if (IafDragonTypes.FIRE == dragonType) return new FireDragonScaleArmorModel(inner);
+            if (IafDragonTypes.ICE == dragonType) return new IceDragonScaleArmorModel(inner);
+            if (IafDragonTypes.LIGHTNING == dragonType) return new LightningDragonScaleArmorModel(inner);
         }
         return null;
     }
 
     @Override
     public Identifier getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot) {
-        DragonArmor armor_type = ((ScaleArmorItem) stack.getItem()).armorType;
-        return Identifier.of(IceAndFire.MOD_ID, "textures/entity/armor/armor_" + armor_type.getColor().name() + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
+        if (stack.getItem() instanceof ScaleArmorItem armor)
+            return Identifier.of(IceAndFire.MOD_ID, "textures/entity/armor/armor_" + armor.getColor().getName() + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
+        return Identifier.of("");
     }
 }

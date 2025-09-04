@@ -5,6 +5,7 @@ import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.IDeadMob;
 import com.iafenvoy.iceandfire.registry.IafDataComponents;
+import com.iafenvoy.iceandfire.registry.IafDragonTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -78,7 +79,7 @@ public class DragonSkullEntity extends AnimalEntity implements BlacklistedFromSt
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         super.initDataTracker(builder);
-        builder.add(DRAGON_TYPE, DragonType.FIRE.getName());
+        builder.add(DRAGON_TYPE, IafDragonTypes.FIRE.name());
         builder.add(DRAGON_AGE, 0);
         builder.add(DRAGON_STAGE, 0);
         builder.add(DRAGON_DIRECTION, 0F);

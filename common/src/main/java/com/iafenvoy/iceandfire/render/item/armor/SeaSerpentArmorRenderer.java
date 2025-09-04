@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.render.item.armor;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.data.SeaSerpent;
+import com.iafenvoy.iceandfire.data.SeaSerpentType;
 import com.iafenvoy.iceandfire.item.armor.SeaSerpentArmorItem;
 import com.iafenvoy.iceandfire.render.model.armor.SeaSerpentArmorModel;
 import com.iafenvoy.uranus.client.render.armor.IArmorRendererBase;
@@ -20,7 +20,7 @@ public class SeaSerpentArmorRenderer implements IArmorRendererBase<LivingEntity>
 
     @Override
     public Identifier getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot) {
-        SeaSerpent armor_type = ((SeaSerpentArmorItem) stack.getItem()).armorType;
+        SeaSerpentType armor_type = ((SeaSerpentArmorItem) stack.getItem()).armorType;
         return Identifier.of(IceAndFire.MOD_ID, "textures/entity/armor/armor_tide_" + armor_type.getName() + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png"));
     }
 }

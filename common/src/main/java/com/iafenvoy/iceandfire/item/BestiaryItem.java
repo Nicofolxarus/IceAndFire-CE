@@ -1,7 +1,8 @@
 package com.iafenvoy.iceandfire.item;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.data.BestiaryPages;
+import com.iafenvoy.iceandfire.data.BestiaryPage;
+import com.iafenvoy.iceandfire.registry.IafBestiaryPages;
 import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.screen.handler.BestiaryScreenHandler;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
@@ -31,7 +32,7 @@ import java.util.Set;
 
 public class BestiaryItem extends Item {
     public BestiaryItem() {
-        super(new Settings().maxCount(1).component(IafDataComponents.BESTIARY_PAGES.get(), List.of(BestiaryPages.INTRODUCTION.getName())));
+        super(new Settings().maxCount(1).component(IafDataComponents.BESTIARY_PAGES.get(), List.of(IafBestiaryPages.INTRODUCTION.name())));
     }
 
     @Override
@@ -66,9 +67,9 @@ public class BestiaryItem extends Item {
             tooltip.add(Text.translatable("bestiary.contains").formatted(Formatting.GRAY));
             List<String> list = stack.get(IafDataComponents.BESTIARY_PAGES.get());
             if (list != null) {
-                final Set<BestiaryPages> pages = BestiaryPages.containedPages(list);
-                for (BestiaryPages page : pages)
-                    tooltip.add(Text.literal(Formatting.WHITE + "-").append(Text.translatable("bestiary." + page.getName().toLowerCase(Locale.ROOT))).formatted(Formatting.GRAY));
+                final Set<BestiaryPage> pages = BestiaryPage.containedPages(list);
+                for (BestiaryPage page : pages)
+                    tooltip.add(Text.literal(Formatting.WHITE + "-").append(Text.translatable("bestiary." + page.name().toLowerCase(Locale.ROOT))).formatted(Formatting.GRAY));
             }
         } else
             tooltip.add(Text.translatable("bestiary.hold_shift").formatted(Formatting.GRAY));

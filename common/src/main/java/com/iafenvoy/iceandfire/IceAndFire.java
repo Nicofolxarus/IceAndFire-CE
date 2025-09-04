@@ -1,10 +1,7 @@
 package com.iafenvoy.iceandfire;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.data.DragonArmor;
-import com.iafenvoy.iceandfire.data.IafSkullType;
-import com.iafenvoy.iceandfire.data.SeaSerpent;
-import com.iafenvoy.iceandfire.data.TrollType;
+import com.iafenvoy.iceandfire.data.*;
 import com.iafenvoy.iceandfire.event.ServerEvents;
 import com.iafenvoy.iceandfire.network.ServerNetworkHelper;
 import com.iafenvoy.iceandfire.registry.*;
@@ -18,7 +15,7 @@ import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.InteractionEvent;
 import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.platform.Platform;
-import net.minecraft.recipe.BrewingRecipeRegistry;
+import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,16 +29,30 @@ public class IceAndFire {
         VERSION = Platform.getMod(IceAndFire.MOD_ID).getVersion();
     }
 
+    //TODO: IceAndFire::id is a temporary fix to capable with old version, should be removed in later versions
+    public static Identifier id(String path) {
+        if (path.contains(":")) return Identifier.tryParse(path);
+        else return Identifier.of(MOD_ID, path);
+    }
+
     public static void init() {
         ConfigManager.getInstance().registerConfigHandler(IafCommonConfig.INSTANCE);
         ServerConfigManager.registerServerConfig(IafCommonConfig.INSTANCE, ServerConfigManager.PermissionChecker.IS_OPERATOR);
 
-        DragonArmor.initArmors();
-        SeaSerpent.initArmors();
+        IafBestiaryPages.init();
+        IafDragonColors.init();
+        IafDragonTypes.init();
+        IafHippogryphTypes.init();
+        IafSeaSerpentTypes.init();
+        IafTrollTypes.init();
+
+        DragonColor.initArmors();
+        SeaSerpentType.initArmors();
         IafSkullType.initItems();
         TrollType.initArmors();
 
         IafArmorMaterials.REGISTRY.register();
+        IafSounds.REGISTRY.register();
         IafBlocks.REGISTRY.register();
         IafBlockEntities.REGISTRY.register();
         IafDataComponents.REGISTRY.register();
@@ -56,7 +67,6 @@ public class IceAndFire {
         IafProcessors.REGISTRY.register();
         IafFeatures.REGISTRY.register();
         IafScreenHandlers.REGISTRY.register();
-        IafSounds.REGISTRY.register();
         IafStructurePieces.REGISTRY.register();
         IafStructureTypes.REGISTRY.register();
         //Trade

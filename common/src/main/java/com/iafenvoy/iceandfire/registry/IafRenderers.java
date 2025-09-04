@@ -1,8 +1,8 @@
 package com.iafenvoy.iceandfire.registry;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.data.DragonArmor;
-import com.iafenvoy.iceandfire.data.SeaSerpent;
+import com.iafenvoy.iceandfire.data.DragonColor;
+import com.iafenvoy.iceandfire.data.SeaSerpentType;
 import com.iafenvoy.iceandfire.data.TrollType;
 import com.iafenvoy.iceandfire.impl.ParticleProviderHolder;
 import com.iafenvoy.iceandfire.item.DragonHornItem;
@@ -127,11 +127,11 @@ public final class IafRenderers {
         IArmorRendererBase.register(new DragonSteelArmorRenderer(), IafItems.DRAGONSTEEL_ICE_HELMET.get(), IafItems.DRAGONSTEEL_ICE_CHESTPLATE.get(), IafItems.DRAGONSTEEL_ICE_LEGGINGS.get(), IafItems.DRAGONSTEEL_ICE_BOOTS.get());
         IArmorRendererBase.register(new DragonSteelArmorRenderer(), IafItems.DRAGONSTEEL_LIGHTNING_HELMET.get(), IafItems.DRAGONSTEEL_LIGHTNING_CHESTPLATE.get(), IafItems.DRAGONSTEEL_LIGHTNING_LEGGINGS.get(), IafItems.DRAGONSTEEL_LIGHTNING_BOOTS.get());
         IArmorRendererBase.register(new SilverArmorRenderer(), IafItems.SILVER_HELMET.get(), IafItems.SILVER_CHESTPLATE.get(), IafItems.SILVER_LEGGINGS.get(), IafItems.SILVER_BOOTS.get());
-        for (DragonArmor armor : DragonArmor.values())
+        for (DragonColor armor : IafRegistries.DRAGON_COLOR)
             IArmorRendererBase.register(new ScaleArmorRenderer(), armor.helmet.get(), armor.chestplate.get(), armor.leggings.get(), armor.boots.get());
-        for (SeaSerpent seaSerpent : SeaSerpent.values())
+        for (SeaSerpentType seaSerpent : IafRegistries.SEA_SERPENT_TYPE)
             IArmorRendererBase.register(new SeaSerpentArmorRenderer(), seaSerpent.helmet.get(), seaSerpent.chestplate.get(), seaSerpent.leggings.get(), seaSerpent.boots.get());
-        for (TrollType troll : TrollType.values())
+        for (TrollType troll : IafRegistries.TROLL_TYPE)
             IArmorRendererBase.register(new TrollArmorRenderer(), troll.helmet.get(), troll.chestplate.get(), troll.leggings.get(), troll.boots.get());
     }
 

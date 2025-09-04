@@ -4,8 +4,6 @@ import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.compat.delight.DelightFoodItem;
 import com.iafenvoy.iceandfire.data.DragonArmorMaterial;
 import com.iafenvoy.iceandfire.data.DragonArmorPart;
-import com.iafenvoy.iceandfire.data.DragonColor;
-import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.item.*;
 import com.iafenvoy.iceandfire.item.ability.BuiltinAbilities;
 import com.iafenvoy.iceandfire.item.armor.BlindfoldItem;
@@ -63,30 +61,30 @@ public final class IafItems {
     public static final RegistrySupplier<Item> FIRE_STEW = register("fire_stew", GenericItem::new);
     public static final RegistrySupplier<Item> FROST_STEW = register("frost_stew", GenericItem::new);
     public static final RegistrySupplier<Item> LIGHTNING_STEW = register("lightning_stew", GenericItem::new);
-    public static final RegistrySupplier<Item> DRAGONEGG_RED = register("dragonegg_red", () -> new DragonEggItem(DragonColor.RED));
-    public static final RegistrySupplier<Item> DRAGONEGG_GREEN = register("dragonegg_green", () -> new DragonEggItem(DragonColor.GREEN));
-    public static final RegistrySupplier<Item> DRAGONEGG_BRONZE = register("dragonegg_bronze", () -> new DragonEggItem(DragonColor.BRONZE));
-    public static final RegistrySupplier<Item> DRAGONEGG_GRAY = register("dragonegg_gray", () -> new DragonEggItem(DragonColor.GRAY));
-    public static final RegistrySupplier<Item> DRAGONEGG_BLUE = register("dragonegg_blue", () -> new DragonEggItem(DragonColor.BLUE));
-    public static final RegistrySupplier<Item> DRAGONEGG_WHITE = register("dragonegg_white", () -> new DragonEggItem(DragonColor.WHITE));
-    public static final RegistrySupplier<Item> DRAGONEGG_SAPPHIRE = register("dragonegg_sapphire", () -> new DragonEggItem(DragonColor.SAPPHIRE));
-    public static final RegistrySupplier<Item> DRAGONEGG_SILVER = register("dragonegg_silver", () -> new DragonEggItem(DragonColor.SILVER));
-    public static final RegistrySupplier<Item> DRAGONEGG_ELECTRIC = register("dragonegg_electric", () -> new DragonEggItem(DragonColor.ELECTRIC));
-    public static final RegistrySupplier<Item> DRAGONEGG_AMETHYST = register("dragonegg_amethyst", () -> new DragonEggItem(DragonColor.AMETHYST));
-    public static final RegistrySupplier<Item> DRAGONEGG_COPPER = register("dragonegg_copper", () -> new DragonEggItem(DragonColor.COPPER));
-    public static final RegistrySupplier<Item> DRAGONEGG_BLACK = register("dragonegg_black", () -> new DragonEggItem(DragonColor.BLACK));
-    public static final RegistrySupplier<Item> DRAGONSCALES_RED = register("dragonscales_red", () -> new DragonScalesItem(DragonColor.RED));
-    public static final RegistrySupplier<Item> DRAGONSCALES_GREEN = register("dragonscales_green", () -> new DragonScalesItem(DragonColor.GREEN));
-    public static final RegistrySupplier<Item> DRAGONSCALES_BRONZE = register("dragonscales_bronze", () -> new DragonScalesItem(DragonColor.BRONZE));
-    public static final RegistrySupplier<Item> DRAGONSCALES_GRAY = register("dragonscales_gray", () -> new DragonScalesItem(DragonColor.GRAY));
-    public static final RegistrySupplier<Item> DRAGONSCALES_BLUE = register("dragonscales_blue", () -> new DragonScalesItem(DragonColor.BLUE));
-    public static final RegistrySupplier<Item> DRAGONSCALES_WHITE = register("dragonscales_white", () -> new DragonScalesItem(DragonColor.WHITE));
-    public static final RegistrySupplier<Item> DRAGONSCALES_SAPPHIRE = register("dragonscales_sapphire", () -> new DragonScalesItem(DragonColor.SAPPHIRE));
-    public static final RegistrySupplier<Item> DRAGONSCALES_SILVER = register("dragonscales_silver", () -> new DragonScalesItem(DragonColor.SILVER));
-    public static final RegistrySupplier<Item> DRAGONSCALES_ELECTRIC = register("dragonscales_electric", () -> new DragonScalesItem(DragonColor.ELECTRIC));
-    public static final RegistrySupplier<Item> DRAGONSCALES_AMETHYST = register("dragonscales_amethyst", () -> new DragonScalesItem(DragonColor.AMETHYST));
-    public static final RegistrySupplier<Item> DRAGONSCALES_COPPER = register("dragonscales_copper", () -> new DragonScalesItem(DragonColor.COPPER));
-    public static final RegistrySupplier<Item> DRAGONSCALES_BLACK = register("dragonscales_black", () -> new DragonScalesItem(DragonColor.BLACK));
+    public static final RegistrySupplier<Item> DRAGONEGG_RED = register("dragonegg_red", () -> new DragonEggItem(IafDragonColors.RED));
+    public static final RegistrySupplier<Item> DRAGONEGG_GREEN = register("dragonegg_green", () -> new DragonEggItem(IafDragonColors.GREEN));
+    public static final RegistrySupplier<Item> DRAGONEGG_BRONZE = register("dragonegg_bronze", () -> new DragonEggItem(IafDragonColors.BRONZE));
+    public static final RegistrySupplier<Item> DRAGONEGG_GRAY = register("dragonegg_gray", () -> new DragonEggItem(IafDragonColors.GRAY));
+    public static final RegistrySupplier<Item> DRAGONEGG_BLUE = register("dragonegg_blue", () -> new DragonEggItem(IafDragonColors.BLUE));
+    public static final RegistrySupplier<Item> DRAGONEGG_WHITE = register("dragonegg_white", () -> new DragonEggItem(IafDragonColors.WHITE));
+    public static final RegistrySupplier<Item> DRAGONEGG_SAPPHIRE = register("dragonegg_sapphire", () -> new DragonEggItem(IafDragonColors.SAPPHIRE));
+    public static final RegistrySupplier<Item> DRAGONEGG_SILVER = register("dragonegg_silver", () -> new DragonEggItem(IafDragonColors.SILVER));
+    public static final RegistrySupplier<Item> DRAGONEGG_ELECTRIC = register("dragonegg_electric", () -> new DragonEggItem(IafDragonColors.ELECTRIC));
+    public static final RegistrySupplier<Item> DRAGONEGG_AMETHYST = register("dragonegg_amethyst", () -> new DragonEggItem(IafDragonColors.AMETHYST));
+    public static final RegistrySupplier<Item> DRAGONEGG_COPPER = register("dragonegg_copper", () -> new DragonEggItem(IafDragonColors.COPPER));
+    public static final RegistrySupplier<Item> DRAGONEGG_BLACK = register("dragonegg_black", () -> new DragonEggItem(IafDragonColors.BLACK));
+    public static final RegistrySupplier<Item> DRAGONSCALES_RED = register("dragonscales_red", () -> new DragonScalesItem(IafDragonColors.RED));
+    public static final RegistrySupplier<Item> DRAGONSCALES_GREEN = register("dragonscales_green", () -> new DragonScalesItem(IafDragonColors.GREEN));
+    public static final RegistrySupplier<Item> DRAGONSCALES_BRONZE = register("dragonscales_bronze", () -> new DragonScalesItem(IafDragonColors.BRONZE));
+    public static final RegistrySupplier<Item> DRAGONSCALES_GRAY = register("dragonscales_gray", () -> new DragonScalesItem(IafDragonColors.GRAY));
+    public static final RegistrySupplier<Item> DRAGONSCALES_BLUE = register("dragonscales_blue", () -> new DragonScalesItem(IafDragonColors.BLUE));
+    public static final RegistrySupplier<Item> DRAGONSCALES_WHITE = register("dragonscales_white", () -> new DragonScalesItem(IafDragonColors.WHITE));
+    public static final RegistrySupplier<Item> DRAGONSCALES_SAPPHIRE = register("dragonscales_sapphire", () -> new DragonScalesItem(IafDragonColors.SAPPHIRE));
+    public static final RegistrySupplier<Item> DRAGONSCALES_SILVER = register("dragonscales_silver", () -> new DragonScalesItem(IafDragonColors.SILVER));
+    public static final RegistrySupplier<Item> DRAGONSCALES_ELECTRIC = register("dragonscales_electric", () -> new DragonScalesItem(IafDragonColors.ELECTRIC));
+    public static final RegistrySupplier<Item> DRAGONSCALES_AMETHYST = register("dragonscales_amethyst", () -> new DragonScalesItem(IafDragonColors.AMETHYST));
+    public static final RegistrySupplier<Item> DRAGONSCALES_COPPER = register("dragonscales_copper", () -> new DragonScalesItem(IafDragonColors.COPPER));
+    public static final RegistrySupplier<Item> DRAGONSCALES_BLACK = register("dragonscales_black", () -> new DragonScalesItem(IafDragonColors.BLACK));
     public static final RegistrySupplier<Item> DRAGON_BONE = register("dragonbone", () -> new Item(new Item.Settings()));
     public static final RegistrySupplier<Item> WITHERBONE = register("witherbone", GenericItem::new);
     public static final RegistrySupplier<Item> FISHING_SPEAR = register("fishing_spear", () -> new Item(new Item.Settings().maxDamage(64)));
@@ -101,9 +99,9 @@ public final class IafItems {
     public static final RegistrySupplier<Item> DRAGONBONE_SWORD_LIGHTNING = register("dragonbone_sword_lightning", () -> new ActivePostHitSwordItem(IafToolMaterials.LIGHTNING_DRAGONBONE_TOOL_MATERIAL, new Item.Settings().component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(IafToolMaterials.LIGHTNING_DRAGONBONE_TOOL_MATERIAL, 3.0F, -2.4F)), BuiltinAbilities.LIGHTNING_DRAGON_BLOOD_TOOL));
     public static final RegistrySupplier<Item> DRAGONBONE_ARROW = register("dragonbone_arrow", DragonArrowItem::new);
     public static final RegistrySupplier<Item> DRAGON_BOW = register("dragonbone_bow", DragonBowItem::new);
-    public static final RegistrySupplier<Item> DRAGON_SKULL_FIRE = register("dragon_skull_fire", () -> new DragonSkullItem(DragonType.FIRE));
-    public static final RegistrySupplier<Item> DRAGON_SKULL_ICE = register("dragon_skull_ice", () -> new DragonSkullItem(DragonType.ICE));
-    public static final RegistrySupplier<Item> DRAGON_SKULL_LIGHTNING = register("dragon_skull_lightning", () -> new DragonSkullItem(DragonType.LIGHTNING));
+    public static final RegistrySupplier<Item> DRAGON_SKULL_FIRE = register("dragon_skull_fire", () -> new DragonSkullItem(IafDragonTypes.FIRE));
+    public static final RegistrySupplier<Item> DRAGON_SKULL_ICE = register("dragon_skull_ice", () -> new DragonSkullItem(IafDragonTypes.ICE));
+    public static final RegistrySupplier<Item> DRAGON_SKULL_LIGHTNING = register("dragon_skull_lightning", () -> new DragonSkullItem(IafDragonTypes.LIGHTNING));
     public static final RegistrySupplier<DragonArmorItem> DRAGONARMOR_IRON_HEAD = buildDragonArmor(DragonArmorPart.HEAD, DragonArmorMaterial.IRON);
     public static final RegistrySupplier<DragonArmorItem> DRAGONARMOR_IRON_NECK = buildDragonArmor(DragonArmorPart.NECK, DragonArmorMaterial.IRON);
     public static final RegistrySupplier<DragonArmorItem> DRAGONARMOR_IRON_BODY = buildDragonArmor(DragonArmorPart.BODY, DragonArmorMaterial.IRON);
@@ -326,7 +324,7 @@ public final class IafItems {
     }
 
     public static RegistrySupplier<DragonArmorItem> buildDragonArmor(DragonArmorPart type, DragonArmorMaterial material) {
-        return register(String.format("dragonarmor_%s_%s", material.getId(), type.getId()), () -> new DragonArmorItem(material, type));
+        return register(String.format("dragonarmor_%s_%s", material.name(), type.getId()), () -> new DragonArmorItem(material, type));
     }
 
     public static <T extends Item> RegistrySupplier<T> register(String name, Supplier<T> item) {

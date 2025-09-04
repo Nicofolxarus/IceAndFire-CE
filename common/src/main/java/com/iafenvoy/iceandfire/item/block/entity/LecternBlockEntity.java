@@ -1,9 +1,10 @@
 package com.iafenvoy.iceandfire.item.block.entity;
 
-import com.iafenvoy.iceandfire.data.BestiaryPages;
+import com.iafenvoy.iceandfire.data.BestiaryPage;
 import com.iafenvoy.iceandfire.item.BestiaryItem;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
 import com.iafenvoy.iceandfire.registry.IafItems;
+import com.iafenvoy.iceandfire.registry.IafRegistries;
 import com.iafenvoy.iceandfire.screen.handler.LecternScreenHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
@@ -34,23 +35,23 @@ public class LecternBlockEntity extends LockableContainerBlockEntity implements 
     private static final int[] slotsSides = new int[]{1};
     private static final int[] slotsBottom = new int[]{0};
     private static final Random RANDOM = new Random();
-    private static final ArrayList<BestiaryPages> EMPTY_LIST = new ArrayList<>();
+    private static final ArrayList<BestiaryPage> EMPTY_LIST = new ArrayList<>();
     private final Random localRand = new Random();
     public float pageFlip;
     public float pageFlipPrev;
     public float pageHelp1;
     public float pageHelp2;
-    public BestiaryPages[] selectedPages = new BestiaryPages[3];
+    public BestiaryPage[] selectedPages = new BestiaryPage[3];
     public final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
-            BestiaryPages page = LecternBlockEntity.this.selectedPages[index];
-            return page == null ? -1 : page.getId();
+            BestiaryPage page = LecternBlockEntity.this.selectedPages[index];
+            return page == null ? -1 : IafRegistries.BESTIARY_PAGE.getRawId(page);
         }
 
         @Override
         public void set(int index, int value) {
-            LecternBlockEntity.this.selectedPages[index] = BestiaryPages.fromInt(value);
+            LecternBlockEntity.this.selectedPages[index] = IafRegistries.BESTIARY_PAGE.get(value);
         }
 
         @Override
@@ -85,8 +86,8 @@ public class LecternBlockEntity extends LockableContainerBlockEntity implements 
         return this.stacks.get(index);
     }
 
-    private List<BestiaryPages> getPossiblePages() {
-        final List<BestiaryPages> list = BestiaryPages.possiblePages(this.stacks.getFirst());
+    private List<BestiaryPage> getPossiblePages() {
+        final List<BestiaryPage> list = BestiaryPage.possiblePages(this.stacks.getFirst());
         if (!list.isEmpty()) return list;
         return EMPTY_LIST;
     }
@@ -128,7 +129,7 @@ public class LecternBlockEntity extends LockableContainerBlockEntity implements 
     public void randomizePages(ItemStack bestiary, ItemStack manuscript) {
         assert this.world != null;
         if (!this.world.isClient && bestiary.getItem() == IafItems.BESTIARY.get()) {
-            List<BestiaryPages> possibleList = this.getPossiblePages();
+            List<BestiaryPage> possibleList = this.getPossiblePages();
             this.localRand.setSeed(this.world.getTime());
             Collections.shuffle(possibleList, this.localRand);
             this.selectedPages[0] = !possibleList.isEmpty() ? possibleList.get(0) : null;

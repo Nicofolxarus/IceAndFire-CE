@@ -1,7 +1,8 @@
 package com.iafenvoy.iceandfire.render.entity;
 
-import com.iafenvoy.iceandfire.data.SeaSerpent;
+import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.entity.SeaSerpentEntity;
+import com.iafenvoy.iceandfire.registry.IafRegistries;
 import com.iafenvoy.iceandfire.registry.IafRenderers;
 import com.iafenvoy.iceandfire.render.entity.feature.SeaSerpentAncientFeatureRenderer;
 import com.iafenvoy.iceandfire.render.model.animator.SeaSerpentTabulaModelAnimator;
@@ -26,6 +27,6 @@ public class SeaSerpentEntityRenderer extends MobEntityRenderer<SeaSerpentEntity
 
     @Override
     public Identifier getTexture(SeaSerpentEntity serpent) {
-        return SeaSerpent.getByName(serpent.getVariant()).getTexture(serpent.isBlinking());
+        return IafRegistries.SEA_SERPENT_TYPE.get(IceAndFire.id(serpent.getVariant())).getTexture(serpent.isBlinking());
     }
 }

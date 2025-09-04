@@ -3,6 +3,7 @@ package com.iafenvoy.iceandfire.render.entity;
 import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.entity.DragonSkullEntity;
+import com.iafenvoy.iceandfire.registry.IafDragonTypes;
 import com.iafenvoy.iceandfire.registry.IafRenderers;
 import com.iafenvoy.iceandfire.render.model.animator.FireDragonTabulaModelAnimator;
 import com.iafenvoy.iceandfire.render.model.animator.IceDragonTabulaModelAnimator;
@@ -35,9 +36,9 @@ public class DragonSkullEntityRenderer extends EntityRenderer<DragonSkullEntity>
     public static final float[] growth_stage_5 = new float[]{20F, 30F};
 
     static {
-        MODELS.put(DragonType.FIRE, Pair.of(IafRenderers.FIRE_DRAGON, new MemorizeSupplier<>(FireDragonTabulaModelAnimator::new)));
-        MODELS.put(DragonType.ICE, Pair.of(IafRenderers.ICE_DRAGON, new MemorizeSupplier<>(IceDragonTabulaModelAnimator::new)));
-        MODELS.put(DragonType.LIGHTNING, Pair.of(IafRenderers.LIGHTNING_DRAGON, new MemorizeSupplier<>(LightningTabulaDragonAnimator::new)));
+        MODELS.put(IafDragonTypes.FIRE, Pair.of(IafRenderers.FIRE_DRAGON, new MemorizeSupplier<>(FireDragonTabulaModelAnimator::new)));
+        MODELS.put(IafDragonTypes.ICE, Pair.of(IafRenderers.ICE_DRAGON, new MemorizeSupplier<>(IceDragonTabulaModelAnimator::new)));
+        MODELS.put(IafDragonTypes.LIGHTNING, Pair.of(IafRenderers.LIGHTNING_DRAGON, new MemorizeSupplier<>(LightningTabulaDragonAnimator::new)));
     }
 
     public final float[][] growth_stages;

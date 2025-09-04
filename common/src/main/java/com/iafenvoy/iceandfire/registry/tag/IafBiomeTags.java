@@ -7,6 +7,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
 
 public final class IafBiomeTags {
+    public static final TagKey<Biome> EMPTY = create("empty");
+
     public static final TagKey<Biome> GORGON_TEMPLE = create("structure_gen/gorgon_temple");
     public static final TagKey<Biome> MAUSOLEUM = create("structure_gen/mausoleum");
     public static final TagKey<Biome> NO_GRAVEYARD = create("structure_gen/no_graveyard");

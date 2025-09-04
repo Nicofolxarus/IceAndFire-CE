@@ -35,7 +35,7 @@ public class DragonEggItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         super.appendTooltip(stack, context, tooltip, type);
-        tooltip.add(Text.translatable("dragon." + this.type.name().toLowerCase(Locale.ROOT)).formatted(this.type.color()));
+        tooltip.add(Text.translatable("dragon." + this.type.getName().toLowerCase(Locale.ROOT)).formatted(this.type.getColorFormatting()));
     }
 
     @Override

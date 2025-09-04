@@ -1,7 +1,9 @@
 package com.iafenvoy.iceandfire.render.entity.feature;
 
-import com.iafenvoy.iceandfire.data.DragonArmorMaterial;
+import com.iafenvoy.iceandfire.IceAndFire;
+import com.iafenvoy.iceandfire.data.DragonArmorPart;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
+import com.iafenvoy.iceandfire.item.DragonArmorItem;
 import com.iafenvoy.uranus.client.model.TabulaModel;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
@@ -30,9 +32,16 @@ public class DragonArmorFeatureRenderer<T extends DragonBaseEntity> extends Feat
         for (EquipmentSlot slot : ARMOR_SLOTS) {
             ItemStack stack = dragon.getEquippedStack(slot);
             if (stack.isEmpty()) continue;
-            Identifier texture = DragonArmorMaterial.getArmorTexture(stack, slot);
+            Identifier texture = getArmorTexture(stack, slot);
             VertexConsumer vertexConsumer = bufferIn.getBuffer(RenderLayer.getEntityCutoutNoCull(texture));
             model.render(matrixStackIn, vertexConsumer, light, OverlayTexture.DEFAULT_UV, -1);
         }
+    }
+
+    public static Identifier getArmorTexture(ItemStack stack, EquipmentSlot slot) {
+        DragonArmorPart part = DragonArmorPart.fromSlot(slot);
+        if (part != null && !stack.isEmpty() && stack.getItem() instanceof DragonArmorItem armorItem)
+            return Identifier.of(IceAndFire.MOD_ID, "textures/entity/dragon_armor/armor_%s_%s.png".formatted(part.getId(), armorItem.type.name()));
+        else return Identifier.of(Identifier.DEFAULT_NAMESPACE, "missingno");
     }
 }

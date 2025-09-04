@@ -2,14 +2,10 @@ package com.iafenvoy.iceandfire.screen.gui.bestiary;
 
 import com.google.common.collect.Maps;
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.data.BestiaryPages;
-import com.iafenvoy.iceandfire.data.DragonArmor;
-import com.iafenvoy.iceandfire.data.SeaSerpent;
+import com.iafenvoy.iceandfire.data.BestiaryPage;
+import com.iafenvoy.iceandfire.data.SeaSerpentType;
 import com.iafenvoy.iceandfire.data.TrollType;
-import com.iafenvoy.iceandfire.registry.IafBlocks;
-import com.iafenvoy.iceandfire.registry.IafDataComponents;
-import com.iafenvoy.iceandfire.registry.IafItems;
-import com.iafenvoy.iceandfire.registry.IafSounds;
+import com.iafenvoy.iceandfire.registry.*;
 import com.iafenvoy.iceandfire.screen.handler.BestiaryScreenHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.block.Blocks;
@@ -34,8 +30,6 @@ import org.apache.commons.io.IOUtils;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import static com.iafenvoy.iceandfire.data.BestiaryPages.*;
-
 public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
     protected static final int X = 390;
     protected static final int Y = 245;
@@ -43,10 +37,10 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
     private static final Identifier DRAWINGS_0 = Identifier.of(IceAndFire.MOD_ID, "textures/gui/bestiary/drawings_0.png");
     private static final Identifier DRAWINGS_1 = Identifier.of(IceAndFire.MOD_ID, "textures/gui/bestiary/drawings_1.png");
     private static final Map<String, Identifier> PICTURE_LOCATION_CACHE = Maps.newHashMap();
-    public final List<BestiaryPages> allPageTypes = new ArrayList<>();
+    public final List<BestiaryPage> allPageTypes = new ArrayList<>();
     public final List<IndexPageButton> indexButtons = new ArrayList<>();
     protected final ItemStack book;
-    public BestiaryPages pageType;
+    public BestiaryPage pageType;
     public ChangePageButton previousPage;
     public ChangePageButton nextPage;
     public int bookPages;
@@ -59,10 +53,10 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
         this.book = container.getBook();
         if (!this.book.isEmpty() && this.book.getItem() != null && this.book.getItem() == IafItems.BESTIARY.get())
             if (this.book.contains(IafDataComponents.BESTIARY_PAGES.get())) {
-                Set<BestiaryPages> pages = BestiaryPages.containedPages(this.book.get(IafDataComponents.BESTIARY_PAGES.get()));
+                Set<BestiaryPage> pages = BestiaryPage.containedPages(this.book.get(IafDataComponents.BESTIARY_PAGES.get()));
                 this.allPageTypes.addAll(pages);
-                // Make sure the pages are sorted according to the enum
-                this.allPageTypes.sort(Comparator.comparingInt(BestiaryPages::getId));
+                // Make sure the pageCount are sorted according to the enum
+                this.allPageTypes.sort(Comparator.comparingInt(IafRegistries.BESTIARY_PAGE::getRawId));
                 this.indexPagesTotal = (int) Math.ceil(pages.size() / 10D);
             }
         this.index = true;
@@ -92,7 +86,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
         });
         this.addDrawableChild(this.previousPage);
         this.nextPage = new ChangePageButton(centerX + 357, centerY + 215, true, 0, (p_214132_1_) -> {
-            if (this.index ? this.indexPages < this.indexPagesTotal - 1 : this.pageType != null && this.bookPages < this.pageType.getPagesCount()) {
+            if (this.index ? this.indexPages < this.indexPagesTotal - 1 : this.pageType != null && this.bookPages < this.pageType.pageCount()) {
                 if (this.index) this.indexPages++;
                 else this.bookPages++;
                 MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(IafSounds.BESTIARY_PAGE.get(), 1.0F));
@@ -104,7 +98,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                 int xIndex = i % -2;
                 int yIndex = i % 10;
                 int id = 2 + i;
-                IndexPageButton button = new IndexPageButton(centerX + 15 + (xIndex * 200), centerY + 10 + (yIndex * 20) - (xIndex == 1 ? 20 : 0), Text.translatable("bestiary." + this.allPageTypes.get(i).getName().toLowerCase(Locale.ROOT)), widget -> {
+                IndexPageButton button = new IndexPageButton(centerX + 15 + (xIndex * 200), centerY + 10 + (yIndex * 20) - (xIndex == 1 ? 20 : 0), Text.translatable("bestiary." + this.allPageTypes.get(i).name().toLowerCase(Locale.ROOT)), widget -> {
                     if (this.indexButtons.get(id - 2) != null && this.allPageTypes.get(id - 2) != null) {
                         MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(IafSounds.BESTIARY_PAGE.get(), 1.0F));
                         this.index = false;
@@ -158,7 +152,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
         this.imageFromTxt(ms);
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         assert player != null;
-        if (this.pageType.equals(INTRODUCTION)) {
+        if (this.pageType.equals(IafBestiaryPages.INTRODUCTION)) {
             if (bookPages == 1) {
                 this.drawItemStack(ms, new ItemStack(IafBlocks.SAPPHIRE_ORE.get()), 30, 20, 2.5F);
                 this.drawItemStack(ms, new ItemStack(IafItems.SAPPHIRE_GEM.get()), 40, 55, 2F);
@@ -179,7 +173,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                 this.drawItemStack(ms, new ItemStack(IafItems.MANUSCRIPT.get()), 161, 91, 1.5F);
                 this.drawItemStack(ms, new ItemStack(IafBlocks.LECTERN.get()), 151, 78, 2F);
             }
-        } else if (this.pageType.equals(TAMED_DRAGONS)) {
+        } else if (this.pageType.equals(IafBestiaryPages.TAMED_DRAGONS)) {
             if (bookPages == 0) {
                 ms.getMatrices().push();
                 ms.getMatrices().scale(1.5F, 1.5F, 1F);
@@ -250,17 +244,17 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                 this.drawItemStack(ms, new ItemStack(Items.IRON_INGOT), 199, 50, 1.35f);
                 this.drawItemStack(ms, new ItemStack(IafItems.DRAGON_FLUTE.get()), 151, 18, 2F);
             }
-        } else if (this.pageType.equals(MATERIALS)) {
+        } else if (this.pageType.equals(IafBestiaryPages.MATERIALS)) {
             if (bookPages == 0) {
                 this.drawItemStack(ms, new ItemStack(IafItems.DRAGONSCALES_RED.get()), 18, 14, 3.75F);
                 this.drawItemStack(ms, new ItemStack(IafItems.DRAGON_BONE.get()), 70, 8, 3.75F);
                 this.drawItemStack(ms, new ItemStack(IafItems.WITHERBONE.get()), 112, 65, 2.5F);
 
                 int j = 18;
-                this.drawItemStack(ms, new ItemStack(DragonArmor.RED.helmet.get()), j += 16, 110, 1.5F);
-                this.drawItemStack(ms, new ItemStack(DragonArmor.RED.chestplate.get()), j += 16, 110, 1.5F);
-                this.drawItemStack(ms, new ItemStack(DragonArmor.RED.leggings.get()), j += 16, 110, 1.5F);
-                this.drawItemStack(ms, new ItemStack(DragonArmor.RED.boots.get()), j + 16, 110, 1.5F);
+                this.drawItemStack(ms, new ItemStack(IafDragonColors.RED.helmet.get()), j += 16, 110, 1.5F);
+                this.drawItemStack(ms, new ItemStack(IafDragonColors.RED.chestplate.get()), j += 16, 110, 1.5F);
+                this.drawItemStack(ms, new ItemStack(IafDragonColors.RED.leggings.get()), j += 16, 110, 1.5F);
+                this.drawItemStack(ms, new ItemStack(IafDragonColors.RED.boots.get()), j + 16, 110, 1.5F);
             }
             if (bookPages == 1) {
                 int j = 1;
@@ -277,7 +271,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
             }
             if (bookPages == 2)
                 this.drawItemStack(ms, new ItemStack(IafItems.FIRE_DRAGON_BLOOD.get()), 18, 20, 3.75F);
-        } else if (this.pageType.equals(ALCHEMY)) {
+        } else if (this.pageType.equals(IafBestiaryPages.ALCHEMY)) {
             if (bookPages == 0) {
                 this.drawItemStack(ms, new ItemStack(IafItems.FIRE_DRAGON_BLOOD.get()), 2, 24, 3.75F);
                 this.drawItemStack(ms, new ItemStack(IafItems.ICE_DRAGON_BLOOD.get()), 18, 24, 3.75F);
@@ -291,7 +285,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                 this.drawImage(ms, DRAWINGS_0, 144, 0, 389, 1, 50, 50, 512F);
                 ms.getMatrices().pop();
             }
-        } else if (this.pageType.equals(HIPPOGRYPH)) {
+        } else if (this.pageType.equals(IafBestiaryPages.HIPPOGRYPH)) {
             if (bookPages == 0) {
                 ms.getMatrices().push();
                 ms.getMatrices().scale(0.8F, 0.8F, 1F);
@@ -322,7 +316,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                 // TODO :: Loop through tag (IafItemTags.BREED_HIPPOGRYPH)
                 this.drawItemStack(ms, new ItemStack(Items.RABBIT_STEW), 70, 23, 3.75F);
             }
-        } else if (this.pageType.equals(GORGON)) {
+        } else if (this.pageType.equals(IafBestiaryPages.GORGON)) {
             if (bookPages == 0) {
                 ms.getMatrices().push();
                 ms.getMatrices().scale(1.5F, 1.5F, 1F);
@@ -349,7 +343,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                 this.drawImage(ms, DRAWINGS_0, 60, 95, 455, 117, 18, 34, 512F);
                 ms.getMatrices().pop();
             }
-        } else if (this.pageType.equals(PIXIE)) {
+        } else if (this.pageType.equals(IafBestiaryPages.PIXIE)) {
             if (bookPages == 0) {
                 ms.getMatrices().push();
                 this.drawImage(ms, DRAWINGS_0, 20, 60, 371, 258, 47, 35, 512F);
@@ -391,7 +385,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                 this.drawItemStack(ms, new ItemStack(Items.BOWL), 180, 150, 1.35F);
                 this.drawItemStack(ms, new ItemStack(IafItems.AMBROSIA.get()), 171, 85, 2F);
             }
-        } else if (this.pageType.equals(CYCLOPS)) {
+        } else if (this.pageType.equals(IafBestiaryPages.CYCLOPS)) {
             if (bookPages == 0) {
                 ms.getMatrices().push();
                 ms.getMatrices().scale(1.5F, 1.5F, 1.5F);
@@ -463,7 +457,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                 this.drawItemStack(ms, new ItemStack(Blocks.WHITE_WOOL), 53, 94, 1.35F);
                 this.drawItemStack(ms, new ItemStack(IafItems.SHEEP_BOOTS.get()), 64, 73, 2F);
             }
-        } else if (this.pageType.equals(SIREN)) {
+        } else if (this.pageType.equals(IafBestiaryPages.SIREN)) {
             if (bookPages == 0) {
                 ms.getMatrices().push();
                 ms.getMatrices().scale(1.25F, 1.25F, 1.25F);
@@ -490,7 +484,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                 this.drawItemStack(ms, new ItemStack(IafItems.EARPLUGS.get()), 170, 10, 2F);
                 this.drawItemStack(ms, new ItemStack(IafItems.SHINY_SCALES.get()), 123, 75, 2.25F);
             }
-        } else if (this.pageType.equals(HIPPOCAMPUS)) {
+        } else if (this.pageType.equals(IafBestiaryPages.HIPPOCAMPUS)) {
             if (bookPages == 0) {
                 ms.getMatrices().push();
                 this.drawImage(ms, DRAWINGS_1, 210, 25, 0, 70, 57, 49, 512F);
@@ -510,7 +504,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                 this.drawItemStack(ms, new ItemStack(Items.STICK), 35, 25, 2.25F);
                 this.drawItemStack(ms, new ItemStack(IafItems.SHINY_SCALES.get()), 35, 75, 2.25F);
             }
-        } else if (this.pageType.equals(DEATHWORM)) {
+        } else if (this.pageType.equals(IafBestiaryPages.DEATHWORM)) {
             if (bookPages == 0) {
                 ms.getMatrices().push();
                 this.drawImage(ms, DRAWINGS_1, 230, 25, 0, 217, 133, 16, 512F);
@@ -543,7 +537,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                 this.drawItemStack(ms, new ItemStack(Items.FISHING_ROD), 115, 55, 2.25F);
                 this.drawItemStack(ms, new ItemStack(Items.FISHING_ROD), 135, 55, 2.25F);
             }
-        } else if (this.pageType.equals(COCKATRICE)) {
+        } else if (this.pageType.equals(IafBestiaryPages.COCKATRICE)) {
             if (bookPages == 0) {
                 ms.getMatrices().push();
                 ms.getMatrices().scale(1.5F, 1.5F, 1F);
@@ -564,7 +558,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                 this.drawItemStack(ms, new ItemStack(IafItems.WITHERBONE.get()), 30, 58, 2.5F);
                 this.drawItemStack(ms, new ItemStack(IafItems.ROTTEN_EGG.get()), 109, 18, 2.5F);
             }
-        } else if (this.pageType.equals(STYMPHALIAN_BIRD)) {
+        } else if (this.pageType.equals(IafBestiaryPages.STYMPHALIAN_BIRD)) {
             if (bookPages == 0) {
                 ms.getMatrices().push();
                 ms.getMatrices().scale(1.5F, 1.5F, 1F);
@@ -584,7 +578,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                 this.drawItemStack(ms, new ItemStack(IafItems.STYMPHALIAN_BIRD_FEATHER.get()), 40, 49, 1.35F);
                 this.drawItemStack(ms, new ItemStack(IafItems.STYMPHALIAN_ARROW.get()), 60, 18, 2F);
             }
-        } else if (this.pageType.equals(TROLL)) {
+        } else if (this.pageType.equals(IafBestiaryPages.TROLL)) {
             if (bookPages == 0) {
                 ms.getMatrices().push();
                 ms.getMatrices().scale(1.5F, 1.5F, 1F);
@@ -609,7 +603,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                 this.drawItemStack(ms, new ItemStack(TrollType.values().get(j).leggings.get()), 67, 15, 1.5F);
                 this.drawItemStack(ms, new ItemStack(TrollType.values().get(j).boots.get()), 87, 15, 1.5F);
             }
-        } else if (this.pageType.equals(AMPHITHERE)) {
+        } else if (this.pageType.equals(IafBestiaryPages.AMPHITHERE)) {
             if (bookPages == 0) {
                 ms.getMatrices().push();
                 ms.getMatrices().scale(0.75F, 0.75F, 0.75F);
@@ -632,7 +626,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                 this.drawItemStack(ms, new ItemStack(IafItems.AMPHITHERE_FEATHER.get()), 36, 106, 1.5F);
                 this.drawItemStack(ms, new ItemStack(IafItems.AMPHITHERE_ARROW.get()), 60, 65, 2F);
             }
-        } else if (this.pageType.equals(SEA_SERPENT)) {
+        } else if (this.pageType.equals(IafBestiaryPages.SEA_SERPENT)) {
             if (bookPages == 0) {
                 ms.getMatrices().push();
                 ms.getMatrices().scale(0.75F, 0.75F, 0.75F);
@@ -647,8 +641,8 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
             }
             if (bookPages == 1) {
                 this.drawImage(ms, DRAWINGS_1, 60, 90, 337, 0, 70, 83, 512F);
-                int j = (player.age % (SeaSerpent.values().size() * 20)) / 20;
-                this.drawItemStack(ms, new ItemStack(SeaSerpent.values().get(j).scale.get()), 130, 40, 2.5F);
+                int j = (player.age % (SeaSerpentType.values().size() * 20)) / 20;
+                this.drawItemStack(ms, new ItemStack(SeaSerpentType.values().get(j).scale.get()), 130, 40, 2.5F);
                 this.drawItemStack(ms, new ItemStack(IafItems.SERPENT_FANG.get()), 90, 40, 2.5F);
             }
             if (bookPages == 2) {
@@ -656,14 +650,14 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
                 ms.getMatrices().scale(1.5F, 1.5F, 1F);
                 this.drawImage(ms, DRAWINGS_0, 19, 31, 389, 1, 50, 50, 512F);
                 ms.getMatrices().pop();
-                int j = (player.age % (SeaSerpent.values().size() * 20)) / 20;
+                int j = (player.age % (SeaSerpentType.values().size() * 20)) / 20;
                 this.drawItemStack(ms, new ItemStack(IafItems.SERPENT_FANG.get()), 36, 32, 1.5F);
                 this.drawItemStack(ms, new ItemStack(Items.STICK), 36, 48, 1.5F);
-                this.drawItemStack(ms, new ItemStack(SeaSerpent.values().get(j).scale.get()), 36, 66, 1.5F);
-                this.drawItemStack(ms, new ItemStack(SeaSerpent.values().get(j).helmet.get()), 34, 125, 1.5F);
-                this.drawItemStack(ms, new ItemStack(SeaSerpent.values().get(j).chestplate.get()), 50, 125, 1.5F);
-                this.drawItemStack(ms, new ItemStack(SeaSerpent.values().get(j).leggings.get()), 66, 125, 1.5F);
-                this.drawItemStack(ms, new ItemStack(SeaSerpent.values().get(j).boots.get()), 82, 125, 1.5F);
+                this.drawItemStack(ms, new ItemStack(SeaSerpentType.values().get(j).scale.get()), 36, 66, 1.5F);
+                this.drawItemStack(ms, new ItemStack(SeaSerpentType.values().get(j).helmet.get()), 34, 125, 1.5F);
+                this.drawItemStack(ms, new ItemStack(SeaSerpentType.values().get(j).chestplate.get()), 50, 125, 1.5F);
+                this.drawItemStack(ms, new ItemStack(SeaSerpentType.values().get(j).leggings.get()), 66, 125, 1.5F);
+                this.drawItemStack(ms, new ItemStack(SeaSerpentType.values().get(j).boots.get()), 82, 125, 1.5F);
                 this.drawItemStack(ms, new ItemStack(IafItems.SEA_SERPENT_ARROW.get()), 60, 33, 2F);
             }
         }
@@ -671,7 +665,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
     }
 
     public void imageFromTxt(DrawContext ms) {
-        String fileName = this.pageType.getName() + "_" + this.bookPages + ".txt";
+        String fileName = this.pageType.name() + "_" + this.bookPages + ".txt";
         String languageName = MinecraftClient.getInstance().options.language.toLowerCase(Locale.ROOT);
         Identifier fileLoc = Identifier.of(IceAndFire.MOD_ID, "lang/bestiary/" + languageName + "_0/" + fileName);
         Identifier backupLoc = Identifier.of(IceAndFire.MOD_ID, "lang/bestiary/en_us_0/" + fileName);
@@ -765,7 +759,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
     }
 
     public void writeFromTxt(DrawContext ms) {
-        String fileName = this.pageType.getName() + "_" + this.bookPages + ".txt";
+        String fileName = this.pageType.name() + "_" + this.bookPages + ".txt";
         String languageName = MinecraftClient.getInstance().options.language.toLowerCase(Locale.ROOT);
         Identifier fileLoc = Identifier.of(IceAndFire.MOD_ID, "lang/bestiary/" + languageName + "_0/" + fileName);
         Identifier backupLoc = Identifier.of(IceAndFire.MOD_ID, "lang/bestiary/en_us_0/" + fileName);
@@ -797,7 +791,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
             IceAndFire.LOGGER.error(e);
         }
         ms.getMatrices().push();
-        String s = I18n.translate("bestiary." + this.pageType.getName());
+        String s = I18n.translate("bestiary." + this.pageType.name());
         float scale = this.textRenderer.getWidth(s) <= 100 ? 2 : this.textRenderer.getWidth(s) * 0.0125F;
         ms.getMatrices().scale(scale, scale, scale);
         this.textRenderer.draw(s, 10, 2, 0x7a756a, false, ms.getMatrices().peek().getPositionMatrix(), ms.getVertexConsumers(), TextRenderer.TextLayerType.NORMAL, 0, 15728880);

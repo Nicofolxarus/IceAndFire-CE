@@ -2,69 +2,36 @@ package com.iafenvoy.iceandfire.data;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
-import com.iafenvoy.iceandfire.registry.IafEntities;
-import com.iafenvoy.iceandfire.registry.IafItems;
+import com.iafenvoy.iceandfire.registry.IafRegistries;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
 
-public class DragonType {
-    private static final List<DragonType> TYPES = new ArrayList<>();
-    private static final Map<String, DragonType> BY_NAME = new HashMap<>();
-    public static final DragonType FIRE = new DragonType("fire", IafEntities.FIRE_DRAGON::get, IafItems.DRAGON_SKULL_FIRE, IafItems.SUMMONING_CRYSTAL_FIRE);
-    public static final DragonType ICE = new DragonType("ice", IafEntities.ICE_DRAGON::get, IafItems.DRAGON_SKULL_ICE, IafItems.SUMMONING_CRYSTAL_ICE).setPiscivore();
-    public static final DragonType LIGHTNING = new DragonType("lightning", IafEntities.LIGHTNING_DRAGON::get, IafItems.DRAGON_SKULL_LIGHTNING, IafItems.SUMMONING_CRYSTAL_LIGHTNING);
-    private final String name;
-    private final Supplier<EntityType<? extends DragonBaseEntity>> entityType;
-    private final Supplier<Item> skullItem, crystalItem;
-    private boolean piscivore;
-
-    public DragonType(String name, Supplier<EntityType<? extends DragonBaseEntity>> entityType, Supplier<Item> skullItem, Supplier<Item> crystalItem) {
-        this.name = name;
-        this.entityType = entityType;
-        this.skullItem = skullItem;
-        this.crystalItem = crystalItem;
-        TYPES.add(this);
-        BY_NAME.put(name, this);
+public record DragonType(String name, List<DragonColor> colors,
+                         Supplier<EntityType<? extends DragonBaseEntity>> entityType, Supplier<Item> skullItem,
+                         Supplier<Item> crystalItem, boolean piscivore) {
+    public DragonType(String name, Supplier<EntityType<? extends DragonBaseEntity>> entityType, Supplier<Item> skullItem, Supplier<Item> crystalItem, boolean piscivore) {
+        this(name, new LinkedList<>(), entityType, skullItem, crystalItem, piscivore);
     }
 
     public static String getNameFromInt(int type) {
-        return TYPES.get(type).name;
+        return IafRegistries.DRAGON_TYPE.get(type).name;
     }
 
     public static DragonType getTypeById(String id) {
-        return BY_NAME.getOrDefault(id, FIRE);
-    }
-
-    public static DragonType getTypeByEntityType(EntityType<?> type) {
-        return TYPES.stream().filter(x -> x.entityType.get() == type).findFirst().orElse(FIRE);
+        return IafRegistries.DRAGON_TYPE.get(IceAndFire.id(id));
     }
 
     public int getIntFromType() {
-        return TYPES.indexOf(this);
+        return IafRegistries.DRAGON_TYPE.getRawId(this);
     }
 
     public EntityType<? extends DragonBaseEntity> getEntity() {
         return this.entityType.get();
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public boolean isPiscivore() {
-        return this.piscivore;
-    }
-
-    public DragonType setPiscivore() {
-        this.piscivore = true;
-        return this;
     }
 
     public Identifier getSkeletonTexture(int stage) {

@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.item;
 
-import com.iafenvoy.iceandfire.data.HippogryphTypes;
+import com.iafenvoy.iceandfire.data.HippogryphType;
 import com.iafenvoy.iceandfire.entity.HippogryphEggEntity;
 import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafEntities;
@@ -30,10 +30,10 @@ public class HippogryphEggItem extends Item implements ProjectileItem {
         super(new Item.Settings().maxCount(1));
     }
 
-    public static ItemStack createEggStack(HippogryphTypes parent1, HippogryphTypes parent2) {
-        HippogryphTypes eggType = ThreadLocalRandom.current().nextBoolean() ? parent1 : parent2;
+    public static ItemStack createEggStack(HippogryphType parent1, HippogryphType parent2) {
+        HippogryphType eggType = ThreadLocalRandom.current().nextBoolean() ? parent1 : parent2;
         ItemStack stack = new ItemStack(IafItems.HIPPOGRYPH_EGG.get());
-        stack.set(IafDataComponents.STRING.get(), eggType.getName());
+        stack.set(IafDataComponents.STRING.get(), eggType.name());
         return stack;
     }
 

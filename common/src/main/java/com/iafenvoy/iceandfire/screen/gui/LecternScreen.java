@@ -1,8 +1,9 @@
 package com.iafenvoy.iceandfire.screen.gui;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.data.BestiaryPages;
+import com.iafenvoy.iceandfire.data.BestiaryPage;
 import com.iafenvoy.iceandfire.registry.IafItems;
+import com.iafenvoy.iceandfire.registry.IafRegistries;
 import com.iafenvoy.iceandfire.screen.handler.LecternScreenHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.font.TextRenderer;
@@ -131,7 +132,7 @@ public class LecternScreen extends HandledScreen<LecternScreenHandler> {
         for (int i1 = 0; i1 < 3; ++i1) {
             int j1 = i + 60;
             int k1 = j1 + 20;
-            int l1 = this.handler.getPossiblePages()[i1] == null ? -1 : this.handler.getPossiblePages()[i1].getId();//enchantment level
+            int l1 = this.handler.getPossiblePages()[i1] == null ? -1 : IafRegistries.BESTIARY_PAGE.getRawId(this.handler.getPossiblePages()[i1]);//enchantment level
             RenderSystem.setShaderColor(1, 1, 1, 1);
             if (l1 == -1)
                 ms.drawTexture(ENCHANTMENT_TABLE_GUI_TEXTURE, j1, j + 14 + 19 * i1, 0, 185, 108, 19);
@@ -140,9 +141,9 @@ public class LecternScreen extends HandledScreen<LecternScreenHandler> {
                 TextRenderer fontrenderer = this.client.textRenderer;
                 String s1 = "";
                 float textScale = 1.0F;
-                BestiaryPages enchantment = this.handler.getPossiblePages()[i1];
+                BestiaryPage enchantment = this.handler.getPossiblePages()[i1];
                 if (enchantment != null) {
-                    s1 = I18n.translate("bestiary." + enchantment.getName());//EnchantmentNameParts.getInstance().generateNewRandomName(this.fontRenderer, l1);
+                    s1 = I18n.translate("bestiary." + enchantment.name());//EnchantmentNameParts.getInstance().generateNewRandomName(this.fontRenderer, l1);
                     if (fontrenderer.getWidth(s1) > 80)
                         textScale = 1.0F - (fontrenderer.getWidth(s1) - 80) * 0.01F;
                 }

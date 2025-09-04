@@ -2,7 +2,6 @@ package com.iafenvoy.iceandfire.registry;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.data.TrollType;
 import com.iafenvoy.iceandfire.registry.tag.CommonItemTags;
 import com.iafenvoy.uranus.util.function.MemorizeSupplier;
 import dev.architectury.registry.registries.DeferredRegister;
@@ -34,9 +33,9 @@ public final class IafArmorMaterials {
     public static final RegistrySupplier<ArmorMaterial> DEATHWORM_0_ARMOR_MATERIAL = register("yellow_deathworm", new int[]{2, 5, 7, 3}, 5, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 1.5F, new MemorizeSupplier<>(() -> Ingredient.ofItems(IafItems.DEATH_WORM_CHITIN_YELLOW.get())));
     public static final RegistrySupplier<ArmorMaterial> DEATHWORM_1_ARMOR_MATERIAL = register("white_deathworm", new int[]{2, 5, 7, 3}, 5, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 1.5F, new MemorizeSupplier<>(() -> Ingredient.ofItems(IafItems.DEATH_WORM_CHITIN_RED.get())));
     public static final RegistrySupplier<ArmorMaterial> DEATHWORM_2_ARMOR_MATERIAL = register("red_deathworm", new int[]{2, 5, 7, 3}, 5, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 1.5F, new MemorizeSupplier<>(() -> Ingredient.ofItems(IafItems.DEATH_WORM_CHITIN_WHITE.get())));
-    public static final RegistrySupplier<ArmorMaterial> TROLL_MOUNTAIN_ARMOR_MATERIAL = register("mountain_troll", new int[]{2, 5, 7, 3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 1F, new MemorizeSupplier<>(() -> Ingredient.ofItems(TrollType.MOUNTAIN.leather.get())));
-    public static final RegistrySupplier<ArmorMaterial> TROLL_FOREST_ARMOR_MATERIAL = register("forest_troll", new int[]{2, 5, 7, 3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 1F, new MemorizeSupplier<>(() -> Ingredient.ofItems(TrollType.FOREST.leather.get())));
-    public static final RegistrySupplier<ArmorMaterial> TROLL_FROST_ARMOR_MATERIAL = register("frost_troll", new int[]{2, 5, 7, 3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 1F, new MemorizeSupplier<>(() -> Ingredient.ofItems(TrollType.FROST.leather.get())));
+    public static final RegistrySupplier<ArmorMaterial> TROLL_MOUNTAIN_ARMOR_MATERIAL = register("mountain_troll", new int[]{2, 5, 7, 3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 1F, new MemorizeSupplier<>(() -> Ingredient.ofItems(IafTrollTypes.MOUNTAIN.leather.get())));
+    public static final RegistrySupplier<ArmorMaterial> TROLL_FOREST_ARMOR_MATERIAL = register("forest_troll", new int[]{2, 5, 7, 3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 1F, new MemorizeSupplier<>(() -> Ingredient.ofItems(IafTrollTypes.FOREST.leather.get())));
+    public static final RegistrySupplier<ArmorMaterial> TROLL_FROST_ARMOR_MATERIAL = register("frost_troll", new int[]{2, 5, 7, 3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 1F, new MemorizeSupplier<>(() -> Ingredient.ofItems(IafTrollTypes.FROST.leather.get())));
     public static final RegistrySupplier<ArmorMaterial> DRAGONSTEEL_FIRE_ARMOR_MATERIAL = register(
         "dragonsteel_fire",
         new int[]{

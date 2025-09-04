@@ -1,10 +1,10 @@
 package com.iafenvoy.iceandfire.compat.ponder;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.data.DragonColor;
 import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.item.block.DragonForgeBrickBlock;
+import com.iafenvoy.uranus.util.RandomHelper;
 import net.createmod.ponder.api.scene.PonderStoryBoard;
 import net.createmod.ponder.api.scene.SceneBuilder;
 import net.createmod.ponder.api.scene.SceneBuildingUtil;
@@ -16,8 +16,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-import java.util.Random;
 import java.util.function.Function;
 
 public class DragonForgeStoryBoard<T extends DragonBaseEntity> implements PonderStoryBoard {
@@ -30,7 +28,7 @@ public class DragonForgeStoryBoard<T extends DragonBaseEntity> implements Ponder
     }
 
     public static Identifier id(DragonType type) {
-        return Identifier.of(IceAndFire.MOD_ID, "%s_dragon_forge".formatted(type.getName()));
+        return Identifier.of(IceAndFire.MOD_ID, "%s_dragon_forge".formatted(type.name()));
     }
 
     @Override
@@ -67,8 +65,7 @@ public class DragonForgeStoryBoard<T extends DragonBaseEntity> implements Ponder
         scene.world().createEntity(this.dragonFactory);
         scene.world().modifyEntities(this.dragonClass, dragon -> MinecraftClient.getInstance().execute(() -> {
             dragon.setGender(true);
-            List<DragonColor> colors = DragonColor.getColorsByType(dragon.dragonType);
-            dragon.setVariant(colors.get(new Random().nextInt(colors.size())).name());
+            dragon.setVariant(RandomHelper.randomOne(dragon.dragonType.colors()).getName());
             dragon.setPos(3, 0.5, -5);
             dragon.setAgeInDays(50);//Stage 3 is enough
             dragon.setSitting(true);

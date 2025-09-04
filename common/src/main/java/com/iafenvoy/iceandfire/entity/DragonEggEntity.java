@@ -10,6 +10,8 @@ import com.iafenvoy.iceandfire.entity.util.IDeadMob;
 import com.iafenvoy.iceandfire.item.DragonEggItem;
 import com.iafenvoy.iceandfire.item.block.entity.EggInIceBlockEntity;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
+import com.iafenvoy.iceandfire.registry.IafDragonColors;
+import com.iafenvoy.iceandfire.registry.IafDragonTypes;
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import com.iafenvoy.uranus.object.BlockUtil;
 import net.minecraft.block.BlockState;
@@ -57,7 +59,7 @@ public class DragonEggEntity extends LivingEntity implements BlacklistedFromStat
     @Override
     public void writeCustomDataToNbt(NbtCompound tag) {
         super.writeCustomDataToNbt(tag);
-        tag.putString("Color", this.getEggType().name());
+        tag.putString("Color", this.getEggType().getName());
         tag.putInt("DragonAge", this.getDragonAge());
         try {
             if (this.getOwnerId() == null) {
@@ -92,7 +94,7 @@ public class DragonEggEntity extends LivingEntity implements BlacklistedFromStat
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         super.initDataTracker(builder);
-        builder.add(DRAGON_TYPE, DragonColor.RED.toString());
+        builder.add(DRAGON_TYPE, IafDragonColors.RED.toString());
         builder.add(DRAGON_AGE, 0);
         builder.add(OWNER_UNIQUE_ID, Optional.empty());
     }
@@ -110,7 +112,7 @@ public class DragonEggEntity extends LivingEntity implements BlacklistedFromStat
     }
 
     public void setEggType(DragonColor newtype) {
-        this.getDataTracker().set(DRAGON_TYPE, newtype.name());
+        this.getDataTracker().set(DRAGON_TYPE, newtype.getName());
     }
 
     @Override
@@ -136,13 +138,13 @@ public class DragonEggEntity extends LivingEntity implements BlacklistedFromStat
     }
 
     public void updateEggCondition() {
-        DragonType dragonType = this.getEggType().dragonType();
+        DragonType dragonType = this.getEggType().getType();
 
-        if (dragonType == DragonType.FIRE) {
+        if (dragonType == IafDragonTypes.FIRE) {
             if (BlockUtil.isBurning(this.getWorld().getBlockState(this.getBlockPos()))) {
                 this.setDragonAge(this.getDragonAge() + 1);
             }
-        } else if (dragonType == DragonType.ICE) {
+        } else if (dragonType == IafDragonTypes.ICE) {
             BlockState state = this.getWorld().getBlockState(this.getBlockPos());
             if (state.isOf(Blocks.WATER) && this.getRandom().nextInt(500) == 0) {
                 this.getWorld().setBlockState(this.getBlockPos(), IafBlocks.EGG_IN_ICE.get().getDefaultState());
@@ -153,7 +155,7 @@ public class DragonEggEntity extends LivingEntity implements BlacklistedFromStat
                 }
                 this.remove(RemovalReason.DISCARDED);
             }
-        } else if (dragonType == DragonType.LIGHTNING) {
+        } else if (dragonType == IafDragonTypes.LIGHTNING) {
             BlockPos.Mutable mutablePosition = new BlockPos.Mutable(this.getX(), this.getY(), this.getZ());
             boolean isRainingAt = this.getWorld().hasRain(mutablePosition) || this.getWorld().hasRain(mutablePosition.set(this.getX(), this.getY() + (double) this.getHeight(), this.getZ()));
 
@@ -166,7 +168,7 @@ public class DragonEggEntity extends LivingEntity implements BlacklistedFromStat
             this.getWorld().setBlockState(this.getBlockPos(), Blocks.AIR.getDefaultState());
             DragonBaseEntity dragon = dragonType.getEntity().create(this.getWorld());
             assert dragon != null;
-            dragon.setVariant(this.getEggType().name());
+            dragon.setVariant(this.getEggType().getName());
             dragon.setGender(this.getRandom().nextBoolean());
             dragon.setPosition(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 1, this.getBlockPos().getZ() + 0.5);
             dragon.setHunger(50);
@@ -174,14 +176,14 @@ public class DragonEggEntity extends LivingEntity implements BlacklistedFromStat
             if (this.hasCustomName()) dragon.setCustomName(this.getCustomName());
             dragon.setTamed(true, true);
             dragon.setOwnerUuid(this.getOwnerId());
-            if (dragonType == DragonType.LIGHTNING) {
+            if (dragonType == IafDragonTypes.LIGHTNING) {
                 LightningEntity bolt = EntityType.LIGHTNING_BOLT.create(this.getWorld());
                 assert bolt != null;
                 bolt.setPosition(this.getX(), this.getY(), this.getZ());
                 bolt.setCosmetic(true);
                 if (!this.getWorld().isClient()) this.getWorld().spawnEntity(bolt);
                 this.getWorld().playSound(this.getX(), this.getY() + this.getStandingEyeHeight(), this.getZ(), SoundEvents.ENTITY_LIGHTNING_BOLT_THUNDER, this.getSoundCategory(), 2.5F, 1.0F, false);
-            } else if (dragonType == DragonType.FIRE)
+            } else if (dragonType == IafDragonTypes.FIRE)
                 this.getWorld().playSound(this.getX(), this.getY() + this.getStandingEyeHeight(), this.getZ(), SoundEvents.BLOCK_FIRE_EXTINGUISH, this.getSoundCategory(), 2.5F, 1.0F, false);
             this.getWorld().playSound(this.getX(), this.getY() + this.getStandingEyeHeight(), this.getZ(), IafSounds.EGG_HATCH.get(), this.getSoundCategory(), 2.5F, 1.0F, false);
             this.remove(RemovalReason.DISCARDED);
@@ -210,7 +212,7 @@ public class DragonEggEntity extends LivingEntity implements BlacklistedFromStat
 
     @Override
     public boolean damage(DamageSource var1, float var2) {
-        if (var1.isIn(DamageTypeTags.IS_FIRE) && this.getEggType().dragonType() == DragonType.FIRE)
+        if (var1.isIn(DamageTypeTags.IS_FIRE) && this.getEggType().getType() == IafDragonTypes.FIRE)
             return false;
         if (!this.getWorld().isClient && !var1.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY) && !this.isRemoved()) {
             this.dropItem(this.getItem().getItem(), 1);

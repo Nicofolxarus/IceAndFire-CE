@@ -4,9 +4,8 @@ import com.google.common.collect.ImmutableList;
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.item.armor.TrollArmorItem;
 import com.iafenvoy.iceandfire.item.tool.TrollWeaponItem;
-import com.iafenvoy.iceandfire.registry.IafArmorMaterials;
 import com.iafenvoy.iceandfire.registry.IafItems;
-import com.iafenvoy.iceandfire.registry.tag.IafBiomeTags;
+import com.iafenvoy.iceandfire.registry.IafRegistries;
 import com.iafenvoy.uranus.util.RandomHelper;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.entity.EquipmentSlot;
@@ -14,6 +13,7 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.ApiStatus;
@@ -23,31 +23,24 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Predicate;
 
 public class TrollType {
-    private static final List<TrollType> TYPES = new ArrayList<>();
-    private static final Map<String, TrollType> BY_NAME = new HashMap<>();
-    public static final TrollType FOREST = new TrollType("forest", IafArmorMaterials.TROLL_FOREST_ARMOR_MATERIAL, biome -> biome.isIn(IafBiomeTags.FOREST_TROLL), Identifier.of(IceAndFire.MOD_ID, "entities/troll_forest"), BuiltinWeapon.TRUNK, BuiltinWeapon.COLUMN_FOREST, BuiltinWeapon.AXE, BuiltinWeapon.HAMMER);
-    public static final TrollType FROST = new TrollType("frost", IafArmorMaterials.TROLL_FROST_ARMOR_MATERIAL, biome -> biome.isIn(IafBiomeTags.SNOWY_TROLL), Identifier.of(IceAndFire.MOD_ID, "entities/troll_frost"), BuiltinWeapon.COLUMN_FROST, BuiltinWeapon.TRUNK_FROST, BuiltinWeapon.AXE, BuiltinWeapon.HAMMER);
-    public static final TrollType MOUNTAIN = new TrollType("mountain", IafArmorMaterials.TROLL_MOUNTAIN_ARMOR_MATERIAL, biome -> biome.isIn(IafBiomeTags.MOUNTAIN_TROLL), Identifier.of(IceAndFire.MOD_ID, "entities/troll_mountain"), BuiltinWeapon.COLUMN, BuiltinWeapon.AXE, BuiltinWeapon.HAMMER);
     public RegistrySupplier<Item> leather, helmet, chestplate, leggings, boots;
     private final String name;
     private final RegistryEntry<ArmorMaterial> material;
-    private final Predicate<RegistryEntry<Biome>> biomePredicate;
+    private final TagKey<Biome> spawnBiomes;
     private final Identifier lootTable;
     private final List<BuiltinWeapon> weapons;
 
-    public TrollType(String name, RegistryEntry<ArmorMaterial> material, Predicate<RegistryEntry<Biome>> biomePredicate, Identifier lootTable, BuiltinWeapon... weapons) {
+    public TrollType(String name, RegistryEntry<ArmorMaterial> material, TagKey<Biome> spawnBiomes, BuiltinWeapon... weapons) {
         this.name = name;
         this.weapons = List.of(weapons);
         this.material = material;
-        this.biomePredicate = biomePredicate;
-        this.lootTable = lootTable;
-        TYPES.add(this);
-        BY_NAME.put(name, this);
+        this.spawnBiomes = spawnBiomes;
+        this.lootTable = Identifier.of(IceAndFire.MOD_ID, "entities/troll_" + name);
     }
 
     public static TrollType getBiomeType(RegistryEntry<Biome> biome) {
-        List<TrollType> types = TYPES.stream().filter(x -> x.allowSpawn(biome)).toList();
-        return RandomHelper.randomOne(types.isEmpty() ? TYPES : types);
+        List<TrollType> types = IafRegistries.TROLL_TYPE.stream().filter(x -> x.allowSpawn(biome)).toList();
+        return RandomHelper.randomOne(types.isEmpty() ? IafRegistries.TROLL_TYPE.stream().toList() : types);
     }
 
     public static BuiltinWeapon getWeaponForType(TrollType troll) {
@@ -55,7 +48,7 @@ public class TrollType {
     }
 
     public static void initArmors() {
-        for (TrollType troll : TYPES) {
+        for (TrollType troll : IafRegistries.TROLL_TYPE) {
             troll.leather = IafItems.register("troll_leather_%s".formatted(troll.name.toLowerCase(Locale.ROOT)), () -> new Item(new Item.Settings()));
             troll.helmet = IafItems.register(TrollArmorItem.getName(troll, EquipmentSlot.HEAD), () -> new TrollArmorItem(troll, ArmorItem.Type.HELMET));
             troll.chestplate = IafItems.register(TrollArmorItem.getName(troll, EquipmentSlot.CHEST), () -> new TrollArmorItem(troll, ArmorItem.Type.CHESTPLATE));
@@ -65,11 +58,11 @@ public class TrollType {
     }
 
     public static List<TrollType> values() {
-        return ImmutableList.copyOf(TYPES);
+        return IafRegistries.TROLL_TYPE.stream().toList();
     }
 
     public static TrollType getByName(String name) {
-        return BY_NAME.getOrDefault(name, TrollType.FOREST);
+        return IafRegistries.TROLL_TYPE.get(IceAndFire.id(name));
     }
 
     public String getName() {
@@ -97,7 +90,7 @@ public class TrollType {
     }
 
     public boolean allowSpawn(RegistryEntry<Biome> biome) {
-        return this.biomePredicate.test(biome);
+        return biome.isIn(this.spawnBiomes);
     }
 
     public enum BuiltinWeapon implements ITrollWeapon {

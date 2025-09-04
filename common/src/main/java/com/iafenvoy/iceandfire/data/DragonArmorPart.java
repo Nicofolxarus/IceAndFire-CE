@@ -1,5 +1,7 @@
 package com.iafenvoy.iceandfire.data;
 
+import net.minecraft.entity.EquipmentSlot;
+
 import java.util.Locale;
 
 public enum DragonArmorPart {
@@ -7,5 +9,15 @@ public enum DragonArmorPart {
 
     public String getId() {
         return this.name().toLowerCase(Locale.ROOT);
+    }
+
+    public static DragonArmorPart fromSlot(EquipmentSlot slot) {
+        return switch (slot) {
+            case MAINHAND, OFFHAND, BODY -> null;
+            case FEET -> TAIL;
+            case LEGS -> BODY;
+            case CHEST -> NECK;
+            case HEAD -> HEAD;
+        };
     }
 }

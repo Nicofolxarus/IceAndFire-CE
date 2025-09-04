@@ -1,12 +1,11 @@
 package com.iafenvoy.iceandfire.world.structure;
 
-import com.iafenvoy.iceandfire.data.DragonColor;
-import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.entity.util.HomePosition;
 import com.iafenvoy.iceandfire.item.block.GoldPileBlock;
 import com.iafenvoy.iceandfire.registry.tag.IafBlockTags;
 import com.iafenvoy.iceandfire.world.GenerationConstants;
+import com.iafenvoy.uranus.util.RandomHelper;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ChestBlockEntity;
@@ -29,7 +28,6 @@ import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.structure.Structure;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -292,8 +290,7 @@ public abstract class DragonRoostStructure extends Structure {
             dragon.growDragon(40 + ageOffset);
             dragon.setAgingDisabled(true);
             dragon.setHealth(dragon.getMaxHealth());
-            List<DragonColor> colors = DragonColor.getColorsByType(DragonType.getTypeByEntityType(this.getDragonType()));
-            dragon.setVariant(colors.get(random.nextInt(colors.size())).name());
+            dragon.setVariant(RandomHelper.randomOne(dragon.dragonType.colors()).getName());
             dragon.updatePositionAndAngles(origin.getX() + 0.5, world.getTopPosition(Heightmap.Type.WORLD_SURFACE_WG, origin).getY() + 1.5, origin.getZ() + 0.5, random.nextFloat() * 360, 0);
             dragon.homePos = new HomePosition(origin, world.toServerWorld());
             dragon.hasHomePosition = true;

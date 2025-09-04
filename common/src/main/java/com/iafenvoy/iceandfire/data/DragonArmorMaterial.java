@@ -1,17 +1,11 @@
 package com.iafenvoy.iceandfire.data;
 
 import com.google.common.collect.ImmutableList;
-import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.item.DragonArmorItem;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-public class DragonArmorMaterial {
+public record DragonArmorMaterial(String name, double protection) {
     private static final List<DragonArmorMaterial> MATERIALS = new ArrayList<>();
     public static final DragonArmorMaterial IRON = new DragonArmorMaterial("iron", 1.5);
     public static final DragonArmorMaterial COPPER = new DragonArmorMaterial("copper", 2);
@@ -22,8 +16,6 @@ public class DragonArmorMaterial {
     public static final DragonArmorMaterial DRAGON_STEEL_FIRE = new DragonArmorMaterial("dragon_steel_fire", 10);
     public static final DragonArmorMaterial DRAGON_STEEL_ICE = new DragonArmorMaterial("dragon_steel_ice", 10);
     public static final DragonArmorMaterial DRAGON_STEEL_LIGHTNING = new DragonArmorMaterial("dragon_steel_lightning", 10);
-    private final String name;
-    private final double protection;
 
     public DragonArmorMaterial(String name, double protection) {
         this.name = name;
@@ -31,36 +23,7 @@ public class DragonArmorMaterial {
         MATERIALS.add(this);
     }
 
-    public static Identifier getArmorTexture(ItemStack stack, EquipmentSlot slot) {
-        if (!stack.isEmpty() && stack.getItem() instanceof DragonArmorItem armorItem)
-            return armorItem.type.getTexture(slot);
-        else return Identifier.of(Identifier.DEFAULT_NAMESPACE, "missing");
-    }
-
     public static List<DragonArmorMaterial> values() {
         return ImmutableList.copyOf(MATERIALS);
-    }
-
-    public String getId() {
-        return this.name.toLowerCase(Locale.ROOT);
-    }
-
-    public double getProtection() {
-        return this.protection;
-    }
-
-    public Identifier getTexture(EquipmentSlot slot) {
-        return switch (slot) {
-            case MAINHAND, OFFHAND -> null;
-            case FEET ->
-                    Identifier.of(IceAndFire.MOD_ID, "textures/entity/dragon_armor/armor_tail_" + this.name + ".png");
-            case LEGS ->
-                    Identifier.of(IceAndFire.MOD_ID, "textures/entity/dragon_armor/armor_body_" + this.name + ".png");
-            case CHEST ->
-                    Identifier.of(IceAndFire.MOD_ID, "textures/entity/dragon_armor/armor_neck_" + this.name + ".png");
-            case HEAD ->
-                    Identifier.of(IceAndFire.MOD_ID, "textures/entity/dragon_armor/armor_head_" + this.name + ".png");
-            case BODY -> Identifier.of("");
-        };
     }
 }

@@ -14,7 +14,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.BlockSoundGroup;
@@ -25,15 +24,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class DragonForgeCoreBlock extends BlockWithEntity implements DragonProof {
-    private final int isFire;
+    private final DragonType dragonType;
 
-    public DragonForgeCoreBlock(int isFire, boolean activated) {
+    public DragonForgeCoreBlock(DragonType dragonType, boolean activated) {
         super(Settings.create().mapColor(MapColor.IRON_GRAY).dynamicBounds().strength(40, 500).sounds(BlockSoundGroup.METAL).luminance((state) -> activated ? 15 : 0));
-        this.isFire = isFire;
+        this.dragonType = dragonType;
     }
 
-    public static String name(int dragonType, boolean activated) {
-        return "dragonforge_%s_core%s".formatted(DragonType.getNameFromInt(dragonType), activated ? "" : "_disabled");
+    public static String name(DragonType dragonType, boolean activated) {
+        return "dragonforge_%s_core%s".formatted(dragonType.name(), activated ? "" : "_disabled");
     }
 
     public static void setState(int dragonType, boolean active, World worldIn, BlockPos pos) {
@@ -72,14 +71,6 @@ public class DragonForgeCoreBlock extends BlockWithEntity implements DragonProof
         return ActionResult.FAIL;
     }
 
-    public ItemStack getItem(World world, BlockPos pos, BlockState state) {
-        return switch (this.isFire) {
-            case 1 -> new ItemStack(IafBlocks.DRAGONFORGE_ICE_CORE_DISABLED.get().asItem());
-            case 2 -> new ItemStack(IafBlocks.DRAGONFORGE_LIGHTNING_CORE_DISABLED.get().asItem());
-            default -> new ItemStack(IafBlocks.DRAGONFORGE_FIRE_CORE_DISABLED.get().asItem());
-        };
-    }
-
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
@@ -112,7 +103,7 @@ public class DragonForgeCoreBlock extends BlockWithEntity implements DragonProof
 
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new DragonForgeBlockEntity(pos, state, this.isFire);
+        return new DragonForgeBlockEntity(pos, state, this.dragonType);
     }
 
     @Override

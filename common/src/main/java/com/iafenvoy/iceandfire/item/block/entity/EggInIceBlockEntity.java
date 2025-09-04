@@ -38,7 +38,7 @@ public class EggInIceBlockEntity extends BlockEntity {
                 IceDragonEntity dragon = IafEntities.ICE_DRAGON.get().create(level);
                 assert dragon != null;
                 dragon.setPosition(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
-                dragon.setVariant(entityEggInIce.type.name());
+                dragon.setVariant(entityEggInIce.type.getName());
                 dragon.setGender(ThreadLocalRandom.current().nextBoolean());
                 dragon.setTamed(true, false);
                 dragon.setHunger(50);
@@ -54,7 +54,7 @@ public class EggInIceBlockEntity extends BlockEntity {
     @Override
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.writeNbt(nbt, registryLookup);
-        if (this.type != null) nbt.putString("Color", this.type.name());
+        if (this.type != null) nbt.putString("Color", this.type.getName());
         else nbt.putByte("Color", (byte) 0);
         nbt.putInt("Age", this.age);
         if (this.ownerUUID == null) nbt.putString("OwnerUUID", "");

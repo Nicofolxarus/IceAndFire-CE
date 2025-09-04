@@ -3,6 +3,7 @@ package com.iafenvoy.iceandfire.render.entity.feature;
 import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.entity.DreadQueenEntity;
+import com.iafenvoy.iceandfire.registry.IafDragonTypes;
 import com.iafenvoy.uranus.client.model.AdvancedModelBox;
 import com.iafenvoy.uranus.client.model.TabulaModel;
 import net.minecraft.client.MinecraftClient;
@@ -107,7 +108,7 @@ public class DragonRiderFeatureRenderer<T extends DragonBaseEntity> extends Feat
     }
 
     private void offsetPerDragonType(DragonType dragonType, MatrixStack stackIn) {
-        if (dragonType == DragonType.LIGHTNING)
+        if (dragonType == IafDragonTypes.LIGHTNING)
             stackIn.translate(0.1F, -0.2F, -0.1F);
     }
 

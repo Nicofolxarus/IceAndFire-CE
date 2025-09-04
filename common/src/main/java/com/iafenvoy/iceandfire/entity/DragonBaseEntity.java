@@ -18,10 +18,7 @@ import com.iafenvoy.iceandfire.item.component.DragonSkullComponent;
 import com.iafenvoy.iceandfire.network.payload.DragonSetBurnBlockS2CPayload;
 import com.iafenvoy.iceandfire.network.payload.StartRidingMobC2SPayload;
 import com.iafenvoy.iceandfire.network.payload.StartRidingMobS2CPayload;
-import com.iafenvoy.iceandfire.registry.IafDataComponents;
-import com.iafenvoy.iceandfire.registry.IafEntities;
-import com.iafenvoy.iceandfire.registry.IafItems;
-import com.iafenvoy.iceandfire.registry.IafSounds;
+import com.iafenvoy.iceandfire.registry.*;
 import com.iafenvoy.iceandfire.registry.tag.IafBlockTags;
 import com.iafenvoy.iceandfire.registry.tag.IafItemTags;
 import com.iafenvoy.iceandfire.render.model.IFChainBuffer;
@@ -40,6 +37,7 @@ import com.iafenvoy.uranus.object.entity.pathfinding.raycoms.IPassabilityNavigat
 import com.iafenvoy.uranus.object.entity.pathfinding.raycoms.PathingStuckHandler;
 import com.iafenvoy.uranus.object.entity.pathfinding.raycoms.pathjobs.ICustomSizeNavigator;
 import com.iafenvoy.uranus.object.item.FoodUtils;
+import com.iafenvoy.uranus.util.RandomHelper;
 import dev.architectury.networking.NetworkManager;
 import net.createmod.catnip.levelWrappers.SchematicLevel;
 import net.minecraft.block.BlockState;
@@ -632,7 +630,7 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
         builder.add(HUNGER, 0);
         builder.add(AGE_TICKS, 0);
         builder.add(GENDER, false);
-        builder.add(VARIANT, DragonColor.RED.name());
+        builder.add(VARIANT, IafDragonColors.RED.getName());
         builder.add(SLEEPING, false);
         builder.add(FIREBREATHING, false);
         builder.add(HOVERING, false);
@@ -1022,7 +1020,7 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
         final EquipmentSlot[] slots = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
         for (EquipmentSlot slot : slots)
             if (this.getEquippedStack(slot).getItem() instanceof DragonArmorItem dragonArmor)
-                val += dragonArmor.type.getProtection();
+                val += dragonArmor.type.protection();
         return val;
     }
 
@@ -1135,7 +1133,7 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
                     this.openInventory(player);
                     return ActionResult.SUCCESS;
                 } else {
-                    int itemFoodAmount = FoodUtils.getFoodPoints(stack, true, this.dragonType.isPiscivore());
+                    int itemFoodAmount = FoodUtils.getFoodPoints(stack, true, this.dragonType.piscivore());
                     if (itemFoodAmount > 0 && (this.getHunger() < 100 || this.getHealth() < this.getMaxHealth())) {
                         this.setHunger(this.getHunger() + itemFoodAmount);
                         this.setHealth(Math.min(this.getMaxHealth(), (int) (this.getHealth() + ((float) itemFoodAmount / 10))));
@@ -1216,8 +1214,7 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
                     this.remove(RemovalReason.DISCARDED);
                 } else if (this.getDeathStage() == (lastDeathStage / 2) - 1 && IafCommonConfig.INSTANCE.dragon.lootHeart.getValue()) {
                     ItemStack heart = new ItemStack(this.getHeartItem(), 1);
-                    List<DragonColor> colors = DragonColor.getColorsByType(this.dragonType);
-                    ItemStack egg = new ItemStack(colors.get(this.random.nextInt(colors.size())).getEggItem(), 1);
+                    ItemStack egg = new ItemStack(RandomHelper.randomOne(this.dragonType.colors()).getEggItem(), 1);
                     this.dropStack(heart, 1);
                     if (!this.isMale() && this.getDragonStage() > 3)
                         this.dropStack(egg, 1);
@@ -1563,8 +1560,7 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
         this.setGender(this.getRandom().nextBoolean());
         final int age = this.getRandom().nextInt(80) + 1;
         this.growDragon(age);
-        List<DragonColor> colors = DragonColor.getColorsByType(this.dragonType);
-        this.setVariant(colors.get(new Random().nextInt(colors.size())).name());
+        this.setVariant(RandomHelper.randomOne(this.dragonType.colors()).getName());
         this.setInSittingPose(false);
         final double healthStep = (this.maximumHealth - this.minimumHealth) / 125;
         this.heal((Math.round(this.minimumHealth + (healthStep * age))));
@@ -1825,9 +1821,10 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
         return otherAnimal instanceof DragonBaseEntity dragon && otherAnimal != this && otherAnimal.getClass() == this.getClass() && (this.isMale() && !dragon.isMale() || !this.isMale() && dragon.isMale());
     }
 
+    //FIXME::Do not use id to find types
     public DragonEggEntity createEgg() {
         DragonEggEntity dragon = new DragonEggEntity(IafEntities.DRAGON_EGG.get(), this.getWorld());
-        dragon.setEggType(DragonColor.byMetadata(new Random().nextInt(4) + this.getStartMetaForType()));
+        dragon.setEggType(IafRegistries.DRAGON_COLOR.get(new Random().nextInt(4) + this.getStartMetaForType()));
         dragon.setPosition(MathHelper.floor(this.getX()) + 0.5, MathHelper.floor(this.getY()) + 1, MathHelper.floor(this.getZ()) + 0.5);
         return dragon;
     }

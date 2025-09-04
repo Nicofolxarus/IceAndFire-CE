@@ -1,11 +1,11 @@
 package com.iafenvoy.iceandfire.compat.ponder;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.FireDragonEntity;
 import com.iafenvoy.iceandfire.entity.IceDragonEntity;
 import com.iafenvoy.iceandfire.entity.LightningDragonEntity;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
+import com.iafenvoy.iceandfire.registry.IafDragonTypes;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import net.createmod.ponder.api.registration.PonderPlugin;
 import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
@@ -25,11 +25,11 @@ public class IceAndFirePonderPlugin implements PonderPlugin {
     @Override
     public void registerScenes(@NotNull PonderSceneRegistrationHelper<Identifier> helper) {
         helper.forComponents(IafBlocks.DRAGONFORGE_FIRE_CORE_DISABLED.getId())
-                .addStoryBoard(DragonForgeStoryBoard.id(DragonType.FIRE), new DragonForgeStoryBoard<>(IafEntities.FIRE_DRAGON.get()::create, FireDragonEntity.class));
+                .addStoryBoard(DragonForgeStoryBoard.id(IafDragonTypes.FIRE), new DragonForgeStoryBoard<>(IafEntities.FIRE_DRAGON.get()::create, FireDragonEntity.class));
         helper.forComponents(IafBlocks.DRAGONFORGE_ICE_CORE_DISABLED.getId())
-                .addStoryBoard(DragonForgeStoryBoard.id(DragonType.ICE), new DragonForgeStoryBoard<>(IafEntities.ICE_DRAGON.get()::create, IceDragonEntity.class));
+                .addStoryBoard(DragonForgeStoryBoard.id(IafDragonTypes.ICE), new DragonForgeStoryBoard<>(IafEntities.ICE_DRAGON.get()::create, IceDragonEntity.class));
         helper.forComponents(IafBlocks.DRAGONFORGE_LIGHTNING_CORE_DISABLED.getId())
-                .addStoryBoard(DragonForgeStoryBoard.id(DragonType.LIGHTNING), new DragonForgeStoryBoard<>(IafEntities.LIGHTNING_DRAGON.get()::create, LightningDragonEntity.class));
+                .addStoryBoard(DragonForgeStoryBoard.id(IafDragonTypes.LIGHTNING), new DragonForgeStoryBoard<>(IafEntities.LIGHTNING_DRAGON.get()::create, LightningDragonEntity.class));
     }
 
     @Override
