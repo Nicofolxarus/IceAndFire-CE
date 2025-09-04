@@ -28,21 +28,15 @@ public class ChickenData implements IafEntityAttachment<LivingEntity> {
     public void tick(LivingEntity entity) {
         if (!IafCommonConfig.INSTANCE.cockatrice.chickensLayRottenEggs.getValue() || entity.getWorld().isClient() || !entity.getType().isIn(IafEntityTags.CHICKENS) || entity.isBaby())
             return;
-
-        if (this.timeUntilNextEgg == -1)
-            this.timeUntilNextEgg = this.createDefaultTime(entity.getRandom());
-
+        if (this.timeUntilNextEgg == -1) this.timeUntilNextEgg = this.createDefaultTime(entity.getRandom());
         if (this.timeUntilNextEgg == 0) {
-            if (entity.age > 30) {
-                if (entity.getRandom().nextDouble() < IafCommonConfig.INSTANCE.cockatrice.eggChance.getValue()) {
-                    entity.playSound(SoundEvents.ENTITY_CHICKEN_HURT, 2.0F, (entity.getRandom().nextFloat() - entity.getRandom().nextFloat()) * 0.2F + 1.0F);
-                    entity.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (entity.getRandom().nextFloat() - entity.getRandom().nextFloat()) * 0.2F + 1.0F);
-                    entity.dropItem(IafItems.ROTTEN_EGG.get(), 1);
-                }
+            if (entity.age > 30 && entity.getRandom().nextDouble() < IafCommonConfig.INSTANCE.cockatrice.eggChance.getValue()) {
+                entity.playSound(SoundEvents.ENTITY_CHICKEN_HURT, 2.0F, (entity.getRandom().nextFloat() - entity.getRandom().nextFloat()) * 0.2F + 1.0F);
+                entity.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (entity.getRandom().nextFloat() - entity.getRandom().nextFloat()) * 0.2F + 1.0F);
+                entity.dropItem(IafItems.ROTTEN_EGG.get(), 1);
             }
             this.timeUntilNextEgg = -1;
-        } else
-            this.timeUntilNextEgg--;
+        } else this.timeUntilNextEgg--;
     }
 
     public void setTime(int timeUntilNextEgg) {

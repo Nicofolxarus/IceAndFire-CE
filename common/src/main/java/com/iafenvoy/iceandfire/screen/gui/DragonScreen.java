@@ -20,7 +20,7 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 public class DragonScreen extends HandledScreen<DragonScreenHandler> {
-    private static final Identifier texture = Identifier.of(IceAndFire.MOD_ID, "textures/gui/dragon.png");
+    private static final Identifier TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/gui/dragon.png");
 
     public DragonScreen(DragonScreenHandler dragonInv, PlayerInventory playerInv, Text name) {
         super(dragonInv, playerInv, name);
@@ -44,7 +44,7 @@ public class DragonScreen extends HandledScreen<DragonScreenHandler> {
         RenderSystem.setShaderColor(1, 1, 1, 1);
         int k = (this.width - this.backgroundWidth) / 2;
         int l = (this.height - this.backgroundHeight) / 2;
-        matrixStack.drawTexture(texture, k, l, 0, 0, this.backgroundWidth, this.backgroundHeight);
+        matrixStack.drawTexture(TEXTURE, k, l, 0, 0, this.backgroundWidth, this.backgroundHeight);
         assert MinecraftClient.getInstance().world != null;
         Entity entity = MinecraftClient.getInstance().world.getEntityById(this.handler.getDragonId());
         if (entity instanceof DragonBaseEntity dragon) {

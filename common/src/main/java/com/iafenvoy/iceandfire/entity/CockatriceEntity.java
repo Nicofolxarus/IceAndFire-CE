@@ -3,10 +3,7 @@ package com.iafenvoy.iceandfire.entity;
 import com.google.common.base.Predicate;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.ai.*;
-import com.iafenvoy.iceandfire.entity.util.HomePosition;
-import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
-import com.iafenvoy.iceandfire.entity.util.IHasCustomizableAttributes;
-import com.iafenvoy.iceandfire.entity.util.IVillagerFear;
+import com.iafenvoy.iceandfire.entity.util.*;
 import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import com.iafenvoy.iceandfire.registry.tag.IafEntityTags;
@@ -498,7 +495,7 @@ public class CockatriceEntity extends TameableEntity implements IAnimatedEntity,
         }
         boolean blindness = this.hasStatusEffect(StatusEffects.BLINDNESS) || attackTarget != null && attackTarget.hasStatusEffect(StatusEffects.BLINDNESS);
         if (blindness) this.setStaring(false);
-        if (!this.getWorld().isClient && !blindness && attackTarget != null && GorgonEntity.isEntityLookingAt(this, attackTarget, VIEW_RADIUS) && GorgonEntity.isEntityLookingAt(attackTarget, this, VIEW_RADIUS) && !GorgonEntity.isBlindfolded(attackTarget)) {
+        if (!this.getWorld().isClient && !blindness && attackTarget != null && IafEntityUtil.isEntityLookingAt(this, attackTarget, VIEW_RADIUS) && IafEntityUtil.isEntityLookingAt(attackTarget, this, VIEW_RADIUS) && !GorgonEntity.isBlindfolded(attackTarget)) {
             if (!this.shouldMelee()) {
                 if (!this.isStaring())
                     this.setStaring(true);
@@ -538,7 +535,7 @@ public class CockatriceEntity extends TameableEntity implements IAnimatedEntity,
                 this.switchAI(false);
         }
 
-        if (this.getWorld().isClient && this.getTargetedEntity() != null && GorgonEntity.isEntityLookingAt(this, this.getTargetedEntity(), VIEW_RADIUS) && GorgonEntity.isEntityLookingAt(this.getTargetedEntity(), this, VIEW_RADIUS) && this.isStaring()) {
+        if (this.getWorld().isClient && this.getTargetedEntity() != null && IafEntityUtil.isEntityLookingAt(this, this.getTargetedEntity(), VIEW_RADIUS) && IafEntityUtil.isEntityLookingAt(this.getTargetedEntity(), this, VIEW_RADIUS) && this.isStaring()) {
             if (this.hasTargetedEntity()) {
                 if (this.clientSideAttackTime < this.getAttackDuration())
                     ++this.clientSideAttackTime;
@@ -575,7 +572,7 @@ public class CockatriceEntity extends TameableEntity implements IAnimatedEntity,
         int i = 0;
         for (CockatriceEntity cockatrice : list)
             if (!cockatrice.isPartOf(this) && cockatrice.getTarget() != null && cockatrice.getTarget() == this.getTarget()) {
-                boolean bothLooking = GorgonEntity.isEntityLookingAt(cockatrice, cockatrice.getTarget(), VIEW_RADIUS) && GorgonEntity.isEntityLookingAt(cockatrice.getTarget(), cockatrice, VIEW_RADIUS);
+                boolean bothLooking = IafEntityUtil.isEntityLookingAt(cockatrice, cockatrice.getTarget(), VIEW_RADIUS) && IafEntityUtil.isEntityLookingAt(cockatrice.getTarget(), cockatrice, VIEW_RADIUS);
                 if (bothLooking)
                     i++;
             }

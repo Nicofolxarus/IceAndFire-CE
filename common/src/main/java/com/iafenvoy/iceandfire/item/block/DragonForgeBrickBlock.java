@@ -5,6 +5,8 @@ import com.iafenvoy.iceandfire.item.block.entity.DragonForgeBlockEntity;
 import com.iafenvoy.iceandfire.item.block.entity.DragonForgeBrickBlockEntity;
 import com.iafenvoy.iceandfire.item.block.util.DragonProof;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
+import com.iafenvoy.iceandfire.registry.IafBlocks;
+import com.iafenvoy.iceandfire.util.DragonTypeProvider;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -23,7 +25,11 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class DragonForgeBrickBlock extends BlockWithEntity implements DragonProof {
+import java.util.HashMap;
+import java.util.Map;
+
+public class DragonForgeBrickBlock extends BlockWithEntity implements DragonProof, DragonTypeProvider {
+    private static final Map<DragonType, Block> TYPE_MAP = new HashMap<>();
     public static final BooleanProperty GRILL = BooleanProperty.of("grill");
     private final DragonType dragonType;
 
@@ -31,17 +37,22 @@ public class DragonForgeBrickBlock extends BlockWithEntity implements DragonProo
         super(Settings.create().mapColor(MapColor.STONE_GRAY).instrument(NoteBlockInstrument.BASEDRUM).dynamicBounds().strength(40, 500).sounds(BlockSoundGroup.METAL));
         this.dragonType = dragonType;
         this.setDefaultState(this.getStateManager().getDefaultState().with(GRILL, Boolean.FALSE));
+        TYPE_MAP.put(dragonType, this);
     }
 
     public static String name(DragonType dragonType) {
         return "dragonforge_%s_brick".formatted(dragonType.name());
     }
 
+    public static Block getBlockByType(DragonType type) {
+        return TYPE_MAP.getOrDefault(type, IafBlocks.DRAGONFORGE_FIRE_BRICK.get());
+    }
+
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (this.getConnectedTileEntity(world, pos) != null) {
             DragonForgeBlockEntity forge = this.getConnectedTileEntity(world, pos);
-            if (forge != null && forge.getPropertyDelegate().fireType == this.dragonType.getIntFromType()) {
+            if (forge != null && forge.getDragonType() == this.dragonType) {
                 if (!world.isClient) {
                     NamedScreenHandlerFactory inamedcontainerprovider = this.createScreenHandlerFactory(forge.getCachedState(), world, forge.getPos());
                     if (inamedcontainerprovider != null)
@@ -84,5 +95,10 @@ public class DragonForgeBrickBlock extends BlockWithEntity implements DragonProo
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return world.isClient ? null : validateTicker(type, IafBlockEntities.DRAGONFORGE_BRICK.get(), DragonForgeBrickBlockEntity::tick);
+    }
+
+    @Override
+    public DragonType getDragonType() {
+        return this.dragonType;
     }
 }

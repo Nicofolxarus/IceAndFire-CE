@@ -2,7 +2,6 @@ package com.iafenvoy.iceandfire.data;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
-import com.iafenvoy.iceandfire.registry.IafRegistries;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
@@ -16,18 +15,6 @@ public record DragonType(String name, List<DragonColor> colors,
                          Supplier<Item> crystalItem, boolean piscivore) {
     public DragonType(String name, Supplier<EntityType<? extends DragonBaseEntity>> entityType, Supplier<Item> skullItem, Supplier<Item> crystalItem, boolean piscivore) {
         this(name, new LinkedList<>(), entityType, skullItem, crystalItem, piscivore);
-    }
-
-    public static String getNameFromInt(int type) {
-        return IafRegistries.DRAGON_TYPE.get(type).name;
-    }
-
-    public static DragonType getTypeById(String id) {
-        return IafRegistries.DRAGON_TYPE.get(IceAndFire.id(id));
-    }
-
-    public int getIntFromType() {
-        return IafRegistries.DRAGON_TYPE.getRawId(this);
     }
 
     public EntityType<? extends DragonBaseEntity> getEntity() {

@@ -21,7 +21,7 @@ public final class IafScreenHandlers {
     public static final RegistrySupplier<ScreenHandlerType<DragonScreenHandler>> DRAGON_SCREEN = register("dragon", () -> new ScreenHandlerType<>(DragonScreenHandler::new, FeatureFlags.VANILLA_FEATURES));
     public static final RegistrySupplier<ScreenHandlerType<HippogryphScreenHandler>> HIPPOGRYPH_SCREEN = register("hippogryph", () -> MenuRegistry.ofExtended(HippogryphScreenHandler::new));
     public static final RegistrySupplier<ScreenHandlerType<HippocampusScreenHandler>> HIPPOCAMPUS_SCREEN = register("hippocampus", () -> MenuRegistry.ofExtended(HippocampusScreenHandler::new));
-    public static final RegistrySupplier<ScreenHandlerType<DragonForgeScreenHandler>> DRAGON_FORGE_SCREEN = register("dragon_forge", () -> new ScreenHandlerType<>(DragonForgeScreenHandler::new, FeatureFlags.VANILLA_FEATURES));
+    public static final RegistrySupplier<ScreenHandlerType<DragonForgeScreenHandler>> DRAGON_FORGE_SCREEN = register("dragon_forge", () -> MenuRegistry.ofExtended(DragonForgeScreenHandler::new));
     public static final RegistrySupplier<ScreenHandlerType<PodiumScreenHandler>> PODIUM_SCREEN = register("podium", () -> new ScreenHandlerType<>(PodiumScreenHandler::new, FeatureFlags.VANILLA_FEATURES));
     public static final RegistrySupplier<ScreenHandlerType<LecternScreenHandler>> IAF_LECTERN_SCREEN = register("iaf_lectern", () -> new ScreenHandlerType<>(LecternScreenHandler::new, FeatureFlags.VANILLA_FEATURES));
     public static final RegistrySupplier<ScreenHandlerType<BestiaryScreenHandler>> BESTIARY_SCREEN = register("bestiary", () -> MenuRegistry.ofExtended(BestiaryScreenHandler::new));

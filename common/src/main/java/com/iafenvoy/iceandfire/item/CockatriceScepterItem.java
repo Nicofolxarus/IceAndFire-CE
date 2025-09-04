@@ -1,8 +1,8 @@
 package com.iafenvoy.iceandfire.item;
 
 import com.iafenvoy.iceandfire.data.component.MiscData;
-import com.iafenvoy.iceandfire.entity.GorgonEntity;
 import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
+import com.iafenvoy.iceandfire.entity.util.IafEntityUtil;
 import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
@@ -128,7 +128,7 @@ public class CockatriceScepterItem extends Item {
                 entity = clientWorld.entityManager.getLookup().get(uuid);
             if (!(entity instanceof LivingEntity target)) continue;
 
-            if (!GorgonEntity.isEntityLookingAt(caster, target, 0.2F) || caster.isRemoved() || target.isRemoved()) {
+            if (!IafEntityUtil.isEntityLookingAt(caster, target, 0.2F) || caster.isRemoved() || target.isRemoved()) {
                 iterator.remove();
                 continue;
             }

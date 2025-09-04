@@ -1,9 +1,11 @@
 package com.iafenvoy.iceandfire.render.entity;
 
+import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.entity.DragonSkullEntity;
 import com.iafenvoy.iceandfire.registry.IafDragonTypes;
+import com.iafenvoy.iceandfire.registry.IafRegistries;
 import com.iafenvoy.iceandfire.registry.IafRenderers;
 import com.iafenvoy.iceandfire.render.model.animator.FireDragonTabulaModelAnimator;
 import com.iafenvoy.iceandfire.render.model.animator.IceDragonTabulaModelAnimator;
@@ -56,7 +58,7 @@ public class DragonSkullEntityRenderer extends EntityRenderer<DragonSkullEntity>
 
     @Override
     public void render(DragonSkullEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn) {
-        Pair<Identifier, MemorizeSupplier<ITabulaModelAnimator<? extends DragonBaseEntity>>> p = MODELS.get(DragonType.getTypeById(entity.getDragonType()));
+        Pair<Identifier, MemorizeSupplier<ITabulaModelAnimator<? extends DragonBaseEntity>>> p = MODELS.get(IafRegistries.DRAGON_TYPE.get(IceAndFire.id(entity.getDragonType())));
         TabulaModel<? extends DragonBaseEntity> model = TabulaModelHandlerHelper.getModel(p.getFirst());
         if (model == null) return;
         VertexConsumer consumer = bufferIn.getBuffer(RenderLayer.getEntityTranslucent(this.getTexture(entity)));
@@ -75,7 +77,7 @@ public class DragonSkullEntityRenderer extends EntityRenderer<DragonSkullEntity>
 
     @Override
     public Identifier getTexture(DragonSkullEntity entity) {
-        return DragonType.getTypeById(entity.getDragonType()).getSkeletonTexture(entity.getDragonStage());
+        return IafRegistries.DRAGON_TYPE.get(IceAndFire.id(entity.getDragonType())).getSkeletonTexture(entity.getDragonStage());
     }
 
     public float getRenderSize(DragonSkullEntity skull) {

@@ -49,7 +49,7 @@ public class ChainData extends NeedUpdateData<LivingEntity> {
     }
 
     public @NotNull List<UUID> getChainedTo() {
-        return this.chainedTo;
+        return List.copyOf(this.chainedTo);
     }
 
     public void clearChains() {

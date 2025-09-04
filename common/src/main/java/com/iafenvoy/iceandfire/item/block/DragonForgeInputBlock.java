@@ -5,6 +5,8 @@ import com.iafenvoy.iceandfire.item.block.entity.DragonForgeBlockEntity;
 import com.iafenvoy.iceandfire.item.block.entity.DragonForgeInputBlockEntity;
 import com.iafenvoy.iceandfire.item.block.util.DragonProof;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
+import com.iafenvoy.iceandfire.registry.IafBlocks;
+import com.iafenvoy.iceandfire.util.DragonTypeProvider;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -22,7 +24,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-public class DragonForgeInputBlock extends BlockWithEntity implements DragonProof {
+import java.util.HashMap;
+import java.util.Map;
+
+public class DragonForgeInputBlock extends BlockWithEntity implements DragonProof, DragonTypeProvider {
+    private static final Map<DragonType, Block> TYPE_MAP = new HashMap<>();
     public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
     private final DragonType dragonType;
 
@@ -30,22 +36,26 @@ public class DragonForgeInputBlock extends BlockWithEntity implements DragonProo
         super(Settings.create().mapColor(MapColor.STONE_GRAY).instrument(NoteBlockInstrument.BASEDRUM).dynamicBounds().strength(40, 500).sounds(BlockSoundGroup.METAL));
         this.dragonType = dragonType;
         this.setDefaultState(this.getStateManager().getDefaultState().with(ACTIVE, Boolean.FALSE));
+        TYPE_MAP.put(dragonType, this);
     }
 
     public static String name(DragonType dragonType) {
         return "dragonforge_%s_input".formatted(dragonType.name());
     }
 
+    public static Block getBlockByType(DragonType type) {
+        return TYPE_MAP.getOrDefault(type, IafBlocks.DRAGONFORGE_FIRE_BRICK.get());
+    }
+
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (this.getConnectedTileEntity(world, pos) != null) {
             DragonForgeBlockEntity forge = this.getConnectedTileEntity(world, pos);
-            if (forge != null && forge.getPropertyDelegate().fireType == this.dragonType.getIntFromType()) {
+            if (forge != null && forge.getDragonType() == this.dragonType) {
                 if (!world.isClient) {
-                    NamedScreenHandlerFactory inamedcontainerprovider = this.createScreenHandlerFactory(forge.getCachedState(), world, forge.getPos());
-                    if (inamedcontainerprovider != null) {
-                        player.openHandledScreen(inamedcontainerprovider);
-                    }
+                    NamedScreenHandlerFactory factory = this.createScreenHandlerFactory(forge.getCachedState(), world, forge.getPos());
+                    if (factory != null)
+                        player.openHandledScreen(factory);
                 }
                 return ActionResult.SUCCESS;
             }
@@ -60,17 +70,14 @@ public class DragonForgeInputBlock extends BlockWithEntity implements DragonProo
         return null;
     }
 
-    public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().with(ACTIVE, meta > 0);
+    @Override
+    public DragonType getDragonType() {
+        return this.dragonType;
     }
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
-    }
-
-    public int getMetaFromState(BlockState state) {
-        return state.get(ACTIVE) ? 1 : 0;
     }
 
     @Override

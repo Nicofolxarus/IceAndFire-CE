@@ -24,8 +24,11 @@ import java.util.List;
 public class SeaSerpentType {
     private final String name;
     private final Formatting color;
+    //FIXME:: Remove this
     public RegistrySupplier<ArmorMaterial> armorMaterial;
+    //FIXME:: Remove this
     public RegistrySupplier<Item> scale, helmet, chestplate, leggings, boots;
+    //FIXME:: Remove this
     public RegistrySupplier<Block> scaleBlock;
 
     public SeaSerpentType(String name, Formatting color) {

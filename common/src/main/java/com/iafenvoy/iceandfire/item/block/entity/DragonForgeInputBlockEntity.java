@@ -1,9 +1,11 @@
 package com.iafenvoy.iceandfire.item.block.entity;
 
+import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.item.block.DragonForgeInputBlock;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
-import com.iafenvoy.iceandfire.registry.IafBlocks;
+import com.iafenvoy.iceandfire.registry.IafDragonTypes;
+import com.iafenvoy.iceandfire.util.DragonTypeProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -82,7 +84,7 @@ public class DragonForgeInputBlockEntity extends BlockEntity {
 
         assert this.world != null;
         for (DragonBaseEntity dragon : this.world.getNonSpectatingEntities(DragonBaseEntity.class, searchArea)) {
-            if (!dragonSelected && /* Dragon Checks */ this.getDragonType() == dragon.dragonType.getIntFromType() && (dragon.isChained() || dragon.isTamed()) && this.canSeeInput(dragon, targetPosition)) {
+            if (!dragonSelected && /* Dragon Checks */ this.getDragonType() == dragon.dragonType && (dragon.isChained() || dragon.isTamed()) && this.canSeeInput(dragon, targetPosition)) {
                 dragon.burningTarget = this.pos;
                 dragonSelected = true;
             } else if (dragon.burningTarget == this.pos) {
@@ -108,25 +110,11 @@ public class DragonForgeInputBlockEntity extends BlockEntity {
     }
 
     private BlockState getDeactivatedState() {
-        return switch (this.getDragonType()) {
-            case 1 -> IafBlocks.DRAGONFORGE_ICE_INPUT.get().getDefaultState().with(DragonForgeInputBlock.ACTIVE, false);
-            case 2 ->
-                    IafBlocks.DRAGONFORGE_LIGHTNING_INPUT.get().getDefaultState().with(DragonForgeInputBlock.ACTIVE, false);
-            default ->
-                    IafBlocks.DRAGONFORGE_FIRE_INPUT.get().getDefaultState().with(DragonForgeInputBlock.ACTIVE, false);
-        };
+        return DragonForgeInputBlock.getBlockByType(this.getDragonType()).getDefaultState().with(DragonForgeInputBlock.ACTIVE, false);
     }
 
-    private int getDragonType() {
-        assert this.world != null;
-        BlockState state = this.world.getBlockState(this.pos);
-        if (state.getBlock() == IafBlocks.DRAGONFORGE_FIRE_INPUT.get())
-            return 0;
-        else if (state.getBlock() == IafBlocks.DRAGONFORGE_ICE_INPUT.get())
-            return 1;
-        else if (state.getBlock() == IafBlocks.DRAGONFORGE_LIGHTNING_INPUT.get())
-            return 2;
-        return 0;
+    private DragonType getDragonType() {
+        return this.getCachedState().getBlock() instanceof DragonTypeProvider provider ? provider.getDragonType() : IafDragonTypes.FIRE;
     }
 
     private boolean isActive() {

@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.render.entity;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.entity.CockatriceEntity;
-import com.iafenvoy.iceandfire.entity.GorgonEntity;
+import com.iafenvoy.iceandfire.entity.util.IafEntityUtil;
 import com.iafenvoy.iceandfire.render.misc.CockatriceBeamRenderer;
 import com.iafenvoy.iceandfire.render.model.CockatriceModel;
 import com.iafenvoy.iceandfire.render.model.CockatriceChickModel;
@@ -60,7 +60,7 @@ public class CockatriceEntityRenderer extends MobEntityRenderer<CockatriceEntity
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
         LivingEntity livingentity = entityIn.getTargetedEntity();
         boolean blindness = entityIn.hasStatusEffect(StatusEffects.BLINDNESS) || livingentity != null && livingentity.hasStatusEffect(StatusEffects.BLINDNESS);
-        if (!blindness && livingentity != null && GorgonEntity.isEntityLookingAt(entityIn, livingentity, CockatriceEntity.VIEW_RADIUS) && GorgonEntity.isEntityLookingAt(livingentity, entityIn, CockatriceEntity.VIEW_RADIUS))
+        if (!blindness && livingentity != null && IafEntityUtil.isEntityLookingAt(entityIn, livingentity, CockatriceEntity.VIEW_RADIUS) && IafEntityUtil.isEntityLookingAt(livingentity, entityIn, CockatriceEntity.VIEW_RADIUS))
             CockatriceBeamRenderer.render(entityIn, livingentity, matrixStackIn, bufferIn, partialTicks);
     }
 

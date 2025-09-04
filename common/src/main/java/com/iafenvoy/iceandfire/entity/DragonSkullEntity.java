@@ -1,11 +1,12 @@
 package com.iafenvoy.iceandfire.entity;
 
+import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.item.component.DragonSkullComponent;
-import com.iafenvoy.iceandfire.data.DragonType;
 import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.IDeadMob;
 import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafDragonTypes;
+import com.iafenvoy.iceandfire.registry.IafRegistries;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -141,7 +142,7 @@ public class DragonSkullEntity extends AnimalEntity implements BlacklistedFromSt
     }
 
     public Item getDragonSkullItem() {
-        return DragonType.getTypeById(this.getDragonType()).getSkullItem();
+        return IafRegistries.DRAGON_TYPE.get(IceAndFire.id(this.getDragonType())).getSkullItem();
     }
 
     @Override

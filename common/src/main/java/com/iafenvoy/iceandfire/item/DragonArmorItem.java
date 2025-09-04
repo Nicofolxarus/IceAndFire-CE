@@ -22,11 +22,10 @@ public class DragonArmorItem extends Item {
     private Pattern baseName = Pattern.compile("[a-z]+_[a-z]+");
 
     public DragonArmorItem(DragonArmorMaterial type, DragonArmorPart dragonSlot) {
-        super(type == DragonArmorMaterial.NETHERITE ? new Settings().fireproof() : new Settings());
+        super(type.fireProof() ? new Settings().fireproof() : new Settings());
         this.type = type;
         this.dragonSlot = dragonSlot;
-        if (type == DragonArmorMaterial.DRAGON_STEEL_FIRE || type == DragonArmorMaterial.DRAGON_STEEL_ICE || type == DragonArmorMaterial.DRAGON_STEEL_LIGHTNING)
-            this.baseName = Pattern.compile("[a-z]+_[a-z]+_[a-z]+_[a-z]+");
+        if (type.dragonSteel()) this.baseName = Pattern.compile("[a-z]+_[a-z]+_[a-z]+_[a-z]+");
     }
 
     @Override

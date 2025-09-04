@@ -46,16 +46,6 @@ public class GorgonEntity extends HostileEntity implements IAnimatedEntity, IVil
         ANIMATION_HIT = Animation.create(10);
     }
 
-    public static boolean isEntityLookingAt(LivingEntity looker, LivingEntity seen, double degree) {
-        degree *= 1 + (looker.distanceTo(seen) * 0.1);
-        Vec3d Vector3d = looker.getRotationVec(1.0F).normalize();
-        Vec3d Vector3d1 = new Vec3d(seen.getX() - looker.getX(), seen.getBoundingBox().minY + (double) seen.getStandingEyeHeight() - (looker.getY() + (double) looker.getStandingEyeHeight()), seen.getZ() - looker.getZ());
-        double d0 = Vector3d1.length();
-        Vector3d1 = Vector3d1.normalize();
-        double d1 = Vector3d.dotProduct(Vector3d1);
-        return d1 > 1.0D - degree / d0 && (looker.canSee(seen) && !isStoneMob(seen));
-    }
-
     public static boolean isStoneMob(LivingEntity mob) {
         return mob instanceof StoneStatueEntity;
     }
@@ -118,12 +108,6 @@ public class GorgonEntity extends HostileEntity implements IAnimatedEntity, IVil
         this.targetSelector.add(3, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, false, false, LivingEntity::isAlive));
         this.targetSelector.add(3, new ActiveTargetGoal<>(this, LivingEntity.class, 10, true, false, entity -> entity instanceof LivingEntity && DragonUtils.isAlive(entity) || (entity instanceof BlacklistedFromStatues blacklisted && blacklisted.canBeTurnedToStone())));
         this.goalSelector.remove(this.aiMelee);
-    }
-
-    public void attackEntityWithRangedAttack(LivingEntity entity) {
-        if (!(entity instanceof MobEntity) && entity instanceof LivingEntity) {
-            this.forcePreyToLook(entity);
-        }
     }
 
     @Override
@@ -204,13 +188,13 @@ public class GorgonEntity extends HostileEntity implements IAnimatedEntity, IVil
             if (!blindness && this.deathTime == 0 && attackTarget instanceof MobEntity) {
                 this.forcePreyToLook(attackTarget);
             }
-            if (isEntityLookingAt(attackTarget, this, 0.4)) {
+            if (IafEntityUtil.isEntityLookingAt(attackTarget, this, 0.4)) {
                 this.getLookControl().lookAt(attackTarget.getX(), attackTarget.getY() + (double) attackTarget.getStandingEyeHeight(), attackTarget.getZ(), (float) this.getMaxHeadRotation(), (float) this.getMaxLookPitchChange());
             }
         }
 
 
-        if (attackTarget != null && isEntityLookingAt(this, attackTarget, 0.4) && isEntityLookingAt(attackTarget, this, 0.4) && !isBlindfolded(attackTarget)) {
+        if (attackTarget != null && IafEntityUtil.isEntityLookingAt(this, attackTarget, 0.4) && IafEntityUtil.isEntityLookingAt(attackTarget, this, 0.4) && !isBlindfolded(attackTarget)) {
             boolean blindness = this.hasStatusEffect(StatusEffects.BLINDNESS) || attackTarget.hasStatusEffect(StatusEffects.BLINDNESS) || attackTarget instanceof BlacklistedFromStatues blacklisted && !blacklisted.canBeTurnedToStone();
             if (!blindness && this.deathTime == 0) {
                 if (this.getAnimation() != ANIMATION_SCARE) {

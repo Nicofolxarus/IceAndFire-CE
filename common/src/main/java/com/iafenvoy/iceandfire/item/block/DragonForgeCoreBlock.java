@@ -5,11 +5,9 @@ import com.iafenvoy.iceandfire.item.block.entity.DragonForgeBlockEntity;
 import com.iafenvoy.iceandfire.item.block.util.DragonProof;
 import com.iafenvoy.iceandfire.registry.IafBlockEntities;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
+import com.iafenvoy.iceandfire.util.DragonTypeProvider;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
-import net.minecraft.block.MapColor;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -23,39 +21,35 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class DragonForgeCoreBlock extends BlockWithEntity implements DragonProof {
+import java.util.HashMap;
+import java.util.Map;
+
+public class DragonForgeCoreBlock extends BlockWithEntity implements DragonProof, DragonTypeProvider {
+    private static final Map<DragonType, Block> ACTIVATED_MAP = new HashMap<>();
     private final DragonType dragonType;
 
     public DragonForgeCoreBlock(DragonType dragonType, boolean activated) {
         super(Settings.create().mapColor(MapColor.IRON_GRAY).dynamicBounds().strength(40, 500).sounds(BlockSoundGroup.METAL).luminance((state) -> activated ? 15 : 0));
         this.dragonType = dragonType;
+        if (activated) ACTIVATED_MAP.put(dragonType, this);
     }
 
     public static String name(DragonType dragonType, boolean activated) {
         return "dragonforge_%s_core%s".formatted(dragonType.name(), activated ? "" : "_disabled");
     }
 
-    public static void setState(int dragonType, boolean active, World worldIn, BlockPos pos) {
+    public static void setState(DragonType dragonType, World worldIn, BlockPos pos) {
         BlockEntity blockEntity = worldIn.getBlockEntity(pos);
-        if (active)
-            switch (dragonType) {
-                case 0 -> worldIn.setBlockState(pos, IafBlocks.DRAGONFORGE_FIRE_CORE.get().getDefaultState(), 3);
-                case 1 -> worldIn.setBlockState(pos, IafBlocks.DRAGONFORGE_ICE_CORE.get().getDefaultState(), 3);
-                case 2 -> worldIn.setBlockState(pos, IafBlocks.DRAGONFORGE_LIGHTNING_CORE.get().getDefaultState(), 3);
-            }
-        else
-            switch (dragonType) {
-                case 0 ->
-                        worldIn.setBlockState(pos, IafBlocks.DRAGONFORGE_FIRE_CORE_DISABLED.get().getDefaultState(), 3);
-                case 1 ->
-                        worldIn.setBlockState(pos, IafBlocks.DRAGONFORGE_ICE_CORE_DISABLED.get().getDefaultState(), 3);
-                case 2 ->
-                        worldIn.setBlockState(pos, IafBlocks.DRAGONFORGE_LIGHTNING_CORE_DISABLED.get().getDefaultState(), 3);
-            }
+        worldIn.setBlockState(pos, ACTIVATED_MAP.getOrDefault(dragonType, IafBlocks.DRAGONFORGE_FIRE_CORE.get()).getDefaultState(), 3);
         if (blockEntity != null) {
             blockEntity.cancelRemoval();
             worldIn.addBlockEntity(blockEntity);
         }
+    }
+
+    @Override
+    public DragonType getDragonType() {
+        return this.dragonType;
     }
 
     @Override
@@ -103,7 +97,7 @@ public class DragonForgeCoreBlock extends BlockWithEntity implements DragonProof
 
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new DragonForgeBlockEntity(pos, state, this.dragonType);
+        return new DragonForgeBlockEntity(pos, state);
     }
 
     @Override

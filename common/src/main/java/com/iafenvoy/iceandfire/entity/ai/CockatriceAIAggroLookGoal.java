@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.entity.ai;
 
 import com.iafenvoy.iceandfire.entity.CockatriceEntity;
-import com.iafenvoy.iceandfire.entity.GorgonEntity;
+import com.iafenvoy.iceandfire.entity.util.IafEntityUtil;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
@@ -17,7 +17,7 @@ public class CockatriceAIAggroLookGoal extends ActiveTargetGoal<PlayerEntity> {
     public CockatriceAIAggroLookGoal(CockatriceEntity cockatriceIn) {
         super(cockatriceIn, PlayerEntity.class, false);
         this.cockatrice = cockatriceIn;
-        Predicate<LivingEntity> LIVING_ENTITY_SELECTOR = (target) -> GorgonEntity.isEntityLookingAt(target, this.cockatrice,
+        Predicate<LivingEntity> LIVING_ENTITY_SELECTOR = (target) -> IafEntityUtil.isEntityLookingAt(target, this.cockatrice,
                 CockatriceEntity.VIEW_RADIUS) && this.cockatrice.distanceTo(target) < this.getFollowRange();
         this.predicate = TargetPredicate.createAttackable().setBaseMaxDistance(25.0D).setPredicate(LIVING_ENTITY_SELECTOR);
     }
@@ -48,7 +48,7 @@ public class CockatriceAIAggroLookGoal extends ActiveTargetGoal<PlayerEntity> {
     @Override
     public boolean shouldContinue() {
         if (this.player != null && !this.player.isCreative() && !this.player.isSpectator()) {
-            if (!GorgonEntity.isEntityLookingAt(this.player, this.cockatrice, 0.4F))
+            if (!IafEntityUtil.isEntityLookingAt(this.player, this.cockatrice, 0.4F))
                 return false;
             else {
                 this.cockatrice.lookAtEntity(this.player, 10.0F, 10.0F);

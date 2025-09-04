@@ -2,6 +2,7 @@ package com.iafenvoy.iceandfire.item;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.data.BestiaryPage;
+import com.iafenvoy.iceandfire.item.component.BestiaryPageComponent;
 import com.iafenvoy.iceandfire.registry.IafBestiaryPages;
 import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.screen.handler.BestiaryScreenHandler;
@@ -28,11 +29,10 @@ import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 public class BestiaryItem extends Item {
     public BestiaryItem() {
-        super(new Settings().maxCount(1).component(IafDataComponents.BESTIARY_PAGES.get(), List.of(IafBestiaryPages.INTRODUCTION.name())));
+        super(new Settings().maxCount(1).component(IafDataComponents.BESTIARY_PAGES.get(), new BestiaryPageComponent(List.of(IafBestiaryPages.INTRODUCTION))));
     }
 
     @Override
@@ -65,13 +65,10 @@ public class BestiaryItem extends Item {
         super.appendTooltip(stack, context, tooltip, type);
         if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), 340) || InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), 344)) {
             tooltip.add(Text.translatable("bestiary.contains").formatted(Formatting.GRAY));
-            List<String> list = stack.get(IafDataComponents.BESTIARY_PAGES.get());
-            if (list != null) {
-                final Set<BestiaryPage> pages = BestiaryPage.containedPages(list);
-                for (BestiaryPage page : pages)
+            BestiaryPageComponent component = stack.get(IafDataComponents.BESTIARY_PAGES.get());
+            if (component != null)
+                for (BestiaryPage page : component.pages())
                     tooltip.add(Text.literal(Formatting.WHITE + "-").append(Text.translatable("bestiary." + page.name().toLowerCase(Locale.ROOT))).formatted(Formatting.GRAY));
-            }
-        } else
-            tooltip.add(Text.translatable("bestiary.hold_shift").formatted(Formatting.GRAY));
+        } else tooltip.add(Text.translatable("bestiary.hold_shift").formatted(Formatting.GRAY));
     }
 }

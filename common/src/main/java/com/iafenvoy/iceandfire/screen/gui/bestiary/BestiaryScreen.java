@@ -5,6 +5,7 @@ import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.data.BestiaryPage;
 import com.iafenvoy.iceandfire.data.SeaSerpentType;
 import com.iafenvoy.iceandfire.data.TrollType;
+import com.iafenvoy.iceandfire.item.component.BestiaryPageComponent;
 import com.iafenvoy.iceandfire.registry.*;
 import com.iafenvoy.iceandfire.screen.handler.BestiaryScreenHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -53,11 +54,12 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
         this.book = container.getBook();
         if (!this.book.isEmpty() && this.book.getItem() != null && this.book.getItem() == IafItems.BESTIARY.get())
             if (this.book.contains(IafDataComponents.BESTIARY_PAGES.get())) {
-                Set<BestiaryPage> pages = BestiaryPage.containedPages(this.book.get(IafDataComponents.BESTIARY_PAGES.get()));
-                this.allPageTypes.addAll(pages);
+                BestiaryPageComponent component = this.book.get(IafDataComponents.BESTIARY_PAGES.get());
+                if (component == null) component = new BestiaryPageComponent(List.of());
+                this.allPageTypes.addAll(component.pages());
                 // Make sure the pageCount are sorted according to the enum
                 this.allPageTypes.sort(Comparator.comparingInt(IafRegistries.BESTIARY_PAGE::getRawId));
-                this.indexPagesTotal = (int) Math.ceil(pages.size() / 10D);
+                this.indexPagesTotal = (int) Math.ceil(component.pages().size() / 10D);
             }
         this.index = true;
     }

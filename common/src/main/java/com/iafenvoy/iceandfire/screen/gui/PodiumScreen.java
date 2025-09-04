@@ -11,7 +11,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class PodiumScreen extends HandledScreen<PodiumScreenHandler> {
-    public static final Identifier PODUIM_TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/gui/podium.png");
+    public static final Identifier PODIUM_TEXTURE = Identifier.of(IceAndFire.MOD_ID, "textures/gui/podium.png");
 
     public PodiumScreen(PodiumScreenHandler container, PlayerInventory inv, Text name) {
         super(container, inv, name);
@@ -40,6 +40,6 @@ public class PodiumScreen extends HandledScreen<PodiumScreenHandler> {
         RenderSystem.setShaderColor(1, 1, 1, 1);
         int i = (this.width - this.backgroundWidth) / 2;
         int j = (this.height - this.backgroundHeight) / 2;
-        pGuiGraphics.drawTexture(PODUIM_TEXTURE, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
+        pGuiGraphics.drawTexture(PODIUM_TEXTURE, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
     }
 }

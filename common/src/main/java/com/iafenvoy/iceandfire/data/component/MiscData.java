@@ -43,14 +43,11 @@ public class MiscData extends NeedUpdateData<LivingEntity> {
     public void tick(LivingEntity entity) {
         if (this.loveTicks > 0) {
             this.loveTicks--;
-
             if (this.loveTicks == 0) {
                 this.markDirty();
-                if (entity instanceof MobEntity mob)
-                    mob.getNavigation().recalculatePath();
+                if (entity instanceof MobEntity mob) mob.getNavigation().recalculatePath();
                 return;
             }
-
             if (entity instanceof MobEntity mob) {
                 mob.setAttacking(null);
                 mob.setAttacker(null);
@@ -58,7 +55,6 @@ public class MiscData extends NeedUpdateData<LivingEntity> {
                 mob.setAttacking(false);
                 mob.getNavigation().stop();
             }
-
             this.createLoveParticles(entity);
         }
     }
@@ -69,11 +65,6 @@ public class MiscData extends NeedUpdateData<LivingEntity> {
             this.targetedByScepters.add(uuid);
             this.markDirty();
         }
-    }
-
-    public void removeScepterTarget(final LivingEntity target) {
-        this.targetedByScepters.remove(target.getUuid());
-        this.markDirty();
     }
 
     public void checkScepterTarget(Function<UUID, Entity> entityGetter) {

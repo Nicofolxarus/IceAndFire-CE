@@ -1,14 +1,13 @@
 package com.iafenvoy.iceandfire.item.block.entity;
 
 import com.iafenvoy.iceandfire.data.DragonType;
-import com.iafenvoy.iceandfire.data.delegate.DragonForgePropertyDelegate;
 import com.iafenvoy.iceandfire.item.block.DragonForgeBrickBlock;
 import com.iafenvoy.iceandfire.item.block.DragonForgeCoreBlock;
 import com.iafenvoy.iceandfire.recipe.DragonForgeRecipe;
-import com.iafenvoy.iceandfire.registry.IafBlockEntities;
-import com.iafenvoy.iceandfire.registry.IafBlocks;
-import com.iafenvoy.iceandfire.registry.IafRecipes;
+import com.iafenvoy.iceandfire.registry.*;
 import com.iafenvoy.iceandfire.screen.handler.DragonForgeScreenHandler;
+import com.iafenvoy.iceandfire.util.DragonTypeProvider;
+import dev.architectury.registry.menu.ExtendedMenuProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
@@ -20,10 +19,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.input.RecipeInput;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
@@ -35,69 +37,76 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Optional;
 
-public class DragonForgeBlockEntity extends LockableContainerBlockEntity implements SidedInventory {
+public class DragonForgeBlockEntity extends LockableContainerBlockEntity implements SidedInventory, ExtendedMenuProvider {
     private static final int[] SLOTS_TOP = new int[]{0};
     private static final int[] SLOTS_SIDES = new int[]{1};
     private static final int[] SLOTS_BOTTOM = new int[]{2};
-    private static final Direction[] HORIZONTALS = new Direction[]{
-            Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST
-    };
-    private final DragonForgePropertyDelegate propertyDelegate = new DragonForgePropertyDelegate();
+    private static final Direction[] HORIZONTALS = new Direction[]{Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
     public int lastDragonFlameTimer = 0;
     private DefaultedList<ItemStack> forgeItemStacks = DefaultedList.ofSize(3, ItemStack.EMPTY);
     private boolean prevAssembled;
     private boolean canAddFlameAgain = true;
+    private int cookTime = 0;
+    private final PropertyDelegate delegate = new PropertyDelegate() {
+        @Override
+        public int get(int index) {
+            return DragonForgeBlockEntity.this.cookTime;
+        }
+
+        @Override
+        public void set(int index, int value) {
+            DragonForgeBlockEntity.this.cookTime = value;
+        }
+
+        @Override
+        public int size() {
+            return 1;
+        }
+    };
 
     public DragonForgeBlockEntity(BlockPos pos, BlockState state) {
         super(IafBlockEntities.DRAGONFORGE_CORE.get(), pos, state);
     }
 
-    public DragonForgeBlockEntity(BlockPos pos, BlockState state, DragonType dragonType) {
-        super(IafBlockEntities.DRAGONFORGE_CORE.get(), pos, state);
-        this.getPropertyDelegate().fireType = dragonType.getIntFromType();
-    }
-
-    public static void tick(World level, BlockPos pos, BlockState state, DragonForgeBlockEntity entityDragonforge) {
-        boolean flag = entityDragonforge.isBurning();
+    public static void tick(World level, BlockPos pos, BlockState state, DragonForgeBlockEntity blockEntity) {
+        boolean flag = blockEntity.isBurning();
         boolean flag1 = false;
-        entityDragonforge.getPropertyDelegate().fireType = entityDragonforge.getFireType(entityDragonforge.getCachedState().getBlock());
-        if (entityDragonforge.lastDragonFlameTimer > 0)
-            entityDragonforge.lastDragonFlameTimer--;
-        entityDragonforge.updateGrills(entityDragonforge.assembled());
+        if (blockEntity.lastDragonFlameTimer > 0) blockEntity.lastDragonFlameTimer--;
+        blockEntity.updateGrills(blockEntity.assembled());
         if (!level.isClient) {
-            if (entityDragonforge.prevAssembled != entityDragonforge.assembled())
-                DragonForgeCoreBlock.setState(entityDragonforge.getPropertyDelegate().fireType, entityDragonforge.prevAssembled, level, pos);
-            entityDragonforge.prevAssembled = entityDragonforge.assembled();
-            if (!entityDragonforge.assembled()) return;
+            if (blockEntity.prevAssembled != blockEntity.assembled() && state.getBlock() instanceof DragonForgeCoreBlock core)
+                DragonForgeCoreBlock.setState(core.getDragonType(), level, pos);
+            blockEntity.prevAssembled = blockEntity.assembled();
+            if (!blockEntity.assembled()) return;
         }
-        if (entityDragonforge.getPropertyDelegate().cookTime > 0 && entityDragonforge.canSmelt() && entityDragonforge.lastDragonFlameTimer == 0)
-            entityDragonforge.getPropertyDelegate().cookTime--;
-        if (entityDragonforge.getStackInSlot(0).isEmpty() && !level.isClient)
-            entityDragonforge.getPropertyDelegate().cookTime = 0;
-        assert entityDragonforge.world != null;
-        if (!entityDragonforge.world.isClient) {
-            if (entityDragonforge.isBurning()) {
-                if (entityDragonforge.canSmelt()) {
-                    ++entityDragonforge.getPropertyDelegate().cookTime;
-                    if (entityDragonforge.getPropertyDelegate().cookTime >= entityDragonforge.getMaxCookTime()) {
-                        entityDragonforge.getPropertyDelegate().cookTime = 0;
-                        entityDragonforge.smeltItem();
+        if (blockEntity.cookTime > 0 && blockEntity.canSmelt() && blockEntity.lastDragonFlameTimer == 0)
+            blockEntity.cookTime--;
+        if (blockEntity.getStackInSlot(0).isEmpty() && !level.isClient)
+            blockEntity.cookTime = 0;
+        assert blockEntity.world != null;
+        if (!blockEntity.world.isClient) {
+            if (blockEntity.isBurning()) {
+                if (blockEntity.canSmelt()) {
+                    ++blockEntity.cookTime;
+                    if (blockEntity.cookTime >= blockEntity.getMaxCookTime()) {
+                        blockEntity.cookTime = 0;
+                        blockEntity.smeltItem();
                         flag1 = true;
                     }
-                } else if (entityDragonforge.getPropertyDelegate().cookTime > 0) {
-                    entityDragonforge.lastDragonFlameTimer = 40;
-                    entityDragonforge.getPropertyDelegate().cookTime = 0;
+                } else if (blockEntity.cookTime > 0) {
+                    blockEntity.lastDragonFlameTimer = 40;
+                    blockEntity.cookTime = 0;
                 }
-            } else if (!entityDragonforge.isBurning() && entityDragonforge.getPropertyDelegate().cookTime > 0)
-                entityDragonforge.getPropertyDelegate().cookTime = MathHelper.clamp(entityDragonforge.getPropertyDelegate().cookTime - 2, 0, entityDragonforge.getMaxCookTime());
+            } else if (!blockEntity.isBurning() && blockEntity.cookTime > 0)
+                blockEntity.cookTime = MathHelper.clamp(blockEntity.cookTime - 2, 0, blockEntity.getMaxCookTime());
 
-            if (flag != entityDragonforge.isBurning())
+            if (flag != blockEntity.isBurning())
                 flag1 = true;
         }
 
-        if (flag1) entityDragonforge.markDirty();
-        if (!entityDragonforge.canAddFlameAgain)
-            entityDragonforge.canAddFlameAgain = true;
+        if (flag1) blockEntity.markDirty();
+        if (!blockEntity.canAddFlameAgain)
+            blockEntity.canAddFlameAgain = true;
     }
 
     @Override
@@ -115,31 +124,12 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
 
     private void updateGrills(boolean grill) {
         for (Direction facing : HORIZONTALS) {
-            BlockPos grillPos = this.getPos().offset(facing);
+            BlockPos pos = this.getPos().offset(facing);
             assert this.world != null;
-            if (this.grillMatches(this.world.getBlockState(grillPos).getBlock())) {
-                BlockState grillState = this.getGrillBlock().getDefaultState().with(DragonForgeBrickBlock.GRILL, grill);
-                if (this.world.getBlockState(grillPos) != grillState)
-                    this.world.setBlockState(grillPos, grillState);
-            }
+            BlockState state = this.world.getBlockState(pos);
+            if (state.contains(DragonForgeBrickBlock.GRILL) && state.get(DragonForgeBrickBlock.GRILL) != grill)
+                this.world.setBlockState(pos, state.with(DragonForgeBrickBlock.GRILL, grill));
         }
-    }
-
-    public Block getGrillBlock() {
-        return switch (this.getPropertyDelegate().fireType) {
-            case 1 -> IafBlocks.DRAGONFORGE_ICE_BRICK.get();
-            case 2 -> IafBlocks.DRAGONFORGE_LIGHTNING_BRICK.get();
-            default -> IafBlocks.DRAGONFORGE_FIRE_BRICK.get(); // isFire == 0
-        };
-    }
-
-    public boolean grillMatches(Block block) {
-        return switch (this.getPropertyDelegate().fireType) {
-            case 0 -> block == IafBlocks.DRAGONFORGE_FIRE_BRICK.get();
-            case 1 -> block == IafBlocks.DRAGONFORGE_ICE_BRICK.get();
-            case 2 -> block == IafBlocks.DRAGONFORGE_LIGHTNING_BRICK.get();
-            default -> false;
-        };
     }
 
     @Override
@@ -166,8 +156,8 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
         if (stack.getCount() > this.getMaxCountPerStack())
             stack.setCount(this.getMaxCountPerStack());
 
-        if (index == 0 && !flag || this.getPropertyDelegate().cookTime > this.getMaxCookTime()) {
-            this.getPropertyDelegate().cookTime = 0;
+        if (index == 0 && !flag || this.cookTime > this.getMaxCookTime()) {
+            this.cookTime = 0;
             this.markDirty();
         }
     }
@@ -177,13 +167,13 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
         super.readNbt(nbt, registryLookup);
         this.forgeItemStacks = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
         Inventories.readNbt(nbt, this.forgeItemStacks, registryLookup);
-        this.getPropertyDelegate().cookTime = nbt.getInt("CookTime");
+        this.cookTime = nbt.getInt("CookTime");
     }
 
     @Override
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.writeNbt(nbt, registryLookup);
-        nbt.putInt("CookTime", (short) this.getPropertyDelegate().cookTime);
+        nbt.putInt("CookTime", (short) this.cookTime);
         Inventories.writeNbt(nbt, this.forgeItemStacks, registryLookup);
     }
 
@@ -193,7 +183,12 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
     }
 
     public boolean isBurning() {
-        return this.getPropertyDelegate().cookTime > 0;
+        return this.cookTime > 0;
+    }
+
+    public DragonType getDragonType() {
+        if (this.getCachedState().getBlock() instanceof DragonTypeProvider provider) return provider.getDragonType();
+        return IafDragonTypes.FIRE;
     }
 
     public int getFireType(Block block) {
@@ -211,7 +206,7 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
     }
 
     private Block getDefaultOutput() {
-        return this.getPropertyDelegate().fireType == 1 ? IafBlocks.DRAGON_ICE.get() : IafBlocks.ASH.get();
+        return this.getDragonType() == IafDragonTypes.ICE ? IafBlocks.DRAGON_ICE.get() : IafBlocks.ASH.get();
     }
 
     private ItemStack getCurrentResult() {
@@ -305,7 +300,7 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
 
     @Override
     protected Text getContainerName() {
-        return Text.translatable("container.dragonforge_fire" + DragonType.getNameFromInt(this.getPropertyDelegate().fireType));
+        return Text.translatable("container.dragonforge_fire" + this.getDragonType().name());
     }
 
     @Override
@@ -323,10 +318,10 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
         if (!this.world.isClient) {
             if (this.canSmelt()) {
                 if (this.canAddFlameAgain) {
-                    this.getPropertyDelegate().cookTime = Math.min(this.getMaxCookTime() + 1, this.getPropertyDelegate().cookTime + i);
+                    this.cookTime = Math.min(this.getMaxCookTime() + 1, this.cookTime + i);
                     this.canAddFlameAgain = false;
                 }
-            } else this.getPropertyDelegate().cookTime = 0;
+            } else this.cookTime = 0;
         }
         this.lastDragonFlameTimer = 40;
     }
@@ -368,11 +363,7 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
     }
 
     private Block getBrick() {
-        return switch (this.getPropertyDelegate().fireType) {
-            case 0 -> IafBlocks.DRAGONFORGE_FIRE_BRICK.get();
-            case 1 -> IafBlocks.DRAGONFORGE_ICE_BRICK.get();
-            default -> IafBlocks.DRAGONFORGE_LIGHTNING_BRICK.get();
-        };
+        return DragonForgeBrickBlock.getBlockByType(this.getDragonType());
     }
 
     private boolean doesBlockEqual(BlockPos pos, Block block) {
@@ -391,17 +382,15 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
     }
 
     @Override
-    public ScreenHandler createMenu(int id, PlayerInventory playerInventory, PlayerEntity player) {
-        return new DragonForgeScreenHandler(id, this, playerInventory, this.getPropertyDelegate());
+    protected ScreenHandler createScreenHandler(int id, PlayerInventory player) {
+        return new DragonForgeScreenHandler(id, this, player, this.getDragonType(), this.delegate);
     }
 
     @Override
-    protected ScreenHandler createScreenHandler(int id, PlayerInventory player) {
-        return new DragonForgeScreenHandler(id, this, player, this.getPropertyDelegate());
-    }
+    public void saveExtraData(PacketByteBuf buf) {
+        Optional<RegistryKey<DragonType>> key = IafRegistries.DRAGON_TYPE.getKey(this.getDragonType());
+        key.ifPresent(buf::writeRegistryKey);
 
-    public DragonForgePropertyDelegate getPropertyDelegate() {
-        return this.propertyDelegate;
     }
 
     public static class DragonForgeRecipeInput implements RecipeInput {

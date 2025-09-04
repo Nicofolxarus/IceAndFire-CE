@@ -94,18 +94,6 @@ public class SeaSerpentEntity extends AnimalEntity implements IAnimatedEntity, I
         this.setPathfindingPenalty(PathNodeType.WATER, 0.0F);
     }
 
-    private static BlockPos clampBlockPosToWater(Entity entity, World world, BlockPos pos) {
-        BlockPos topY = new BlockPos(pos.getX(), entity.getBlockY(), pos.getZ());
-        BlockPos bottomY = new BlockPos(pos.getX(), entity.getBlockY(), pos.getZ());
-        while (isWaterBlock(world, topY) && topY.getY() < world.getTopY()) {
-            topY = topY.up();
-        }
-        while (isWaterBlock(world, bottomY) && bottomY.getY() > 0) {
-            bottomY = bottomY.down();
-        }
-        return new BlockPos(pos.getX(), MathHelper.clamp(pos.getY(), bottomY.getY() + 1, topY.getY() - 1), pos.getZ());
-    }
-
     public static boolean isWaterBlock(World world, BlockPos pos) {
         return world.getFluidState(pos).isIn(FluidTags.WATER);
     }

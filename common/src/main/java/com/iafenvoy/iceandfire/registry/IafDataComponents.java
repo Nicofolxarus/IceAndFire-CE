@@ -1,6 +1,7 @@
 package com.iafenvoy.iceandfire.registry;
 
 import com.iafenvoy.iceandfire.IceAndFire;
+import com.iafenvoy.iceandfire.item.component.BestiaryPageComponent;
 import com.iafenvoy.iceandfire.item.component.DragonHornComponent;
 import com.iafenvoy.iceandfire.item.component.DragonSkullComponent;
 import com.iafenvoy.iceandfire.item.component.StoneStatusComponent;
@@ -13,12 +14,11 @@ import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Uuids;
 
-import java.util.List;
 import java.util.UUID;
 
 public final class IafDataComponents {
     public static final DeferredRegister<ComponentType<?>> REGISTRY = DeferredRegister.create(IceAndFire.MOD_ID, RegistryKeys.DATA_COMPONENT_TYPE);
-
+    //FIXME::No longer use base type component
     public static final RegistrySupplier<ComponentType<Integer>> INT = register("int", ComponentType.<Integer>builder()
             .codec(Codec.INT)
             .packetCodec(PacketCodecs.INTEGER)
@@ -40,9 +40,10 @@ public final class IafDataComponents {
             .packetCodec(PacketCodecs.codec(NbtCompound.CODEC))
     );
 
-    public static final RegistrySupplier<ComponentType<List<String>>> BESTIARY_PAGES = register("bestiary_pages", ComponentType.<List<String>>builder()
-            .codec(Codec.STRING.listOf())
-            .packetCodec(PacketCodecs.codec(Codec.STRING.listOf())));
+    public static final RegistrySupplier<ComponentType<BestiaryPageComponent>> BESTIARY_PAGES = register("bestiary_pages", ComponentType.<BestiaryPageComponent>builder()
+            .codec(BestiaryPageComponent.CODEC)
+            .packetCodec(PacketCodecs.codec(BestiaryPageComponent.CODEC))
+    );
     public static final RegistrySupplier<ComponentType<DragonHornComponent>> DRAGON_HORN = register("dragon_horn", ComponentType.<DragonHornComponent>builder()
             .codec(DragonHornComponent.CODEC)
             .packetCodec(PacketCodecs.codec(DragonHornComponent.CODEC))
