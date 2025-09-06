@@ -18,4 +18,9 @@ public class DragonArmorSlot extends Slot {
     public boolean canInsert(ItemStack stack) {
         return super.canInsert(stack) && !stack.isEmpty() && stack.getItem() instanceof DragonArmorItem armor && armor.dragonSlot == this.expectedArmor;
     }
+
+    @Override
+    public int getMaxItemCount() {
+        return 1;
+    }
 }

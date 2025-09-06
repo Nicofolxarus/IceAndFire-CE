@@ -8,13 +8,14 @@ import com.iafenvoy.iceandfire.registry.IafBlockEntities;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.util.DragonTypeProvider;
 import com.mojang.serialization.MapCodec;
+import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -53,11 +54,8 @@ public class DragonForgeBrickBlock extends BlockWithEntity implements DragonProo
         if (this.getConnectedTileEntity(world, pos) != null) {
             DragonForgeBlockEntity forge = this.getConnectedTileEntity(world, pos);
             if (forge != null && forge.getDragonType() == this.dragonType) {
-                if (!world.isClient) {
-                    NamedScreenHandlerFactory inamedcontainerprovider = this.createScreenHandlerFactory(forge.getCachedState(), world, forge.getPos());
-                    if (inamedcontainerprovider != null)
-                        player.openHandledScreen(inamedcontainerprovider);
-                }
+                if (player instanceof ServerPlayerEntity serverPlayer)
+                    MenuRegistry.openExtendedMenu(serverPlayer, forge);
                 return ActionResult.SUCCESS;
             }
         }

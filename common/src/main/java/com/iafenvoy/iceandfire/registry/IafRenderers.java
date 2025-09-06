@@ -170,13 +170,13 @@ public final class IafRenderers {
     }
 
     public static void registerModelPredicates() {
-        ItemPropertiesRegistry.register(IafItems.DRAGON_BOW.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "pulling"), (itemStack, clientWorld, livingEntity, seed) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getActiveItem() == itemStack ? 1 : 0);
-        ItemPropertiesRegistry.register(IafItems.DRAGON_BOW.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "pull"), (itemStack, clientWorld, livingEntity, seed) -> livingEntity == null ? 0 : livingEntity.getActiveItem() != itemStack ? 0 : (float) (itemStack.getMaxUseTime(livingEntity) - livingEntity.getItemUseTimeLeft()) / 20);
+        ItemPropertiesRegistry.register(IafItems.DRAGON_BOW.get(), Identifier.ofVanilla("pulling"), (itemStack, clientWorld, livingEntity, seed) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getActiveItem() == itemStack ? 1 : 0);
+        ItemPropertiesRegistry.register(IafItems.DRAGON_BOW.get(), Identifier.ofVanilla("pull"), (itemStack, clientWorld, livingEntity, seed) -> livingEntity == null ? 0 : livingEntity.getActiveItem() != itemStack ? 0 : (float) (itemStack.getMaxUseTime(livingEntity) - livingEntity.getItemUseTimeLeft()) / 20);
 
-        ItemPropertiesRegistry.register(IafItems.DRAGON_HORN.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "iceorfire"), (stack, level, entity, p) -> DragonHornItem.getDragonType(stack) * 0.25F);
-        ItemPropertiesRegistry.register(IafItems.SUMMONING_CRYSTAL_FIRE.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "has_dragon"), (stack, level, entity, p) -> SummoningCrystalItem.hasDragon(stack) ? 1.0F : 0.0F);
-        ItemPropertiesRegistry.register(IafItems.SUMMONING_CRYSTAL_ICE.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "has_dragon"), (stack, level, entity, p) -> SummoningCrystalItem.hasDragon(stack) ? 1.0F : 0.0F);
-        ItemPropertiesRegistry.register(IafItems.SUMMONING_CRYSTAL_LIGHTNING.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "has_dragon"), (stack, level, entity, p) -> SummoningCrystalItem.hasDragon(stack) ? 1.0F : 0.0F);
-        ItemPropertiesRegistry.register(IafItems.TIDE_TRIDENT.get(), Identifier.of(Identifier.DEFAULT_NAMESPACE, "throwing"), (stack, level, entity, p) -> entity != null && entity.isUsingItem() && entity.getMainHandStack() == stack ? 1.0F : 0.0F);
+        ItemPropertiesRegistry.register(IafItems.DRAGON_HORN.get(), Identifier.ofVanilla("iceorfire"), (stack, level, entity, p) -> DragonHornItem.getDragonType(stack) * 0.25F);
+        ItemPropertiesRegistry.register(IafItems.SUMMONING_CRYSTAL_FIRE.get(), Identifier.ofVanilla("has_dragon"), (stack, level, entity, p) -> SummoningCrystalItem.hasDragon(stack) ? 1.0F : 0.0F);
+        ItemPropertiesRegistry.register(IafItems.SUMMONING_CRYSTAL_ICE.get(), Identifier.ofVanilla("has_dragon"), (stack, level, entity, p) -> SummoningCrystalItem.hasDragon(stack) ? 1.0F : 0.0F);
+        ItemPropertiesRegistry.register(IafItems.SUMMONING_CRYSTAL_LIGHTNING.get(), Identifier.ofVanilla("has_dragon"), (stack, level, entity, p) -> SummoningCrystalItem.hasDragon(stack) ? 1.0F : 0.0F);
+        ItemPropertiesRegistry.register(IafItems.TIDE_TRIDENT.get(), Identifier.ofVanilla("throwing"), (stack, level, entity, p) -> entity != null && entity.isUsingItem() && entity.getMainHandStack() == stack ? 1.0F : 0.0F);
     }
 }

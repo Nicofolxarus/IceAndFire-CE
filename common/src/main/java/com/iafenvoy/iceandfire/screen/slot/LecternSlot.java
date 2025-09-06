@@ -38,4 +38,9 @@ public class LecternSlot extends Slot {
     @Override
     protected void onCrafted(ItemStack stack) {
     }
+
+    @Override
+    public int getMaxItemCount() {
+        return 1;
+    }
 }

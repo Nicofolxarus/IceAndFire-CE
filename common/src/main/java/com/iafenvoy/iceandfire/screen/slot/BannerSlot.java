@@ -14,4 +14,9 @@ public class BannerSlot extends Slot {
     public boolean canInsert(ItemStack stack) {
         return super.canInsert(stack) && stack.getItem() instanceof BannerItem;
     }
+
+    @Override
+    public int getMaxItemCount() {
+        return 1;
+    }
 }

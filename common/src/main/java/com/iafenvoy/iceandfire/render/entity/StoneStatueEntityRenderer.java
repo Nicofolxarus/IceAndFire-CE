@@ -34,7 +34,7 @@ import java.util.Map;
 
 public class StoneStatueEntityRenderer extends EntityRenderer<StoneStatueEntity> {
     protected static final Identifier[] DESTROY_STAGES = new Identifier[]{
-            Identifier.of(Identifier.DEFAULT_NAMESPACE, "textures/block/destroy_stage_0.png"),
+            Identifier.ofVanilla("textures/block/destroy_stage_0.png"),
             Identifier.of(Identifier.DEFAULT_NAMESPACE,"textures/block/destroy_stage_1.png"),
             Identifier.of(Identifier.DEFAULT_NAMESPACE,"textures/block/destroy_stage_2.png"),
             Identifier.of(Identifier.DEFAULT_NAMESPACE,"textures/block/destroy_stage_3.png"),

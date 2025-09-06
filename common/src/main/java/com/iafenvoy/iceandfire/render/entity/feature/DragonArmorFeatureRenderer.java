@@ -42,6 +42,7 @@ public class DragonArmorFeatureRenderer<T extends DragonBaseEntity> extends Feat
         DragonArmorPart part = DragonArmorPart.fromSlot(slot);
         if (part != null && !stack.isEmpty() && stack.getItem() instanceof DragonArmorItem armorItem)
             return Identifier.of(IceAndFire.MOD_ID, "textures/entity/dragon_armor/armor_%s_%s.png".formatted(part.getId(), armorItem.type.name()));
-        else return Identifier.of(Identifier.DEFAULT_NAMESPACE, "missingno");
+        else return Identifier.ofVanilla("missingno");
+        //TODO: Event and disable render when missing
     }
 }
