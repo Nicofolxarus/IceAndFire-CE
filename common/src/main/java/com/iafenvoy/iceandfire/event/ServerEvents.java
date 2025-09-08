@@ -1,7 +1,6 @@
 package com.iafenvoy.iceandfire.event;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.item.component.StoneStatusComponent;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.component.ChainData;
 import com.iafenvoy.iceandfire.entity.*;
@@ -15,6 +14,7 @@ import com.iafenvoy.iceandfire.item.DragonHornItem;
 import com.iafenvoy.iceandfire.item.armor.DragonSteelArmorItem;
 import com.iafenvoy.iceandfire.item.armor.ScaleArmorItem;
 import com.iafenvoy.iceandfire.item.armor.TrollArmorItem;
+import com.iafenvoy.iceandfire.item.component.StoneStatusComponent;
 import com.iafenvoy.iceandfire.network.payload.PlayerHitMultipartC2SPayload;
 import com.iafenvoy.iceandfire.registry.*;
 import com.iafenvoy.iceandfire.registry.tag.IafEntityTags;

@@ -16,9 +16,9 @@ import java.util.Date;
 public class IafClientConfig extends FileConfigContainer {
     public static final IafClientConfig INSTANCE = new IafClientConfig();
     public static final int CURRENT_VERSION = 1;
-    public final IConfigEntry<Boolean> customMainMenu = new BooleanEntry("iceandfire.customMainMenu", true).json("customMainMenu");
-    public final IConfigEntry<Boolean> dragonAuto3rdPerson = new BooleanEntry("iceandfire.dragonAuto3rdPerson", false).json("dragonAuto3rdPerson");
-    public final IConfigEntry<Boolean> sirenShader = new BooleanEntry("iceandfire.siren.shader", true).json("siren.shader");
+    public final IConfigEntry<Boolean> customMainMenu = new BooleanEntry("config.iceandfire.customMainMenu", true).json("customMainMenu");
+    public final IConfigEntry<Boolean> dragonAuto3rdPerson = new BooleanEntry("config.iceandfire.dragonAuto3rdPerson", false).json("dragonAuto3rdPerson");
+    public final IConfigEntry<Boolean> sirenShader = new BooleanEntry("config.iceandfire.siren.shader", true).json("siren.shader");
 
     public IafClientConfig() {
         super(Identifier.of(IceAndFire.MOD_ID, "config.iceandfire.client"), "screen.iceandfire.client.title", "./config/iceandfire/iaf-client.json");
@@ -26,7 +26,7 @@ public class IafClientConfig extends FileConfigContainer {
 
     @Override
     public void init() {
-        this.createTab("client", "iceandfire.client")
+        this.createTab("client", "config.iceandfire.client")
                 .add(this.customMainMenu)
                 .add(this.dragonAuto3rdPerson)
                 .add(this.sirenShader);
