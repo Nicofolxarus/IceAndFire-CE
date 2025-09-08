@@ -18,6 +18,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -250,5 +251,10 @@ public abstract class MultipartPartEntity extends Entity implements Tameable {
     @Override
     public @Nullable UUID getOwnerUuid() {
         return this.getParent() instanceof Tameable tameable ? tameable.getOwnerUuid() : null;
+    }
+
+    @Override
+    public ActionResult interactAt(PlayerEntity player, Vec3d hitPos, Hand hand) {
+        return ActionResult.SUCCESS;
     }
 }

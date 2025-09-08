@@ -11,7 +11,6 @@ import com.iafenvoy.iceandfire.registry.IafScreenHandlers;
 import com.iafenvoy.iceandfire.render.PortalRenderTick;
 import com.iafenvoy.integration.IntegrationExecutor;
 import com.iafenvoy.jupiter.ConfigManager;
-import dev.architectury.event.events.common.InteractionEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
@@ -35,7 +34,6 @@ public class IceAndFireClient {
         IafRenderers.registerItemRenderers();
         PortalRenderTick.init();
 
-        InteractionEvent.INTERACT_ENTITY.register(ClientEvents::onEntityInteract);
         CommonEvents.LIVING_TICK.register(ClientEvents::onLivingUpdate);
 
         ClientNetworkHelper.registerReceivers();

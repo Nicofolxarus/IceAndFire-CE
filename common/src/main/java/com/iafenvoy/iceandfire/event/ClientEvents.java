@@ -6,7 +6,6 @@ import com.iafenvoy.iceandfire.data.component.FrozenData;
 import com.iafenvoy.iceandfire.data.component.MiscData;
 import com.iafenvoy.iceandfire.data.component.SirenData;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
-import com.iafenvoy.iceandfire.entity.MultipartPartEntity;
 import com.iafenvoy.iceandfire.entity.SirenEntity;
 import com.iafenvoy.iceandfire.entity.util.ICustomMoveController;
 import com.iafenvoy.iceandfire.network.payload.DragonControlC2SPayload;
@@ -15,7 +14,6 @@ import com.iafenvoy.iceandfire.registry.IafParticles;
 import com.iafenvoy.iceandfire.render.misc.ChainRenderer;
 import com.iafenvoy.iceandfire.render.misc.CockatriceBeamRenderer;
 import com.iafenvoy.iceandfire.render.misc.FrozenStateRenderer;
-import dev.architectury.event.EventResult;
 import dev.architectury.networking.NetworkManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -29,7 +27,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.Vec3d;
@@ -56,12 +53,6 @@ public final class ClientEvents {
         }
     }
 
-    public static EventResult onEntityInteract(PlayerEntity player, Entity entity, Hand hand) {
-        // Hook multipart
-        if (entity instanceof MultipartPartEntity) return EventResult.interruptTrue();
-        return EventResult.pass();
-    }
-
     public static void onLivingUpdate(LivingEntity entity) {
         MinecraftClient mc = MinecraftClient.getInstance();
         if (entity instanceof ICustomMoveController moveController) {
@@ -73,7 +64,7 @@ public final class ClientEvents {
                     NetworkManager.sendToServer(new DragonControlC2SPayload(entity.getId(), controlState, entity.getBlockPos()));
             }
         }
-        if (entity instanceof PlayerEntity player && player.getWorld().isClient) {
+        if (entity instanceof PlayerEntity player && player == MinecraftClient.getInstance().player) {
             if (player.getVehicle() instanceof ICustomMoveController controller) {
                 Entity vehicle = player.getVehicle();
                 byte previousState = controller.getControlState();
