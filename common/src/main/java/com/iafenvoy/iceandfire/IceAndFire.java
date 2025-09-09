@@ -80,7 +80,6 @@ public class IceAndFire {
         IafTrades.init();
         IafRecipes.init();
         IafFeatures.init();
-        IafItemGroups.init();
         IafToolMaterials.init();
 
         BlockEvent.BREAK.register(ServerEvents::onBreakBlock);

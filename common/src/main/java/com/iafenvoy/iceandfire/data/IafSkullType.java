@@ -27,7 +27,7 @@ public enum IafSkullType implements SkullBlock.SkullType {
 
     public static void initItems() {
         for (IafSkullType skull : IafSkullType.values())
-            skull.skullItem = IafItems.register(skull.itemResourceName, () -> new MobSkullItem(skull));
+            skull.skullItem = IafItems.registerItem(skull.itemResourceName, () -> new MobSkullItem(skull));
     }
 
     public Item getSkullItem() {

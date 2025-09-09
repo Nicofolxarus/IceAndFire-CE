@@ -20,7 +20,6 @@ import org.jetbrains.annotations.ApiStatus;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Predicate;
 
 public class TrollType {
     public RegistrySupplier<Item> leather, helmet, chestplate, leggings, boots;
@@ -49,11 +48,11 @@ public class TrollType {
 
     public static void initArmors() {
         for (TrollType troll : IafRegistries.TROLL_TYPE) {
-            troll.leather = IafItems.register("troll_leather_%s".formatted(troll.name.toLowerCase(Locale.ROOT)), () -> new Item(new Item.Settings()));
-            troll.helmet = IafItems.register(TrollArmorItem.getName(troll, EquipmentSlot.HEAD), () -> new TrollArmorItem(troll, ArmorItem.Type.HELMET));
-            troll.chestplate = IafItems.register(TrollArmorItem.getName(troll, EquipmentSlot.CHEST), () -> new TrollArmorItem(troll, ArmorItem.Type.CHESTPLATE));
-            troll.leggings = IafItems.register(TrollArmorItem.getName(troll, EquipmentSlot.LEGS), () -> new TrollArmorItem(troll, ArmorItem.Type.LEGGINGS));
-            troll.boots = IafItems.register(TrollArmorItem.getName(troll, EquipmentSlot.FEET), () -> new TrollArmorItem(troll, ArmorItem.Type.BOOTS));
+            troll.leather = IafItems.registerItem("troll_leather_%s".formatted(troll.name.toLowerCase(Locale.ROOT)), () -> new Item(new Item.Settings()));
+            troll.helmet = IafItems.registerArmor(TrollArmorItem.getName(troll, EquipmentSlot.HEAD), () -> new TrollArmorItem(troll, ArmorItem.Type.HELMET));
+            troll.chestplate = IafItems.registerArmor(TrollArmorItem.getName(troll, EquipmentSlot.CHEST), () -> new TrollArmorItem(troll, ArmorItem.Type.CHESTPLATE));
+            troll.leggings = IafItems.registerArmor(TrollArmorItem.getName(troll, EquipmentSlot.LEGS), () -> new TrollArmorItem(troll, ArmorItem.Type.LEGGINGS));
+            troll.boots = IafItems.registerArmor(TrollArmorItem.getName(troll, EquipmentSlot.FEET), () -> new TrollArmorItem(troll, ArmorItem.Type.BOOTS));
         }
     }
 
@@ -98,7 +97,7 @@ public class TrollType {
         private final RegistrySupplier<Item> item;
 
         BuiltinWeapon() {
-            this.item = IafItems.register("troll_weapon_" + this.name().toLowerCase(Locale.ROOT), () -> new TrollWeaponItem(this));
+            this.item = IafItems.registerToolOrWeapon("troll_weapon_" + this.name().toLowerCase(Locale.ROOT), () -> new TrollWeaponItem(this));
             ITrollWeapon.addWeapons(this);
         }
 

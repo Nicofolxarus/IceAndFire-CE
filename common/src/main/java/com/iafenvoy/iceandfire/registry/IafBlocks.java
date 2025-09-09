@@ -149,15 +149,13 @@ public final class IafBlocks {
 
     public static <T extends Block> RegistrySupplier<T> register(String name, Supplier<T> block) {
         RegistrySupplier<T> r = REGISTRY.register(name, block);
-        IafItems.register(name, () -> new BlockItem(r.get(), new Item.Settings()), false);
-        IafItemGroups.TAB_BLOCKS_LIST.add(r::get);
+        IafItems.registerBlock(name, () -> new BlockItem(r.get(), new Item.Settings()));
         return r;
     }
 
     private static <T extends TorchBlock> RegistrySupplier<T> registerWallBlock(String name, Supplier<T> block) {
         RegistrySupplier<T> r = REGISTRY.register(name, block);
-        IafItems.register(name, () -> new VerticallyAttachableBlockItem(r.get(), ((WallBlock) r.get()).wallBlock(), new Item.Settings(), Direction.DOWN), false);
-        IafItemGroups.TAB_BLOCKS_LIST.add(r::get);
+        IafItems.registerBlock(name, () -> new VerticallyAttachableBlockItem(r.get(), ((WallBlock) r.get()).wallBlock(), new Item.Settings(), Direction.DOWN));
         return r;
     }
 

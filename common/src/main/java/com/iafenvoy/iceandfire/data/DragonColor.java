@@ -42,11 +42,10 @@ public final class DragonColor {
         for (DragonColor armor : IafRegistries.DRAGON_COLOR.stream().toList()) {
             armor.material = IafArmorMaterials.register("armor_dragon_scales_" + IafRegistries.DRAGON_COLOR.getRawId(armor), new int[]{5, 7, 9, 5}, 15, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 2, new MemorizeSupplier<>(() -> Ingredient.ofItems(armor.scaleItem.get())));
             String sub = "armor_" + armor.getName().toLowerCase(Locale.ROOT);
-
-            armor.helmet = IafItems.register(sub + "_helmet", () -> new ScaleArmorItem(armor, ArmorItem.Type.HELMET));
-            armor.chestplate = IafItems.register(sub + "_chestplate", () -> new ScaleArmorItem(armor, ArmorItem.Type.CHESTPLATE));
-            armor.leggings = IafItems.register(sub + "_leggings", () -> new ScaleArmorItem(armor, ArmorItem.Type.LEGGINGS));
-            armor.boots = IafItems.register(sub + "_boots", () -> new ScaleArmorItem(armor, ArmorItem.Type.BOOTS));
+            armor.helmet = IafItems.registerArmor(sub + "_helmet", () -> new ScaleArmorItem(armor, ArmorItem.Type.HELMET));
+            armor.chestplate = IafItems.registerArmor(sub + "_chestplate", () -> new ScaleArmorItem(armor, ArmorItem.Type.CHESTPLATE));
+            armor.leggings = IafItems.registerArmor(sub + "_leggings", () -> new ScaleArmorItem(armor, ArmorItem.Type.LEGGINGS));
+            armor.boots = IafItems.registerArmor(sub + "_boots", () -> new ScaleArmorItem(armor, ArmorItem.Type.BOOTS));
         }
     }
 

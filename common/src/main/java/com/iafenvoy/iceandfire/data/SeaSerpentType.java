@@ -56,11 +56,11 @@ public class SeaSerpentType {
         for (SeaSerpentType color : SeaSerpentType.values()) {
             color.armorMaterial = IafArmorMaterials.register("sea_serpent_scales_" + color.name, new int[]{4, 7, 8, 4}, 25, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 2.5F, new MemorizeSupplier<>(() -> Ingredient.ofItems(color.scale.get())));
             color.scaleBlock = IafBlocks.register("sea_serpent_scale_block_" + color.name, () -> new SeaSerpentScalesBlock(color.name, color.color));
-            color.scale = IafItems.register("sea_serpent_scales_" + color.name, () -> new SeaSerpentScalesItem(color.name, color.color));
-            color.helmet = IafItems.register("tide_" + color.name + "_helmet", () -> new SeaSerpentArmorItem(color, color.armorMaterial, ArmorItem.Type.HELMET));
-            color.chestplate = IafItems.register("tide_" + color.name + "_chestplate", () -> new SeaSerpentArmorItem(color, color.armorMaterial, ArmorItem.Type.CHESTPLATE));
-            color.leggings = IafItems.register("tide_" + color.name + "_leggings", () -> new SeaSerpentArmorItem(color, color.armorMaterial, ArmorItem.Type.LEGGINGS));
-            color.boots = IafItems.register("tide_" + color.name + "_boots", () -> new SeaSerpentArmorItem(color, color.armorMaterial, ArmorItem.Type.BOOTS));
+            color.scale = IafItems.registerItem("sea_serpent_scales_" + color.name, () -> new SeaSerpentScalesItem(color.name, color.color));
+            color.helmet = IafItems.registerArmor("tide_" + color.name + "_helmet", () -> new SeaSerpentArmorItem(color, color.armorMaterial, ArmorItem.Type.HELMET));
+            color.chestplate = IafItems.registerArmor("tide_" + color.name + "_chestplate", () -> new SeaSerpentArmorItem(color, color.armorMaterial, ArmorItem.Type.CHESTPLATE));
+            color.leggings = IafItems.registerArmor("tide_" + color.name + "_leggings", () -> new SeaSerpentArmorItem(color, color.armorMaterial, ArmorItem.Type.LEGGINGS));
+            color.boots = IafItems.registerArmor("tide_" + color.name + "_boots", () -> new SeaSerpentArmorItem(color, color.armorMaterial, ArmorItem.Type.BOOTS));
         }
     }
 }
