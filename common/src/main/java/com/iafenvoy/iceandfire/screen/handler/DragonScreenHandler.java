@@ -5,32 +5,29 @@ import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.registry.IafScreenHandlers;
 import com.iafenvoy.iceandfire.screen.slot.BannerSlot;
 import com.iafenvoy.iceandfire.screen.slot.DragonArmorSlot;
-import com.iafenvoy.uranus.data.EntityPropertyDelegate;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
 public class DragonScreenHandler extends ScreenHandler {
     private final Inventory dragonInventory;
-    private final EntityPropertyDelegate propertyDelegate;
+    private final DragonBaseEntity dragon;
 
-    public DragonScreenHandler(int i, PlayerInventory playerInventory) {
-        this(i, new SimpleInventory(5), playerInventory, new EntityPropertyDelegate());
+    public DragonScreenHandler(int i, PlayerInventory playerInventory, PacketByteBuf buf) {
+        this(i, new SimpleInventory(5), playerInventory, (DragonBaseEntity) MinecraftClient.getInstance().world.getEntityById(buf.readInt()));
     }
 
-    public DragonScreenHandler(int id, Inventory dragonInventory, PlayerInventory playerInventory, EntityPropertyDelegate propertyDelegate) {
+    public DragonScreenHandler(int id, Inventory dragonInventory, PlayerInventory playerInventory, DragonBaseEntity dragon) {
         super(IafScreenHandlers.DRAGON_SCREEN.get(), id);
         this.dragonInventory = dragonInventory;
-        this.propertyDelegate = propertyDelegate;
-        this.addProperties(this.propertyDelegate);
-        byte b0 = 3;
+        this.dragon = dragon;
         dragonInventory.onOpen(playerInventory.player);
-        int i = (b0 - 4) * 18;
         this.addSlot(new BannerSlot(dragonInventory, 0, 8, 54));
         this.addSlot(new DragonArmorSlot(dragonInventory, 1, 8, 18, DragonArmorPart.HEAD));
         this.addSlot(new DragonArmorSlot(dragonInventory, 2, 8, 36, DragonArmorPart.NECK));
@@ -38,15 +35,14 @@ public class DragonScreenHandler extends ScreenHandler {
         this.addSlot(new DragonArmorSlot(dragonInventory, 4, 153, 36, DragonArmorPart.TAIL));
         for (int j = 0; j < 3; ++j)
             for (int k = 0; k < 9; ++k)
-                this.addSlot(new Slot(playerInventory, k + j * 9 + 9, 8 + k * 18, 150 + j * 18 + i));
+                this.addSlot(new Slot(playerInventory, k + j * 9 + 9, 8 + k * 18, 132 + j * 18));
         for (int j = 0; j < 9; ++j)
-            this.addSlot(new Slot(playerInventory, j, 8 + j * 18, 208 + i));
+            this.addSlot(new Slot(playerInventory, j, 8 + j * 18, 190));
     }
 
     @Override
     public boolean canUse(PlayerEntity playerIn) {
-        Entity entity = playerIn.getWorld().getEntityById(this.getDragonId());
-        return entity instanceof DragonBaseEntity dragon && !dragon.hasInventoryChanged(this.dragonInventory) && this.dragonInventory.canPlayerUse(playerIn) && dragon.isAlive() && dragon.distanceTo(playerIn) < 8.0F;
+        return !this.dragon.hasInventoryChanged(this.dragonInventory) && this.dragonInventory.canPlayerUse(playerIn) && this.dragon.isAlive() && this.dragon.distanceTo(playerIn) < 8.0F;
     }
 
     @Override
@@ -90,7 +86,7 @@ public class DragonScreenHandler extends ScreenHandler {
         this.dragonInventory.onClose(playerIn);
     }
 
-    public int getDragonId() {
-        return this.propertyDelegate.entityId;
+    public DragonBaseEntity getDragon() {
+        return this.dragon;
     }
 }

@@ -30,7 +30,6 @@ import com.iafenvoy.uranus.ServerHelper;
 import com.iafenvoy.uranus.animation.Animation;
 import com.iafenvoy.uranus.animation.AnimationHandler;
 import com.iafenvoy.uranus.animation.IAnimatedEntity;
-import com.iafenvoy.uranus.data.EntityPropertyDelegate;
 import com.iafenvoy.uranus.object.EntityUtil;
 import com.iafenvoy.uranus.object.entity.pathfinding.raycoms.AdvancedPathNavigate;
 import com.iafenvoy.uranus.object.entity.pathfinding.raycoms.IPassabilityNavigator;
@@ -39,6 +38,8 @@ import com.iafenvoy.uranus.object.entity.pathfinding.raycoms.pathjobs.ICustomSiz
 import com.iafenvoy.uranus.object.item.FoodUtils;
 import com.iafenvoy.uranus.util.RandomHelper;
 import dev.architectury.networking.NetworkManager;
+import dev.architectury.registry.menu.ExtendedMenuProvider;
+import dev.architectury.registry.menu.MenuRegistry;
 import net.createmod.catnip.levelWrappers.SchematicLevel;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
@@ -75,6 +76,7 @@ import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -82,7 +84,6 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -107,7 +108,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-public abstract class DragonBaseEntity extends TameableEntity implements NamedScreenHandlerFactory, IPassabilityNavigator, ISyncMount, IFlyingMount, IMultipartEntity, IAnimatedEntity, IDragonFlute, IDeadMob, IVillagerFear, IAnimalFear, IHasCustomizableAttributes, ICustomSizeNavigator, ICustomMoveController, InventoryChangedListener {
+public abstract class DragonBaseEntity extends TameableEntity implements ExtendedMenuProvider, IPassabilityNavigator, ISyncMount, IFlyingMount, IMultipartEntity, IAnimatedEntity, IDragonFlute, IDeadMob, IVillagerFear, IAnimalFear, IHasCustomizableAttributes, ICustomSizeNavigator, ICustomMoveController, InventoryChangedListener {
     public static final int FLIGHT_CHANCE_PER_TICK = 1500;
     public static final float[] growth_stage_1 = new float[]{1F, 3F};
     public static final float[] growth_stage_2 = new float[]{3F, 7F};
@@ -567,7 +568,12 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new DragonScreenHandler(syncId, this.dragonInventory, player.getInventory(), new EntityPropertyDelegate(this.getId()));
+        return new DragonScreenHandler(syncId, this.dragonInventory, player.getInventory(), this);
+    }
+
+    @Override
+    public void saveExtraData(PacketByteBuf buf) {
+        buf.writeInt(this.getId());
     }
 
     @Override
@@ -1127,8 +1133,8 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
                         this.getNavigation().stop();
                     }
                     return ActionResult.SUCCESS;
-                } else if (stack.isEmpty() && player.isSneaking()) {
-                    this.openInventory(player);
+                } else if (stack.isEmpty() && player.isSneaking() && player instanceof ServerPlayerEntity serverPlayer) {
+                    MenuRegistry.openExtendedMenu(serverPlayer, this);
                     return ActionResult.SUCCESS;
                 } else {
                     int itemFoodAmount = FoodUtils.getFoodPoints(stack, true, this.dragonType.piscivore());

@@ -226,8 +226,8 @@ public final class IafItems {
 
     //Hidden
     public static final RegistrySupplier<Item> TIDE_TRIDENT_INVENTORY = register("tide_trident_inventory", () -> new Item(new Item.Settings()));
-    public static final RegistrySupplier<Item> WEEZER_BLUE_ALBUM = registerItem("weezer_blue_album", () -> new GenericItem(1));
-    public static final RegistrySupplier<Item> DRAGON_DEBUG_STICK = registerItem("dragon_debug_stick", () -> new GenericItem(1));
+    public static final RegistrySupplier<Item> WEEZER_BLUE_ALBUM = register("weezer_blue_album", () -> new GenericItem(1));
+    public static final RegistrySupplier<Item> DRAGON_DEBUG_STICK = register("dragon_debug_stick", () -> new GenericItem(1));
 
     //Armors
     public static final RegistrySupplier<Item> SILVER_HELMET = registerArmor("armor_silver_metal_helmet", () -> new ArmorItem(IafArmorMaterials.SILVER, ArmorItem.Type.HELMET, new Item.Settings().maxDamage(165)));

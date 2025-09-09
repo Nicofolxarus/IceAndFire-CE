@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 public final class IafScreenHandlers {
     public static final DeferredRegister<ScreenHandlerType<?>> REGISTRY = DeferredRegister.create(IceAndFire.MOD_ID, RegistryKeys.SCREEN_HANDLER);
 
-    public static final RegistrySupplier<ScreenHandlerType<DragonScreenHandler>> DRAGON_SCREEN = register("dragon", () -> new ScreenHandlerType<>(DragonScreenHandler::new, FeatureFlags.VANILLA_FEATURES));
+    public static final RegistrySupplier<ScreenHandlerType<DragonScreenHandler>> DRAGON_SCREEN = register("dragon", () -> MenuRegistry.ofExtended(DragonScreenHandler::new));
     public static final RegistrySupplier<ScreenHandlerType<HippogryphScreenHandler>> HIPPOGRYPH_SCREEN = register("hippogryph", () -> MenuRegistry.ofExtended(HippogryphScreenHandler::new));
     public static final RegistrySupplier<ScreenHandlerType<HippocampusScreenHandler>> HIPPOCAMPUS_SCREEN = register("hippocampus", () -> MenuRegistry.ofExtended(HippocampusScreenHandler::new));
     public static final RegistrySupplier<ScreenHandlerType<DragonForgeScreenHandler>> DRAGON_FORGE_SCREEN = register("dragon_forge", () -> MenuRegistry.ofExtended(DragonForgeScreenHandler::new));
