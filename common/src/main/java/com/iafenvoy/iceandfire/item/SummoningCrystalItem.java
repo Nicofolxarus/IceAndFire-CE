@@ -44,10 +44,8 @@ public class SummoningCrystalItem extends Item {
         super.appendTooltip(stack, context, tooltip, type);
         boolean flag = false;
         String desc = "entity.iceandfire.fire_dragon";
-        if (stack.getItem() == IafItems.SUMMONING_CRYSTAL_ICE.get())
-            desc = "entity.iceandfire.ice_dragon";
-        if (stack.getItem() == IafItems.SUMMONING_CRYSTAL_LIGHTNING.get())
-            desc = "entity.iceandfire.lightning_dragon";
+        if (stack.getItem() == IafItems.SUMMONING_CRYSTAL_ICE.get()) desc = "entity.iceandfire.ice_dragon";
+        if (stack.getItem() == IafItems.SUMMONING_CRYSTAL_LIGHTNING.get()) desc = "entity.iceandfire.lightning_dragon";
         NbtCompound nbt = stack.get(IafDataComponents.NBT_COMPOUND.get());
         if (nbt != null)
             for (String tagInfo : nbt.getKeys())

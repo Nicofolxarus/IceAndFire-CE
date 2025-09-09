@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.item;
 
-import com.iafenvoy.iceandfire.item.component.StoneStatusComponent;
 import com.iafenvoy.iceandfire.entity.StoneStatueEntity;
+import com.iafenvoy.iceandfire.item.component.StoneStatusComponent;
 import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import net.minecraft.entity.EntityType;
@@ -42,9 +42,8 @@ public class StoneStatueItem extends Item {
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        if (context.getSide() != Direction.UP) {
-            return ActionResult.FAIL;
-        } else {
+        if (context.getSide() != Direction.UP) return ActionResult.FAIL;
+        else {
             assert context.getPlayer() != null;
             ItemStack stack = context.getPlayer().getStackInHand(context.getHand());
             if (stack.contains(IafDataComponents.STONE_STATUS.get())) {
@@ -61,12 +60,9 @@ public class StoneStatueItem extends Item {
                 statue.bodyYaw = yaw;
                 statue.prevBodyYaw = yaw;
                 statue.updatePositionAndAngles(context.getBlockPos().getX() + 0.5, context.getBlockPos().getY() + 1, context.getBlockPos().getZ() + 0.5, yaw, 0);
-                if (!context.getWorld().isClient)
-                    context.getWorld().spawnEntity(statue);
+                if (!context.getWorld().isClient) context.getWorld().spawnEntity(statue);
                 statue.setCrackAmount(0);
-
-                if (!context.getPlayer().isCreative())
-                    stack.decrement(1);
+                if (!context.getPlayer().isCreative()) stack.decrement(1);
                 return ActionResult.SUCCESS;
             }
         }

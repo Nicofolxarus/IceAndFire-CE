@@ -32,31 +32,26 @@ public class DragonFluteItem extends Item {
         List<Entity> list = worldIn.getOtherEntities(player, (new Box(player.getX(), player.getY(), player.getZ(), player.getX() + 1.0D, player.getY() + 1.0D, player.getZ() + 1.0D)).expand(chunksize, 256, chunksize));
         list.sort(new Sorter(player));
         List<IDragonFlute> dragons = new ArrayList<>();
-        for (Entity entity : list) {
-            if (entity instanceof IDragonFlute) {
-                dragons.add((IDragonFlute) entity);
-            }
-        }
-
-        for (IDragonFlute dragon : dragons) {
+        for (Entity entity : list)
+            if (entity instanceof IDragonFlute flute)
+                dragons.add(flute);
+        for (IDragonFlute dragon : dragons)
             dragon.onHearFlute(player);
-        }
         worldIn.playSound(player, player.getBlockPos(), IafSounds.DRAGONFLUTE.get(), SoundCategory.NEUTRAL, 1, 1.75F);
-
         return new TypedActionResult<>(ActionResult.SUCCESS, itemStackIn);
     }
 
     public static class Sorter implements Comparator<Entity> {
-        private final Entity theEntity;
+        private final Entity entity;
 
-        public Sorter(Entity theEntityIn) {
-            this.theEntity = theEntityIn;
+        public Sorter(Entity entity) {
+            this.entity = entity;
         }
 
         @Override
-        public int compare(Entity p_compare_1_, Entity p_compare_2_) {
-            double d0 = this.theEntity.squaredDistanceTo(p_compare_1_);
-            double d1 = this.theEntity.squaredDistanceTo(p_compare_2_);
+        public int compare(Entity entity1, Entity entity2) {
+            double d0 = this.entity.squaredDistanceTo(entity1);
+            double d1 = this.entity.squaredDistanceTo(entity2);
             return Double.compare(d0, d1);
         }
     }

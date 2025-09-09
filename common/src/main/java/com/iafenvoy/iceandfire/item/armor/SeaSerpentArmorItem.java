@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.item.armor;
 
+import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.data.SeaSerpentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
@@ -33,13 +34,7 @@ public class SeaSerpentArmorItem extends ArmorItem {
 
     @Override
     public String getTranslationKey() {
-        return switch (this.type) {
-            case HELMET -> "item.iceandfire.sea_serpent_helmet";
-            case CHESTPLATE -> "item.iceandfire.sea_serpent_chestplate";
-            case LEGGINGS -> "item.iceandfire.sea_serpent_leggings";
-            case BOOTS -> "item.iceandfire.sea_serpent_boots";
-            case BODY -> "???";
-        };
+        return "item.%s.sea_serpent_%s".formatted(IceAndFire.MOD_ID, this.type.getName());
     }
 
     @Override

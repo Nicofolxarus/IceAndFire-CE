@@ -19,6 +19,7 @@ public enum IafSkullType implements SkullBlock.SkullType {
     HYDRA;
 
     private final String itemResourceName;
+    //FIXME:: Remove this
     private RegistrySupplier<Item> skullItem;
 
     IafSkullType() {

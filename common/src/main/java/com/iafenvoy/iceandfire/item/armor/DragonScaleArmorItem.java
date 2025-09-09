@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.item.armor;
 
+import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.data.DragonColor;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
@@ -10,10 +11,10 @@ import net.minecraft.util.Formatting;
 import java.util.List;
 import java.util.Locale;
 
-public class ScaleArmorItem extends ArmorItem {
+public class DragonScaleArmorItem extends ArmorItem {
     private final DragonColor color;
 
-    public ScaleArmorItem(DragonColor color, Type slot) {
+    public DragonScaleArmorItem(DragonColor color, Type slot) {
         super(color.getMaterial(), slot, new Settings().maxDamage(switch (slot) {
             case HELMET -> 397;
             case CHESTPLATE -> 577;
@@ -26,13 +27,7 @@ public class ScaleArmorItem extends ArmorItem {
 
     @Override
     public String getTranslationKey() {
-        return switch (this.type) {
-            case HELMET -> "item.iceandfire.dragon_helmet";
-            case CHESTPLATE -> "item.iceandfire.dragon_chestplate";
-            case LEGGINGS -> "item.iceandfire.dragon_leggings";
-            case BOOTS -> "item.iceandfire.dragon_boots";
-            case BODY -> "???";
-        };
+        return "item.%s.dragon_%s".formatted(IceAndFire.MOD_ID, this.type.getName());
     }
 
     @Override

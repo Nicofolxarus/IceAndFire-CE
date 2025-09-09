@@ -1,7 +1,7 @@
 package com.iafenvoy.iceandfire.data;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.item.SeaSerpentScalesItem;
+import com.iafenvoy.iceandfire.item.SeaSerpentScaleItem;
 import com.iafenvoy.iceandfire.item.armor.SeaSerpentArmorItem;
 import com.iafenvoy.iceandfire.item.block.SeaSerpentScalesBlock;
 import com.iafenvoy.iceandfire.registry.IafArmorMaterials;
@@ -10,7 +10,6 @@ import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafRegistries;
 import com.iafenvoy.uranus.util.function.MemorizeSupplier;
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.block.Block;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
@@ -25,11 +24,7 @@ public class SeaSerpentType {
     private final String name;
     private final Formatting color;
     //FIXME:: Remove this
-    public RegistrySupplier<ArmorMaterial> armorMaterial;
-    //FIXME:: Remove this
     public RegistrySupplier<Item> scale, helmet, chestplate, leggings, boots;
-    //FIXME:: Remove this
-    public RegistrySupplier<Block> scaleBlock;
 
     public SeaSerpentType(String name, Formatting color) {
         this.name = name;
@@ -53,14 +48,14 @@ public class SeaSerpentType {
     }
 
     public static void initArmors() {
-        for (SeaSerpentType color : SeaSerpentType.values()) {
-            color.armorMaterial = IafArmorMaterials.register("sea_serpent_scales_" + color.name, new int[]{4, 7, 8, 4}, 25, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 2.5F, new MemorizeSupplier<>(() -> Ingredient.ofItems(color.scale.get())));
-            color.scaleBlock = IafBlocks.register("sea_serpent_scale_block_" + color.name, () -> new SeaSerpentScalesBlock(color.name, color.color));
-            color.scale = IafItems.registerItem("sea_serpent_scales_" + color.name, () -> new SeaSerpentScalesItem(color.name, color.color));
-            color.helmet = IafItems.registerArmor("tide_" + color.name + "_helmet", () -> new SeaSerpentArmorItem(color, color.armorMaterial, ArmorItem.Type.HELMET));
-            color.chestplate = IafItems.registerArmor("tide_" + color.name + "_chestplate", () -> new SeaSerpentArmorItem(color, color.armorMaterial, ArmorItem.Type.CHESTPLATE));
-            color.leggings = IafItems.registerArmor("tide_" + color.name + "_leggings", () -> new SeaSerpentArmorItem(color, color.armorMaterial, ArmorItem.Type.LEGGINGS));
-            color.boots = IafItems.registerArmor("tide_" + color.name + "_boots", () -> new SeaSerpentArmorItem(color, color.armorMaterial, ArmorItem.Type.BOOTS));
+        for (SeaSerpentType type : SeaSerpentType.values()) {
+            IafBlocks.register("sea_serpent_scale_block_%s".formatted(type.name), () -> new SeaSerpentScalesBlock(type.name, type.color));
+            RegistrySupplier<ArmorMaterial> material = IafArmorMaterials.register("sea_serpent_scales_%s".formatted(type.name), new int[]{4, 7, 8, 4}, 25, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 2.5F, new MemorizeSupplier<>(() -> Ingredient.ofItems(type.scale.get())));
+            type.scale = IafItems.registerItem("sea_serpent_scales_%s".formatted(type.name), () -> new SeaSerpentScaleItem(type));
+            type.helmet = IafItems.registerArmor("tide_%s_helmet".formatted(type.name), () -> new SeaSerpentArmorItem(type, material, ArmorItem.Type.HELMET));
+            type.chestplate = IafItems.registerArmor("tide_%s_chestplate".formatted(type.name), () -> new SeaSerpentArmorItem(type, material, ArmorItem.Type.CHESTPLATE));
+            type.leggings = IafItems.registerArmor("tide_%s_leggings".formatted(type.name), () -> new SeaSerpentArmorItem(type, material, ArmorItem.Type.LEGGINGS));
+            type.boots = IafItems.registerArmor("tide_%s_boots".formatted(type.name), () -> new SeaSerpentArmorItem(type, material, ArmorItem.Type.BOOTS));
         }
     }
 }

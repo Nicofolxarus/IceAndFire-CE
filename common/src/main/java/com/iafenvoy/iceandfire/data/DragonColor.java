@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.data;
 
 import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
-import com.iafenvoy.iceandfire.item.armor.ScaleArmorItem;
+import com.iafenvoy.iceandfire.item.armor.DragonScaleArmorItem;
 import com.iafenvoy.iceandfire.registry.IafArmorMaterials;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafRegistries;
@@ -33,19 +33,19 @@ public final class DragonColor {
         this.name = name;
         this.color = color;
         this.dragonType = dragonType;
+        this.dragonType.colors().add(this);
         this.eggItem = eggItem;
         this.scaleItem = scaleItem;
-        dragonType.colors().add(this);
     }
 
     public static void initArmors() {
         for (DragonColor color : IafRegistries.DRAGON_COLOR.stream().toList()) {
             color.material = IafArmorMaterials.register("dragon_scales_" + color.name, new int[]{5, 7, 9, 5}, 15, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 2, new MemorizeSupplier<>(() -> Ingredient.ofItems(color.scaleItem.get())));
             String sub = "armor_" + color.getName().toLowerCase(Locale.ROOT);
-            color.helmet = IafItems.registerArmor(sub + "_helmet", () -> new ScaleArmorItem(color, ArmorItem.Type.HELMET));
-            color.chestplate = IafItems.registerArmor(sub + "_chestplate", () -> new ScaleArmorItem(color, ArmorItem.Type.CHESTPLATE));
-            color.leggings = IafItems.registerArmor(sub + "_leggings", () -> new ScaleArmorItem(color, ArmorItem.Type.LEGGINGS));
-            color.boots = IafItems.registerArmor(sub + "_boots", () -> new ScaleArmorItem(color, ArmorItem.Type.BOOTS));
+            color.helmet = IafItems.registerArmor(sub + "_helmet", () -> new DragonScaleArmorItem(color, ArmorItem.Type.HELMET));
+            color.chestplate = IafItems.registerArmor(sub + "_chestplate", () -> new DragonScaleArmorItem(color, ArmorItem.Type.CHESTPLATE));
+            color.leggings = IafItems.registerArmor(sub + "_leggings", () -> new DragonScaleArmorItem(color, ArmorItem.Type.LEGGINGS));
+            color.boots = IafItems.registerArmor(sub + "_boots", () -> new DragonScaleArmorItem(color, ArmorItem.Type.BOOTS));
         }
     }
 

@@ -12,7 +12,7 @@ import com.iafenvoy.iceandfire.entity.util.dragon.DragonUtils;
 import com.iafenvoy.iceandfire.item.ChainItem;
 import com.iafenvoy.iceandfire.item.DragonHornItem;
 import com.iafenvoy.iceandfire.item.armor.DragonSteelArmorItem;
-import com.iafenvoy.iceandfire.item.armor.ScaleArmorItem;
+import com.iafenvoy.iceandfire.item.armor.DragonScaleArmorItem;
 import com.iafenvoy.iceandfire.item.armor.TrollArmorItem;
 import com.iafenvoy.iceandfire.item.component.StoneStatusComponent;
 import com.iafenvoy.iceandfire.network.payload.PlayerHitMultipartC2SPayload;
@@ -120,16 +120,16 @@ public final class ServerEvents {
         }
         if (source.isOf(IafDamageTypes.DRAGON_FIRE_TYPE) || source.isOf(IafDamageTypes.DRAGON_ICE_TYPE) || source.isOf(IafDamageTypes.DRAGON_LIGHTNING_TYPE)) {
             float multi = 1;
-            if (entity.getEquippedStack(EquipmentSlot.HEAD).getItem() instanceof ScaleArmorItem ||
+            if (entity.getEquippedStack(EquipmentSlot.HEAD).getItem() instanceof DragonScaleArmorItem ||
                     entity.getEquippedStack(EquipmentSlot.HEAD).getItem() instanceof DragonSteelArmorItem)
                 multi -= 0.1f;
-            if (entity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof ScaleArmorItem ||
+            if (entity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof DragonScaleArmorItem ||
                     entity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof DragonSteelArmorItem)
                 multi -= 0.3f;
-            if (entity.getEquippedStack(EquipmentSlot.LEGS).getItem() instanceof ScaleArmorItem ||
+            if (entity.getEquippedStack(EquipmentSlot.LEGS).getItem() instanceof DragonScaleArmorItem ||
                     entity.getEquippedStack(EquipmentSlot.LEGS).getItem() instanceof DragonSteelArmorItem)
                 multi -= 0.2f;
-            if (entity.getEquippedStack(EquipmentSlot.FEET).getItem() instanceof ScaleArmorItem ||
+            if (entity.getEquippedStack(EquipmentSlot.FEET).getItem() instanceof DragonScaleArmorItem ||
                     entity.getEquippedStack(EquipmentSlot.FEET).getItem() instanceof DragonSteelArmorItem)
                 multi -= 0.1f;
             amount *= multi;

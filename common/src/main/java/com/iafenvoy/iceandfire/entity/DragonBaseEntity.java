@@ -543,9 +543,7 @@ public abstract class DragonBaseEntity extends TameableEntity implements NamedSc
 
     @Override
     public void checkDespawn() {
-        if (IafCommonConfig.INSTANCE.dragon.canDespawn.getValue()) {
-            super.checkDespawn();
-        }
+        if (IafCommonConfig.INSTANCE.dragon.canDespawn.getValue()) super.checkDespawn();
     }
 
     public boolean canDestroyBlock(BlockPos pos, BlockState state) {

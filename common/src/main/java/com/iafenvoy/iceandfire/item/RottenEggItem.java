@@ -27,9 +27,9 @@ public class RottenEggItem extends Item implements ProjectileItem {
         if (!playerIn.isCreative()) itemstack.decrement(1);
         worldIn.playSound(null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), SoundEvents.ENTITY_EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (worldIn.random.nextFloat() * 0.4F + 0.8F));
         if (!worldIn.isClient) {
-            CockatriceEggEntity entityegg = new CockatriceEggEntity(IafEntities.COCKATRICE_EGG.get(), worldIn, playerIn);
-            entityegg.setVelocity(playerIn, playerIn.getPitch(), playerIn.getYaw(), 0.0F, 1.5F, 1.0F);
-            worldIn.spawnEntity(entityegg);
+            CockatriceEggEntity egg = new CockatriceEggEntity(IafEntities.COCKATRICE_EGG.get(), worldIn, playerIn);
+            egg.setVelocity(playerIn, playerIn.getPitch(), playerIn.getYaw(), 0.0F, 1.5F, 1.0F);
+            worldIn.spawnEntity(egg);
         }
         return new TypedActionResult<>(ActionResult.SUCCESS, itemstack);
     }

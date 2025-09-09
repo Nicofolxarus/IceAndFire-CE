@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.item.armor;
 
+import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.registry.IafArmorMaterials;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
@@ -24,7 +25,7 @@ public class EarPlugsArmorItem extends ArmorItem {
 
     @Override
     public String getTranslationKey(ItemStack stack) {
-        return isAprilFool() ? "item.iceandfire.air_pods" : super.getTranslationKey(stack);
+        return isAprilFool() ? "item.%s.air_pods".formatted(IceAndFire.MOD_ID) : super.getTranslationKey(stack);
     }
 
     @Override

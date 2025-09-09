@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.item.armor;
 
+import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.data.TrollType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
@@ -37,10 +38,6 @@ public class TrollArmorItem extends ArmorItem {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         super.appendTooltip(stack, context, tooltip, type);
-        tooltip.add(Text.translatable("item.iceandfire.troll_leather_armor_%s.desc".formatted(this.type.getName())).formatted(Formatting.GREEN));
-    }
-
-    public TrollType getTrollType() {
-        return this.trollType;
+        tooltip.add(Text.translatable("item.%s.troll_leather_armor_%s.desc".formatted(IceAndFire.MOD_ID, this.type.getName())).formatted(Formatting.GREEN));
     }
 }

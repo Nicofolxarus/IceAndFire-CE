@@ -21,14 +21,15 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TrollType {
+    //FIXME:: Remove this
     public RegistrySupplier<Item> leather, helmet, chestplate, leggings, boots;
     private final String name;
     private final RegistryEntry<ArmorMaterial> material;
     private final TagKey<Biome> spawnBiomes;
     private final Identifier lootTable;
-    private final List<BuiltinWeapon> weapons;
+    private final List<ITrollWeapon> weapons;
 
-    public TrollType(String name, RegistryEntry<ArmorMaterial> material, TagKey<Biome> spawnBiomes, BuiltinWeapon... weapons) {
+    public TrollType(String name, RegistryEntry<ArmorMaterial> material, TagKey<Biome> spawnBiomes, ITrollWeapon... weapons) {
         this.name = name;
         this.weapons = List.of(weapons);
         this.material = material;
@@ -41,7 +42,7 @@ public class TrollType {
         return RandomHelper.randomOne(types.isEmpty() ? IafRegistries.TROLL_TYPE.stream().toList() : types);
     }
 
-    public static BuiltinWeapon getWeaponForType(TrollType troll) {
+    public static ITrollWeapon getWeaponForType(TrollType troll) {
         return troll.weapons.get(ThreadLocalRandom.current().nextInt(troll.weapons.size()));
     }
 

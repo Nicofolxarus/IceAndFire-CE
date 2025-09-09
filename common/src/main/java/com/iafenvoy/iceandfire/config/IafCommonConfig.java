@@ -132,7 +132,7 @@ public class IafCommonConfig extends AutoInitConfigContainer {
 
     public static class PixieConfig extends AutoInitConfigCategoryBase {
         public final IConfigEntry<Integer> size = new IntegerEntry("config.iceandfire.pixie.size", 5, 0, 100).json("size");
-        public final IConfigEntry<Boolean> stealItems = new BooleanEntry("config.iceandfire.pixie.stealItems", true).json("stealItems");
+        public final IConfigEntry<Boolean> stealItems = new BooleanEntry("config.iceandfire.pixie.stealItems", false).json("stealItems");
 
         public PixieConfig() {
             super("pixie", "config.iceandfire.category.pixie");
