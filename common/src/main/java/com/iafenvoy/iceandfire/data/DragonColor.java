@@ -39,13 +39,13 @@ public final class DragonColor {
     }
 
     public static void initArmors() {
-        for (DragonColor armor : IafRegistries.DRAGON_COLOR.stream().toList()) {
-            armor.material = IafArmorMaterials.register("armor_dragon_scales_" + IafRegistries.DRAGON_COLOR.getRawId(armor), new int[]{5, 7, 9, 5}, 15, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 2, new MemorizeSupplier<>(() -> Ingredient.ofItems(armor.scaleItem.get())));
-            String sub = "armor_" + armor.getName().toLowerCase(Locale.ROOT);
-            armor.helmet = IafItems.registerArmor(sub + "_helmet", () -> new ScaleArmorItem(armor, ArmorItem.Type.HELMET));
-            armor.chestplate = IafItems.registerArmor(sub + "_chestplate", () -> new ScaleArmorItem(armor, ArmorItem.Type.CHESTPLATE));
-            armor.leggings = IafItems.registerArmor(sub + "_leggings", () -> new ScaleArmorItem(armor, ArmorItem.Type.LEGGINGS));
-            armor.boots = IafItems.registerArmor(sub + "_boots", () -> new ScaleArmorItem(armor, ArmorItem.Type.BOOTS));
+        for (DragonColor color : IafRegistries.DRAGON_COLOR.stream().toList()) {
+            color.material = IafArmorMaterials.register("dragon_scales_" + color.name, new int[]{5, 7, 9, 5}, 15, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 2, new MemorizeSupplier<>(() -> Ingredient.ofItems(color.scaleItem.get())));
+            String sub = "armor_" + color.getName().toLowerCase(Locale.ROOT);
+            color.helmet = IafItems.registerArmor(sub + "_helmet", () -> new ScaleArmorItem(color, ArmorItem.Type.HELMET));
+            color.chestplate = IafItems.registerArmor(sub + "_chestplate", () -> new ScaleArmorItem(color, ArmorItem.Type.CHESTPLATE));
+            color.leggings = IafItems.registerArmor(sub + "_leggings", () -> new ScaleArmorItem(color, ArmorItem.Type.LEGGINGS));
+            color.boots = IafItems.registerArmor(sub + "_boots", () -> new ScaleArmorItem(color, ArmorItem.Type.BOOTS));
         }
     }
 
@@ -61,10 +61,23 @@ public final class DragonColor {
         return this.scaleItem.get();
     }
 
-    public Identifier getEggTexture() {
-        return Identifier.of(IceAndFire.MOD_ID, String.format("textures/entity/%sdragon/egg_%s.png", this.dragonType.name(), this.name));
+    public String getName() {
+        return this.name;
     }
 
+    public Formatting getColorFormatting() {
+        return this.color;
+    }
+
+    public DragonType getType() {
+        return this.dragonType;
+    }
+
+    public RegistrySupplier<ArmorMaterial> getMaterial() {
+        return this.material;
+    }
+
+    //Textures
     public Identifier getTextureByEntity(DragonBaseEntity dragon) {
         int stage = dragon.getDragonStage();
         if (dragon.isModelDead()) {
@@ -94,19 +107,7 @@ public final class DragonColor {
         return Identifier.of(IceAndFire.MOD_ID, String.format("textures/entity/%sdragon/male_%s.png", this.dragonType.name(), this.name));
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public Formatting getColorFormatting() {
-        return this.color;
-    }
-
-    public DragonType getType() {
-        return this.dragonType;
-    }
-
-    public RegistrySupplier<ArmorMaterial> getMaterial() {
-        return this.material;
+    public Identifier getEggTexture() {
+        return Identifier.of(IceAndFire.MOD_ID, String.format("textures/entity/%sdragon/egg_%s.png", this.dragonType.name(), this.name));
     }
 }

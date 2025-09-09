@@ -11,9 +11,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
 
 public final class IafTrollTypes {
-    public static final TrollType FOREST = register("forest", IafArmorMaterials.TROLL_FOREST_ARMOR_MATERIAL, IafBiomeTags.FOREST_TROLL, TrollType.BuiltinWeapon.TRUNK, TrollType.BuiltinWeapon.COLUMN_FOREST, TrollType.BuiltinWeapon.AXE, TrollType.BuiltinWeapon.HAMMER);
-    public static final TrollType FROST = register("frost", IafArmorMaterials.TROLL_FROST_ARMOR_MATERIAL, IafBiomeTags.SNOWY_TROLL, TrollType.BuiltinWeapon.COLUMN_FROST, TrollType.BuiltinWeapon.TRUNK_FROST, TrollType.BuiltinWeapon.AXE, TrollType.BuiltinWeapon.HAMMER);
-    public static final TrollType MOUNTAIN = register("mountain", IafArmorMaterials.TROLL_MOUNTAIN_ARMOR_MATERIAL, IafBiomeTags.MOUNTAIN_TROLL, TrollType.BuiltinWeapon.COLUMN, TrollType.BuiltinWeapon.AXE, TrollType.BuiltinWeapon.HAMMER);
+    public static final TrollType FOREST = register("forest", IafArmorMaterials.TROLL_FOREST, IafBiomeTags.FOREST_TROLL, TrollType.BuiltinWeapon.TRUNK, TrollType.BuiltinWeapon.COLUMN_FOREST, TrollType.BuiltinWeapon.AXE, TrollType.BuiltinWeapon.HAMMER);
+    public static final TrollType FROST = register("frost", IafArmorMaterials.TROLL_FROST, IafBiomeTags.SNOWY_TROLL, TrollType.BuiltinWeapon.COLUMN_FROST, TrollType.BuiltinWeapon.TRUNK_FROST, TrollType.BuiltinWeapon.AXE, TrollType.BuiltinWeapon.HAMMER);
+    public static final TrollType MOUNTAIN = register("mountain", IafArmorMaterials.TROLL_MOUNTAIN, IafBiomeTags.MOUNTAIN_TROLL, TrollType.BuiltinWeapon.COLUMN, TrollType.BuiltinWeapon.AXE, TrollType.BuiltinWeapon.HAMMER);
 
     private static TrollType register(String name, RegistryEntry<ArmorMaterial> material, TagKey<Biome> spawnBiomes, TrollType.BuiltinWeapon... weapons) {
         return Registry.register(IafRegistries.TROLL_TYPE, Identifier.of(IceAndFire.MOD_ID, name), new TrollType(name, material, spawnBiomes, weapons));

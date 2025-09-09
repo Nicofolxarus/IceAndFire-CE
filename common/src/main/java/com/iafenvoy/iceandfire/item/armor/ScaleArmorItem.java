@@ -10,7 +10,7 @@ import net.minecraft.util.Formatting;
 import java.util.List;
 import java.util.Locale;
 
-public class ScaleArmorItem extends ArmorItem implements ProtectAgainstDragonItem {
+public class ScaleArmorItem extends ArmorItem {
     private final DragonColor color;
 
     public ScaleArmorItem(DragonColor color, Type slot) {

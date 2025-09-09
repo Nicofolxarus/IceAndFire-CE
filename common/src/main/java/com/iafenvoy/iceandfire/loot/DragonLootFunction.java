@@ -5,7 +5,7 @@ import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.item.DragonEggItem;
 import com.iafenvoy.iceandfire.item.DragonScalesItem;
 import com.iafenvoy.iceandfire.item.DragonSkullItem;
-import com.iafenvoy.iceandfire.item.food.DragonFleshItem;
+import com.iafenvoy.iceandfire.item.DragonFleshItem;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafLoots;
 import com.iafenvoy.iceandfire.registry.tag.IafItemTags;

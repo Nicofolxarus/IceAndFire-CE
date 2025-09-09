@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class SeaSerpentArmorItem extends ArmorItem implements ArmorFinder {
+public class SeaSerpentArmorItem extends ArmorItem {
     public final SeaSerpentType armorType;
 
     public SeaSerpentArmorItem(SeaSerpentType armorType, RegistryEntry<ArmorMaterial> material, Type slot) {
@@ -45,7 +45,7 @@ public class SeaSerpentArmorItem extends ArmorItem implements ArmorFinder {
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
-        if (entity instanceof PlayerEntity player && this.isEquipped(player, stack)) {
+        if (entity instanceof PlayerEntity player && player.getEquippedStack(this.getSlotType()) == stack) {
             int headMod = player.getEquippedStack(EquipmentSlot.HEAD).getItem() instanceof SeaSerpentArmorItem ? 1 : 0;
             int chestMod = player.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof SeaSerpentArmorItem ? 1 : 0;
             int legMod = player.getEquippedStack(EquipmentSlot.LEGS).getItem() instanceof SeaSerpentArmorItem ? 1 : 0;

@@ -1,24 +1,19 @@
-package com.iafenvoy.iceandfire.item.food;
+package com.iafenvoy.iceandfire.item;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.world.World;
 
 import java.util.List;
 
-public class CannoliItem extends GenericFoodItem {
+public class CannoliItem extends Item {
     public CannoliItem() {
-        super(20, 2.0F, false, true);
-    }
-
-    @Override
-    public void onFoodEaten(ItemStack stack, World worldIn, LivingEntity livingEntity) {
-        livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 3600, 2));
+        super(new Settings().food(new FoodComponent.Builder().nutrition(20).saturationModifier(2).alwaysEdible().statusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 3600, 2), 1).build()));
     }
 
     @Override

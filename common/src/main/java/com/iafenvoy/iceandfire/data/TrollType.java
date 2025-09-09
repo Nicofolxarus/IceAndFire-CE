@@ -8,7 +8,6 @@ import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafRegistries;
 import com.iafenvoy.uranus.util.RandomHelper;
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
@@ -49,10 +48,10 @@ public class TrollType {
     public static void initArmors() {
         for (TrollType troll : IafRegistries.TROLL_TYPE) {
             troll.leather = IafItems.registerItem("troll_leather_%s".formatted(troll.name.toLowerCase(Locale.ROOT)), () -> new Item(new Item.Settings()));
-            troll.helmet = IafItems.registerArmor(TrollArmorItem.getName(troll, EquipmentSlot.HEAD), () -> new TrollArmorItem(troll, ArmorItem.Type.HELMET));
-            troll.chestplate = IafItems.registerArmor(TrollArmorItem.getName(troll, EquipmentSlot.CHEST), () -> new TrollArmorItem(troll, ArmorItem.Type.CHESTPLATE));
-            troll.leggings = IafItems.registerArmor(TrollArmorItem.getName(troll, EquipmentSlot.LEGS), () -> new TrollArmorItem(troll, ArmorItem.Type.LEGGINGS));
-            troll.boots = IafItems.registerArmor(TrollArmorItem.getName(troll, EquipmentSlot.FEET), () -> new TrollArmorItem(troll, ArmorItem.Type.BOOTS));
+            troll.helmet = IafItems.registerArmor(TrollArmorItem.getName(troll, ArmorItem.Type.HELMET), () -> new TrollArmorItem(troll, ArmorItem.Type.HELMET));
+            troll.chestplate = IafItems.registerArmor(TrollArmorItem.getName(troll, ArmorItem.Type.CHESTPLATE), () -> new TrollArmorItem(troll, ArmorItem.Type.CHESTPLATE));
+            troll.leggings = IafItems.registerArmor(TrollArmorItem.getName(troll, ArmorItem.Type.LEGGINGS), () -> new TrollArmorItem(troll, ArmorItem.Type.LEGGINGS));
+            troll.boots = IafItems.registerArmor(TrollArmorItem.getName(troll, ArmorItem.Type.BOOTS), () -> new TrollArmorItem(troll, ArmorItem.Type.BOOTS));
         }
     }
 

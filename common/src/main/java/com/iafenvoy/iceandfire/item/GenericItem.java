@@ -6,38 +6,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Util;
 
 import java.util.List;
 
 public class GenericItem extends Item {
-    int description = 0;
-
-    public GenericItem() {
-        super(new Settings());
-    }
+    int description;
 
     public GenericItem(int textLength) {
         super(new Settings());
-        this.description = textLength;
-    }
-
-    public GenericItem(int textLength, boolean hide) {
-        super(new Settings());
-        this.description = textLength;
-    }
-
-    public GenericItem(int textLength, int stacksize) {
-        super(new Settings().maxCount(stacksize));
-        this.description = textLength;
-    }
-
-    public GenericItem(int textLength, int stacksize, boolean fireproof) {
-        super(Util.make(() -> {
-            Settings settings = new Settings().maxCount(stacksize);
-            if (fireproof) settings.fireproof();
-            return settings;
-        }));
         this.description = textLength;
     }
 
