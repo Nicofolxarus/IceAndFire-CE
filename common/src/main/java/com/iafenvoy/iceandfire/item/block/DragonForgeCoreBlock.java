@@ -7,13 +7,14 @@ import com.iafenvoy.iceandfire.registry.IafBlockEntities;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.util.DragonTypeProvider;
 import com.mojang.serialization.MapCodec;
+import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ItemScatterer;
@@ -55,11 +56,8 @@ public class DragonForgeCoreBlock extends BlockWithEntity implements DragonProof
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!player.isSneaking()) {
-            if (!world.isClient) {
-                NamedScreenHandlerFactory screenHandlerFactory = this.createScreenHandlerFactory(state, world, pos);
-                if (screenHandlerFactory != null)
-                    player.openHandledScreen(screenHandlerFactory);
-            }
+            if (player instanceof ServerPlayerEntity serverPlayer && world.getBlockEntity(pos) instanceof DragonForgeBlockEntity forge)
+                MenuRegistry.openExtendedMenu(serverPlayer, forge);
             return ActionResult.SUCCESS;
         }
         return ActionResult.FAIL;

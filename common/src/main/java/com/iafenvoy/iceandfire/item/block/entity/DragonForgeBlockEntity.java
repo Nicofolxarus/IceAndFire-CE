@@ -390,7 +390,6 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
     public void saveExtraData(PacketByteBuf buf) {
         Optional<RegistryKey<DragonType>> key = IafRegistries.DRAGON_TYPE.getKey(this.getDragonType());
         key.ifPresent(buf::writeRegistryKey);
-
     }
 
     public static class DragonForgeRecipeInput implements RecipeInput {
