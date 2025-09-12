@@ -20,15 +20,15 @@ public class VillageHouseProcessor extends StructureProcessor {
     public static final MapCodec<VillageHouseProcessor> CODEC = MapCodec.unit(() -> INSTANCE);
 
     @Override
-    public StructureTemplate.StructureBlockInfo process(WorldView worldReader, BlockPos pos, BlockPos pos2, StructureTemplate.StructureBlockInfo infoIn1, StructureTemplate.StructureBlockInfo infoIn2, StructurePlacementData settings) {
-        Random random = settings.getRandom(infoIn2.pos());
-        if (infoIn2.state().getBlock() == Blocks.CHEST) {
+    public StructureTemplate.StructureBlockInfo process(WorldView world, BlockPos pos, BlockPos pivot, StructureTemplate.StructureBlockInfo originalBlockInfo, StructureTemplate.StructureBlockInfo currentBlockInfo, StructurePlacementData data) {
+        Random random = data.getRandom(currentBlockInfo.pos());
+        if (currentBlockInfo.state().getBlock() == Blocks.CHEST) {
             NbtCompound tag = new NbtCompound();
             tag.putString("LootTable", LOOT.toString());
             tag.putLong("LootTableSeed", random.nextLong());
-            return new StructureTemplate.StructureBlockInfo(infoIn2.pos(), infoIn2.state(), tag);
+            return new StructureTemplate.StructureBlockInfo(currentBlockInfo.pos(), currentBlockInfo.state(), tag);
         }
-        return infoIn2;
+        return currentBlockInfo;
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.iafenvoy.iceandfire.world.structure;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.registry.IafStructureTypes;
-import com.iafenvoy.iceandfire.world.GenerationConstants;
+import com.iafenvoy.iceandfire.world.DangerousGeneration;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -21,7 +21,7 @@ import net.minecraft.world.gen.structure.StructureType;
 
 import java.util.Optional;
 
-public class GorgonTempleStructure extends IafJigsawStructure {
+public class GorgonTempleStructure extends IafJigsawStructure implements DangerousGeneration {
     public static final MapCodec<GorgonTempleStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(configCodecBuilder(instance),
                     StructurePool.REGISTRY_CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
@@ -32,6 +32,7 @@ public class GorgonTempleStructure extends IafJigsawStructure {
                     Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter(structure -> structure.maxDistanceFromCenter)
             ).apply(instance, GorgonTempleStructure::new));
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public GorgonTempleStructure(Config config, RegistryEntry<StructurePool> startPool, Optional<Identifier> startJigsawName, int size, HeightProvider startHeight, Optional<Heightmap.Type> projectStartToHeightmap, int maxDistanceFromCenter) {
         super(config, startPool, startJigsawName, size, startHeight, projectStartToHeightmap, maxDistanceFromCenter);
     }
@@ -42,7 +43,7 @@ public class GorgonTempleStructure extends IafJigsawStructure {
             return Optional.empty();
         ChunkPos pos = context.chunkPos();
         BlockPos blockpos = pos.getCenterAtY(1);
-        if (!GenerationConstants.isFarEnoughFromSpawn(blockpos)) return Optional.empty();
+        if (!this.isFarEnoughFromSpawn(blockpos)) return Optional.empty();
         return StructurePoolBasedGenerator.generate(
                 context, // Used for JigsawPlacement to get all the proper behaviors done.
                 this.startPool, // The starting pool to use to create the structure layout from

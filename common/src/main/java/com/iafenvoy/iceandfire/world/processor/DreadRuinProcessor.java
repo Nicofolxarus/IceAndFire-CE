@@ -22,7 +22,7 @@ public class DreadRuinProcessor extends StructureProcessor {
     public static final DreadRuinProcessor INSTANCE = new DreadRuinProcessor();
     public static final MapCodec<DreadRuinProcessor> CODEC = MapCodec.unit(() -> INSTANCE);
 
-    public static BlockState getRandomCrackedBlock(BlockState prev, Random random) {
+    public static BlockState getRandomCrackedBlock(Random random) {
         float rand = random.nextFloat();
         if (rand < 0.5)
             return IafBlocks.DREAD_STONE_BRICKS.get().getDefaultState().with(DreadBlock.UNBREAKABLE, true);
@@ -33,13 +33,13 @@ public class DreadRuinProcessor extends StructureProcessor {
     }
 
     @Override
-    public StructureTemplate.StructureBlockInfo process(WorldView worldReader, BlockPos pos, BlockPos pos2, StructureTemplate.StructureBlockInfo infoIn1, StructureTemplate.StructureBlockInfo infoIn2, StructurePlacementData settings) {
-        Random random = settings.getRandom(infoIn2.pos());
-        if (infoIn2.state().getBlock() == IafBlocks.DREAD_STONE_BRICKS.get()) {
-            BlockState state = getRandomCrackedBlock(null, random);
-            return new StructureTemplate.StructureBlockInfo(infoIn2.pos(), state, null);
+    public StructureTemplate.StructureBlockInfo process(WorldView world, BlockPos pos, BlockPos pivot, StructureTemplate.StructureBlockInfo originalBlockInfo, StructureTemplate.StructureBlockInfo currentBlockInfo, StructurePlacementData data) {
+        Random random = data.getRandom(currentBlockInfo.pos());
+        if (currentBlockInfo.state().getBlock() == IafBlocks.DREAD_STONE_BRICKS.get()) {
+            BlockState state = getRandomCrackedBlock(random);
+            return new StructureTemplate.StructureBlockInfo(currentBlockInfo.pos(), state, null);
         }
-        if (infoIn2.state().getBlock() == IafBlocks.DREAD_SPAWNER.get()) {
+        if (currentBlockInfo.state().getBlock() == IafBlocks.DREAD_SPAWNER.get()) {
             NbtCompound tag = new NbtCompound();
             NbtCompound spawnData = new NbtCompound();
             Identifier spawnerMobId = Registries.ENTITY_TYPE.getId(this.getRandomMobForMobSpawner(random));
@@ -48,9 +48,9 @@ public class DreadRuinProcessor extends StructureProcessor {
             spawnData.put("entity", entity);
             tag.remove("SpawnPotentials");
             tag.put("SpawnData", spawnData.copy());
-            return new StructureTemplate.StructureBlockInfo(infoIn2.pos(), IafBlocks.DREAD_SPAWNER.get().getDefaultState(), tag);
+            return new StructureTemplate.StructureBlockInfo(currentBlockInfo.pos(), IafBlocks.DREAD_SPAWNER.get().getDefaultState(), tag);
         }
-        return infoIn2;
+        return currentBlockInfo;
 
     }
 

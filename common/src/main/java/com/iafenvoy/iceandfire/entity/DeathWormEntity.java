@@ -453,15 +453,15 @@ public class DeathWormEntity extends TameableEntity implements ISyncMount, ICust
         Direction direction = Direction.UP;
         double d0 = Double.MAX_VALUE;
 
-        for (Direction direction1 : new Direction[]{Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST, Direction.UP}) {
-            blockpos$mutable.set(vec3i, direction1);
+        for (Direction dir : new Direction[]{Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST, Direction.UP}) {
+            blockpos$mutable.set(vec3i, dir);
             if (!this.getWorld().getBlockState(blockpos$mutable).isFullCube(this.getWorld(), blockpos$mutable)
                     || this.getWorld().getBlockState(blockpos$mutable).isIn(BlockTags.SAND)) {
-                double d1 = vector3d.getComponentAlongAxis(direction1.getAxis());
-                double d2 = direction1.getDirection() == Direction.AxisDirection.POSITIVE ? 1.0D - d1 : d1;
+                double d1 = vector3d.getComponentAlongAxis(dir.getAxis());
+                double d2 = dir.getDirection() == Direction.AxisDirection.POSITIVE ? 1.0D - d1 : d1;
                 if (d2 < d0) {
                     d0 = d2;
-                    direction = direction1;
+                    direction = dir;
                 }
             }
         }

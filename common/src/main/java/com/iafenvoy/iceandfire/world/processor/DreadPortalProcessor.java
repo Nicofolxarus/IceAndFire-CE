@@ -16,7 +16,7 @@ public class DreadPortalProcessor extends StructureProcessor {
     public static final DreadPortalProcessor INSTANCE = new DreadPortalProcessor();
     public static final MapCodec<DreadPortalProcessor> CODEC = MapCodec.unit(() -> INSTANCE);
 
-    public static BlockState getRandomCrackedBlock(BlockState prev, Random random) {
+    public static BlockState getRandomCrackedBlock(Random random) {
         float rand = random.nextFloat();
         if (rand < 0.3) return IafBlocks.DREAD_STONE_BRICKS.get().getDefaultState();
         else if (rand < 0.6) return IafBlocks.DREAD_STONE_BRICKS_CRACKED.get().getDefaultState();
@@ -27,12 +27,9 @@ public class DreadPortalProcessor extends StructureProcessor {
     public StructureTemplate.StructureBlockInfo process(WorldView world, BlockPos pos, BlockPos pivot, StructureTemplate.StructureBlockInfo originalBlockInfo, StructureTemplate.StructureBlockInfo currentBlockInfo, StructurePlacementData data) {
         Random random = data.getRandom(pos);
         float integrity = 1.0F;
-        if (random.nextFloat() <= integrity) {
-            if (currentBlockInfo.state().isOf(IafBlocks.DREAD_STONE_BRICKS.get())) {
-                BlockState state = getRandomCrackedBlock(null, random);
-                return new StructureTemplate.StructureBlockInfo(pos, state, null);
-            }
-            return currentBlockInfo;
+        if (random.nextFloat() <= integrity && currentBlockInfo.state().isOf(IafBlocks.DREAD_STONE_BRICKS.get())) {
+            BlockState state = getRandomCrackedBlock(random);
+            return new StructureTemplate.StructureBlockInfo(pos, state, null);
         }
         return currentBlockInfo;
     }

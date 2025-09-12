@@ -41,7 +41,6 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
     private static final int[] SLOTS_TOP = new int[]{0};
     private static final int[] SLOTS_SIDES = new int[]{1};
     private static final int[] SLOTS_BOTTOM = new int[]{2};
-    private static final Direction[] HORIZONTALS = new Direction[]{Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
     public int lastDragonFlameTimer = 0;
     private DefaultedList<ItemStack> forgeItemStacks = DefaultedList.ofSize(3, ItemStack.EMPTY);
     private boolean prevAssembled;
@@ -125,7 +124,7 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
     }
 
     private void updateGrills(boolean grill) {
-        for (Direction facing : HORIZONTALS) {
+        for (Direction facing : Direction.Type.HORIZONTAL) {
             BlockPos pos = this.getPos().offset(facing);
             assert this.world != null;
             BlockState state = this.world.getBlockState(pos);
@@ -375,7 +374,7 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
 
     private boolean atleastThreeAreBricks(BlockPos pos) {
         int count = 0;
-        for (Direction facing : HORIZONTALS) {
+        for (Direction facing : Direction.Type.HORIZONTAL) {
             assert this.world != null;
             if (this.world.getBlockState(pos.offset(facing)).getBlock() == this.getBrick())
                 count++;

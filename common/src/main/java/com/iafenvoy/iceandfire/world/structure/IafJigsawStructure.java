@@ -9,6 +9,7 @@ import net.minecraft.world.gen.structure.Structure;
 
 import java.util.Optional;
 
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public abstract class IafJigsawStructure extends Structure {
     protected final RegistryEntry<StructurePool> startPool;
     protected final Optional<Identifier> startJigsawName;

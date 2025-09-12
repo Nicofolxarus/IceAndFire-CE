@@ -5,7 +5,7 @@ import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.entity.util.HomePosition;
 import com.iafenvoy.iceandfire.item.block.GoldPileBlock;
 import com.iafenvoy.iceandfire.registry.tag.IafBlockTags;
-import com.iafenvoy.iceandfire.world.GenerationConstants;
+import com.iafenvoy.iceandfire.world.DangerousGeneration;
 import com.iafenvoy.uranus.util.RandomHelper;
 import com.iafenvoy.uranus.util.ShapeBuilder;
 import net.minecraft.block.*;
@@ -40,18 +40,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class DragonCaveStructure extends Structure {
+public abstract class DragonCaveStructure extends Structure implements DangerousGeneration {
     protected DragonCaveStructure(Config config) {
         super(config);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected Optional<StructurePosition> getStructurePosition(Context context) {
         if (context.random().nextDouble() >= this.getGenerateChance())
             return Optional.empty();
         BlockRotation blockRotation = BlockRotation.random(context.random());
         BlockPos blockPos = this.getShiftedPos(context, blockRotation);
-        if (!GenerationConstants.isFarEnoughFromSpawn(blockPos) || blockPos.getY() <= context.world().getBottomY() + 2)
+        if (!this.isFarEnoughFromSpawn(blockPos) || blockPos.getY() <= context.world().getBottomY() + 2)
             return Optional.empty();
         return Optional.of(new StructurePosition(blockPos, collector -> this.addPieces(collector, blockPos, context, context.random().nextBoolean())));
     }
@@ -117,19 +118,19 @@ public abstract class DragonCaveStructure extends Structure {
                     chunkPos.getStartZ() - 16 > blockPos.getZ() || blockPos.getZ() > chunkPos.getEndZ() + 16;
         }
 
-        public void generateCave(WorldAccess worldIn, int radius, int amount, BlockPos center, Random rand) {
+        public void generateCave(WorldAccess worldIn, int radius, int amount, BlockPos center, Random random) {
             List<SphereInfo> sphereList = new ArrayList<>();
             sphereList.add(new SphereInfo(radius, center.toImmutable()));
             Stream<BlockPos> sphereBlocks = ShapeBuilder.start().getAllInCutOffSphereMutable(radius, radius / 2, center).toStream(false);
-            Stream<BlockPos> hollowBlocks = ShapeBuilder.start().getAllInRandomlyDistributedRangeYCutOffSphereMutable(radius - 2, (int) ((radius - 2) * 0.75), (radius - 2) / 2, rand, center).toStream(false);
+            Stream<BlockPos> hollowBlocks = ShapeBuilder.start().getAllInRandomlyDistributedRangeYCutOffSphereMutable(radius - 2, (int) ((radius - 2) * 0.75), (radius - 2) / 2, random, center).toStream(false);
             //Get shells
             //Get hollows
-            for (int i = 0; i < amount + rand.nextInt(2); i++) {
-                Direction direction = GenerationConstants.HORIZONTALS[rand.nextInt(GenerationConstants.HORIZONTALS.length - 1)];
-                int r = 2 * (int) (radius / 3F) + rand.nextInt(8);
+            for (int i = 0; i < amount + random.nextInt(2); i++) {
+                Direction direction = Direction.Type.HORIZONTAL.random(random);
+                int r = 2 * (int) (radius / 3F) + random.nextInt(8);
                 BlockPos centerOffset = center.offset(direction, radius - 2);
                 sphereBlocks = Stream.concat(sphereBlocks, ShapeBuilder.start().getAllInCutOffSphereMutable(r, r, centerOffset).toStream(false));
-                hollowBlocks = Stream.concat(hollowBlocks, ShapeBuilder.start().getAllInRandomlyDistributedRangeYCutOffSphereMutable(r - 2, (int) ((r - 2) * 0.75), (r - 2) / 2, rand, centerOffset).toStream(false));
+                hollowBlocks = Stream.concat(hollowBlocks, ShapeBuilder.start().getAllInRandomlyDistributedRangeYCutOffSphereMutable(r - 2, (int) ((r - 2) * 0.75), (r - 2) / 2, random, centerOffset).toStream(false));
                 sphereList.add(new SphereInfo(r, centerOffset));
             }
             Set<BlockPos> shellBlocksSet = sphereBlocks.map(BlockPos::toImmutable).collect(Collectors.toSet());
@@ -142,11 +143,11 @@ public abstract class DragonCaveStructure extends Structure {
             hollowBlocksSet.removeIf(x -> this.isOutOfRange(chunkPos, x));
 
             //setBlocks
-            this.createShell(worldIn, rand, shellBlocksSet);
+            this.createShell(worldIn, random, shellBlocksSet);
             //removeBlocks
             this.hollowOut(worldIn, hollowBlocksSet);
             //decorate
-            this.decorateCave(worldIn, rand, hollowBlocksSet, sphereList, center);
+            this.decorateCave(worldIn, random, hollowBlocksSet, sphereList, center);
             sphereList.clear();
         }
 
@@ -192,35 +193,35 @@ public abstract class DragonCaveStructure extends Structure {
             });
         }
 
-        public void decorateCave(WorldAccess worldIn, Random rand, Set<BlockPos> positions, List<SphereInfo> spheres, BlockPos center) {
+        public void decorateCave(WorldAccess worldIn, Random random, Set<BlockPos> positions, List<SphereInfo> spheres, BlockPos center) {
             for (SphereInfo sphere : spheres) {
                 BlockPos pos = sphere.pos();
                 int radius = sphere.radius();
-                for (int i = 0; i < 15 + rand.nextInt(10); i++)
-                    this.getCeilingDecoration().generate(worldIn, rand, pos.up(radius / 2 - 1).add(rand.nextInt(radius) - radius / 2, 0, rand.nextInt(radius) - radius / 2));
+                for (int i = 0; i < 15 + random.nextInt(10); i++)
+                    this.getCeilingDecoration().generate(worldIn, random, pos.up(radius / 2 - 1).add(random.nextInt(radius) - radius / 2, 0, random.nextInt(radius) - radius / 2));
             }
 
             positions.forEach(blockPos -> {
                 if (blockPos.getY() < center.getY()) {
                     BlockState stateBelow = worldIn.getBlockState(blockPos.down());
                     if ((stateBelow.isIn(BlockTags.BASE_STONE_OVERWORLD) || stateBelow.isIn(IafBlockTags.DRAGON_ENVIRONMENT_BLOCKS)) && worldIn.getBlockState(blockPos).isAir())
-                        this.setGoldPile(worldIn, blockPos, rand);
+                        this.setGoldPile(worldIn, blockPos, random);
                 }
             });
         }
 
-        public void setGoldPile(WorldAccess world, BlockPos pos, Random rand) {
+        public void setGoldPile(WorldAccess world, BlockPos pos, Random random) {
             if (!(world.getBlockState(pos).getBlock() instanceof BlockWithEntity)) {
-                int chance = rand.nextInt(99) + 1;
+                int chance = random.nextInt(99) + 1;
                 if (chance < 60) {
-                    boolean generateGold = rand.nextDouble() < IafCommonConfig.INSTANCE.dragon.generateDenGoldChance.getValue() * (this.male ? 1 : 2);
-                    world.setBlockState(pos, generateGold ? this.getTreasurePile().with(GoldPileBlock.LAYERS, 1 + rand.nextInt(7)) : Blocks.AIR.getDefaultState(), 3);
+                    boolean generateGold = random.nextDouble() < IafCommonConfig.INSTANCE.dragon.generateDenGoldChance.getValue() * (this.male ? 1 : 2);
+                    world.setBlockState(pos, generateGold ? this.getTreasurePile().with(GoldPileBlock.LAYERS, 1 + random.nextInt(7)) : Blocks.AIR.getDefaultState(), 3);
                 } else if (chance == 61) {
-                    world.setBlockState(pos, Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, GenerationConstants.HORIZONTALS[rand.nextInt(3)]), Block.NOTIFY_LISTENERS);
+                    world.setBlockState(pos, Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, Direction.Type.HORIZONTAL.random(random)), Block.NOTIFY_LISTENERS);
                     if (world.getBlockState(pos).getBlock() instanceof ChestBlock) {
                         BlockEntity blockEntity = world.getBlockEntity(pos);
                         if (blockEntity instanceof ChestBlockEntity chestBlockEntity)
-                            chestBlockEntity.setLootTable(this.getChestTable(this.male), rand.nextLong());
+                            chestBlockEntity.setLootTable(this.getChestTable(this.male), random.nextLong());
                     }
                 }
             }

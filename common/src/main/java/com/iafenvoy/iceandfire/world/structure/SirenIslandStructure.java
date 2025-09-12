@@ -5,7 +5,7 @@ import com.iafenvoy.iceandfire.entity.SirenEntity;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafStructurePieces;
 import com.iafenvoy.iceandfire.registry.IafStructureTypes;
-import com.iafenvoy.iceandfire.world.GenerationConstants;
+import com.iafenvoy.iceandfire.world.DangerousGeneration;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Block;
@@ -29,7 +29,7 @@ import net.minecraft.world.gen.structure.StructureType;
 
 import java.util.Optional;
 
-public class SirenIslandStructure extends Structure {
+public class SirenIslandStructure extends Structure implements DangerousGeneration {
     public static final MapCodec<SirenIslandStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(configCodecBuilder(instance)).apply(instance, SirenIslandStructure::new));
 
@@ -37,13 +37,14 @@ public class SirenIslandStructure extends Structure {
         super(config);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected Optional<StructurePosition> getStructurePosition(Context context) {
         if (context.random().nextDouble() >= IafCommonConfig.INSTANCE.worldGen.generateSirenIslandChance.getValue())
             return Optional.empty();
         BlockRotation blockRotation = BlockRotation.random(context.random());
         BlockPos blockPos = this.getShiftedPos(context, blockRotation);
-        if (!GenerationConstants.isFarEnoughFromSpawn(blockPos)) return Optional.empty();
+        if (!this.isFarEnoughFromSpawn(blockPos)) return Optional.empty();
         return Optional.of(new StructurePosition(blockPos, collector -> collector.addPiece(new SirenIslandPiece(0, new BlockBox(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX(), blockPos.getY(), blockPos.getZ())))));
     }
 

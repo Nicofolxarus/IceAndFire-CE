@@ -1100,9 +1100,8 @@ public abstract class DragonBaseEntity extends TameableEntity implements Extende
                     this.setCrystalBound(true);
                     NbtCompound compound = new NbtCompound(), dragonTag = new NbtCompound();
                     dragonTag.putUuid("DragonUUID", this.getUuid());
-                    if (this.getCustomName() != null) {
+                    if (this.getCustomName() != null)
                         dragonTag.putString("CustomName", this.getCustomName().getString());
-                    }
                     compound.put("Dragon", dragonTag);
                     stack.set(IafDataComponents.NBT_COMPOUND.get(), compound);
                     this.playSound(SoundEvents.ITEM_BOTTLE_FILL_DRAGONBREATH, 1, 1);
@@ -2737,9 +2736,8 @@ public abstract class DragonBaseEntity extends TameableEntity implements Extende
         if (IafCommonConfig.INSTANCE.dragon.chunkLoadSummonCrystal.getValue()) {
             if (this.isBoundToCrystal()) {
                 DragonPosWorldData data = DragonPosWorldData.get(this.getWorld());
-                if (data != null) {
+                if (data != null)
                     data.addDragon(this.getUuid(), this.getBlockPos());
-                }
             }
         }
         super.onRemoved();

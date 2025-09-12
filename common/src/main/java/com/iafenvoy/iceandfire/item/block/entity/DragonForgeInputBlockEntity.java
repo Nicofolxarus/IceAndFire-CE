@@ -21,7 +21,6 @@ import net.minecraft.world.World;
 
 public class DragonForgeInputBlockEntity extends BlockEntity {
     private static final int LURE_DISTANCE = 50;
-    private static final Direction[] HORIZONTALS = new Direction[]{Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
     private int ticksSinceDragonFire;
     private DragonForgeBlockEntity core = null;
 
@@ -125,7 +124,7 @@ public class DragonForgeInputBlockEntity extends BlockEntity {
 
     private DragonForgeBlockEntity getConnectedTileEntity(final BlockPos position) {
         assert this.world != null;
-        for (Direction facing : HORIZONTALS)
+        for (Direction facing : Direction.Type.HORIZONTAL)
             if (this.world.getBlockEntity(position.offset(facing)) instanceof DragonForgeBlockEntity forge)
                 return forge;
         return null;

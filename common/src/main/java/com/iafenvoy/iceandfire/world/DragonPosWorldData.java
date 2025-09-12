@@ -1,6 +1,5 @@
 package com.iafenvoy.iceandfire.world;
 
-import com.iafenvoy.iceandfire.IceAndFire;
 import net.minecraft.datafixer.DataFixTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
@@ -16,16 +15,20 @@ import java.util.Map;
 import java.util.UUID;
 
 public class DragonPosWorldData extends PersistentState {
-    private static final Type<DragonPosWorldData> TYPE = new Type<>(DragonPosWorldData::new, DragonPosWorldData::new, DataFixTypes.CHUNK);
+    private static final Type<DragonPosWorldData> TYPE = new Type<>(DragonPosWorldData::new, DragonPosWorldData::fromNbt, DataFixTypes.CHUNK);
     private static final String IDENTIFIER = "iceandfire_dragonPositions";
     protected final Map<UUID, BlockPos> lastDragonPositions = new HashMap<>();
-    private int tickCounter;
 
-    public DragonPosWorldData() {
-    }
-
-    public DragonPosWorldData(NbtCompound compoundTag, RegistryWrapper.WrapperLookup registryLookup) {
-        this.load(compoundTag);
+    private static DragonPosWorldData fromNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        DragonPosWorldData data = new DragonPosWorldData();
+        NbtList list = nbt.getList("DragonMap", 10);
+        for (int i = 0; i < list.size(); ++i) {
+            NbtCompound obj = list.getCompound(i);
+            UUID uuid = obj.getUuid("DragonUUID");
+            BlockPos pos = new BlockPos(obj.getInt("DragonPosX"), obj.getInt("DragonPosY"), obj.getInt("DragonPosZ"));
+            data.lastDragonPositions.put(uuid, pos);
+        }
+        return data;
     }
 
     public static DragonPosWorldData get(World world) {
@@ -52,40 +55,18 @@ public class DragonPosWorldData extends PersistentState {
         return this.lastDragonPositions.get(uuid);
     }
 
-    public void debug() {
-        IceAndFire.LOGGER.warn(this.lastDragonPositions.toString());
-    }
-
-
-    public void tick() {
-        ++this.tickCounter;
-    }
-
-    public void load(NbtCompound nbt) {
-        this.tickCounter = nbt.getInt("Tick");
-        NbtList nbttaglist = nbt.getList("DragonMap", 10);
-        this.lastDragonPositions.clear();
-        for (int i = 0; i < nbttaglist.size(); ++i) {
-            NbtCompound CompoundNBT = nbttaglist.getCompound(i);
-            UUID uuid = CompoundNBT.getUuid("DragonUUID");
-            BlockPos pos = new BlockPos(CompoundNBT.getInt("DragonPosX"), CompoundNBT.getInt("DragonPosY"), CompoundNBT.getInt("DragonPosZ"));
-            this.lastDragonPositions.put(uuid, pos);
-        }
-    }
-
     @Override
-    public NbtCompound writeNbt(NbtCompound compound, RegistryWrapper.WrapperLookup registryLookup) {
-        compound.putInt("Tick", this.tickCounter);
-        NbtList nbttaglist = new NbtList();
+    public NbtCompound writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        NbtList list = new NbtList();
         for (Map.Entry<UUID, BlockPos> pair : this.lastDragonPositions.entrySet()) {
-            NbtCompound CompoundNBT = new NbtCompound();
-            CompoundNBT.putUuid("DragonUUID", pair.getKey());
-            CompoundNBT.putInt("DragonPosX", pair.getValue().getX());
-            CompoundNBT.putInt("DragonPosY", pair.getValue().getY());
-            CompoundNBT.putInt("DragonPosZ", pair.getValue().getZ());
-            nbttaglist.add(CompoundNBT);
+            NbtCompound obj = new NbtCompound();
+            obj.putUuid("DragonUUID", pair.getKey());
+            obj.putInt("DragonPosX", pair.getValue().getX());
+            obj.putInt("DragonPosY", pair.getValue().getY());
+            obj.putInt("DragonPosZ", pair.getValue().getZ());
+            list.add(obj);
         }
-        compound.put("DragonMap", nbttaglist);
-        return compound;
+        nbt.put("DragonMap", list);
+        return nbt;
     }
 }

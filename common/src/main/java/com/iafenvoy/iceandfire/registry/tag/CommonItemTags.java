@@ -5,7 +5,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
-public class CommonItemTags {
+public final class CommonItemTags {
     public static final TagKey<Item> STRINGS = create("strings");
     public static final TagKey<Item> INGOTS_SILVER = create("ingots/silver");
 

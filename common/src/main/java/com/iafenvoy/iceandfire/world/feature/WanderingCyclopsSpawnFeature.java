@@ -3,7 +3,7 @@ package com.iafenvoy.iceandfire.world.feature;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.CyclopsEntity;
 import com.iafenvoy.iceandfire.registry.IafEntities;
-import com.iafenvoy.iceandfire.world.GenerationConstants;
+import com.iafenvoy.iceandfire.world.DangerousGeneration;
 import com.mojang.serialization.Codec;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -16,36 +16,30 @@ import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 
-public class WanderingCyclopsSpawnFeature extends Feature<DefaultFeatureConfig> {
+public class WanderingCyclopsSpawnFeature extends Feature<DefaultFeatureConfig> implements DangerousGeneration {
     public WanderingCyclopsSpawnFeature(Codec<DefaultFeatureConfig> configFactoryIn) {
         super(configFactoryIn);
     }
 
     @Override
     public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
-        StructureWorldAccess worldIn = context.getWorld();
-        Random rand = context.getRandom();
-        BlockPos position = context.getOrigin();
-
-        position = worldIn.getTopPosition(Heightmap.Type.WORLD_SURFACE_WG, position.add(8, 0, 8));
-
-        if (GenerationConstants.isFarEnoughFromSpawn(position)) {
-            if (rand.nextDouble() < IafCommonConfig.INSTANCE.cyclops.spawnWanderingChance.getValue() && rand.nextInt(12) == 0) {
-                CyclopsEntity cyclops = IafEntities.CYCLOPS.get().create(worldIn.toServerWorld());
-                assert cyclops != null;
-                cyclops.setPosition(position.getX() + 0.5F, position.getY() + 1, position.getZ() + 0.5F);
-                cyclops.initialize(worldIn, worldIn.getLocalDifficulty(position), SpawnReason.SPAWNER, null);
-                worldIn.spawnEntity(cyclops);
-                for (int i = 0; i < 3 + rand.nextInt(3); i++) {
-                    SheepEntity sheep = EntityType.SHEEP.create(worldIn.toServerWorld());
-                    assert sheep != null;
-                    sheep.setPosition(position.getX() + 0.5F, position.getY() + 1, position.getZ() + 0.5F);
-                    sheep.setColor(SheepEntity.generateDefaultColor(rand));
-                    worldIn.spawnEntity(sheep);
-                }
+        StructureWorldAccess world = context.getWorld();
+        Random random = context.getRandom();
+        BlockPos pos = world.getTopPosition(Heightmap.Type.WORLD_SURFACE_WG, context.getOrigin().add(8, 0, 8));
+        if (this.isFarEnoughFromSpawn(world, pos) && random.nextDouble() < IafCommonConfig.INSTANCE.cyclops.spawnWanderingChance.getValue() && random.nextInt(12) == 0) {
+            CyclopsEntity cyclops = IafEntities.CYCLOPS.get().create(world.toServerWorld());
+            assert cyclops != null;
+            cyclops.setPosition(pos.getX() + 0.5F, pos.getY() + 1, pos.getZ() + 0.5F);
+            cyclops.initialize(world, world.getLocalDifficulty(pos), SpawnReason.SPAWNER, null);
+            world.spawnEntity(cyclops);
+            for (int i = 0; i < 3 + random.nextInt(3); i++) {
+                SheepEntity sheep = EntityType.SHEEP.create(world.toServerWorld());
+                assert sheep != null;
+                sheep.setPosition(pos.getX() + 0.5F, pos.getY() + 1, pos.getZ() + 0.5F);
+                sheep.setColor(SheepEntity.generateDefaultColor(random));
+                world.spawnEntity(sheep);
             }
         }
-
         return true;
     }
 }

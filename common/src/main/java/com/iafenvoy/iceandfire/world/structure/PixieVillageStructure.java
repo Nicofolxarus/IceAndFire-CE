@@ -38,6 +38,7 @@ public class PixieVillageStructure extends Structure {
         super(config);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected Optional<StructurePosition> getStructurePosition(Context context) {
         if (context.random().nextDouble() >= IafCommonConfig.INSTANCE.worldGen.generatePixieVillageChance.getValue())

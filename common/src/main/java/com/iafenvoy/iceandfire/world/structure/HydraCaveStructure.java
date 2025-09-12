@@ -6,7 +6,7 @@ import com.iafenvoy.iceandfire.entity.HydraEntity;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafStructurePieces;
 import com.iafenvoy.iceandfire.registry.IafStructureTypes;
-import com.iafenvoy.iceandfire.world.GenerationConstants;
+import com.iafenvoy.iceandfire.world.DangerousGeneration;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Blocks;
@@ -38,21 +38,21 @@ import net.minecraft.world.gen.structure.StructureType;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class HydraCaveStructure extends Structure {
-    public static final MapCodec<HydraCaveStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
-            instance.group(configCodecBuilder(instance)).apply(instance, HydraCaveStructure::new));
+public class HydraCaveStructure extends Structure implements DangerousGeneration {
+    public static final MapCodec<HydraCaveStructure> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(configCodecBuilder(instance)).apply(instance, HydraCaveStructure::new));
 
     protected HydraCaveStructure(Config config) {
         super(config);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected Optional<StructurePosition> getStructurePosition(Context context) {
         if (context.random().nextDouble() >= IafCommonConfig.INSTANCE.worldGen.generateHydraCaveChance.getValue())
             return Optional.empty();
         BlockRotation blockRotation = BlockRotation.random(context.random());
         BlockPos blockPos = this.getShiftedPos(context, blockRotation);
-        if (!GenerationConstants.isFarEnoughFromSpawn(blockPos)) return Optional.empty();
+        if (!this.isFarEnoughFromSpawn(blockPos)) return Optional.empty();
         return Optional.of(new StructurePosition(blockPos, collector -> collector.addPiece(new HydraCavePiece(0, new BlockBox(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX(), blockPos.getY(), blockPos.getZ())))));
     }
 
@@ -121,7 +121,7 @@ public class HydraCaveStructure extends Structure {
                 for (BlockPos blockpos : BlockPos.stream(pivot.add(-j, -k, -l), pivot.add(j, k + 8, l)).map(BlockPos::toImmutable).collect(Collectors.toSet())) {
                     if (blockpos.getSquaredDistance(pivot) <= f * f && blockpos.getY() == pivot.getY()) {
                         if (random.nextInt(30) == 0 && this.isTouchingAir(world, blockpos.up())) {
-                            world.setBlockState(blockpos.up(1), Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, GenerationConstants.HORIZONTALS[new java.util.Random().nextInt(3)]), 2);
+                            world.setBlockState(blockpos.up(1), Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, Direction.Type.HORIZONTAL.random(random)), 2);
                             if (world.getBlockState(blockpos.up(1)).getBlock() instanceof ChestBlock)
                                 if (world.getBlockEntity(blockpos.up(1)) instanceof ChestBlockEntity chest)
                                     chest.setLootTable(HYDRA_CHEST, random.nextLong());
@@ -155,7 +155,7 @@ public class HydraCaveStructure extends Structure {
         }
 
         private boolean isTouchingAir(WorldAccess worldIn, BlockPos pos) {
-            for (Direction direction : GenerationConstants.HORIZONTALS)
+            for (Direction direction : Direction.Type.HORIZONTAL)
                 if (!worldIn.isAir(pos.offset(direction)))
                     return false;
             return true;

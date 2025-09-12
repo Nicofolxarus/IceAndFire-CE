@@ -20,26 +20,22 @@ public class HippocampusSpawnFeature extends Feature<DefaultFeatureConfig> {
 
     @Override
     public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
-        StructureWorldAccess worldIn = context.getWorld();
-        Random rand = context.getRandom();
-        BlockPos position = context.getOrigin();
-
-        position = worldIn.getTopPosition(Heightmap.Type.WORLD_SURFACE_WG, position.add(8, 0, 8));
-        BlockPos oceanPos = worldIn.getTopPosition(Heightmap.Type.OCEAN_FLOOR_WG, position.add(8, 0, 8));
-
-        if (rand.nextDouble() < IafCommonConfig.INSTANCE.hippocampus.spawnChance.getValue()) {
-            for (int i = 0; i < rand.nextInt(5); i++) {
-                BlockPos pos = oceanPos.add(rand.nextInt(10) - 5, rand.nextInt(30), rand.nextInt(10) - 5);
-                if (worldIn.getFluidState(pos).getFluid() == Fluids.WATER) {
-                    HippocampusEntity campus = IafEntities.HIPPOCAMPUS.get().create(worldIn.toServerWorld());
+        StructureWorldAccess world = context.getWorld();
+        Random random = context.getRandom();
+        BlockPos pos = world.getTopPosition(Heightmap.Type.WORLD_SURFACE_WG, context.getOrigin().add(8, 0, 8));
+        BlockPos oceanPos = world.getTopPosition(Heightmap.Type.OCEAN_FLOOR_WG, pos.add(8, 0, 8));
+        if (random.nextDouble() < IafCommonConfig.INSTANCE.hippocampus.spawnChance.getValue()) {
+            for (int i = 0; i < random.nextInt(5); i++) {
+                BlockPos spawnPos = oceanPos.add(random.nextInt(10) - 5, random.nextInt(30), random.nextInt(10) - 5);
+                if (world.getFluidState(spawnPos).getFluid() == Fluids.WATER) {
+                    HippocampusEntity campus = IafEntities.HIPPOCAMPUS.get().create(world.toServerWorld());
                     assert campus != null;
-                    campus.setVariant(rand.nextInt(6));
-                    campus.refreshPositionAndAngles(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, 0, 0);
-                    worldIn.spawnEntity(campus);
+                    campus.setVariant(random.nextInt(6));
+                    campus.refreshPositionAndAngles(spawnPos.getX() + 0.5F, spawnPos.getY() + 0.5F, spawnPos.getZ() + 0.5F, 0, 0);
+                    world.spawnEntity(campus);
                 }
             }
         }
-
         return true;
     }
 }

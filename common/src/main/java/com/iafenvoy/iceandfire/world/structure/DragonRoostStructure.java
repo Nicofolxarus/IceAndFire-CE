@@ -4,7 +4,7 @@ import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.entity.util.HomePosition;
 import com.iafenvoy.iceandfire.item.block.GoldPileBlock;
 import com.iafenvoy.iceandfire.registry.tag.IafBlockTags;
-import com.iafenvoy.iceandfire.world.GenerationConstants;
+import com.iafenvoy.iceandfire.world.DangerousGeneration;
 import com.iafenvoy.uranus.util.RandomHelper;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -31,18 +31,19 @@ import net.minecraft.world.gen.structure.Structure;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public abstract class DragonRoostStructure extends Structure {
+public abstract class DragonRoostStructure extends Structure implements DangerousGeneration {
     protected DragonRoostStructure(Config config) {
         super(config);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected Optional<StructurePosition> getStructurePosition(Context context) {
         if (context.random().nextDouble() >= this.getGenerateChance())
             return Optional.empty();
         BlockRotation blockRotation = BlockRotation.random(context.random());
         BlockPos blockPos = this.getShiftedPos(context, blockRotation);
-        if (!GenerationConstants.isFarEnoughFromSpawn(blockPos) || blockPos.getY() <= context.world().getBottomY() + 2)
+        if (!this.isFarEnoughFromSpawn(blockPos) || blockPos.getY() <= context.world().getBottomY() + 2)
             return Optional.empty();
         return Optional.of(new StructurePosition(blockPos, collector -> collector.addPiece(this.createPiece(new BlockBox(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX(), blockPos.getY(), blockPos.getZ()), context.random().nextBoolean()))));
     }
@@ -148,7 +149,7 @@ public abstract class DragonRoostStructure extends Structure {
 
                     if (distance < 0.3D && random.nextInt(isMale ? 500 : 700) == 0) {
                         BlockPos surfacePosition = world.getTopPosition(Heightmap.Type.WORLD_SURFACE, position);
-                        boolean wasPlaced = world.setBlockState(surfacePosition, Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, GenerationConstants.HORIZONTALS[random.nextInt(3)]), Block.NOTIFY_LISTENERS);
+                        boolean wasPlaced = world.setBlockState(surfacePosition, Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, Direction.Type.HORIZONTAL.random(random)), Block.NOTIFY_LISTENERS);
 
                         if (wasPlaced) {
                             BlockEntity blockEntity = world.getBlockEntity(surfacePosition);
@@ -192,11 +193,11 @@ public abstract class DragonRoostStructure extends Structure {
             }
         }
 
-        private void generateArch(WorldAccess worldIn, Random rand, BlockPos position, Block block) {
-            int height = 3 + rand.nextInt(3);
+        private void generateArch(WorldAccess worldIn, Random random, BlockPos position, Block block) {
+            int height = 3 + random.nextInt(3);
             int width = Math.min(3, height - 2);
-            Direction direction = GenerationConstants.HORIZONTALS[rand.nextInt(GenerationConstants.HORIZONTALS.length - 1)];
-            boolean diagonal = rand.nextBoolean();
+            Direction direction = Direction.Type.HORIZONTAL.random(random);
+            boolean diagonal = random.nextBoolean();
             for (int i = 0; i < height; i++)
                 worldIn.setBlockState(position.up(i), block.getDefaultState(), 2);
             BlockPos offsetPos = position;
@@ -205,7 +206,7 @@ public abstract class DragonRoostStructure extends Structure {
                 offsetPos = position.up(height).offset(direction, i);
                 if (diagonal)
                     offsetPos = position.up(height).offset(direction, i).offset(direction.rotateYClockwise(), i);
-                if (placedWidths < width - 1 || rand.nextBoolean())
+                if (placedWidths < width - 1 || random.nextBoolean())
                     worldIn.setBlockState(offsetPos, block.getDefaultState(), 2);
                 placedWidths++;
             }

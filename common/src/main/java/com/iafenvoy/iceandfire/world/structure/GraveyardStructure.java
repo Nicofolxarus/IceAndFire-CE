@@ -31,6 +31,7 @@ public class GraveyardStructure extends IafJigsawStructure {
                     Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter(structure -> structure.maxDistanceFromCenter)
             ).apply(instance, GraveyardStructure::new));
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public GraveyardStructure(Config config, RegistryEntry<StructurePool> startPool, Optional<Identifier> startJigsawName, int size, HeightProvider startHeight, Optional<Heightmap.Type> projectStartToHeightmap, int maxDistanceFromCenter) {
         super(config, startPool, startJigsawName, size, startHeight, projectStartToHeightmap, maxDistanceFromCenter);
     }

@@ -1,7 +1,10 @@
 package com.iafenvoy.iceandfire;
 
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.data.*;
+import com.iafenvoy.iceandfire.data.DragonColor;
+import com.iafenvoy.iceandfire.data.IafSkullType;
+import com.iafenvoy.iceandfire.data.SeaSerpentType;
+import com.iafenvoy.iceandfire.data.TrollType;
 import com.iafenvoy.iceandfire.event.ServerEvents;
 import com.iafenvoy.iceandfire.network.ServerNetworkHelper;
 import com.iafenvoy.iceandfire.registry.*;
@@ -63,7 +66,6 @@ public class IceAndFire {
         IafRecipes.REGISTRY.register();
         IafRecipeSerializers.REGISTRY.register();
         IafParticles.REGISTRY.register();
-        IafPlacementFilters.REGISTRY.register();
         IafProcessors.REGISTRY.register();
         IafFeatures.REGISTRY.register();
         IafScreenHandlers.REGISTRY.register();

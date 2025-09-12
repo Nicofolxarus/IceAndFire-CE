@@ -9,7 +9,6 @@ import com.iafenvoy.iceandfire.registry.IafStructurePieces;
 import com.iafenvoy.iceandfire.registry.IafStructureTypes;
 import com.iafenvoy.iceandfire.registry.tag.CommonBlockTags;
 import com.iafenvoy.iceandfire.registry.tag.IafBlockTags;
-import com.iafenvoy.iceandfire.world.GenerationConstants;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Block;
@@ -105,7 +104,7 @@ public class LightningDragonRoostStructure extends DragonRoostStructure {
             if (distance > 0.05D && random.nextInt(800) == 0)
                 this.generateSpire(world, random, this.getSurfacePosition(world, position));
             if (distance > 0.05D && random.nextInt(1000) == 0)
-                this.generateSpike(world, random, this.getSurfacePosition(world, position), GenerationConstants.HORIZONTALS[random.nextInt(3)]);
+                this.generateSpike(world, random, this.getSurfacePosition(world, position), Direction.Type.HORIZONTAL.random(random));
         }
 
         private void generateSpike(WorldAccess worldIn, Random rand, BlockPos position, Direction direction) {

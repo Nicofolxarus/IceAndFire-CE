@@ -8,7 +8,7 @@ import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafStructurePieces;
 import com.iafenvoy.iceandfire.registry.IafStructureTypes;
-import com.iafenvoy.iceandfire.world.GenerationConstants;
+import com.iafenvoy.iceandfire.world.DangerousGeneration;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.*;
@@ -41,21 +41,21 @@ import net.minecraft.world.gen.structure.StructureType;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class CyclopsCaveStructure extends Structure {
-    public static final MapCodec<CyclopsCaveStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
-            instance.group(configCodecBuilder(instance)).apply(instance, CyclopsCaveStructure::new));
+public class CyclopsCaveStructure extends Structure implements DangerousGeneration {
+    public static final MapCodec<CyclopsCaveStructure> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(configCodecBuilder(instance)).apply(instance, CyclopsCaveStructure::new));
 
     protected CyclopsCaveStructure(Config config) {
         super(config);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected Optional<StructurePosition> getStructurePosition(Context context) {
         if (context.random().nextDouble() >= IafCommonConfig.INSTANCE.worldGen.generateCyclopsCaveChance.getValue())
             return Optional.empty();
         BlockRotation blockRotation = BlockRotation.random(context.random());
         BlockPos blockPos = this.getShiftedPos(context, blockRotation);
-        if (!GenerationConstants.isFarEnoughFromSpawn(blockPos)) return Optional.empty();
+        if (!this.isFarEnoughFromSpawn(blockPos)) return Optional.empty();
         return Optional.of(new StructurePosition(blockPos, collector -> collector.addPiece(new CyclopsCavePiece(0, new BlockBox(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX(), blockPos.getY(), blockPos.getZ())))));
     }
 
@@ -110,11 +110,11 @@ public class CyclopsCaveStructure extends Structure {
 
                     if (random.nextInt(80) == 0 && this.isTouchingAir(world, position.up())) {
                         world.setBlockState(position.up(), IafBlocks.GOLD_PILE.get().getDefaultState().with(GoldPileBlock.LAYERS, 8), 3);
-                        world.setBlockState(position.up().north(), IafBlocks.GOLD_PILE.get().getDefaultState().with(GoldPileBlock.LAYERS, 1 + new java.util.Random().nextInt(7)), 3);
-                        world.setBlockState(position.up().south(), IafBlocks.GOLD_PILE.get().getDefaultState().with(GoldPileBlock.LAYERS, 1 + new java.util.Random().nextInt(7)), 3);
-                        world.setBlockState(position.up().west(), IafBlocks.GOLD_PILE.get().getDefaultState().with(GoldPileBlock.LAYERS, 1 + new java.util.Random().nextInt(7)), 3);
-                        world.setBlockState(position.up().east(), IafBlocks.GOLD_PILE.get().getDefaultState().with(GoldPileBlock.LAYERS, 1 + new java.util.Random().nextInt(7)), 3);
-                        world.setBlockState(position.up(2), Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, GenerationConstants.HORIZONTALS[new java.util.Random().nextInt(3)]), 2);
+                        world.setBlockState(position.up().north(), IafBlocks.GOLD_PILE.get().getDefaultState().with(GoldPileBlock.LAYERS, 1 + random.nextInt(7)), 3);
+                        world.setBlockState(position.up().south(), IafBlocks.GOLD_PILE.get().getDefaultState().with(GoldPileBlock.LAYERS, 1 + random.nextInt(7)), 3);
+                        world.setBlockState(position.up().west(), IafBlocks.GOLD_PILE.get().getDefaultState().with(GoldPileBlock.LAYERS, 1 + random.nextInt(7)), 3);
+                        world.setBlockState(position.up().east(), IafBlocks.GOLD_PILE.get().getDefaultState().with(GoldPileBlock.LAYERS, 1 + random.nextInt(7)), 3);
+                        world.setBlockState(position.up(2), Blocks.CHEST.getDefaultState().with(ChestBlock.FACING, Direction.Type.HORIZONTAL.random(random)), 2);
 
                         if (world.getBlockState(position.up(2)).getBlock() instanceof AbstractChestBlock) {
                             BlockEntity blockEntity = world.getBlockEntity(position.up(2));
@@ -179,7 +179,7 @@ public class CyclopsCaveStructure extends Structure {
         }
 
         private void generateSkeleton(WorldAccess level, BlockPos position, Random random, BlockPos origin, float radius) {
-            Direction direction = GenerationConstants.HORIZONTALS[random.nextInt(3)];
+            Direction direction = Direction.Type.HORIZONTAL.random(random);
             Direction.Axis oppositeAxis = direction.getAxis() == Direction.Axis.X ? Direction.Axis.Z : Direction.Axis.X;
             int maxRibHeight = random.nextInt(2);
 
@@ -215,7 +215,7 @@ public class CyclopsCaveStructure extends Structure {
         }
 
         private boolean isTouchingAir(WorldAccess level, BlockPos position) {
-            for (Direction direction : GenerationConstants.HORIZONTALS)
+            for (Direction direction : Direction.Type.HORIZONTAL)
                 if (!level.isAir(position.offset(direction)))
                     return false;
             return true;

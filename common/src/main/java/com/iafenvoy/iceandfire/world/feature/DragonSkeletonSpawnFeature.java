@@ -22,23 +22,20 @@ public class DragonSkeletonSpawnFeature extends Feature<DefaultFeatureConfig> {
 
     @Override
     public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
-        StructureWorldAccess worldIn = context.getWorld();
-        Random rand = context.getRandom();
-        BlockPos position = context.getOrigin();
-        position = worldIn.getTopPosition(Heightmap.Type.OCEAN_FLOOR_WG, position.add(8, 0, 8));
-        if (IafCommonConfig.INSTANCE.dragon.generateSkeletons.getValue()) {
-            if (rand.nextDouble() < IafCommonConfig.INSTANCE.dragon.generateSkeletonChance.getValue()) {
-                DragonBaseEntity dragon = this.dragonType.create(worldIn.toServerWorld());
-                assert dragon != null;
-                dragon.setPosition(position.getX() + 0.5F, position.getY() + 1, position.getZ() + 0.5F);
-                int dragonage = 10 + rand.nextInt(100);
-                dragon.growDragon(dragonage);
-                dragon.modelDeadProgress = 20;
-                dragon.setModelDead(true);
-                dragon.setDeathStage((dragonage / 5) / 2);
-                dragon.setYaw(rand.nextInt(360));
-                worldIn.spawnEntity(dragon);
-            }
+        StructureWorldAccess world = context.getWorld();
+        Random random = context.getRandom();
+        BlockPos pos = world.getTopPosition(Heightmap.Type.OCEAN_FLOOR_WG, context.getOrigin().add(8, 0, 8));
+        if (IafCommonConfig.INSTANCE.dragon.generateSkeletons.getValue() && random.nextDouble() < IafCommonConfig.INSTANCE.dragon.generateSkeletonChance.getValue()) {
+            DragonBaseEntity dragon = this.dragonType.create(world.toServerWorld());
+            assert dragon != null;
+            dragon.setPosition(pos.getX() + 0.5F, pos.getY() + 1, pos.getZ() + 0.5F);
+            int age = 10 + random.nextInt(100);
+            dragon.growDragon(age);
+            dragon.modelDeadProgress = 20;
+            dragon.setModelDead(true);
+            dragon.setDeathStage(age / 10);
+            dragon.setYaw(random.nextInt(360));
+            world.spawnEntity(dragon);
         }
         return true;
     }
