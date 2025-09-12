@@ -1,7 +1,6 @@
 package com.iafenvoy.iceandfire.entity.pathfinding;
 
 import com.iafenvoy.iceandfire.entity.DeathWormEntity;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.pathing.*;
@@ -48,6 +47,7 @@ public class DeathWormLandNavigation extends EntityNavigation {
     /**
      * Returns path to given BlockPos
      */
+    @SuppressWarnings("deprecation")
     @Override
     public Path findPathTo(BlockPos pos, int i) {
         if (this.world.getBlockState(pos).isAir()) {
@@ -96,25 +96,6 @@ public class DeathWormLandNavigation extends EntityNavigation {
             }
             return i;
         } else return (int) (this.entity.getBoundingBox().minY + 0.5D);
-    }
-
-    protected void removeSunnyPath() {
-
-        if (this.shouldAvoidSun) {
-            if (this.world.isSkyVisible(BlockPos.ofFloored(this.entity.getBlockX(), this.entity.getBoundingBox().minY + 0.5D, this.entity.getBlockZ()))) {
-                return;
-            }
-
-            assert this.currentPath != null;
-            for (int i = 0; i < this.currentPath.getLength(); ++i) {
-                PathNode pathpoint = this.currentPath.getNode(i);
-
-                if (this.world.isSkyVisible(new BlockPos(pathpoint.x, pathpoint.y, pathpoint.z))) {
-                    this.currentPath.setLength(i - 1);
-                    return;
-                }
-            }
-        }
     }
 
     /**
@@ -221,33 +202,16 @@ public class DeathWormLandNavigation extends EntityNavigation {
     /**
      * Returns true if an entity does not collide with any solid blocks at the position.
      */
-    private boolean isPositionClear(int x, int y, int z, int sizeX, int sizeY, int sizeZ, Vec3d p_179692_7_, double p_179692_8_, double p_179692_10_) {
+    @SuppressWarnings("deprecation")
+    private boolean isPositionClear(int x, int y, int z, int sizeX, int sizeY, int sizeZ, Vec3d vec3d, double p_179692_8_, double p_179692_10_) {
         for (BlockPos blockpos : BlockPos.stream(new BlockPos(x, y, z), new BlockPos(x + sizeX - 1, y + sizeY - 1, z + sizeZ - 1)).toList()) {
-            double d0 = (double) blockpos.getX() + 0.5D - p_179692_7_.x;
-            double d1 = (double) blockpos.getZ() + 0.5D - p_179692_7_.z;
-
-            if (d0 * p_179692_8_ + d1 * p_179692_10_ >= 0.0D) {
-                Block block = this.world.getBlockState(blockpos).getBlock();
-
-                if (this.world.getBlockState(blockpos).blocksMovement() || this.world.getBlockState(blockpos).isIn(BlockTags.SAND)) {
-                    return false;
-                }
-            }
+            double d0 = (double) blockpos.getX() + 0.5D - vec3d.x;
+            double d1 = (double) blockpos.getZ() + 0.5D - vec3d.z;
+            if (d0 * p_179692_8_ + d1 * p_179692_10_ >= 0.0D && this.world.getBlockState(blockpos).blocksMovement() || this.world.getBlockState(blockpos).isIn(BlockTags.SAND))
+                return false;
         }
 
         return true;
-    }
-
-    public void setBreakDoors(boolean canBreakDoors) {
-        this.nodeMaker.setCanOpenDoors(canBreakDoors);
-    }
-
-    public boolean getEnterDoors() {
-        return this.nodeMaker.canEnterOpenDoors();
-    }
-
-    public void setEnterDoors(boolean enterDoors) {
-        this.nodeMaker.setCanEnterOpenDoors(enterDoors);
     }
 
     @Override
@@ -258,9 +222,5 @@ public class DeathWormLandNavigation extends EntityNavigation {
     @Override
     public void setCanSwim(boolean canSwim) {
         this.nodeMaker.setCanSwim(canSwim);
-    }
-
-    public void setAvoidSun(boolean avoidSun) {
-        this.shouldAvoidSun = avoidSun;
     }
 }

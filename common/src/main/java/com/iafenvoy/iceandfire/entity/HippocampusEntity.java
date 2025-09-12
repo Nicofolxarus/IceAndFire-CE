@@ -59,7 +59,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -83,11 +82,6 @@ public class HippocampusEntity extends TameableEntity implements ExtendedMenuPro
     private static final TrackedData<Integer> ARMOR = DataTracker.registerData(HippocampusEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Boolean> CHESTED = DataTracker.registerData(HippocampusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Byte> CONTROL_STATE = DataTracker.registerData(HippocampusEntity.class, TrackedDataHandlerRegistry.BYTE);
-    // These are from TamableAnimal
-    private static final int FLAG_SITTING = 1;
-    private static final int FLAG_TAME = 4;
-    private static final Text CONTAINER_TITLE = Text.translatable("entity.iceandfire.hippocampus");
-
     public static Animation ANIMATION_SPEAK;
     public float onLandProgress;
     public ChainBuffer tail_buffer;

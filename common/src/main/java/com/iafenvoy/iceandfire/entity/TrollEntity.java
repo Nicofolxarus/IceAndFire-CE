@@ -275,6 +275,7 @@ public class TrollEntity extends HostileEntity implements IAnimatedEntity, IVill
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void tickMovement() {
         super.tickMovement();

@@ -1416,6 +1416,7 @@ public abstract class DragonBaseEntity extends TameableEntity implements Extende
         }
     }
 
+    @SuppressWarnings("deprecation")
     protected boolean isBreakable(BlockPos pos, BlockState state, float hardness, DragonBaseEntity entity) {
         return state.blocksMovement() && !state.isAir() &&
                 state.getFluidState().isEmpty() && !state.getOutlineShape(this.getWorld(), pos).isEmpty() &&

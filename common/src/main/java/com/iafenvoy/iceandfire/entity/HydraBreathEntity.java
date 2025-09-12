@@ -22,10 +22,6 @@ public class HydraBreathEntity extends AbstractFireballEntity implements IDragon
         super(t, worldIn);
     }
 
-    public HydraBreathEntity(EntityType<? extends AbstractFireballEntity> t, World worldIn, double posX, double posY, double posZ, double accelX, double accelY, double accelZ) {
-        super(t, posX, posY, posZ, new Vec3d(accelX, accelY, accelZ), worldIn);
-    }
-
     public HydraBreathEntity(EntityType<? extends AbstractFireballEntity> t, World worldIn, HydraEntity shooter, double accelX, double accelY, double accelZ) {
         super(t, shooter, new Vec3d(accelX, accelY, accelZ), worldIn);
     }
@@ -50,31 +46,23 @@ public class HydraBreathEntity extends AbstractFireballEntity implements IDragon
         return false;
     }
 
-
+    @SuppressWarnings("deprecation")
     @Override
     public void tick() {
         this.extinguish();
-        if (this.age > 30) {
-            this.remove(RemovalReason.DISCARDED);
-        }
+        if (this.age > 30) this.remove(RemovalReason.DISCARDED);
         Entity shootingEntity = this.getOwner();
         if (this.getWorld().isClient || (shootingEntity == null || shootingEntity.isAlive()) && this.getWorld().isChunkLoaded(this.getBlockPos())) {
             this.baseTick();
-            if (this.isBurning()) {
-                this.setOnFireFor(1);
-            }
-
-            HitResult raytraceresult = ProjectileUtil.getCollision(this, this::canHit);
-            if (raytraceresult.getType() != HitResult.Type.MISS) {
-                this.onCollision(raytraceresult);
-            }
+            if (this.isBurning()) this.setOnFireFor(1);
+            HitResult hitResult = ProjectileUtil.getCollision(this, this::canHit);
+            if (hitResult.getType() != HitResult.Type.MISS) this.onCollision(hitResult);
 
             Vec3d Vector3d = this.getVelocity();
             double d0 = this.getX() + Vector3d.x;
             double d1 = this.getY() + Vector3d.y;
             double d2 = this.getZ() + Vector3d.z;
             ProjectileUtil.setRotationFromVelocity(this, 0.2F);
-            float f = this.getDrag();
             if (this.getWorld().isClient)
                 for (int i = 0; i < 15; ++i)
                     this.getWorld().addParticle(IafParticles.HYDRA_BREATH.get(), this.getX() + (double) (this.random.nextFloat() * this.getWidth()) - (double) this.getWidth() * 0.5F, this.getY() - 0.5D, this.getZ() + (double) (this.random.nextFloat() * this.getWidth()) - (double) this.getWidth() * 0.5F, 0.1D, 1.0D, 0.1D);

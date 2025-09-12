@@ -20,6 +20,7 @@ public class GraveyardSoilBlock extends Block {
         super(Settings.create().mapColor(MapColor.DIRT_BROWN).sounds(BlockSoundGroup.GRAVEL).strength(5, 1F).ticksRandomly());
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void scheduledTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
         if (!worldIn.isClient) {

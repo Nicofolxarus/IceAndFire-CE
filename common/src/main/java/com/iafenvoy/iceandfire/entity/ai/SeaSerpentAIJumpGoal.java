@@ -39,6 +39,7 @@ public class SeaSerpentAIJumpGoal extends DiveJumpingGoal {
         }
     }
 
+    @SuppressWarnings("deprecation")
     private boolean canJumpTo(BlockPos pos, int dx, int dz, int scale) {
         BlockPos blockpos = pos.add(dx * scale, 0, dz * scale);
         return this.serpent.getWorld().getFluidState(blockpos).isIn(FluidTags.WATER)

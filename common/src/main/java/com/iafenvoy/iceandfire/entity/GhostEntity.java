@@ -390,6 +390,7 @@ public class GhostEntity extends HostileEntity implements IAnimatedEntity, IVill
                     this.ghost.setVelocity(this.ghost.getVelocity().add(vec3d.multiply(this.speed * 0.5D * 0.05D / d0)));
                     if (this.ghost.getTarget() == null) {
                         Vec3d vec3d1 = this.ghost.getVelocity();
+                        //noinspection SuspiciousNameCombination
                         this.ghost.setYaw(-((float) MathHelper.atan2(vec3d1.x, vec3d1.z)) * (180F / (float) Math.PI));
                     } else {
                         double d4 = this.ghost.getTarget().getX() - this.ghost.getX();

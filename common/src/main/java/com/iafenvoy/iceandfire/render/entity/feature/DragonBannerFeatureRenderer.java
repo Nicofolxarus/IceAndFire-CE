@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.RotationAxis;
 
+import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 public class DragonBannerFeatureRenderer<T extends DragonBaseEntity> extends FeatureRenderer<T, TabulaModel<T>> {
@@ -33,7 +34,8 @@ public class DragonBannerFeatureRenderer<T extends DragonBaseEntity> extends Fea
             float f = (entity.getRenderSize() / 3F);
             float f2 = 1F / f;
             matrixStackIn.push();
-            this.postRender(StreamSupport.stream(this.renderer.getModel().getAllParts().spliterator(), false).filter(cube -> cube.boxName.equals("BodyUpper")).findFirst().get(), matrixStackIn);
+            Optional<AdvancedModelBox> optional = StreamSupport.stream(this.renderer.getModel().getAllParts().spliterator(), false).filter(cube -> cube.boxName.equals("BodyUpper")).findFirst();
+            optional.ifPresent(box -> this.postRender(box, matrixStackIn));
             matrixStackIn.translate(0, -0.2F, 0.4F);
             matrixStackIn.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180.0F));
             matrixStackIn.push();

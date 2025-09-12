@@ -32,6 +32,7 @@ public class DragonFrostParticle extends SpriteBillboardParticle {
         return j | k << 16;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void tick() {
         super.tick();

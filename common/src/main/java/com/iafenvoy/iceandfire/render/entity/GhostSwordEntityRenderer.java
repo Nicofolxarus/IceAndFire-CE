@@ -20,6 +20,7 @@ public class GhostSwordEntityRenderer extends EntityRenderer<GhostSwordEntity> {
         super(context);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public Identifier getTexture(GhostSwordEntity entity) {
         return SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE;

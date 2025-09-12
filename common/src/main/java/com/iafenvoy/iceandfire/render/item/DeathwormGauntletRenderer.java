@@ -4,7 +4,6 @@ import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.render.entity.DeathWormEntityRenderer;
 import com.iafenvoy.iceandfire.render.model.DeathWormGauntletModel;
 import com.iafenvoy.uranus.client.render.DynamicItemRenderer;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.model.json.ModelTransformationMode;

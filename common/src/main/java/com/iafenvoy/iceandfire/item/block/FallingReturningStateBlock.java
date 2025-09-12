@@ -35,6 +35,7 @@ public class FallingReturningStateBlock extends FallingBlock {
         return createCodec(s -> this);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
         super.scheduledTick(state, world, pos, rand);

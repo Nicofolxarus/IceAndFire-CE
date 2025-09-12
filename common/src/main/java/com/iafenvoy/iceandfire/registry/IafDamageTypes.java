@@ -5,6 +5,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageType;
+import net.minecraft.entity.damage.DamageTypes;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -18,50 +20,46 @@ public final class IafDamageTypes {
     public static final RegistryKey<DamageType> DRAGON_ICE_TYPE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(IceAndFire.MOD_ID, "dragon_ice"));
     public static final RegistryKey<DamageType> DRAGON_LIGHTNING_TYPE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(IceAndFire.MOD_ID, "dragon_lightning"));
 
+    private static RegistryEntry<DamageType> get(Entity entity, RegistryKey<DamageType> key) {
+        Registry<DamageType> registry = entity.getWorld().damageSources.registry;
+        return registry.getEntry(key).orElse(registry.entryOf(DamageTypes.OUT_OF_WORLD));
+    }
+
     public static DamageSource bonusDamage(Entity attacker) {
-        RegistryEntry<DamageType> holder =
-            attacker.getWorld().getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).getEntry(BONUS).get();
-        return new DamageSource(holder, attacker);
+        return new DamageSource(get(attacker, BONUS), attacker);
     }
 
     public static CustomEntityDamageSource causeGorgonDamage(Entity entity) {
-        RegistryEntry<DamageType> holder = entity.getWorld().getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).getEntry(GORGON_DMG_TYPE).get();
-        return new CustomEntityDamageSource(holder, entity);
+        return new CustomEntityDamageSource(get(entity, GORGON_DMG_TYPE), entity);
     }
 
     public static CustomEntityDamageSource causeDragonFireDamage(Entity entity) {
-        RegistryEntry<DamageType> holder = entity.getWorld().getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).getEntry(DRAGON_FIRE_TYPE).get();
-        return new CustomEntityDamageSource(holder, entity);
+        return new CustomEntityDamageSource(get(entity, DRAGON_FIRE_TYPE), entity);
     }
 
     public static CustomIndirectEntityDamageSource causeIndirectDragonFireDamage(Entity source, Entity indirectEntityIn) {
-        RegistryEntry<DamageType> holder = indirectEntityIn.getWorld().getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).getEntry(DRAGON_FIRE_TYPE).get();
-        return new CustomIndirectEntityDamageSource(holder, source, indirectEntityIn);
+        return new CustomIndirectEntityDamageSource(get(indirectEntityIn, DRAGON_FIRE_TYPE), source, indirectEntityIn);
     }
 
     public static CustomEntityDamageSource causeDragonIceDamage(Entity entity) {
-        RegistryEntry<DamageType> holder = entity.getWorld().getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).getEntry(DRAGON_ICE_TYPE).get();
-        return new CustomEntityDamageSource(holder, entity);
+        return new CustomEntityDamageSource(get(entity, DRAGON_ICE_TYPE), entity);
     }
 
     public static CustomIndirectEntityDamageSource causeIndirectDragonIceDamage(Entity source, Entity indirectEntityIn) {
-        RegistryEntry<DamageType> holder = indirectEntityIn.getWorld().getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).getEntry(DRAGON_ICE_TYPE).get();
-        return new CustomIndirectEntityDamageSource(holder, source, indirectEntityIn);
+        return new CustomIndirectEntityDamageSource(get(indirectEntityIn, DRAGON_ICE_TYPE), source, indirectEntityIn);
     }
 
     public static CustomEntityDamageSource causeDragonLightningDamage(Entity entity) {
-        RegistryEntry<DamageType> holder = entity.getWorld().getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).getEntry(DRAGON_LIGHTNING_TYPE).get();
-        return new CustomEntityDamageSource(holder, entity);
+        return new CustomEntityDamageSource(get(entity, DRAGON_LIGHTNING_TYPE), entity);
     }
 
     public static CustomIndirectEntityDamageSource causeIndirectDragonLightningDamage(Entity source, Entity indirectEntityIn) {
-        RegistryEntry<DamageType> holder = indirectEntityIn.getWorld().getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).getEntry(DRAGON_LIGHTNING_TYPE).get();
-        return new CustomIndirectEntityDamageSource(holder, source, indirectEntityIn);
+        return new CustomIndirectEntityDamageSource(get(indirectEntityIn, DRAGON_ICE_TYPE), source, indirectEntityIn);
     }
 
     public static class CustomEntityDamageSource extends DamageSource {
-        public CustomEntityDamageSource(RegistryEntry<DamageType> damageTypeIn, Entity damageSourceEntityIn) {
-            super(damageTypeIn, damageSourceEntityIn);
+        public CustomEntityDamageSource(RegistryEntry<DamageType> damageType, Entity entity) {
+            super(damageType, entity);
         }
 
         @Override
@@ -76,8 +74,8 @@ public final class IafDamageTypes {
     }
 
     public static class CustomIndirectEntityDamageSource extends DamageSource {
-        public CustomIndirectEntityDamageSource(RegistryEntry<DamageType> damageTypeIn, Entity source, Entity indirectEntityIn) {
-            super(damageTypeIn, source, indirectEntityIn);
+        public CustomIndirectEntityDamageSource(RegistryEntry<DamageType> damageType, Entity source, Entity entity) {
+            super(damageType, source, entity);
         }
 
         @Override

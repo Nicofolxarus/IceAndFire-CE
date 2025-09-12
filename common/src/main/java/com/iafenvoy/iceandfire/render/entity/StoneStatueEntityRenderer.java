@@ -53,6 +53,7 @@ public class StoneStatueEntityRenderer extends EntityRenderer<StoneStatueEntity>
         this.context = context;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public Identifier getTexture(StoneStatueEntity entity) {
         return SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE;

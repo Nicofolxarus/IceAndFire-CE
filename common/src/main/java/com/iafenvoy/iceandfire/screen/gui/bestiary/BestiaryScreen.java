@@ -97,6 +97,7 @@ public class BestiaryScreen extends HandledScreen<BestiaryScreenHandler> {
         this.addDrawableChild(this.nextPage);
         if (!this.allPageTypes.isEmpty()) {
             for (int i = 0; i < this.allPageTypes.size(); i++) {
+                //noinspection ExtractMethodRecommender
                 int xIndex = i % -2;
                 int yIndex = i % 10;
                 int id = 2 + i;

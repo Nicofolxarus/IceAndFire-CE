@@ -41,7 +41,7 @@ public class LecternBlockEntity extends LockableContainerBlockEntity implements 
     public float pageFlipPrev;
     public float pageHelp1;
     public float pageHelp2;
-    public BestiaryPage[] selectedPages = new BestiaryPage[3];
+    public final BestiaryPage[] selectedPages = new BestiaryPage[3];
     public final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {

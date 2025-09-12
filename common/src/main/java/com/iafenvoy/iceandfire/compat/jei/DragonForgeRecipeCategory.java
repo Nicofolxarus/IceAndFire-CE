@@ -14,6 +14,7 @@ import mezz.jei.api.recipe.category.AbstractRecipeCategory;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.NotNull;
 
 //By jdkdigital
 abstract public class DragonForgeRecipeCategory extends AbstractRecipeCategory<DragonForgeRecipe> {
@@ -35,13 +36,13 @@ abstract public class DragonForgeRecipeCategory extends AbstractRecipeCategory<D
     }
 
     @Override
-    public void draw(DragonForgeRecipe recipe, IRecipeSlotsView recipeSlotsView, DrawContext guiGraphics, double mouseX, double mouseY) {
+    public void draw(@NotNull DragonForgeRecipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull DrawContext guiGraphics, double mouseX, double mouseY) {
         this.background.draw(guiGraphics);
         this.overlay.draw(guiGraphics, 9, 19);
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, DragonForgeRecipe recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, DragonForgeRecipe recipe, @NotNull IFocusGroup focuses) {
         builder
                 .addSlot(RecipeIngredientRole.INPUT, 65, 30)
                 .addIngredients(recipe.getInput())

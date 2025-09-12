@@ -39,6 +39,7 @@ public class ReturningStateBlock extends Block {
     }
 
     // FIXME :: Unused because isRandomlyTicking is not used -> The chunk check might be a performance problem anyway (and potentially not needed)
+    @SuppressWarnings("deprecation")
     @Override
     public void scheduledTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
         if (!worldIn.isClient) {

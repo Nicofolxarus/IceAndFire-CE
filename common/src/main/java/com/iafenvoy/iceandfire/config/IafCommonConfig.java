@@ -21,26 +21,26 @@ public class IafCommonConfig extends AutoInitConfigContainer {
     public static final int CURRENT_VERSION = 3;
     public static final String backupPath = "./config/iceandfire/";
 
-    public DragonConfig dragon = new DragonConfig();
-    public HippogryphsConfig hippogryphs = new HippogryphsConfig();
-    public PixieConfig pixie = new PixieConfig();
-    public CyclopsConfig cyclops = new CyclopsConfig();
-    public SirenConfig siren = new SirenConfig();
-    public GorgonConfig gorgon = new GorgonConfig();
-    public DeathwormConfig deathworm = new DeathwormConfig();
-    public CockatriceConfig cockatrice = new CockatriceConfig();
-    public StymphalianBirdConfig stymphalianBird = new StymphalianBirdConfig();
-    public TrollConfig troll = new TrollConfig();
-    public AmphithereConfig amphithere = new AmphithereConfig();
-    public SeaSerpentConfig seaSerpent = new SeaSerpentConfig();
-    public LichConfig lich = new LichConfig();
-    public HydraConfig hydra = new HydraConfig();
-    public HippocampusConfig hippocampus = new HippocampusConfig();
-    public GhostConfig ghost = new GhostConfig();
-    public ToolsConfig tools = new ToolsConfig();
-    public ArmorsConfig armors = new ArmorsConfig();
-    public WorldGenConfig worldGen = new WorldGenConfig();
-    public Misc misc = new Misc();
+    public final DragonConfig dragon = new DragonConfig();
+    public final HippogryphsConfig hippogryphs = new HippogryphsConfig();
+    public final PixieConfig pixie = new PixieConfig();
+    public final CyclopsConfig cyclops = new CyclopsConfig();
+    public final SirenConfig siren = new SirenConfig();
+    public final GorgonConfig gorgon = new GorgonConfig();
+    public final DeathwormConfig deathworm = new DeathwormConfig();
+    public final CockatriceConfig cockatrice = new CockatriceConfig();
+    public final StymphalianBirdConfig stymphalianBird = new StymphalianBirdConfig();
+    public final TrollConfig troll = new TrollConfig();
+    public final AmphithereConfig amphithere = new AmphithereConfig();
+    public final SeaSerpentConfig seaSerpent = new SeaSerpentConfig();
+    public final LichConfig lich = new LichConfig();
+    public final HydraConfig hydra = new HydraConfig();
+    public final HippocampusConfig hippocampus = new HippocampusConfig();
+    public final GhostConfig ghost = new GhostConfig();
+    public final ToolsConfig tools = new ToolsConfig();
+    public final ArmorsConfig armors = new ArmorsConfig();
+    public final WorldGenConfig worldGen = new WorldGenConfig();
+    public final Misc misc = new Misc();
 
     public IafCommonConfig() {
         super(Identifier.of(IceAndFire.MOD_ID, "config.iceandfire.common"), "screen.iceandfire.common.title", "./config/iceandfire/iaf-common.json");

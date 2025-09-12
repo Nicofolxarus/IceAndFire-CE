@@ -189,6 +189,7 @@ public class IafDragonDestructionManager {
             return dragon.getWorld().getDamageSources().mobAttack(dragon);
     }
 
+    @SuppressWarnings("deprecation")
     private static void attackBlock(final World level, final DragonBaseEntity dragon, final BlockPos position, final BlockState state) {
         if (state.getBlock() instanceof DragonProof || !DragonUtils.canDragonBreak(state, dragon))
             return;

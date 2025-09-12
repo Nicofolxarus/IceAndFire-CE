@@ -21,6 +21,7 @@ public class DragonChargeEntityRenderer extends EntityRenderer<AbstractFireballE
         this.isFire = isFire;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public Identifier getTexture(AbstractFireballEntity entity) {
         return SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE;

@@ -39,6 +39,7 @@ public class CharedPathBlock extends DirtPathBlock {
         };
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
         super.scheduledTick(state, world, pos, rand);
@@ -52,17 +53,10 @@ public class CharedPathBlock extends DirtPathBlock {
         this.updateBlockState(world, pos);
     }
 
+    @SuppressWarnings("deprecation")
     private void updateBlockState(World worldIn, BlockPos pos) {
         if (worldIn.getBlockState(pos.up()).isSolid())
             worldIn.setBlockState(pos, this.getSmushedState(this.dragonType));
-    }
-
-    public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().with(REVERTS, meta == 1);
-    }
-
-    public int getMetaFromState(BlockState state) {
-        return state.get(REVERTS) ? 1 : 0;
     }
 
     @Override

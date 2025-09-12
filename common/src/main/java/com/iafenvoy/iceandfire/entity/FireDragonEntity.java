@@ -205,7 +205,6 @@ public class FireDragonEntity extends DragonBaseEntity {
 
     @Override
     public void travel(Vec3d pTravelVector) {
-        float flyingSpeed;
         if (this.isInLava()) {
             // In lava special
             if (this.canMoveVoluntarily() && this.getControllingPassenger() == null) {
@@ -213,7 +212,7 @@ public class FireDragonEntity extends DragonBaseEntity {
                 this.updateVelocity(this.getMovementSpeed(), pTravelVector);
                 this.move(MovementType.SELF, this.getVelocity());
                 this.setVelocity(this.getVelocity().multiply(0.7D));
-                this.getTarget();//                    this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
+//                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
             } else if (this.allowLocalMotionControl && this.getControllingPassenger() != null && !this.isHovering() && !this.isFlying()) {
                 LivingEntity rider = this.getControllingPassenger();
 

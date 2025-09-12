@@ -54,22 +54,15 @@ public class DeathWormAIFindSandTargetGoal extends Goal {
                 this.range = 25;
                 for (int x = this.mob.getWormHome().getX() - this.range; x < this.mob.getWormHome().getX() + this.range; x++)
                     for (int y = this.mob.getWormHome().getY() - this.range; y < this.mob.getWormHome().getY() + this.range; y++)
-                        for (int z = this.mob.getWormHome().getZ() - this.range; z < this.mob.getWormHome().getZ() + this.range; z++) {
-                            if (this.mob.getWorld().getBlockState(new BlockPos(x, y, z)).isIn(BlockTags.SAND)) {
-                                this.mob.getPos();
+                        for (int z = this.mob.getWormHome().getZ() - this.range; z < this.mob.getWormHome().getZ() + this.range; z++)
+                            if (this.mob.getWorld().getBlockState(new BlockPos(x, y, z)).isIn(BlockTags.SAND))
                                 sand.add(new BlockPos(x, y, z));
-                            }
-                        }
             } else
                 for (int x = (int) this.mob.getX() - this.range; x < (int) this.mob.getX() + this.range; x++)
                     for (int y = (int) this.mob.getY() - this.range; y < (int) this.mob.getY() + this.range; y++)
-                        for (int z = (int) this.mob.getZ() - this.range; z < (int) this.mob.getZ() + this.range; z++) {
-                            if (this.mob.getWorld().getBlockState(new BlockPos(x, y, z)).isIn(BlockTags.SAND)) {
-                                this.mob.getPos();
+                        for (int z = (int) this.mob.getZ() - this.range; z < (int) this.mob.getZ() + this.range; z++)
+                            if (this.mob.getWorld().getBlockState(new BlockPos(x, y, z)).isIn(BlockTags.SAND))
                                 sand.add(new BlockPos(x, y, z));
-                            }
-                        }
-
             if (!sand.isEmpty()) return sand.get(this.mob.getRandom().nextInt(sand.size()));
         } else {
             BlockPos blockpos1 = this.mob.getTarget().getBlockPos();

@@ -86,7 +86,8 @@ public class CockatriceEntity extends TameableEntity implements IAnimatedEntity,
     }
 
     public static boolean canCockatriceSpawn(EntityType<? extends MobEntity> type, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return DangerousGeneration.isFarEnoughFromSpawn(pos) && canMobSpawn(type, world, spawnReason, pos, random);
+        return new DangerousGeneration() {
+        }.isFarEnoughFromSpawn(world, pos) && canMobSpawn(type, world, spawnReason, pos, random);
     }
 
     public static DefaultAttributeContainer.Builder bakeAttributes() {

@@ -31,6 +31,7 @@ public class DragonFlameParticle extends SpriteBillboardParticle {
         return 240;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void tick() {
         super.tick();

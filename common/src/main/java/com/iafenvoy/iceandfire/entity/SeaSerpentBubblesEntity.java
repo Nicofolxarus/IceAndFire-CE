@@ -38,6 +38,7 @@ public class SeaSerpentBubblesEntity extends AbstractFireballEntity implements I
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void tick() {
         Entity shootingEntity = this.getOwner();
@@ -78,7 +79,7 @@ public class SeaSerpentBubblesEntity extends AbstractFireballEntity implements I
     public void autoTarget() {
         if (this.getWorld().isClient) {
             Entity shootingEntity = this.getOwner();
-            if (shootingEntity instanceof SeaSerpentEntity && ((SeaSerpentEntity) shootingEntity).getTarget() != null) {
+            if (shootingEntity instanceof SeaSerpentEntity seaSerpent && seaSerpent.getTarget() != null) {
             } else if (this.age > 20)
                 this.remove(RemovalReason.DISCARDED);
         }

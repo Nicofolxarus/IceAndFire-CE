@@ -29,6 +29,7 @@ public abstract class DragonChargeEntity extends AbstractFireballEntity implemen
         super(type, shooter, new Vec3d(accelX, accelY, accelZ), worldIn);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void tick() {
         Entity shootingEntity = this.getOwner();

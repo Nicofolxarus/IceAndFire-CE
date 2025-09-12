@@ -48,6 +48,7 @@ public class SirenAIFindWaterTargetGoal extends Goal {
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     public Vec3d findWaterTarget() {
         if (this.mob.getTarget() == null || !this.mob.getTarget().isAlive()) {
             List<Vec3d> water = new ArrayList<>();

@@ -57,7 +57,7 @@ public class IceAndFireJeiPlugin implements IModPlugin {
     }
 
     @Override
-    public void registerRecipes(IRecipeRegistration registration) {
+    public void registerRecipes(@NotNull IRecipeRegistration registration) {
         RecipeManager recipeManager = MinecraftClient.getInstance().world.getRecipeManager();
 
         List<RecipeEntry<DragonForgeRecipe>> recipeList = recipeManager.listAllOfType(IafRecipes.DRAGON_FORGE_TYPE.get());

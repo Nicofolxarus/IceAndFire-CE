@@ -10,7 +10,7 @@ import net.minecraft.util.Formatting;
 import java.util.List;
 
 public class GenericItem extends Item {
-    int description;
+    private final int description;
 
     public GenericItem(int textLength) {
         super(new Settings());

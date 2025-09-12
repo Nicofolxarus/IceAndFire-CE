@@ -57,6 +57,7 @@ public class SeaSerpentAIRandomSwimmingGoal extends WanderAroundGoal {
         return null;
     }
 
+    @SuppressWarnings("deprecation")
     private boolean canJumpTo(BlockPos pos) {
         BlockPos blockpos = pos.add(0, 0, 0);
         return this.mob.getWorld().getFluidState(blockpos).isIn(FluidTags.WATER) && !this.mob.getWorld().getBlockState(blockpos).blocksMovement();
