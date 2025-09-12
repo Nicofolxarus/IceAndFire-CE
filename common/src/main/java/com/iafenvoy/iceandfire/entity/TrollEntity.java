@@ -1,12 +1,12 @@
 package com.iafenvoy.iceandfire.entity;
 
-import com.iafenvoy.iceandfire.event.IafEvents;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.TrollType;
 import com.iafenvoy.iceandfire.entity.ai.TrollAIFleeSunGoal;
 import com.iafenvoy.iceandfire.entity.util.IHasCustomizableAttributes;
 import com.iafenvoy.iceandfire.entity.util.IHumanoid;
 import com.iafenvoy.iceandfire.entity.util.IVillagerFear;
+import com.iafenvoy.iceandfire.event.IafEvents;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafSounds;
 import com.iafenvoy.iceandfire.registry.IafTrollTypes;
@@ -65,7 +65,8 @@ public class TrollEntity extends HostileEntity implements IAnimatedEntity, IVill
     }
 
     public static boolean canTrollSpawnOn(EntityType<? extends MobEntity> typeIn, ServerWorldAccess worldIn, SpawnReason reason, BlockPos pos, Random randomIn) {
-        return worldIn.getDifficulty() != Difficulty.PEACEFUL && DangerousGeneration.isFarEnoughFromSpawn(pos) && isSpawnDark(worldIn, pos, randomIn) && canMobSpawn(IafEntities.TROLL.get(), worldIn, reason, pos, randomIn);
+        return worldIn.getDifficulty() != Difficulty.PEACEFUL && new DangerousGeneration() {
+        }.isFarEnoughFromSpawn(worldIn, pos) && isSpawnDark(worldIn, pos, randomIn) && canMobSpawn(IafEntities.TROLL.get(), worldIn, reason, pos, randomIn);
     }
 
     public static DefaultAttributeContainer.Builder bakeAttributes() {
