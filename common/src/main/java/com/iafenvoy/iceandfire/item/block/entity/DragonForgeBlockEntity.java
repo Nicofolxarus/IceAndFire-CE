@@ -47,6 +47,7 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
     private boolean prevAssembled;
     private boolean canAddFlameAgain = true;
     private int cookTime = 0;
+    //FIXME::Also add total cook time like what vanilla do
     private final PropertyDelegate delegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
@@ -68,6 +69,7 @@ public class DragonForgeBlockEntity extends LockableContainerBlockEntity impleme
         super(IafBlockEntities.DRAGONFORGE_CORE.get(), pos, state);
     }
 
+    //FIXME::Optimize logic and remove core replacement
     public static void tick(World level, BlockPos pos, BlockState state, DragonForgeBlockEntity blockEntity) {
         boolean flag = blockEntity.isBurning();
         boolean flag1 = false;

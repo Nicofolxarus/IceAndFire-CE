@@ -8,13 +8,14 @@ import com.iafenvoy.iceandfire.registry.IafBlockEntities;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.util.DragonTypeProvider;
 import com.mojang.serialization.MapCodec;
+import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -27,6 +28,7 @@ import net.minecraft.world.World;
 import java.util.HashMap;
 import java.util.Map;
 
+//FIXME::Introduce a base block class for all dragon forge blocks
 public class DragonForgeInputBlock extends BlockWithEntity implements DragonProof, DragonTypeProvider {
     private static final Map<DragonType, Block> TYPE_MAP = new HashMap<>();
     public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
@@ -49,21 +51,15 @@ public class DragonForgeInputBlock extends BlockWithEntity implements DragonProo
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (this.getConnectedTileEntity(world, pos) != null) {
-            DragonForgeBlockEntity forge = this.getConnectedTileEntity(world, pos);
-            if (forge != null && forge.getDragonType() == this.dragonType) {
-                if (!world.isClient) {
-                    NamedScreenHandlerFactory factory = this.createScreenHandlerFactory(forge.getCachedState(), world, forge.getPos());
-                    if (factory != null)
-                        player.openHandledScreen(factory);
-                }
-                return ActionResult.SUCCESS;
-            }
+        DragonForgeBlockEntity forge = this.getConnectedBlockEntity(world, pos);
+        if (forge != null && forge.getDragonType() == this.dragonType && player instanceof ServerPlayerEntity serverPlayer) {
+            MenuRegistry.openExtendedMenu(serverPlayer, forge);
+            return ActionResult.SUCCESS;
         }
         return ActionResult.SUCCESS;
     }
 
-    private DragonForgeBlockEntity getConnectedTileEntity(World world, BlockPos pos) {
+    private DragonForgeBlockEntity getConnectedBlockEntity(World world, BlockPos pos) {
         for (Direction facing : Direction.values())
             if (world.getBlockEntity(pos.offset(facing)) != null && world.getBlockEntity(pos.offset(facing)) instanceof DragonForgeBlockEntity)
                 return (DragonForgeBlockEntity) world.getBlockEntity(pos.offset(facing));

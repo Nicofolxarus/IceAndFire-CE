@@ -29,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
+//FIXME::Introduce a base block class for all dragon forge blocks
 public class DragonForgeBrickBlock extends BlockWithEntity implements DragonProof, DragonTypeProvider {
     private static final Map<DragonType, Block> TYPE_MAP = new HashMap<>();
     public static final BooleanProperty GRILL = BooleanProperty.of("grill");
@@ -51,18 +52,15 @@ public class DragonForgeBrickBlock extends BlockWithEntity implements DragonProo
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (this.getConnectedTileEntity(world, pos) != null) {
-            DragonForgeBlockEntity forge = this.getConnectedTileEntity(world, pos);
-            if (forge != null && forge.getDragonType() == this.dragonType) {
-                if (player instanceof ServerPlayerEntity serverPlayer)
-                    MenuRegistry.openExtendedMenu(serverPlayer, forge);
-                return ActionResult.SUCCESS;
-            }
+        DragonForgeBlockEntity forge = this.getConnectedBlockEntity(world, pos);
+        if (forge != null && forge.getDragonType() == this.dragonType && player instanceof ServerPlayerEntity serverPlayer) {
+            MenuRegistry.openExtendedMenu(serverPlayer, forge);
+            return ActionResult.SUCCESS;
         }
         return ActionResult.FAIL;
     }
 
-    private DragonForgeBlockEntity getConnectedTileEntity(World worldIn, BlockPos pos) {
+    private DragonForgeBlockEntity getConnectedBlockEntity(World worldIn, BlockPos pos) {
         for (Direction facing : Direction.values())
             if (worldIn.getBlockEntity(pos.offset(facing)) != null && worldIn.getBlockEntity(pos.offset(facing)) instanceof DragonForgeBlockEntity forge)
                 if (forge.assembled())

@@ -34,9 +34,6 @@ public class PodiumScreenHandler extends ScreenHandler {
         return this.podium.canPlayerUse(playerIn);
     }
 
-    /**
-     * Take a stack from the specified inventory slot.
-     */
     @Override
     public ItemStack quickMove(PlayerEntity playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;

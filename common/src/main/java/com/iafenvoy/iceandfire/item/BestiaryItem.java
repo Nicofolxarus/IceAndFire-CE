@@ -6,7 +6,6 @@ import com.iafenvoy.iceandfire.item.component.BestiaryPageComponent;
 import com.iafenvoy.iceandfire.registry.IafBestiaryPages;
 import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.screen.handler.BestiaryScreenHandler;
-import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
@@ -17,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -30,7 +29,7 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Locale;
 
-public class BestiaryItem extends Item {
+public class BestiaryItem extends Item implements NamedScreenHandlerFactory {
     public BestiaryItem() {
         super(new Settings().maxCount(1).component(IafDataComponents.BESTIARY_PAGES.get(), new BestiaryPageComponent(List.of(IafBestiaryPages.INTRODUCTION))));
     }
@@ -38,24 +37,10 @@ public class BestiaryItem extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
         if (playerIn instanceof ServerPlayerEntity serverPlayer)
-            MenuRegistry.openExtendedMenu(serverPlayer, new ExtendedMenuProvider() {
-                @Override
-                public void saveExtraData(PacketByteBuf buf) {
-                    ItemStack stack = playerIn.getStackInHand(handIn);
-                    NbtCompound compound = new NbtCompound();
-                    compound.put("data", ItemStack.OPTIONAL_CODEC.encodeStart(NbtOps.INSTANCE, stack).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtCompound()));
-                    buf.writeNbt(compound);
-                }
-
-                @Override
-                public Text getDisplayName() {
-                    return Text.translatable("bestiary_gui");
-                }
-
-                @Override
-                public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-                    return new BestiaryScreenHandler(syncId, playerInventory);
-                }
+            MenuRegistry.openExtendedMenu(serverPlayer, this, buf -> {
+                NbtCompound compound = new NbtCompound();
+                compound.put("data", ItemStack.OPTIONAL_CODEC.encodeStart(NbtOps.INSTANCE, playerIn.getStackInHand(handIn)).resultOrPartial(IceAndFire.LOGGER::error).orElse(new NbtCompound()));
+                buf.writeNbt(compound);
             });
         return new TypedActionResult<>(ActionResult.PASS, playerIn.getStackInHand(handIn));
     }
@@ -70,5 +55,15 @@ public class BestiaryItem extends Item {
                 for (BestiaryPage page : component.pages())
                     tooltip.add(Text.literal(Formatting.WHITE + "-").append(Text.translatable("bestiary." + page.name().toLowerCase(Locale.ROOT))).formatted(Formatting.GRAY));
         } else tooltip.add(Text.translatable("bestiary.hold_shift").formatted(Formatting.GRAY));
+    }
+
+    @Override
+    public Text getDisplayName() {
+        return Text.translatable("bestiary_gui");
+    }
+
+    @Override
+    public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
+        return new BestiaryScreenHandler(syncId, playerInventory);
     }
 }

@@ -61,12 +61,14 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.*;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -306,19 +308,15 @@ public class HippogryphEntity extends TameableEntity implements ExtendedMenuProv
             }
             if (itemstack.isEmpty())
                 if (player.isSneaking()) {
-                    this.openGUI(player);
-                    return ActionResult.SUCCESS;
+                    if (player instanceof ServerPlayerEntity serverPlayer)
+                        MenuRegistry.openExtendedMenu(serverPlayer, this);
+                    return ActionResult.success(this.getWorld().isClient);
                 } else if (this.isSaddled() && !this.isBaby() && !player.hasVehicle()) {
                     player.startRiding(this, true);
                     return ActionResult.SUCCESS;
                 }
         }
         return super.interactMob(player, hand);
-    }
-
-    public void openGUI(PlayerEntity player) {
-        if (player instanceof ServerPlayerEntity serverPlayer)
-            MenuRegistry.openExtendedMenu(serverPlayer, this);
     }
 
     @Override
@@ -906,32 +904,11 @@ public class HippogryphEntity extends TameableEntity implements ExtendedMenuProv
             this.setFlying(true);
             this.setHovering(false);
         }
-        if (this.spacebarTicks > 0) {
-            this.spacebarTicks--;
-        }
-        if (this.spacebarTicks > 10 && this.getOwner() != null && this.getPassengerList().contains(this.getOwner()) && !this.isFlying() && !this.isHovering()) {
+        if (this.spacebarTicks > 0) this.spacebarTicks--;
+        if (this.spacebarTicks > 10 && this.getOwner() != null && this.getPassengerList().contains(this.getOwner()) && !this.isFlying() && !this.isHovering())
             this.setHovering(true);
-        }
-        if (this.getTarget() != null && this.getVehicle() == null && !this.getTarget().isAlive() || this.getTarget() != null && this.getTarget() instanceof DragonBaseEntity && !this.getTarget().isAlive()) {
+        if (this.getTarget() != null && this.getVehicle() == null && !this.getTarget().isAlive() || this.getTarget() != null && this.getTarget() instanceof DragonBaseEntity && !this.getTarget().isAlive())
             this.setTarget(null);
-        }
-    }
-
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    public boolean isTargetBlocked(Vec3d target) {
-        if (target != null) {
-            BlockHitResult rayTrace = this.getWorld().raycast(new RaycastContext(this.getCameraPosVec(1.0F), target, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this));
-            BlockPos pos = rayTrace.getBlockPos();
-            return !this.getWorld().isAir(pos);
-        }
-        return false;
-    }
-
-    public float getDistanceSquared(Vec3d Vector3d) {
-        float f = (float) (this.getX() - Vector3d.x);
-        float f1 = (float) (this.getY() - Vector3d.y);
-        float f2 = (float) (this.getZ() - Vector3d.z);
-        return f * f + f1 * f1 + f2 * f2;
     }
 
     @Override

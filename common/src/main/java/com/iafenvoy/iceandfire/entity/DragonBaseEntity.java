@@ -561,10 +561,6 @@ public abstract class DragonBaseEntity extends TameableEntity implements Extende
         return 30 * this.getDragonStage() / 5;
     }
 
-    public void openInventory(PlayerEntity player) {
-        player.openHandledScreen(this);
-    }
-
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
@@ -1133,9 +1129,10 @@ public abstract class DragonBaseEntity extends TameableEntity implements Extende
                         this.getNavigation().stop();
                     }
                     return ActionResult.SUCCESS;
-                } else if (stack.isEmpty() && player.isSneaking() && player instanceof ServerPlayerEntity serverPlayer) {
-                    MenuRegistry.openExtendedMenu(serverPlayer, this);
-                    return ActionResult.SUCCESS;
+                } else if (stack.isEmpty() && player.isSneaking()) {
+                    if (player instanceof ServerPlayerEntity serverPlayer)
+                        MenuRegistry.openExtendedMenu(serverPlayer, this);
+                    return ActionResult.success(this.getWorld().isClient);
                 } else {
                     int itemFoodAmount = FoodUtils.getFoodPoints(stack, true, this.dragonType.piscivore());
                     if (itemFoodAmount > 0 && (this.getHunger() < 100 || this.getHealth() < this.getMaxHealth())) {

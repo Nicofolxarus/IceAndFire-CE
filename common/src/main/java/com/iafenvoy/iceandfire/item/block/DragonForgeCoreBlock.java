@@ -25,6 +25,7 @@ import net.minecraft.world.World;
 import java.util.HashMap;
 import java.util.Map;
 
+//FIXME::Introduce a base block class for all dragon forge blocks
 public class DragonForgeCoreBlock extends BlockWithEntity implements DragonProof, DragonTypeProvider {
     private static final Map<DragonType, Block> ACTIVATED_MAP = new HashMap<>();
     private final DragonType dragonType;

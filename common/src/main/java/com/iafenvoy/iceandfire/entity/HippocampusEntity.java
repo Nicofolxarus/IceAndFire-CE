@@ -567,7 +567,8 @@ public class HippocampusEntity extends TameableEntity implements ExtendedMenuPro
         }
         // Inventory
         if (this.isOwner(player) && itemstack.isEmpty() && player.isSneaking()) {
-            this.openInventory(player);
+            if (player instanceof ServerPlayerEntity serverPlayer)
+                MenuRegistry.openExtendedMenu(serverPlayer, this);
             return ActionResult.success(this.getWorld().isClient);
         }
         // Riding
@@ -593,9 +594,9 @@ public class HippocampusEntity extends TameableEntity implements ExtendedMenuPro
         return new HippocampusScreenHandler(syncId, this.inventory, inv, this);
     }
 
-    public void openInventory(PlayerEntity player) {
-        if (player instanceof ServerPlayerEntity serverPlayer)
-            MenuRegistry.openExtendedMenu(serverPlayer, this);
+    @Override
+    public void saveExtraData(PacketByteBuf buf) {
+        buf.writeInt(this.getId());
     }
 
     @Override
@@ -665,11 +666,6 @@ public class HippocampusEntity extends TameableEntity implements ExtendedMenuPro
     public void tick() {
         super.tick();
         this.setAir(this.getMaxAir());
-    }
-
-    @Override
-    public void saveExtraData(PacketByteBuf buf) {
-        buf.writeInt(this.getId());
     }
 
     /**

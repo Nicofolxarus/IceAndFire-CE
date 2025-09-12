@@ -17,7 +17,6 @@ import net.minecraft.screen.slot.FurnaceOutputSlot;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.world.World;
 
-//TODO: All containers etc should be rewritten
 public class DragonForgeScreenHandler extends ScreenHandler {
     protected final World world;
     private final Inventory tileFurnace;
