@@ -90,7 +90,7 @@ public class IafCommonConfig extends AutoInitConfigContainer {
         public final IConfigEntry<Double> attackDamageFire = new DoubleEntry("config.iceandfire.dragon.attackDamageFire", 2, 0, Integer.MAX_VALUE).json("attackDamageFire");
         public final IConfigEntry<Double> attackDamageIce = new DoubleEntry("config.iceandfire.dragon.attackDamageIce", 2.5, 0, Integer.MAX_VALUE).json("attackDamageIce");
         public final IConfigEntry<Double> attackDamageLightning = new DoubleEntry("config.iceandfire.dragon.attackDamageLightning", 3.5, 0, Integer.MAX_VALUE).json("attackDamageLightning");
-        public final IConfigEntry<Integer> maxFlight = new IntegerEntry("config.iceandfire.dragon.maxFlight", 256, 0, 384).json("maxFlight");
+        public final IConfigEntry<Integer> maxFlight = new IntegerEntry("config.iceandfire.dragon.maxFlight", 256, -2032, 2032).json("maxFlight");
         public final IConfigEntry<Integer> goldSearchLength = new IntegerEntry("config.iceandfire.dragon.goldSearchLength", 30, 0, 256).json("goldSearchLength");
         public final IConfigEntry<Boolean> canHealFromBiting = new BooleanEntry("config.iceandfire.dragon.canHealFromBiting", false).json("canHealFromBiting");
         public final IConfigEntry<Boolean> canDespawn = new BooleanEntry("config.iceandfire.dragon.canDespawn", true).json("canDespawn");
@@ -201,7 +201,7 @@ public class IafCommonConfig extends AutoInitConfigContainer {
         public final IConfigEntry<Double> featherDropChance = new DoubleEntry("config.iceandfire.bird.featherDropChance", 1.0 / 25, 0, 1).json("featherDropChance");
         public final IConfigEntry<Double> featherAttackDamage = new DoubleEntry("config.iceandfire.bird.featherAttackDamage", 1, 0, Integer.MAX_VALUE).json("featherAttackDamage");
         public final IConfigEntry<Integer> flockLength = new IntegerEntry("config.iceandfire.bird.flockLength", 40, 0, 200).json("flockLength");
-        public final IConfigEntry<Integer> flightHeight = new IntegerEntry("config.iceandfire.bird.flightHeight", 80, 64, 384).json("flightHeight");
+        public final IConfigEntry<Integer> flightHeight = new IntegerEntry("config.iceandfire.bird.flightHeight", 80, -2032, 2032).json("flightHeight");
         public final IConfigEntry<Boolean> attackAnimals = new BooleanEntry("config.iceandfire.bird.attackAnimals", false).json("attackAnimals");
 
         public StymphalianBirdConfig() {
