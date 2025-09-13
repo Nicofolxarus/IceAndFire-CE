@@ -18,7 +18,7 @@ import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 
-public abstract class BipedBaseModel<T extends LivingEntity> extends AdvancedEntityModel<T> implements ICustomStatueModel, BasicHeadedModel, ModelWithArms {
+public abstract class BipedBaseModel<T extends LivingEntity> extends AdvancedEntityModel<T> implements ICustomStatueModel, ModelWithArms {
     public HideableModelRenderer head;
     public HideableModelRenderer headware;
     public HideableModelRenderer body;
@@ -40,11 +40,6 @@ public abstract class BipedBaseModel<T extends LivingEntity> extends AdvancedEnt
         this.armLeft = new HideableModelRenderer(this, 0, 0);
         this.legRight = new HideableModelRenderer(this, 0, 0);
         this.legLeft = new HideableModelRenderer(this, 0, 0);
-    }
-
-    @Override
-    public BasicModelPart getHead() {
-        return this.head;
     }
 
     @Override

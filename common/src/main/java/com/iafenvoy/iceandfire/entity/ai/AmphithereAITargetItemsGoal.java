@@ -3,19 +3,17 @@ package com.iafenvoy.iceandfire.entity.ai;
 import com.iafenvoy.iceandfire.entity.AmphithereEntity;
 import com.iafenvoy.iceandfire.registry.tag.IafItemTags;
 import com.iafenvoy.iceandfire.util.IafMath;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.ai.goal.TrackTargetGoal;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Box;
 
-import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class AmphithereAITargetItemsGoal<T extends ItemEntity> extends TrackTargetGoal {
+public class AmphithereAITargetItemsGoal extends TrackTargetGoal {
     protected final DragonAITargetItemsGoal.Sorter theNearestAttackableTargetSorter;
     protected final Predicate<? super ItemEntity> targetEntitySelector;
     protected final int targetChance;
@@ -92,20 +90,5 @@ public class AmphithereAITargetItemsGoal<T extends ItemEntity> extends TrackTarg
     @Override
     public boolean shouldContinue() {
         return !this.mob.getNavigation().isIdle();
-    }
-
-    public static class Sorter implements Comparator<Entity> {
-        private final Entity theEntity;
-
-        public Sorter(Entity theEntityIn) {
-            this.theEntity = theEntityIn;
-        }
-
-        @Override
-        public int compare(Entity p_compare_1_, Entity p_compare_2_) {
-            final double d0 = this.theEntity.squaredDistanceTo(p_compare_1_);
-            final double d1 = this.theEntity.squaredDistanceTo(p_compare_2_);
-            return Double.compare(d0, d1);
-        }
     }
 }

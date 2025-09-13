@@ -1,15 +1,11 @@
 package com.iafenvoy.iceandfire.entity.util;
 
-import com.mojang.datafixers.util.Pair;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.FallingBlockEntity;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -45,20 +41,6 @@ public class BlockLaunchExplosion extends Explosion {
         this.y = y;
         this.z = z;
         this.mode = mode;
-    }
-
-    private static void handleExplosionDrops(ObjectArrayList<Pair<ItemStack, BlockPos>> dropPositionArray, ItemStack stack, BlockPos pos) {
-        int i = dropPositionArray.size();
-        for (int j = 0; j < i; ++j) {
-            Pair<ItemStack, BlockPos> pair = dropPositionArray.get(j);
-            ItemStack itemstack = pair.getFirst();
-            if (ItemEntity.canMerge(itemstack, stack)) {
-                ItemStack itemstack1 = ItemEntity.merge(itemstack, stack, 16);
-                dropPositionArray.set(j, Pair.of(itemstack1, pair.getSecond()));
-                if (stack.isEmpty()) return;
-            }
-        }
-        dropPositionArray.add(Pair.of(stack, pos));
     }
 
     /**

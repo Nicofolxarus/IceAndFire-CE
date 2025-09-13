@@ -252,8 +252,8 @@ public class AmphithereEntity extends TameableEntity implements ISyncMount, IAni
         this.goalSelector.add(4, new AnimalMateGoal(this, 1.0D));
         this.targetSelector.add(1, new AttackWithOwnerGoal(this));
         this.targetSelector.add(2, new TrackOwnerAttackerGoal(this));
-        this.targetSelector.add(3, new AmphithereAIHurtByTargetGoal(this, false, new Class[0]));
-        this.targetSelector.add(3, new AmphithereAITargetItemsGoal<>(this, false));
+        this.targetSelector.add(3, new RevengeGoal(this, new Class[0]));
+        this.targetSelector.add(3, new AmphithereAITargetItemsGoal(this, false));
     }
 
     public boolean isStill() {

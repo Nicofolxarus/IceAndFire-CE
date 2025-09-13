@@ -10,17 +10,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 
-import java.util.Comparator;
 import java.util.EnumSet;
 
 public class AquaticAIFindWaterTargetGoal extends Goal {
-    protected final Sorter fleePosSorter;
     private final MobEntity mob;
 
-    public AquaticAIFindWaterTargetGoal(MobEntity mob, int range, boolean avoidAttacker) {
+    public AquaticAIFindWaterTargetGoal(MobEntity mob) {
         this.mob = mob;
         this.setControls(EnumSet.of(Control.MOVE));
-        this.fleePosSorter = new Sorter(mob);
     }
 
     @Override
@@ -62,22 +59,5 @@ public class AquaticAIFindWaterTargetGoal extends Goal {
 
     public boolean isDirectPathBetweenPoints(Entity entity, Vec3d vec1, Vec3d vec2) {
         return this.mob.getWorld().raycast(new RaycastContext(vec1, vec2, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, entity)).getType() == HitResult.Type.MISS;
-    }
-
-    public class Sorter implements Comparator<BlockPos> {
-        private BlockPos pos;
-
-        public Sorter(Entity theEntityIn) {
-            this.pos = theEntityIn.getBlockPos();
-        }
-
-        //further; more prefered.
-        @Override
-        public int compare(BlockPos p_compare_1_, BlockPos p_compare_2_) {
-            this.pos = AquaticAIFindWaterTargetGoal.this.mob.getBlockPos();
-            final double d0 = this.pos.getSquaredDistance(p_compare_1_);
-            final double d1 = this.pos.getSquaredDistance(p_compare_2_);
-            return Double.compare(d1, d0);
-        }
     }
 }

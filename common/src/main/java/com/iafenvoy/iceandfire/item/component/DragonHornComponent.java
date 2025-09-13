@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public record DragonHornComponent(Identifier entityType, UUID entityUuid, NbtCompound entityData) {
     public static final Codec<DragonHornComponent> CODEC = RecordCodecBuilder.create(i -> i.group(
-            Identifier.CODEC.optionalFieldOf("hatchEntityCreator", Identifier.ofVanilla("empty")).forGetter(DragonHornComponent::entityType),
+            Identifier.CODEC.optionalFieldOf("entityType", Identifier.ofVanilla("empty")).forGetter(DragonHornComponent::entityType),
             Uuids.CODEC.optionalFieldOf("entityUuid", new UUID(0, 0)).forGetter(DragonHornComponent::entityUuid),
             NbtCompound.CODEC.optionalFieldOf("entityData", new NbtCompound()).forGetter(DragonHornComponent::entityData)
     ).apply(i, DragonHornComponent::new));

@@ -128,7 +128,7 @@ public class HippocampusEntity extends TameableEntity implements ExtendedMenuPro
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(1, new AquaticAIFindWaterTargetGoal(this, 10, true));
+        this.goalSelector.add(1, new AquaticAIFindWaterTargetGoal(this));
         this.goalSelector.add(2, new AquaticAIGetInWaterGoal(this, 1.0D));
         this.goalSelector.add(3, new HippocampusAIWanderGoal(this, 1));
         this.goalSelector.add(4, new AnimalMateGoal(this, 1.0D));

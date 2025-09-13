@@ -1,9 +1,9 @@
 package com.iafenvoy.iceandfire.entity;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.item.component.DragonSkullComponent;
 import com.iafenvoy.iceandfire.entity.util.BlacklistedFromStatues;
 import com.iafenvoy.iceandfire.entity.util.IDeadMob;
+import com.iafenvoy.iceandfire.item.component.DragonSkullComponent;
 import com.iafenvoy.iceandfire.registry.IafDataComponents;
 import com.iafenvoy.iceandfire.registry.IafDragonTypes;
 import com.iafenvoy.iceandfire.registry.IafRegistries;
@@ -174,17 +174,6 @@ public class DragonSkullEntity extends AnimalEntity implements BlacklistedFromSt
         compound.putInt("DragonAge", this.getDragonAge());
         compound.putFloat("DragonYaw", this.getYaw());
         super.writeCustomDataToNbt(compound);
-    }
-
-    public float getDragonSize() {
-        float step;
-        step = (this.minSize - this.maxSize) / (125);
-
-        if (this.getDragonAge() > 125) {
-            return this.minSize + (step * 125);
-        }
-
-        return this.minSize + (step * this.getDragonAge());
     }
 
     @Override
