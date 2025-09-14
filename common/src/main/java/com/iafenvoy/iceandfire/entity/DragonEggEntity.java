@@ -131,7 +131,7 @@ public class DragonEggEntity extends LivingEntity implements BlacklistedFromStat
     @Override
     public void tick() {
         super.tick();
-        if (!this.getWorld().isClient) {
+        if (!this.getWorld().isClient && !this.isRemoved()) {
             this.setAir(200);
             this.updateEggCondition();
         }
@@ -186,7 +186,7 @@ public class DragonEggEntity extends LivingEntity implements BlacklistedFromStat
             } else if (dragonType == IafDragonTypes.FIRE)
                 this.getWorld().playSound(this.getX(), this.getY() + this.getStandingEyeHeight(), this.getZ(), SoundEvents.BLOCK_FIRE_EXTINGUISH, this.getSoundCategory(), 2.5F, 1.0F, false);
             this.getWorld().playSound(this.getX(), this.getY() + this.getStandingEyeHeight(), this.getZ(), IafSounds.EGG_HATCH.get(), this.getSoundCategory(), 2.5F, 1.0F, false);
-            this.remove(RemovalReason.DISCARDED);
+            this.discard();
         }
     }
 
