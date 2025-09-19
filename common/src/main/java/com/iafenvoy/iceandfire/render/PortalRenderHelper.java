@@ -8,7 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
 @Environment(EnvType.CLIENT)
-public class PortalRenderTick {
+public class PortalRenderHelper {
     private static int TICK = 0;
 
     public static int getTick() {

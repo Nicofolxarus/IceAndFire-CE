@@ -8,9 +8,11 @@ import com.iafenvoy.iceandfire.network.ClientNetworkHelper;
 import com.iafenvoy.iceandfire.registry.IafKeybindings;
 import com.iafenvoy.iceandfire.registry.IafRenderers;
 import com.iafenvoy.iceandfire.registry.IafScreenHandlers;
-import com.iafenvoy.iceandfire.render.PortalRenderTick;
+import com.iafenvoy.iceandfire.render.PortalRenderHelper;
+import com.iafenvoy.iceandfire.render.SirenShaderRenderHelper;
 import com.iafenvoy.integration.IntegrationExecutor;
 import com.iafenvoy.jupiter.ConfigManager;
+import dev.architectury.event.events.client.ClientTickEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
@@ -32,9 +34,10 @@ public class IceAndFireClient {
         IafRenderers.registerBlockEntityRenderers();
         IafRenderers.registerArmorRenderers();
         IafRenderers.registerItemRenderers();
-        PortalRenderTick.init();
+        PortalRenderHelper.init();
 
         CommonEvents.LIVING_TICK.register(ClientEvents::onLivingUpdate);
+        ClientTickEvent.CLIENT_POST.register(SirenShaderRenderHelper::tick);
 
         ClientNetworkHelper.registerReceivers();
     }

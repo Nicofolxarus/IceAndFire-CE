@@ -1,6 +1,6 @@
 package com.iafenvoy.iceandfire.mixin;
 
-import com.iafenvoy.iceandfire.render.PortalRenderTick;
+import com.iafenvoy.iceandfire.render.PortalRenderHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -32,7 +32,7 @@ public abstract class InGameHudMixin {
     @Inject(method = "renderMiscOverlays", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getFrozenTicks()I"))
     private void renderDreadPortalOverlay(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         if (this.client.player == null) return;
-        int renderTick = PortalRenderTick.getTick(), i = this.client.player.getMinFreezeDamageTicks();
+        int renderTick = PortalRenderHelper.getTick(), i = this.client.player.getMinFreezeDamageTicks();
         if (renderTick > 0) this.renderOverlay(context, POWDER_SNOW_OUTLINE, (float) Math.min(renderTick, i) / i);
     }
 }

@@ -1,16 +1,12 @@
 package com.iafenvoy.iceandfire.event;
 
-import com.iafenvoy.iceandfire.config.IafClientConfig;
 import com.iafenvoy.iceandfire.data.component.ChainData;
 import com.iafenvoy.iceandfire.data.component.FrozenData;
 import com.iafenvoy.iceandfire.data.component.MiscData;
-import com.iafenvoy.iceandfire.data.component.SirenData;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
-import com.iafenvoy.iceandfire.entity.SirenEntity;
 import com.iafenvoy.iceandfire.entity.util.ICustomMoveController;
 import com.iafenvoy.iceandfire.network.payload.DragonControlC2SPayload;
 import com.iafenvoy.iceandfire.registry.IafKeybindings;
-import com.iafenvoy.iceandfire.registry.IafParticles;
 import com.iafenvoy.iceandfire.render.misc.ChainRenderer;
 import com.iafenvoy.iceandfire.render.misc.CockatriceBeamRenderer;
 import com.iafenvoy.iceandfire.render.misc.FrozenStateRenderer;
@@ -20,7 +16,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.Perspective;
 import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
@@ -36,7 +31,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @Environment(EnvType.CLIENT)
 public final class ClientEvents {
-    private static final Identifier SIREN_SHADER = Identifier.of("iceandfire", "shaders/post/siren.json");
     public static int currentView = 0;
     public static final CopyOnWriteArrayList<Pair<Vec3d, Vec3d>> LIGHTNINGS = new CopyOnWriteArrayList<>();
 
@@ -64,36 +58,17 @@ public final class ClientEvents {
                     NetworkManager.sendToServer(new DragonControlC2SPayload(entity.getId(), controlState, entity.getBlockPos()));
             }
         }
-        if (entity instanceof PlayerEntity player && player == MinecraftClient.getInstance().player) {
-            if (player.getVehicle() instanceof ICustomMoveController controller) {
-                Entity vehicle = player.getVehicle();
-                byte previousState = controller.getControlState();
-                controller.up(mc.options.jumpKey.isPressed());
-                controller.down(IafKeybindings.DRAGON_DOWN.isPressed());
-                controller.attack(IafKeybindings.DRAGON_STRIKE.isPressed());
-                controller.dismount(mc.options.sneakKey.isPressed());
-                controller.strike(IafKeybindings.DRAGON_BREATH.isPressed());
-                byte controlState = controller.getControlState();
-                if (controlState != previousState)
-                    NetworkManager.sendToServer(new DragonControlC2SPayload(vehicle.getId(), controlState, vehicle.getBlockPos()));
-            }
-            GameRenderer renderer = MinecraftClient.getInstance().gameRenderer;
-            SirenData sirenData = SirenData.get(player);
-            if (IafClientConfig.INSTANCE.sirenShader.getValue() && sirenData.getCharmedByUUID().isEmpty() && renderer.getPostProcessor() != null)
-                if (SIREN_SHADER.toString().equals(renderer.getPostProcessor().getName()))
-                    renderer.disablePostProcessor();
-            if (sirenData.getCharmedByUUID().isEmpty()) return;
-            if (IafClientConfig.INSTANCE.sirenShader.getValue() && !sirenData.isCharmed() && renderer.getPostProcessor() != null && SIREN_SHADER.toString().equals(renderer.getPostProcessor().getName()))
-                renderer.disablePostProcessor();
-            if (sirenData.isCharmed()) {
-                if (entity.getRandom().nextInt(40) == 0) {
-                    Entity e = mc.world.entityManager.getLookup().get(sirenData.getCharmedByUUID().get());
-                    if (e instanceof SirenEntity siren)
-                        entity.getWorld().addParticle(IafParticles.SIREN_APPEARANCE.get(), player.getX(), player.getY(), player.getZ(), siren.getHairColor(), 0, 0);
-                }
-                if (IafClientConfig.INSTANCE.sirenShader.getValue() && renderer.getPostProcessor() == null)
-                    renderer.loadPostProcessor(SIREN_SHADER);
-            }
+        if (entity instanceof PlayerEntity player && player == MinecraftClient.getInstance().player && player.getVehicle() instanceof ICustomMoveController controller) {
+            Entity vehicle = player.getVehicle();
+            byte previousState = controller.getControlState();
+            controller.up(mc.options.jumpKey.isPressed());
+            controller.down(IafKeybindings.DRAGON_DOWN.isPressed());
+            controller.attack(IafKeybindings.DRAGON_STRIKE.isPressed());
+            controller.dismount(mc.options.sneakKey.isPressed());
+            controller.strike(IafKeybindings.DRAGON_BREATH.isPressed());
+            byte controlState = controller.getControlState();
+            if (controlState != previousState)
+                NetworkManager.sendToServer(new DragonControlC2SPayload(vehicle.getId(), controlState, vehicle.getBlockPos()));
         }
     }
 

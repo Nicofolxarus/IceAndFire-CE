@@ -9,8 +9,8 @@ import com.iafenvoy.iceandfire.entity.ai.SirenAIFindWaterTargetGoal;
 import com.iafenvoy.iceandfire.entity.ai.SirenAIWanderGoal;
 import com.iafenvoy.iceandfire.entity.util.ChainBuffer;
 import com.iafenvoy.iceandfire.entity.util.IHasCustomizableAttributes;
-import com.iafenvoy.iceandfire.entity.util.SirenAffectable;
 import com.iafenvoy.iceandfire.entity.util.IVillagerFear;
+import com.iafenvoy.iceandfire.entity.util.SirenAffectable;
 import com.iafenvoy.iceandfire.registry.IafItems;
 import com.iafenvoy.iceandfire.registry.IafParticles;
 import com.iafenvoy.iceandfire.registry.IafSounds;
@@ -34,7 +34,6 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.hit.HitResult;
@@ -78,8 +77,7 @@ public class SirenEntity extends HostileEntity implements IAnimatedEntity, IVill
     }
 
     public static boolean isWearingEarplugs(LivingEntity entity) {
-        ItemStack helmet = entity.getEquippedStack(EquipmentSlot.HEAD);
-        return helmet.getItem() == IafItems.EARPLUGS.get() || helmet != ItemStack.EMPTY && helmet.isOf(IafItems.EARPLUGS.get());
+        return entity.getEquippedStack(EquipmentSlot.HEAD).isOf(IafItems.EARPLUGS.get());
     }
 
     public static DefaultAttributeContainer.Builder bakeAttributes() {
