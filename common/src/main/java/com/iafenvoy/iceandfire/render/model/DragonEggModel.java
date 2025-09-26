@@ -3,11 +3,9 @@ package com.iafenvoy.iceandfire.render.model;
 import com.google.common.collect.ImmutableList;
 import com.iafenvoy.iceandfire.entity.DragonEggEntity;
 import com.iafenvoy.iceandfire.item.block.entity.EggInIceBlockEntity;
-import com.iafenvoy.iceandfire.registry.IafDragonTypes;
 import com.iafenvoy.uranus.client.model.AdvancedEntityModel;
 import com.iafenvoy.uranus.client.model.AdvancedModelBox;
 import com.iafenvoy.uranus.client.model.basic.BasicModelPart;
-import net.minecraft.registry.tag.BlockTags;
 
 public class DragonEggModel extends AdvancedEntityModel<DragonEggEntity> {
     public final AdvancedModelBox Egg1;
@@ -51,16 +49,9 @@ public class DragonEggModel extends AdvancedEntityModel<DragonEggEntity> {
         this.resetToDefaultPose();
         this.Egg1.setPos(0.0F, 19.6F, 0.0F);
         this.Egg4.setPos(0.0F, -0.9F, 0.0F);
-        if (entity instanceof DragonEggEntity egg) {
-            boolean isLocationValid = false;
-            if (egg.getEggType().getType() == IafDragonTypes.FIRE)
-                isLocationValid = egg.getWorld().getBlockState(egg.getBlockPos()).isIn(BlockTags.FIRE);
-            else if (egg.getEggType().getType() == IafDragonTypes.LIGHTNING)
-                isLocationValid = egg.getWorld().hasRain(egg.getBlockPos());
-            if (isLocationValid) {
-                this.walk(this.Egg1, 0.3F, 0.3F, true, 1, 0, animationProgress, 1);
-                this.flap(this.Egg1, 0.3F, 0.3F, false, 0, 0, animationProgress, 1);
-            }
+        if (entity instanceof DragonEggEntity egg && egg.isLocationValid()) {
+            this.walk(this.Egg1, 0.3F, 0.3F, true, 1, 0, animationProgress, 1);
+            this.flap(this.Egg1, 0.3F, 0.3F, false, 0, 0, animationProgress, 1);
         }
     }
 
