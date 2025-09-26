@@ -7,10 +7,9 @@ import com.iafenvoy.iceandfire.registry.IafDragonTypes;
 import com.iafenvoy.uranus.client.model.AdvancedEntityModel;
 import com.iafenvoy.uranus.client.model.AdvancedModelBox;
 import com.iafenvoy.uranus.client.model.basic.BasicModelPart;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.registry.tag.BlockTags;
 
-public class DragonEggModel<T extends LivingEntity> extends AdvancedEntityModel<T> {
+public class DragonEggModel extends AdvancedEntityModel<DragonEggEntity> {
     public final AdvancedModelBox Egg1;
     public final AdvancedModelBox Egg2;
     public final AdvancedModelBox Egg3;
@@ -48,7 +47,7 @@ public class DragonEggModel<T extends LivingEntity> extends AdvancedEntityModel<
     }
 
     @Override
-    public void setAngles(LivingEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+    public void setAngles(DragonEggEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
         this.resetToDefaultPose();
         this.Egg1.setPos(0.0F, 19.6F, 0.0F);
         this.Egg4.setPos(0.0F, -0.9F, 0.0F);
