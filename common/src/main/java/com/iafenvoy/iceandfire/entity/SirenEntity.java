@@ -260,6 +260,7 @@ public class SirenEntity extends HostileEntity implements IAnimatedEntity, IVill
                         .stream().filter(x -> !isWearingEarplugs(x)).filter(x -> x.distanceTo(this) >= 5).toList();
                 this.charmingEntities.keySet().removeIf(x -> !targets.contains(x));
                 targets.forEach(x -> this.charmingEntities.computeIfAbsent(x, e -> 0));
+                this.charmingEntities.keySet().forEach(x -> x.addStatusEffect(new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(IafStatusEffects.SIREN_CHARM.get()), 30), this));
             }
             this.setSinging(true);
             this.tickCharm();
@@ -287,8 +288,6 @@ public class SirenEntity extends HostileEntity implements IAnimatedEntity, IVill
 
     public void tickCharm() {
         for (LivingEntity charmingEntity : this.charmingEntities.keySet()) {
-            //FIXME:: visible=true after having textures
-            charmingEntity.addStatusEffect(new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(IafStatusEffects.SIREN_CHARM.get()), 20, 0, false, false), this);
             if (this.charmingEntities.getInt(charmingEntity) > IafCommonConfig.INSTANCE.siren.maxSingTime.getValue())
                 this.stopCharm(charmingEntity);
             else if (!this.isAlive() || this.distanceTo(charmingEntity) > SirenEntity.SEARCH_RANGE * 2 || this.charmingEntities instanceof PlayerEntity player && (player.isCreative() || player.isSpectator())) {

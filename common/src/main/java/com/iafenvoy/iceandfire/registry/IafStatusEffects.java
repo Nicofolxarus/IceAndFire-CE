@@ -1,6 +1,7 @@
 package com.iafenvoy.iceandfire.registry;
 
 import com.iafenvoy.iceandfire.IceAndFire;
+import com.iafenvoy.iceandfire.effect.FrozenStatusEffect;
 import com.iafenvoy.iceandfire.effect.SirenCharmStatusEffect;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -9,10 +10,12 @@ import net.minecraft.registry.RegistryKeys;
 
 import java.util.function.Supplier;
 
+@SuppressWarnings("unused")
 public final class IafStatusEffects {
     public static final DeferredRegister<StatusEffect> REGISTRY = DeferredRegister.create(IceAndFire.MOD_ID, RegistryKeys.STATUS_EFFECT);
 
-    public static final RegistrySupplier<StatusEffect> SIREN_CHARM = register("siren_charm", SirenCharmStatusEffect::new);
+    public static final RegistrySupplier<FrozenStatusEffect> FROZEN = register("frozen", FrozenStatusEffect::new);
+    public static final RegistrySupplier<SirenCharmStatusEffect> SIREN_CHARM = register("siren_charm", SirenCharmStatusEffect::new);
 
     private static <T extends StatusEffect> RegistrySupplier<T> register(String name, Supplier<T> obj) {
         return REGISTRY.register(name, obj);

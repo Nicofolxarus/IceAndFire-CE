@@ -1,6 +1,9 @@
 package com.iafenvoy.iceandfire.impl.neoforge;
 
-import com.iafenvoy.iceandfire.data.component.*;
+import com.iafenvoy.iceandfire.data.component.ChainData;
+import com.iafenvoy.iceandfire.data.component.ChickenData;
+import com.iafenvoy.iceandfire.data.component.MiscData;
+import com.iafenvoy.iceandfire.data.component.PortalData;
 import com.iafenvoy.iceandfire.neoforge.IafAttachments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,10 +15,6 @@ public class ComponentManagerImpl {
 
     public static ChickenData getChickenData(LivingEntity living) {
         return living.getData(IafAttachments.CHICKEN_DATA.get());
-    }
-
-    public static FrozenData getFrozenData(LivingEntity living) {
-        return living.getData(IafAttachments.FROZEN_DATA.get());
     }
 
     public static MiscData getMiscData(LivingEntity living) {
