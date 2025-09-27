@@ -50,7 +50,7 @@ dependencies {
 
     modCompileOnly "net.createmod.ponder:Ponder-NeoForge-$minecraft_version:$ponder_version"
 
-    modCompileOnly "curse.maven:touhou-little-maid-355044:6911706"
+    modCompileOnly "curse.maven:touhou-little-maid-355044:6988538"
 
     // Ars Nouveau
     modCompileOnly "com.hollingsworth.ars_nouveau:ars_nouveau-$minecraft_version:$ars_version"
