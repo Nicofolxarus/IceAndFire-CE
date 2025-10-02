@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.entity;
 
+import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.component.IafEntityData;
 import com.iafenvoy.iceandfire.entity.ai.*;
@@ -119,12 +120,15 @@ public class EntityAmphithere extends TameableEntity implements ISyncMount, IAni
     }
 
     public static boolean canAmphithereSpawnOn(EntityType<EntityAmphithere> parrotIn, ServerWorldAccess worldIn, SpawnReason reason, BlockPos p_223317_3_, Random random) {
-        BlockState blockState = worldIn.getBlockState(p_223317_3_.down());
-        Block block = blockState.getBlock();
-        return (blockState.isIn(BlockTags.LEAVES)
-                || block == Blocks.GRASS_BLOCK
-                || blockState.isIn(BlockTags.LOGS)
-                || block == Blocks.AIR);
+	    BlockState blockState = worldIn.getBlockState(p_223317_3_.down());
+	    Block block = blockState.getBlock();
+	    boolean canAmphithereSpawnOn = (blockState.isIn(BlockTags.LEAVES)
+	            || block == Blocks.GRASS_BLOCK
+	            || blockState.isIn(BlockTags.LOGS)
+	            || block == Blocks.AIR);
+	    if (canAmphithereSpawnOn && block != Blocks.AIR)
+	    	IceAndFire.LOGGER.info("Amphithere: canAmphithereSpawnOn=[{}]", block);
+	    return canAmphithereSpawnOn;
     }
 
     public static BlockPos getPositionInOrbit(EntityAmphithere entity, World world, BlockPos orbit, Random rand) {
@@ -165,13 +169,19 @@ public class EntityAmphithere extends TameableEntity implements ISyncMount, IAni
     public boolean canSpawn(WorldView worldIn) {
         if (worldIn.doesNotIntersectEntities(this) && !worldIn.containsFluid(this.getBoundingBox())) {
             BlockPos blockpos = this.getBlockPos();
-            if (blockpos.getY() < worldIn.getSeaLevel())
+            if (blockpos.getY() < worldIn.getSeaLevel()) {
+            	IceAndFire.LOGGER.info("Amphithere: under see level=[{}<{}]", blockpos.getY(), worldIn.getSeaLevel());
                 return false;
+            }
 
             BlockState blockstate = worldIn.getBlockState(blockpos.down());
-            return blockstate.isOf(Blocks.GRASS_BLOCK) || blockstate.isIn(BlockTags.LEAVES);
+            boolean grass_or_leave = blockstate.isOf(Blocks.GRASS_BLOCK) || blockstate.isIn(BlockTags.LEAVES);
+            IceAndFire.LOGGER.info("Amphithere: Grass or Leave=[{}]", grass_or_leave);
+            if (grass_or_leave)
+            	IceAndFire.LOGGER.info("Amphithere: Spawn OK !!");
+            return grass_or_leave;
         }
-
+        IceAndFire.LOGGER.info("Amphithere: Intersect entity or in fluid");
         return false;
     }
 

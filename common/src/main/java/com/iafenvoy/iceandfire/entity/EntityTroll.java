@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.entity;
 
+import com.iafenvoy.iceandfire.IceAndFire;
 import com.iafenvoy.iceandfire.api.IafEvents;
 import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.data.TrollType;
@@ -64,7 +65,13 @@ public class EntityTroll extends HostileEntity implements IAnimatedEntity, IVill
     }
 
     public static boolean canTrollSpawnOn(EntityType<? extends MobEntity> typeIn, ServerWorldAccess worldIn, SpawnReason reason, BlockPos pos, Random randomIn) {
-        return worldIn.getDifficulty() != Difficulty.PEACEFUL && GenerationConstants.isFarEnoughFromSpawn(pos) && isSpawnDark(worldIn, pos, randomIn) && canMobSpawn(IafEntities.TROLL.get(), worldIn, reason, pos, randomIn);
+		boolean difficulty = worldIn.getDifficulty() != Difficulty.PEACEFUL;
+		boolean gen_contraint = GenerationConstants.isFarEnoughFromSpawn(pos);
+		boolean dark = isSpawnDark(worldIn, pos, randomIn);
+		boolean can_spawn = canMobSpawn(IafEntities.TROLL.get(), worldIn, reason, pos, randomIn);
+		IceAndFire.LOGGER.info("Troll Spawn condition: difficulty=[{}], gen_contraint=[{}], dark=[{}], can_spawn=[{}]",
+				difficulty, gen_contraint, dark, can_spawn);
+		return difficulty && gen_contraint && dark && can_spawn;
     }
 
     public static DefaultAttributeContainer.Builder bakeAttributes() {
